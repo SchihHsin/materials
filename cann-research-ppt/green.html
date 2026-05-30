@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CANN 用户研究报告 · 2026 Q1 · 瑞士克莱因蓝</title>
+<title>CANN 用户研究报告 · 2026 Q1 · 瑞士柠檬绿</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600&family=Noto+Sans+SC:wght@200;300;400;500;700;900&display=swap" rel="stylesheet">
@@ -19,10 +19,10 @@
     --grey-1:#f0f0ee;         /* 浅灰底 */
     --grey-2:#d4d4d2;         /* 中灰(分割线) */
     --grey-3:#737373;         /* 暗灰(辅助文字) */
-    --accent:#002FA7;         /* 高亮色: 克莱因蓝 IKB */
-    --accent-rgb:0,47,167;
-    --accent-on:#ffffff;      /* accent 上的反色文字 */
-    --accent-bright:#5B7BFF;  /* 暗底高亮: IKB 提亮版 */
+    --accent:#C5E803;         /* 高亮色: 柠檬绿 Lemon */
+    --accent-rgb:197,232,3;
+    --accent-on:#0a0a0a;      /* accent 上的反色文字（浅色需黑字） */
+    --accent-bright:#D4F014;  /* 暗底高亮: 柠檬绿提亮版 */
 
     /* ============ Carbon 文本角色 token (role-based,代替 opacity) ============
        亮底:  primary 主文 / secondary 次文 / helper 辅助 / placeholder 占位
@@ -82,7 +82,6 @@
   }
 
   /* ============ WebGL 网格背景 ============ */
-  /* z-index:15 > deck(10)，mix-blend-mode 从上层叠加，让点阵穿透所有 slide */
   canvas.bg{position:fixed;inset:0;width:100vw;height:100vh;z-index:15;display:block;opacity:.45;mix-blend-mode:multiply;pointer-events:none}
   body.dark-bg canvas.bg{mix-blend-mode:screen;opacity:.32}
   body.low-power canvas.bg,
@@ -643,7 +642,7 @@
   body.canvas-mode{background:var(--paper)}
   body.canvas-mode canvas.bg{display:none !important}
   body.canvas-mode .slide{background:var(--paper);padding:0;align-items:stretch;justify-content:stretch}
-  body.canvas-mode .slide.hero{background:var(--paper)}
+  body.canvas-mode .slide.hero{background:transparent}
 
   .canvas-card{
     width:100vw;
@@ -1225,62 +1224,103 @@
      主题色配置参考 references/themes-swiss.md
      ============================================================ -->
 
-<!-- ===== S1: 封面 IKB 满屏 data-layout="S01" ===== -->
+<!-- ===== S1: 封面 accent 柠檬绿 data-layout="S01" ===== -->
 <section class="slide accent" data-animate="hero" data-layout="S01">
   <div class="canvas-card">
     <canvas class="ascii-bg" aria-hidden="true"></canvas>
     <div class="chrome-min">
       <div class="l">CANN 用户研究报告 · 2026 Q1</div>
-      <div class="r">SS · 26.Q1 · 01 / 06</div>
+      <div class="r">LG · 26.Q1 · 01 / 06</div>
     </div>
     <div style="flex:1;padding:0;display:grid;grid-template-rows:auto 1fr auto;gap:2.6vh">
-      <div data-anim="kicker" class="t-meta" style="color:rgba(255,255,255,.78);letter-spacing:.22em">USER RESEARCH · ASCEND ECOSYSTEM</div>
-      <h1 data-anim="title" style="align-self:center;font-family:var(--sans),var(--sans-zh);font-weight:200;font-size:min(9.6vw,16vh);line-height:.94;letter-spacing:-.025em;color:#fff">CANN<br/><span style="font-style:italic;font-weight:300">开发者</span><br/>体验报告</h1>
-      <div data-anim="bottom" style="display:grid;grid-template-rows:auto auto;gap:1.6vh;border-top:1px solid rgba(255,255,255,.22);padding-top:2vh">
-        <div data-anim="lead" class="lead" style="max-width:56ch;color:rgba(255,255,255,.86)">36 次深度访谈 · 284 份问卷 · 三大使用场景，系统分析 CANN 计算架构的开发者体验现状与改进路径。</div>
+      <div data-anim="kicker" class="t-meta" style="color:rgba(0,0,0,.6);letter-spacing:.22em">USER RESEARCH · ASCEND ECOSYSTEM</div>
+      <h1 data-anim="title" style="align-self:center;font-family:var(--sans),var(--sans-zh);font-weight:200;font-size:min(9.6vw,16vh);line-height:.94;letter-spacing:-.025em;color:var(--ink)">CANN<br/><span style="font-style:italic;font-weight:300">开发者</span><br/>体验报告</h1>
+      <div data-anim="bottom" style="display:grid;grid-template-rows:auto auto;gap:1.6vh;border-top:1px solid rgba(0,0,0,.2);padding-top:2vh">
+        <div class="lead" style="max-width:56ch;color:rgba(0,0,0,.75)">36 次深度访谈 · 284 份问卷 · 三大场景，系统分析 CANN 计算架构的开发者体验现状。</div>
         <div style="display:flex;justify-content:space-between;align-items:end">
-          <div class="t-meta" style="color:rgba(255,255,255,.6)">华为昇腾团队 · 2026 Q1 · N=320</div>
-          <div class="t-meta" style="color:rgba(255,255,255,.6)">→ swipe / arrow keys</div>
+          <div class="t-meta" style="color:rgba(0,0,0,.5)">华为昇腾团队 · 2026 Q1 · N=320</div>
+          <div class="t-meta" style="color:rgba(0,0,0,.5)">→ swipe / arrow keys</div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ===== S2: 为什么研究 S18 Why Now ===== -->
-<section class="slide" data-animate="grid-reveal" data-layout="S18">
+<!-- ===== S2: 横向时间线 · 研究流程 S11 ===== -->
+<section class="slide" data-animate="grid-reveal" data-layout="S11">
   <div class="canvas-card">
     <div class="chrome-min">
-      <div class="l">研究背景 · Why Now</div>
+      <div class="l">研究流程 · Research Process</div>
       <div class="r">02 / 06</div>
     </div>
     <div style="flex:1;padding:0;display:grid;grid-template-rows:auto 1fr;gap:4vh">
       <div data-anim="head" style="display:flex;flex-direction:column;gap:1.4vh">
-        <div class="t-meta" style="color:var(--accent)">WHY NOW · 为什么是现在</div>
-        <h2 style="font-family:var(--sans),var(--sans-zh);font-weight:200;font-size:min(5.2vw,9.2vh);line-height:1.05;letter-spacing:-.025em">三重背景驱动本次研究</h2>
+        <div class="t-meta" style="color:var(--accent)">METHODOLOGY · 研究方法</div>
+        <h2 style="font-family:var(--sans),var(--sans-zh);font-weight:200;font-size:min(5.2vw,9.2vh);line-height:1.05;letter-spacing:-.025em">六周完成，五阶段推进</h2>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:2.4vw;align-content:start">
-        <div data-anim style="display:flex;flex-direction:column;gap:2vh;padding-top:2.8vh;border-top:3px solid var(--accent)">
-          <div class="t-meta" style="color:var(--accent)">01 · 规模扩张</div>
-          <h3 style="font-family:var(--sans),var(--sans-zh);font-weight:200;font-size:min(2.8vw,5vh);line-height:1.1;letter-spacing:-.02em">昇腾生态开发者<br/>突破 <span style="color:var(--accent)">300万</span></h3>
-          <p style="font-family:var(--sans),var(--sans-zh);font-size:max(16px,.94vw);line-height:1.6;color:var(--text-secondary)">生态规模快速扩张，用户构成多元化，原有文档体系已不能满足新入开发者需求。</p>
+      <div data-anim style="display:flex;flex-direction:column;justify-content:center;gap:0;margin-top:2vh">
+        <!-- 横向时间线 -->
+        <div style="position:relative;display:grid;grid-template-columns:repeat(5,1fr);gap:0;padding:4vh 0 6vh">
+          <!-- 轴线 -->
+          <div style="position:absolute;top:50%;left:5%;right:5%;height:1px;background:repeating-linear-gradient(to right,var(--grey-2) 0 4px,transparent 4px 8px);transform:translateY(-50%)"></div>
+          <!-- 节点 1 -->
+          <div style="display:flex;flex-direction:column;align-items:center;gap:2vh;position:relative">
+            <div style="width:10px;height:10px;background:var(--accent);position:relative;z-index:1"></div>
+            <div style="text-align:center;padding:0 .5vw">
+              <div class="t-meta" style="color:var(--accent);margin-bottom:.8vh">PHASE 01</div>
+              <div style="font-family:var(--sans),var(--sans-zh);font-weight:400;font-size:max(16px,1.1vw);line-height:1.3">背景调研</div>
+              <div style="font-family:var(--sans),var(--sans-zh);font-size:max(14px,.84vw);color:var(--text-secondary);margin-top:.6vh;line-height:1.4">竞品分析<br/>文献综述</div>
+            </div>
+          </div>
+          <!-- 节点 2 -->
+          <div style="display:flex;flex-direction:column;align-items:center;gap:2vh;position:relative">
+            <div style="width:10px;height:10px;background:var(--grey-2);position:relative;z-index:1"></div>
+            <div style="text-align:center;padding:0 .5vw">
+              <div class="t-meta" style="color:var(--text-helper);margin-bottom:.8vh">PHASE 02</div>
+              <div style="font-family:var(--sans),var(--sans-zh);font-weight:400;font-size:max(16px,1.1vw);line-height:1.3">用户招募</div>
+              <div style="font-family:var(--sans),var(--sans-zh);font-size:max(14px,.84vw);color:var(--text-secondary);margin-top:.6vh;line-height:1.4">分层抽样<br/>320 名参与者</div>
+            </div>
+          </div>
+          <!-- 节点 3 accent 强调 -->
+          <div style="display:flex;flex-direction:column;align-items:center;gap:2vh;position:relative">
+            <div style="width:12px;height:12px;background:var(--accent);position:relative;z-index:1"></div>
+            <div style="text-align:center;padding:0 .5vw">
+              <div class="t-meta" style="color:var(--accent);margin-bottom:.8vh">PHASE 03</div>
+              <div style="font-family:var(--sans),var(--sans-zh);font-weight:500;font-size:max(16px,1.1vw);line-height:1.3"><span class="mark" style="padding:0 .3em">深度访谈</span></div>
+              <div style="font-family:var(--sans),var(--sans-zh);font-size:max(14px,.84vw);color:var(--text-secondary);margin-top:.6vh;line-height:1.4">36 人 · 60min<br/>问卷 284 份</div>
+            </div>
+          </div>
+          <!-- 节点 4 -->
+          <div style="display:flex;flex-direction:column;align-items:center;gap:2vh;position:relative">
+            <div style="width:10px;height:10px;background:var(--grey-2);position:relative;z-index:1"></div>
+            <div style="text-align:center;padding:0 .5vw">
+              <div class="t-meta" style="color:var(--text-helper);margin-bottom:.8vh">PHASE 04</div>
+              <div style="font-family:var(--sans),var(--sans-zh);font-weight:400;font-size:max(16px,1.1vw);line-height:1.3">数据分析</div>
+              <div style="font-family:var(--sans),var(--sans-zh);font-size:max(14px,.84vw);color:var(--text-secondary);margin-top:.6vh;line-height:1.4">亲和图法<br/>主题聚类</div>
+            </div>
+          </div>
+          <!-- 节点 5 -->
+          <div style="display:flex;flex-direction:column;align-items:center;gap:2vh;position:relative">
+            <div style="width:10px;height:10px;background:var(--grey-2);position:relative;z-index:1"></div>
+            <div style="text-align:center;padding:0 .5vw">
+              <div class="t-meta" style="color:var(--text-helper);margin-bottom:.8vh">PHASE 05</div>
+              <div style="font-family:var(--sans),var(--sans-zh);font-weight:400;font-size:max(16px,1.1vw);line-height:1.3">报告输出</div>
+              <div style="font-family:var(--sans),var(--sans-zh);font-size:max(14px,.84vw);color:var(--text-secondary);margin-top:.6vh;line-height:1.4">优先级排序<br/>行动建议</div>
+            </div>
+          </div>
         </div>
-        <div data-anim style="display:flex;flex-direction:column;gap:2vh;padding-top:2.8vh;border-top:2px solid var(--ink)">
-          <div class="t-meta">02 · 竞争压力</div>
-          <h3 style="font-family:var(--sans),var(--sans-zh);font-weight:200;font-size:min(2.8vw,5vh);line-height:1.1;letter-spacing:-.02em">CUDA 生态 NPS<br/>领先 <span style="font-weight:300">22 点</span></h3>
-          <p style="font-family:var(--sans),var(--sans-zh);font-size:max(16px,.94vw);line-height:1.6;color:var(--text-secondary)">竞品生态的开发者体验形成对标压力，迁移成本成为吸引开发者的核心变量。</p>
-        </div>
-        <div data-anim style="display:flex;flex-direction:column;gap:2vh;padding-top:2.8vh;border-top:1px solid var(--grey-2)">
-          <div class="t-meta" style="color:var(--text-helper)">03 · 战略窗口</div>
-          <h3 style="font-family:var(--sans),var(--sans-zh);font-weight:200;font-size:min(2.8vw,5vh);line-height:1.1;letter-spacing:-.02em">国产大模型<br/>规模化落地期</h3>
-          <p style="font-family:var(--sans),var(--sans-zh);font-size:max(16px,.94vw);line-height:1.6;color:var(--text-secondary)">2026 年是国产大模型大规模工程化的关键节点，需要抓住窗口建立开发者信任。</p>
+        <!-- 底部补充信息 -->
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2vw;border-top:1px solid var(--grey-2);padding-top:2.4vh">
+          <div style="font-family:var(--sans),var(--sans-zh);font-size:max(16px,.94vw);color:var(--text-secondary);line-height:1.55">覆盖场景：模型训练 / 推理部署 / 算子开发</div>
+          <div style="font-family:var(--sans),var(--sans-zh);font-size:max(16px,.94vw);color:var(--text-secondary);line-height:1.55">研究周期：<span style="color:var(--accent);font-weight:600">6 周</span>，2026 Q1</div>
+          <div style="font-family:var(--sans),var(--sans-zh);font-size:max(16px,.94vw);color:var(--text-secondary);line-height:1.55">方法论：混合研究（定量 + 定性）</div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ===== S3: KPI 数据 dark S06 ===== -->
+<!-- ===== S3: KPI Tower dark S06 ===== -->
 <section class="slide dark" data-animate="grid-reveal" data-layout="S06">
   <div class="canvas-card">
     <div class="chrome-min" style="color:rgba(255,255,255,.55)">
@@ -1289,7 +1329,7 @@
     </div>
     <div style="flex:1;padding:0;display:grid;grid-template-rows:auto 1fr;gap:4vh">
       <div data-anim="head" style="display:flex;flex-direction:column;gap:1.4vh">
-        <div class="t-meta" style="color:rgba(255,255,255,.5)">SCALE · 规模</div>
+        <div class="t-meta" style="color:rgba(197,232,3,.85)">SCALE · 规模</div>
         <h2 style="font-family:var(--sans),var(--sans-zh);font-weight:200;font-size:min(5.2vw,9vh);line-height:1;letter-spacing:-.025em;color:#fff">6 周，320 份真实声音</h2>
       </div>
       <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1.8vw;align-items:end">
@@ -1304,9 +1344,9 @@
           <div style="font-family:var(--sans),var(--sans-zh);font-size:max(16px,.94vw);color:rgba(255,255,255,.72);line-height:1.5">问卷回收<br/>有效率 94.7%</div>
         </div>
         <div data-anim style="display:flex;flex-direction:column;gap:2vh;padding:2.4vh 1.6vw;background:var(--accent)">
-          <div class="t-meta" style="color:rgba(255,255,255,.75)">NPS SCORE</div>
-          <div style="font-family:var(--sans);font-weight:200;font-size:min(7.4vw,12vh);line-height:.88;letter-spacing:-.04em;color:#fff;font-feature-settings:'tnum'">38</div>
-          <div style="font-family:var(--sans),var(--sans-zh);font-size:max(16px,.94vw);color:rgba(255,255,255,.85);line-height:1.5">开发者 NPS<br/>行业中位水平</div>
+          <div class="t-meta" style="color:rgba(0,0,0,.55)">NPS SCORE</div>
+          <div style="font-family:var(--sans);font-weight:200;font-size:min(7.4vw,12vh);line-height:.88;letter-spacing:-.04em;color:var(--ink);font-feature-settings:'tnum'">38</div>
+          <div style="font-family:var(--sans),var(--sans-zh);font-size:max(16px,.94vw);color:rgba(0,0,0,.7);line-height:1.5">开发者 NPS<br/>行业中位水平</div>
         </div>
         <div data-anim style="display:flex;flex-direction:column;gap:2vh;padding:2.4vh 1.6vw;background:rgba(255,255,255,.07)">
           <div class="t-meta" style="color:rgba(255,255,255,.5)">DOC SAT.</div>
@@ -1318,7 +1358,7 @@
   </div>
 </section>
 
-<!-- ===== S4: 痛点排名横向柱图 S07 ===== -->
+<!-- ===== S4: 痛点排名 H-Bar Chart S07 ===== -->
 <section class="slide" data-animate="grid-reveal" data-layout="S07">
   <div class="canvas-card">
     <div class="chrome-min">
@@ -1328,7 +1368,7 @@
     <div style="flex:1;padding:0;display:grid;grid-template-rows:auto 1fr;gap:3.6vh">
       <div data-anim="head" style="display:flex;flex-direction:column;gap:1.4vh">
         <div class="t-meta" style="color:var(--accent)">PAIN POINTS · 开发者反馈排名</div>
-        <h2 style="font-family:var(--sans),var(--sans-zh);font-weight:200;font-size:min(5.2vw,9.2vh);line-height:1.05;letter-spacing:-.025em">四大痛点，文档排名第一</h2>
+        <h2 style="font-family:var(--sans),var(--sans-zh);font-weight:200;font-size:min(5.2vw,9.2vh);line-height:1.05;letter-spacing:-.025em">四大痛点，<span class="underline-accent">文档</span>排名第一</h2>
       </div>
       <div data-anim style="display:flex;flex-direction:column;gap:0;margin-top:1vh">
         <div style="display:grid;grid-template-columns:13em 1fr 5.5em;gap:1.6vh 1.6vw;align-items:center;padding:1.8vh 0;border-top:1px solid var(--grey-2)">
@@ -1362,60 +1402,74 @@
   </div>
 </section>
 
-<!-- ===== S5: 三类用户画像 S13 Three Forces ===== -->
-<section class="slide" data-animate="grid-reveal" data-layout="S13">
+<!-- ===== S5: 六格用户画像 + 场景 S04 ===== -->
+<section class="slide grey" data-animate="grid-reveal" data-layout="S04">
   <div class="canvas-card">
     <div class="chrome-min">
-      <div class="l">用户画像 · Personas</div>
+      <div class="l">用户画像 · Personas & Scenarios</div>
       <div class="r">05 / 06</div>
     </div>
-    <div style="flex:1;padding:0;display:grid;grid-template-rows:auto 1fr;gap:4vh">
+    <div style="flex:1;padding:0;display:grid;grid-template-rows:auto 1fr;gap:3.6vh">
       <div data-anim="head" style="display:flex;flex-direction:column;gap:1.4vh">
-        <div class="t-meta">PERSONAS · 三类核心用户群</div>
-        <h2 style="font-family:var(--sans),var(--sans-zh);font-weight:200;font-size:min(5.2vw,9.2vh);line-height:1.05;letter-spacing:-.025em">谁在使用 CANN？</h2>
+        <div class="t-meta">PERSONAS · 三类用户 × 三大场景</div>
+        <h2 style="font-family:var(--sans),var(--sans-zh);font-weight:200;font-size:min(5.2vw,9.2vh);line-height:1.05;letter-spacing:-.025em">谁在用，在哪用</h2>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:2.2vw;align-items:start">
-        <div data-anim style="display:flex;flex-direction:column;gap:2vh;padding:2.4vh 1.8vw;background:var(--accent);color:#fff">
-          <div class="t-meta" style="color:rgba(255,255,255,.72)">TYPE 01 · 45%</div>
-          <h3 style="font-family:var(--sans),var(--sans-zh);font-weight:300;font-size:min(2.4vw,4.4vh);line-height:1.1;letter-spacing:-.02em;color:#fff">算法工程师</h3>
-          <p style="font-family:var(--sans),var(--sans-zh);font-size:max(16px,.94vw);line-height:1.6;color:rgba(255,255,255,.82)">专注模型训练与推理部署。入门门槛高，文档质量是首要诉求。平均首次上手需 4.2 天。</p>
-          <div style="margin-top:auto;padding-top:1.8vh;border-top:1px solid rgba(255,255,255,.28);font-family:var(--mono);font-size:14px;color:rgba(255,255,255,.68)">KEY NEED → 交互式文档</div>
+      <div data-anim style="display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:1.6vw 1.6vw">
+        <!-- 用户类型 -->
+        <div style="background:var(--accent);padding:2.2vh 1.6vw;display:flex;flex-direction:column;gap:1.2vh">
+          <div class="t-meta" style="color:rgba(0,0,0,.5)">USER TYPE 01 · 45%</div>
+          <div style="font-family:var(--sans),var(--sans-zh);font-weight:400;font-size:max(18px,1.5vw);line-height:1.2;color:var(--ink)">算法工程师</div>
+          <div style="font-family:var(--sans),var(--sans-zh);font-size:max(15px,.88vw);color:rgba(0,0,0,.65);line-height:1.5;margin-top:auto">入门门槛高，文档是第一诉求</div>
         </div>
-        <div data-anim style="display:flex;flex-direction:column;gap:2vh;padding:2.4vh 1.8vw;background:var(--grey-1)">
-          <div class="t-meta" style="color:var(--text-helper)">TYPE 02 · 35%</div>
-          <h3 style="font-family:var(--sans),var(--sans-zh);font-weight:300;font-size:min(2.4vw,4.4vh);line-height:1.1;letter-spacing:-.02em">AI 框架开发者</h3>
-          <p style="font-family:var(--sans),var(--sans-zh);font-size:max(16px,.94vw);line-height:1.6;color:var(--text-secondary)">深度算子开发与框架接入。技术背景强，但硬件相关学习曲线陡峭，调试周期长。</p>
-          <div style="margin-top:auto;padding-top:1.8vh;border-top:1px solid var(--grey-2);font-family:var(--mono);font-size:14px;color:var(--text-helper)">KEY NEED → 算子开发向导</div>
+        <div style="background:var(--grey-1);padding:2.2vh 1.6vw;display:flex;flex-direction:column;gap:1.2vh">
+          <div class="t-meta" style="color:var(--text-helper)">USER TYPE 02 · 35%</div>
+          <div style="font-family:var(--sans),var(--sans-zh);font-weight:400;font-size:max(18px,1.5vw);line-height:1.2">AI 框架开发者</div>
+          <div style="font-family:var(--sans),var(--sans-zh);font-size:max(15px,.88vw);color:var(--text-secondary);line-height:1.5;margin-top:auto">算子开发门槛高，调试周期长</div>
         </div>
-        <div data-anim style="display:flex;flex-direction:column;gap:2vh;padding:2.4vh 1.8vw;background:var(--grey-1)">
-          <div class="t-meta" style="color:var(--text-helper)">TYPE 03 · 20%</div>
-          <h3 style="font-family:var(--sans),var(--sans-zh);font-weight:300;font-size:min(2.4vw,4.4vh);line-height:1.1;letter-spacing:-.02em">学术研究者</h3>
-          <p style="font-family:var(--sans),var(--sans-zh);font-size:max(16px,.94vw);line-height:1.6;color:var(--text-secondary)">科研复现与实验对比。版本矩阵复杂是主要痛点，一键环境工具能大幅降低门槛。</p>
-          <div style="margin-top:auto;padding-top:1.8vh;border-top:1px solid var(--grey-2);font-family:var(--mono);font-size:14px;color:var(--text-helper)">KEY NEED → 一键环境容器</div>
+        <div style="background:var(--grey-1);padding:2.2vh 1.6vw;display:flex;flex-direction:column;gap:1.2vh">
+          <div class="t-meta" style="color:var(--text-helper)">USER TYPE 03 · 20%</div>
+          <div style="font-family:var(--sans),var(--sans-zh);font-weight:400;font-size:max(18px,1.5vw);line-height:1.2">学术研究者</div>
+          <div style="font-family:var(--sans),var(--sans-zh);font-size:max(15px,.88vw);color:var(--text-secondary);line-height:1.5;margin-top:auto">版本矩阵复杂，复现失败率高</div>
+        </div>
+        <!-- 使用场景 -->
+        <div style="background:var(--ink);padding:2.2vh 1.6vw;display:flex;flex-direction:column;gap:1.2vh">
+          <div class="t-meta" style="color:rgba(197,232,3,.7)">SCENARIO A</div>
+          <div style="font-family:var(--sans),var(--sans-zh);font-weight:400;font-size:max(18px,1.5vw);line-height:1.2;color:#fff">模型训练</div>
+          <div style="font-family:var(--sans),var(--sans-zh);font-size:max(15px,.88vw);color:rgba(255,255,255,.55);line-height:1.5;margin-top:auto">占比 58% · 首次上手 4.2 天</div>
+        </div>
+        <div style="background:var(--ink);padding:2.2vh 1.6vw;display:flex;flex-direction:column;gap:1.2vh">
+          <div class="t-meta" style="color:rgba(197,232,3,.7)">SCENARIO B</div>
+          <div style="font-family:var(--sans),var(--sans-zh);font-weight:400;font-size:max(18px,1.5vw);line-height:1.2;color:#fff">推理部署</div>
+          <div style="font-family:var(--sans),var(--sans-zh);font-size:max(15px,.88vw);color:rgba(255,255,255,.55);line-height:1.5;margin-top:auto">占比 28% · 调试耗时 38%</div>
+        </div>
+        <div style="background:var(--ink);padding:2.2vh 1.6vw;display:flex;flex-direction:column;gap:1.2vh">
+          <div class="t-meta" style="color:rgba(197,232,3,.7)">SCENARIO C</div>
+          <div style="font-family:var(--sans),var(--sans-zh);font-weight:400;font-size:max(18px,1.5vw);line-height:1.2;color:#fff">算子开发</div>
+          <div style="font-family:var(--sans),var(--sans-zh);font-size:max(15px,.88vw);color:rgba(255,255,255,.55);line-height:1.5;margin-top:auto">占比 14% · 学习曲线最陡</div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ===== S6: 收束宣言 split S10 ===== -->
+<!-- ===== S6: 收束 split S10 ===== -->
 <section class="slide split" data-animate="split-statement" data-layout="S10">
   <div class="canvas-card">
     <div class="split-half">
       <div class="half b-accent" style="padding:5.6vh 3.6vw 4.4vh;justify-content:space-between;position:relative;overflow:hidden">
         <canvas class="ascii-bg" aria-hidden="true"></canvas>
         <div class="chrome-min" style="margin-bottom:0;position:relative;z-index:1">
-          <div class="l">06 / 06</div>
-          <div class="r">CLOSING</div>
+          <div class="l" style="color:rgba(0,0,0,.55)">06 / 06</div>
+          <div class="r" style="color:rgba(0,0,0,.55)">CLOSING</div>
         </div>
         <div data-anim="manifesto" style="display:flex;flex-direction:column;gap:2vh;position:relative;z-index:1">
-          <div class="t-meta" style="color:rgba(255,255,255,.78);letter-spacing:.22em">RECOMMENDATION</div>
-          <h2 style="font-family:var(--sans),var(--sans-zh);font-size:min(7vw,12.5vh);line-height:.94;letter-spacing:-.025em;font-weight:200;color:#fff">降低门槛。<br/>赢得<span style="font-style:italic;font-weight:300">开发者</span>。</h2>
-          <div style="font-family:var(--sans),var(--sans-zh);font-size:max(16px,1vw);line-height:1.65;color:rgba(255,255,255,.82);font-weight:400;max-width:36ch;margin-top:1.4vh">开发者体验是生态建设的核心杠杆。每降低一小时上手时间，就多留住一个开发者。</div>
+          <div class="t-meta" style="color:rgba(0,0,0,.55);letter-spacing:.22em">RECOMMENDATION</div>
+          <h2 style="font-family:var(--sans),var(--sans-zh);font-size:min(7vw,12.5vh);line-height:.94;letter-spacing:-.025em;font-weight:200;color:var(--ink)">降低门槛。<br/>赢得<span style="font-style:italic;font-weight:300">开发者</span>。</h2>
+          <div style="font-family:var(--sans),var(--sans-zh);font-size:max(16px,1vw);line-height:1.65;color:rgba(0,0,0,.7);font-weight:400;max-width:36ch;margin-top:1.4vh">开发者体验是生态建设的核心杠杆。每降低一小时上手时间，就多留住一个开发者。</div>
         </div>
-        <div data-anim="signature" style="display:flex;justify-content:space-between;align-items:end;border-top:1px solid rgba(255,255,255,.22);padding-top:2vh;position:relative;z-index:1">
-          <div class="t-meta" style="color:rgba(255,255,255,.62)">华为昇腾团队</div>
-          <div class="t-meta" style="color:rgba(255,255,255,.62)">2026.Q1</div>
+        <div data-anim="signature" style="display:flex;justify-content:space-between;align-items:end;border-top:1px solid rgba(0,0,0,.18);padding-top:2vh;position:relative;z-index:1">
+          <div class="t-meta" style="color:rgba(0,0,0,.5)">华为昇腾团队</div>
+          <div class="t-meta" style="color:rgba(0,0,0,.5)">2026.Q1</div>
         </div>
       </div>
       <div class="half" style="padding:5.6vh 3.6vw 4.4vh;justify-content:space-between">
@@ -1427,29 +1481,29 @@
           <div style="display:grid;grid-template-columns:auto 1fr;gap:2vw;align-items:start;padding:2.2vh 0;border-top:1px solid var(--border-subtle)">
             <div style="font-family:var(--sans);font-weight:200;font-size:min(3.6vw,6.4vh);line-height:.9;color:var(--accent)">01</div>
             <div>
-              <h3 style="font-family:var(--sans),var(--sans-zh);font-weight:400;font-size:max(18px,1.45vw);line-height:1.2;letter-spacing:-.015em;color:var(--text-primary);margin-bottom:.6vh">升级交互式文档体系</h3>
-              <p style="font-family:var(--sans),var(--sans-zh);font-size:max(16px,.9vw);line-height:1.6;color:var(--text-secondary)">Jupyter 教程 + 端到端示例，首次上手时间压缩至 1 天内。</p>
+              <h3 style="font-family:var(--sans),var(--sans-zh);font-weight:400;font-size:max(18px,1.45vw);line-height:1.2;letter-spacing:-.015em;margin-bottom:.6vh">升级交互式文档体系</h3>
+              <p style="font-family:var(--sans),var(--sans-zh);font-size:max(16px,.9vw);line-height:1.6;color:var(--text-secondary)">Jupyter 教程 + 端到端示例，首次上手压缩至 1 天。</p>
             </div>
           </div>
           <div style="display:grid;grid-template-columns:auto 1fr;gap:2vw;align-items:start;padding:2.2vh 0;border-top:1px solid var(--border-subtle)">
             <div style="font-family:var(--sans);font-weight:200;font-size:min(3.6vw,6.4vh);line-height:.9;color:var(--text-primary)">02</div>
             <div>
-              <h3 style="font-family:var(--sans),var(--sans-zh);font-weight:400;font-size:max(18px,1.45vw);line-height:1.2;letter-spacing:-.015em;color:var(--text-primary);margin-bottom:.6vh">智能错误诊断引擎</h3>
-              <p style="font-family:var(--sans),var(--sans-zh);font-size:max(16px,.9vw);line-height:1.6;color:var(--text-secondary)">上下文感知错误提示 + 自动修复建议，调试时间降低 40%。</p>
+              <h3 style="font-family:var(--sans),var(--sans-zh);font-weight:400;font-size:max(18px,1.45vw);line-height:1.2;letter-spacing:-.015em;margin-bottom:.6vh">智能错误诊断引擎</h3>
+              <p style="font-family:var(--sans),var(--sans-zh);font-size:max(16px,.9vw);line-height:1.6;color:var(--text-secondary)">上下文感知提示 + 自动修复建议，调试时间降 40%。</p>
             </div>
           </div>
           <div style="display:grid;grid-template-columns:auto 1fr;gap:2vw;align-items:start;padding:2.2vh 0;border-top:1px solid var(--border-subtle)">
             <div style="font-family:var(--sans);font-weight:200;font-size:min(3.6vw,6.4vh);line-height:.9;color:var(--text-primary)">03</div>
             <div>
-              <h3 style="font-family:var(--sans),var(--sans-zh);font-weight:400;font-size:max(18px,1.45vw);line-height:1.2;letter-spacing:-.015em;color:var(--text-primary);margin-bottom:.6vh">算子开发向导工具</h3>
-              <p style="font-family:var(--sans),var(--sans-zh);font-size:max(16px,.9vw);line-height:1.6;color:var(--text-secondary)">模板代码生成 + 可视化调试器，降低 TBE 开发门槛。</p>
+              <h3 style="font-family:var(--sans),var(--sans-zh);font-weight:400;font-size:max(18px,1.45vw);line-height:1.2;letter-spacing:-.015em;margin-bottom:.6vh">算子开发向导工具</h3>
+              <p style="font-family:var(--sans),var(--sans-zh);font-size:max(16px,.9vw);line-height:1.6;color:var(--text-secondary)">模板代码生成 + 可视化调试，降低 TBE 门槛。</p>
             </div>
           </div>
           <div style="display:grid;grid-template-columns:auto 1fr;gap:2vw;align-items:start;padding:2.2vh 0;border-top:1px solid var(--border-subtle);border-bottom:2px solid var(--accent)">
             <div style="font-family:var(--sans);font-weight:200;font-size:min(3.6vw,6.4vh);line-height:.9;color:var(--accent)">04</div>
             <div>
               <h3 style="font-family:var(--sans),var(--sans-zh);font-weight:400;font-size:max(18px,1.45vw);line-height:1.2;letter-spacing:-.015em;color:var(--accent);margin-bottom:.6vh">Profiling 可视化看板</h3>
-              <p style="font-family:var(--sans),var(--sans-zh);font-size:max(16px,.9vw);line-height:1.6;color:var(--text-secondary)">一键性能瓶颈定位，让 Profiling 不再是专家专利。</p>
+              <p style="font-family:var(--sans),var(--sans-zh);font-size:max(16px,.9vw);line-height:1.6;color:var(--text-secondary)">一键瓶颈定位，让 Profiling 不再是专家专利。</p>
             </div>
           </div>
         </div>
@@ -1458,6 +1512,7 @@
     </div>
   </div>
 </section>
+
 
 </div>
 
@@ -1562,7 +1617,7 @@ function bootGL(canvasId, fsSrc){
   // 读取 CSS 变量,把 accent 颜色塞进 shader
   function readAccent(){
     const cs = getComputedStyle(document.documentElement);
-    const hex = cs.getPropertyValue('--accent').trim() || '#002FA7';
+    const hex = cs.getPropertyValue('--accent').trim() || '#C5E803';
     const m = hex.match(/^#([0-9a-f]{6})$/i);
     if(!m) return [0, 0.18, 0.65];
     const n = parseInt(m[1], 16);
@@ -2546,12 +2601,12 @@ if(motion){
 </script>
 
 <!-- 风格切换悬浮导航 -->
-<nav id="style-switcher" aria-label="切换风格" style="position:fixed;top:2.8vh;right:2.8vw;z-index:500;display:flex;align-items:stretch;background:rgba(0,47,167,0.7);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.18);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;overflow:hidden">
-  <a href="index.html" title="聚合页" style="display:flex;align-items:center;padding:9px 14px;color:rgba(255,255,255,0.6);text-decoration:none;border-right:1px solid rgba(255,255,255,0.18)">⌂</a>
-  <a href="swiss.html" style="display:flex;align-items:center;padding:9px 12px;color:#fff;text-decoration:none;border-right:1px solid rgba(255,255,255,0.18);background:rgba(255,255,255,0.15);">克莱因蓝</a>
-  <a href="ink.html" style="display:flex;align-items:center;padding:9px 12px;color:rgba(255,255,255,0.65);text-decoration:none;border-right:1px solid rgba(255,255,255,0.18);">墨水经典</a>
-  <a href="green.html" style="display:flex;align-items:center;padding:9px 12px;color:rgba(255,255,255,0.65);text-decoration:none;border-right:1px solid rgba(255,255,255,0.18);">柠檬绿</a>
-  <a href="dune.html" style="display:flex;align-items:center;padding:9px 12px;color:rgba(255,255,255,0.65);text-decoration:none;">沙丘</a>
+<nav id="style-switcher" aria-label="切换风格" style="position:fixed;top:2.8vh;right:2.8vw;z-index:500;display:flex;align-items:stretch;background:rgba(15,22,0,0.75);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(197,232,3,0.25);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;overflow:hidden">
+  <a href="index.html" title="聚合页" style="display:flex;align-items:center;padding:9px 14px;color:rgba(197,232,3,0.65);text-decoration:none;border-right:1px solid rgba(197,232,3,0.15)">⌂</a>
+  <a href="swiss.html" style="display:flex;align-items:center;padding:9px 12px;color:rgba(197,232,3,0.6);text-decoration:none;border-right:1px solid rgba(197,232,3,0.15)">克莱因蓝</a>
+  <a href="ink.html"   style="display:flex;align-items:center;padding:9px 12px;color:rgba(197,232,3,0.6);text-decoration:none;border-right:1px solid rgba(197,232,3,0.15)">墨水经典</a>
+  <a href="green.html" style="display:flex;align-items:center;padding:9px 12px;color:#C5E803;text-decoration:none;border-right:1px solid rgba(197,232,3,0.15);background:rgba(197,232,3,0.15)">柠檬绿</a>
+  <a href="dune.html"  style="display:flex;align-items:center;padding:9px 12px;color:rgba(197,232,3,0.6);text-decoration:none">沙丘</a>
 </nav>
 </body>
 </html>

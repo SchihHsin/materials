@@ -52,7 +52,7 @@ html,body{
 /* Cards grid */
 .hub-cards{
   display:grid;
-  grid-template-columns:repeat(3,1fr);
+  grid-template-columns:repeat(4,1fr);
   gap:2vw;
   align-items:stretch;
 }
@@ -136,6 +136,11 @@ html,body{
 .card-enter::after{content:"→"}
 .card-ink .card-enter,.card-dune .card-enter{color:rgba(255,255,255,.7)}
 .card-swiss .card-enter{color:#002FA7}
+.card-green .card-info{background:#0d1400;border-top-color:rgba(197,232,3,0.15)}
+.card-green .card-tag{color:rgba(197,232,3,0.55)}
+.card-green .card-name{font-family:'Inter','Noto Sans SC',sans-serif;font-weight:300;color:#C5E803}
+.card-green .card-desc{color:rgba(255,255,255,.45)}
+.card-green .card-enter{color:#C5E803}
 
 /* Footer */
 .hub-footer{
@@ -166,39 +171,52 @@ html,body{
 
   <div class="hub-cards">
 
-    <!-- 墨水经典：FS_DARK 全息色散流体 -->
-    <a href="ink.html" class="style-card card-ink">
-      <div class="card-canvas-wrap">
-        <canvas id="cv-ink"></canvas>
-      </div>
-      <div class="card-info">
-        <div class="card-tag">Style A · 风格 01</div>
-        <div class="card-name">墨水经典</div>
-        <div class="card-desc">衬线大标题 × 暖米白纸感。全息色散流体背景，杂志质感最强。</div>
-        <div class="card-enter">进入此风格</div>
-      </div>
-    </a>
-
     <!-- 瑞士克莱因蓝：Swiss 点阵移动网格 -->
     <a href="swiss.html" class="style-card card-swiss">
       <div class="card-canvas-wrap">
         <canvas id="cv-swiss"></canvas>
       </div>
       <div class="card-info">
-        <div class="card-tag">Style B · 风格 03</div>
+        <div class="card-tag">Style B · 风格 01</div>
         <div class="card-name">瑞士克莱因蓝</div>
         <div class="card-desc">IKB 克莱因蓝 × 无衬线极细字重。移动点阵网格，信息驱动设计。</div>
         <div class="card-enter">进入此风格</div>
       </div>
     </a>
 
-    <!-- 沙丘：FS_LIGHT 旋转涡流银珍珠 -->
+    <!-- 墨水经典：FS_DARK 全息色散流体 -->
+    <a href="ink.html" class="style-card card-ink">
+      <div class="card-canvas-wrap">
+        <canvas id="cv-ink"></canvas>
+      </div>
+      <div class="card-info">
+        <div class="card-tag">Style A · 风格 02</div>
+        <div class="card-name">墨水经典</div>
+        <div class="card-desc">衬线大标题 × 暖米白纸感。全息色散流体背景，杂志质感最强。</div>
+        <div class="card-enter">进入此风格</div>
+      </div>
+    </a>
+
+    <!-- 柠檬绿：Swiss 点阵网格绿色版 -->
+    <a href="green.html" class="style-card card-green">
+      <div class="card-canvas-wrap">
+        <canvas id="cv-green"></canvas>
+      </div>
+      <div class="card-info">
+        <div class="card-tag">Style B · 风格 03</div>
+        <div class="card-name">瑞士柠檬绿</div>
+        <div class="card-desc">荧光柠檬绿 × 近白底。移动点阵网格，未来感强，适合 AI 新兴科技主题。</div>
+        <div class="card-enter">进入此风格</div>
+      </div>
+    </a>
+
+    <!-- 沙丘：FS_DUNE 旋转涡流暖沙 -->
     <a href="dune.html" class="style-card card-dune">
       <div class="card-canvas-wrap">
         <canvas id="cv-dune"></canvas>
       </div>
       <div class="card-info">
-        <div class="card-tag">Style A · 风格 02</div>
+        <div class="card-tag">Style A · 风格 04</div>
         <div class="card-name">沙丘</div>
         <div class="card-desc">炭灰 × 沙色暖调。旋涡流体背景，克制高级，如沙漠黄昏。</div>
         <div class="card-enter">进入此风格</div>
@@ -354,8 +372,41 @@ const inkGL   = bootCardGL(document.getElementById('cv-ink'),   FS_DARK);
 const duneGL  = bootCardGL(document.getElementById('cv-dune'),  FS_DUNE);
 const swissGL = bootCardGL(document.getElementById('cv-swiss'), FS_SWISS);
 
+/* ── Shader 4: 柠檬绿 · Swiss 点阵网格（绿色版）── */
+const FS_GREEN = `precision highp float;
+uniform vec2 u_resolution;uniform float u_time;uniform vec2 u_mouse;
+float gridLine(vec2 uv,float spacing,float thickness){
+  vec2 g=abs(fract(uv/spacing)-0.5);float d=min(g.x,g.y);
+  return 1.0-smoothstep(thickness-0.005,thickness+0.005,d);
+}
+void main(){
+  vec2 uv=gl_FragCoord.xy/u_resolution.xy;
+  float aspect=u_resolution.x/u_resolution.y;
+  vec2 p=uv;p.x*=aspect;
+  vec2 drift=vec2(u_time*0.008,u_time*0.005);
+  vec2 gp=p+drift;
+  float mainGrid=gridLine(gp,0.12,0.012);
+  float subGrid=gridLine(gp,0.024,0.04)*0.4;
+  vec2 m=u_mouse;m.x*=aspect;
+  float md=length(p-m);float mInfluence=exp(-md*4.0)*0.5;
+  float gridStrength=(mainGrid+subGrid*0.5)*(0.45+mInfluence);
+  vec2 dotGrid=fract(gp*50.0)-0.5;
+  float dotMask=1.0-smoothstep(0.05,0.14,length(dotGrid));
+  float wave=sin(gp.x*1.4+u_time*0.15)*cos(gp.y*1.6-u_time*0.12);
+  dotMask*=smoothstep(-0.3,0.6,wave)*0.6;
+  /* 近白底 + 柠檬绿网格线 */
+  vec3 bgColor=vec3(0.98,0.98,0.97);
+  vec3 lineColor=vec3(0.54,0.80,0.01);
+  vec3 col=bgColor;
+  col=mix(col,lineColor,gridStrength*0.7);
+  col=mix(col,lineColor,dotMask*0.5);
+  col=mix(col,vec3(0.7,0.92,0.0),mInfluence*0.28);
+  gl_FragColor=vec4(col,1.0);
+}`
+const greenGL = bootCardGL(document.getElementById('cv-green'), FS_GREEN);
+
 addEventListener('resize',()=>{
-  [inkGL,duneGL,swissGL].forEach(c=>c&&c.resize());
+  [inkGL,duneGL,swissGL,greenGL].forEach(c=>c&&c.resize());
 });
 
 /* 统一动画循环 */
@@ -365,6 +416,7 @@ const t0=Date.now();
   if(inkGL)   inkGL.draw(t);
   if(duneGL)  duneGL.draw(t);
   if(swissGL) swissGL.draw(t);
+  if(greenGL)  greenGL.draw(t);
   requestAnimationFrame(loop);
 })();
 </script>
