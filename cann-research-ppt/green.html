@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CANN 用户研究报告 · 2026 Q1 · 瑞士柠檬黄</title>
+<title>CANN 用户研究报告 · 2026 Q1 · 瑞士柠檬绿</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600&family=Noto+Sans+SC:wght@200;300;400;500;700;900&display=swap" rel="stylesheet">
@@ -19,10 +19,10 @@
     --grey-1:#f0f0ee;         /* 浅灰底 */
     --grey-2:#d4d4d2;         /* 中灰(分割线) */
     --grey-3:#737373;         /* 暗灰(辅助文字) */
-    --accent:#FFD500;         /* 高亮色: 柠檬黄 Lemon Yellow */
-    --accent-rgb:255,213,0;
+    --accent:#C5E803;         /* 高亮色: 柠檬绿 Lemon */
+    --accent-rgb:197,232,3;
     --accent-on:#0a0a0a;      /* accent 上的反色文字（浅色需黑字） */
-    --accent-bright:#FFE44D;  /* 暗底高亮: 柠檬绿提亮版 */
+    --accent-bright:#D4F014;  /* 暗底高亮: 柠檬绿提亮版 */
 
     /* ============ Carbon 文本角色 token (role-based,代替 opacity) ============
        亮底:  primary 主文 / secondary 次文 / helper 辅助 / placeholder 占位
@@ -1617,7 +1617,7 @@ function bootGL(canvasId, fsSrc){
   // 读取 CSS 变量,把 accent 颜色塞进 shader
   function readAccent(){
     const cs = getComputedStyle(document.documentElement);
-    const hex = cs.getPropertyValue('--accent').trim() || '#FFD500';
+    const hex = cs.getPropertyValue('--accent').trim() || '#C5E803';
     const m = hex.match(/^#([0-9a-f]{6})$/i);
     if(!m) return [0, 0.18, 0.65];
     const n = parseInt(m[1], 16);
@@ -2601,12 +2601,12 @@ if(motion){
 </script>
 
 <!-- 风格切换悬浮导航 -->
-<nav id="style-switcher" aria-label="切换风格" style="position:fixed;top:2.8vh;right:2.8vw;z-index:500;display:flex;align-items:stretch;background:rgba(30,22,0,0.75);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,213,0,0.25);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;overflow:hidden">
-  <a href="index.html" title="聚合页" style="display:flex;align-items:center;padding:9px 14px;color:rgba(255,213,0,0.65);text-decoration:none;border-right:1px solid rgba(255,213,0,0.15)">⌂</a>
-  <a href="swiss.html" style="display:flex;align-items:center;padding:9px 12px;color:rgba(255,213,0,0.6);text-decoration:none;border-right:1px solid rgba(255,213,0,0.15)">克莱因蓝</a>
-  <a href="ink.html"   style="display:flex;align-items:center;padding:9px 12px;color:rgba(255,213,0,0.6);text-decoration:none;border-right:1px solid rgba(255,213,0,0.15)">墨水经典</a>
-  <a href="green.html" style="display:flex;align-items:center;padding:9px 12px;color:#FFD500;text-decoration:none;border-right:1px solid rgba(255,213,0,0.15);background:rgba(255,213,0,0.15)">柠檬黄</a>
-  <a href="dune.html"  style="display:flex;align-items:center;padding:9px 12px;color:rgba(255,213,0,0.6);text-decoration:none">沙丘</a>
+<nav id="style-switcher" aria-label="切换风格" style="position:fixed;top:2.8vh;right:2.8vw;z-index:500;display:flex;align-items:stretch;background:rgba(15,22,0,0.75);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(197,232,3,0.25);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;overflow:hidden">
+  <a href="index.html" title="聚合页" style="display:flex;align-items:center;padding:9px 14px;color:rgba(197,232,3,0.65);text-decoration:none;border-right:1px solid rgba(197,232,3,0.15)">⌂</a>
+  <a href="swiss.html" style="display:flex;align-items:center;padding:9px 12px;color:rgba(197,232,3,0.6);text-decoration:none;border-right:1px solid rgba(197,232,3,0.15)">克莱因蓝</a>
+  <a href="ink.html"   style="display:flex;align-items:center;padding:9px 12px;color:rgba(197,232,3,0.6);text-decoration:none;border-right:1px solid rgba(197,232,3,0.15)">墨水经典</a>
+  <a href="green.html" style="display:flex;align-items:center;padding:9px 12px;color:#C5E803;text-decoration:none;border-right:1px solid rgba(197,232,3,0.15);background:rgba(197,232,3,0.15)">柠檬绿</a>
+  <a href="dune.html"  style="display:flex;align-items:center;padding:9px 12px;color:rgba(197,232,3,0.6);text-decoration:none">沙丘</a>
 </nav>
 </body>
 </html>
