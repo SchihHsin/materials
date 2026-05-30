@@ -1649,7 +1649,7 @@ function bootGL(canvasId, fsSrc){
 let darkMode=false;
 let gridCtrl=null, gridRAF=0, gridT0=Date.now();
 function startGrid(){
-  if(document.body.classList.contains('canvas-mode') || window.__lowPowerMode || gridRAF) return;
+  if(window.__lowPowerMode || gridRAF) return;
   if(!gridCtrl) gridCtrl = bootGL('bg-grid',FS);
   if(!gridCtrl) return;
   gridT0=Date.now();
@@ -1665,12 +1665,7 @@ function stopGrid(){
   if(gridRAF) cancelAnimationFrame(gridRAF);
   gridRAF=0;
 }
-if(document.body.classList.contains('canvas-mode')){
-  const c=document.getElementById('bg-grid');
-  if(c) c.remove();
-}else{
-  startGrid();
-}
+startGrid();
 addEventListener('swiss-low-power-change', e=>{e.detail.on ? stopGrid() : startGrid();});
 
 // =============== 导航 ===============
