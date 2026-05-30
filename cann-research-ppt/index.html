@@ -136,11 +136,11 @@ html,body{
 .card-enter::after{content:"→"}
 .card-ink .card-enter,.card-dune .card-enter{color:rgba(255,255,255,.7)}
 .card-swiss .card-enter{color:#002FA7}
-.card-green .card-info{background:#0d1400;border-top-color:rgba(197,232,3,0.15)}
-.card-green .card-tag{color:rgba(197,232,3,0.55)}
-.card-green .card-name{font-family:'Inter','Noto Sans SC',sans-serif;font-weight:300;color:#C5E803}
+.card-green .card-info{background:#0d1400;border-top-color:rgba(255,213,0,0.15)}
+.card-green .card-tag{color:rgba(255,213,0,0.55)}
+.card-green .card-name{font-family:'Inter','Noto Sans SC',sans-serif;font-weight:300;color:#FFD500}
 .card-green .card-desc{color:rgba(255,255,255,.45)}
-.card-green .card-enter{color:#C5E803}
+.card-green .card-enter{color:#FFD500}
 
 /* Footer */
 .hub-footer{
@@ -204,8 +204,8 @@ html,body{
       </div>
       <div class="card-info">
         <div class="card-tag">Style B · 风格 03</div>
-        <div class="card-name">瑞士柠檬绿</div>
-        <div class="card-desc">荧光柠檬绿 × 近白底。移动点阵网格，未来感强，适合 AI 新兴科技主题。</div>
+        <div class="card-name">瑞士柠檬黄</div>
+        <div class="card-desc">荧光柠檬黄 × 近白底。移动点阵网格，未来感强，适合 AI 新兴科技主题。</div>
         <div class="card-enter">进入此风格</div>
       </div>
     </a>
@@ -396,11 +396,11 @@ void main(){
   dotMask*=smoothstep(-0.3,0.6,wave)*0.6;
   /* 近白底 + 柠檬绿网格线 */
   vec3 bgColor=vec3(0.98,0.98,0.97);
-  vec3 lineColor=vec3(0.54,0.80,0.01);
+  vec3 lineColor=vec3(1.0,0.83,0.0);
   vec3 col=bgColor;
   col=mix(col,lineColor,gridStrength*0.7);
   col=mix(col,lineColor,dotMask*0.5);
-  col=mix(col,vec3(0.7,0.92,0.0),mInfluence*0.28);
+  col=mix(col,vec3(1.0,0.90,0.1),mInfluence*0.28);
   gl_FragColor=vec4(col,1.0);
 }`
 const greenGL = bootCardGL(document.getElementById('cv-green'), FS_GREEN);
