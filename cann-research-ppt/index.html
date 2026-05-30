@@ -394,13 +394,13 @@ void main(){
   float dotMask=1.0-smoothstep(0.05,0.14,length(dotGrid));
   float wave=sin(gp.x*1.4+u_time*0.15)*cos(gp.y*1.6-u_time*0.12);
   dotMask*=smoothstep(-0.3,0.6,wave)*0.6;
-  /* 近白底 + 柠檬绿网格线 */
-  vec3 bgColor=vec3(0.98,0.98,0.97);
-  vec3 lineColor=vec3(0.54,0.80,0.01);
+  /* 柠檬绿底 + 深色点阵叠加 */
+  vec3 bgColor=vec3(0.77,0.91,0.01);
+  vec3 lineColor=vec3(0.12,0.18,0.0);
   vec3 col=bgColor;
-  col=mix(col,lineColor,gridStrength*0.7);
-  col=mix(col,lineColor,dotMask*0.5);
-  col=mix(col,vec3(0.7,0.92,0.0),mInfluence*0.28);
+  col=mix(col,lineColor,gridStrength*0.55);
+  col=mix(col,lineColor,dotMask*0.45);
+  col=mix(col,vec3(0.55,0.72,0.0),mInfluence*0.3);
   gl_FragColor=vec4(col,1.0);
 }`
 const greenGL = bootCardGL(document.getElementById('cv-green'), FS_GREEN);
