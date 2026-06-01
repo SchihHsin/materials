@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CANN DesignConcept 2026 · 封面</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&family=Noto+Sans+SC:wght@200;300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;background:#0c0a0b;font-family:'Inter','Noto Sans SC',sans-serif;-webkit-font-smoothing:antialiased}
+
+/* 背景图 */
+.bg{position:fixed;inset:0;background:url("reference/cover-bg.png") center/cover no-repeat;z-index:0}
+/* 左侧深色渐变，保证文字可读 */
+.bg::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,rgba(10,8,9,.92) 0%,rgba(10,8,9,.55) 30%,rgba(10,8,9,0) 58%)}
+
+.content{position:relative;z-index:1;height:100vh;padding:6vh 6vw;display:flex;flex-direction:column;justify-content:space-between;color:#fff}
+
+/* 顶部 */
+.top{display:flex;justify-content:space-between;align-items:flex-start}
+.huawei{display:flex;align-items:center;gap:.7em;font-weight:600;font-size:16px;letter-spacing:.04em}
+.huawei .petal{width:19px;height:19px;flex-shrink:0}
+.meta{font-family:'JetBrains Mono';font-size:12px;letter-spacing:.2em;text-transform:uppercase;opacity:.55}
+
+/* 中部主视觉 */
+.center{display:flex;flex-direction:column;gap:1.8vh;max-width:60vw}
+.kicker{font-family:'JetBrains Mono';font-size:13px;letter-spacing:.34em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:1vh}
+.logo-cann{font-family:'Inter';font-weight:800;font-size:min(13vw,21vh);line-height:.88;letter-spacing:-.035em;display:flex}
+.logo-cann .red{color:#E60012}
+.sub{font-family:'Inter','Noto Sans SC';font-weight:300;font-size:min(3vw,5vh);line-height:1.1;letter-spacing:.005em;color:rgba(255,255,255,.92)}
+.lead{font-family:'Inter','Noto Sans SC';font-weight:300;font-size:max(15px,1.2vw);line-height:1.6;color:rgba(255,255,255,.6);max-width:36ch;margin-top:1.4vh}
+
+/* 底部 */
+.bot{display:flex;justify-content:space-between;align-items:flex-end}
+.ucd{font-family:'JetBrains Mono';font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.55);display:flex;align-items:center;gap:.6em}
+.ucd .sq{width:12px;height:12px;border:1.5px solid currentColor;display:inline-block}
+</style>
+</head>
+<body>
+<div class="bg"></div>
+<div class="content">
+  <div class="top">
+    <div class="huawei">
+      <svg class="petal" viewBox="0 0 24 24" fill="#E60012"><path d="M12 2c-1 4-3 6-6 7 3 1 5 3 6 7 1-4 3-6 6-7-3-1-5-3-6-7z"/></svg>
+      HUAWEI
+    </div>
+    <div class="meta">Ascend · Compute Architecture</div>
+  </div>
+
+  <div class="center">
+    <div class="kicker">Design Concept · 2026</div>
+    <div class="logo-cann">C<span class="red">A</span>NN</div>
+    <div class="sub">DesignConcept 2026</div>
+    <div class="lead">华为昇腾计算架构 · 开发者体验设计概念</div>
+  </div>
+
+  <div class="bot">
+    <div class="ucd"><span class="sq"></span>UCD CENTER</div>
+    <div class="meta">2026</div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CANN DesignConcept · 黑底光晕调色 Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&family=Noto+Sans+SC:wght@200;300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* 光晕色值（由调色面板实时改写，每页可不同）*/
+  --glow-h:234;      /* 主色相 */
+  --glow-h2:291;     /* 第二色相 = h + gap(57) */
+  --glow-sat:95%;    /* 饱和度 */
+  --glow-light:40%;  /* 亮度 */
+  --glow-spread:35;  /* 扩散高度 vh */
+  --glow-color-int:.68; /* 彩色层亮度 */
+  --glow-white-int:.58; /* 白色层亮度 */
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;background:#06060a;color:#fff;font-family:'Inter','Noto Sans SC',sans-serif;-webkit-font-smoothing:antialiased}
+
+/* ===== 黑底 + 底部渐变光晕 ===== */
+#deck{position:fixed;inset:0;display:flex;width:max-content;height:100vh;transition:transform .8s cubic-bezier(.77,0,.175,1)}
+.slide{position:relative;width:100vw;height:100vh;flex:0 0 100vw;overflow:hidden;background:#06060a;padding:7vh 6vw}
+
+/* 光晕层：底部双色径向叠加 */
+.slide .glow{position:absolute;left:0;right:0;bottom:0;height:calc(var(--glow-spread)*1vh);z-index:0;pointer-events:none}
+.slide .glow::before,
+.slide .glow::after{content:"";position:absolute;inset:0;mix-blend-mode:screen}
+/* 左右两个彩色光斑（双色氛围，不发白）*/
+.slide .glow::before{
+  background:radial-gradient(ellipse 78% 96% at 22% 112%,
+    hsla(var(--glow-h),var(--glow-sat),calc(var(--glow-light) + 12%),var(--glow-color-int)) 0%,
+    hsla(var(--glow-h),var(--glow-sat),var(--glow-light),calc(var(--glow-color-int)*.78)) 30%,
+    hsla(var(--glow-h),var(--glow-sat),var(--glow-light),calc(var(--glow-color-int)*.35)) 56%,
+    hsla(var(--glow-h),var(--glow-sat),var(--glow-light),0) 92%);
+}
+.slide .glow::after{
+  background:radial-gradient(ellipse 78% 96% at 78% 112%,
+    hsla(var(--glow-h2),var(--glow-sat),calc(var(--glow-light) + 12%),calc(var(--glow-color-int)*.9)) 0%,
+    hsla(var(--glow-h2),var(--glow-sat),var(--glow-light),calc(var(--glow-color-int)*.7)) 30%,
+    hsla(var(--glow-h2),var(--glow-sat),var(--glow-light),calc(var(--glow-color-int)*.32)) 56%,
+    hsla(var(--glow-h2),var(--glow-sat),var(--glow-light),0) 90%);
+}
+/* 顶部细微同色辉光，增强氛围 */
+.slide .glow-top{position:absolute;left:0;right:0;top:0;height:30vh;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse 60% 100% at 60% -20%,
+    hsla(var(--glow-h2),var(--glow-sat),60%,.10) 0%, transparent 70%)}
+/* 底部一整条连续的白色亮带（横贯，不分左右）*/
+.slide .glow-white{position:absolute;left:0;right:0;bottom:0;height:calc(var(--glow-spread)*1vh);z-index:0;pointer-events:none;mix-blend-mode:screen;
+  background:linear-gradient(to top,
+    hsla(var(--glow-h),22%,90%,var(--glow-white-int)) 0%,
+    hsla(var(--glow-h),26%,86%,calc(var(--glow-white-int)*.62)) 14%,
+    hsla(var(--glow-h),30%,82%,calc(var(--glow-white-int)*.28)) 34%,
+    hsla(var(--glow-h),30%,80%,calc(var(--glow-white-int)*.08)) 56%,
+    hsla(var(--glow-h),30%,80%,0) 84%);
+}
+
+.slide .inner{position:relative;z-index:1;height:100%;display:grid;grid-template-columns:1fr 1fr;gap:4vw;align-items:center}
+
+/* 左列文字 */
+.kicker{font-family:'JetBrains Mono';font-size:13px;letter-spacing:.24em;text-transform:uppercase;
+  color:hsl(var(--glow-h),var(--glow-sat),72%);margin-bottom:2.6vh;display:flex;align-items:center;gap:.8em}
+.kicker::before{content:"";width:28px;height:1px;background:currentColor;opacity:.7}
+
+/* 渐变标题字 */
+.h-title{font-family:'Inter','Noto Sans SC';font-weight:700;font-size:min(4.2vw,7.2vh);line-height:1.15;letter-spacing:-.01em;
+  background:linear-gradient(100deg,
+    hsl(var(--glow-h),var(--glow-sat),78%) 0%,
+    hsl(var(--glow-h2),var(--glow-sat),72%) 100%);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  margin-bottom:1.4vh}
+.h-title .light{font-weight:200}
+
+.body{font-family:'Inter','Noto Sans SC';font-weight:300;font-size:max(16px,1.05vw);line-height:1.75;color:rgba(255,255,255,.62);max-width:40ch;margin-bottom:4vh}
+
+.points{display:flex;flex-direction:column;gap:2.2vh}
+.point{display:grid;grid-template-columns:auto 1fr;gap:1.2em;align-items:start}
+.point .dot{width:9px;height:9px;margin-top:.7em;border-radius:50%;
+  background:hsl(var(--glow-h),var(--glow-sat),62%);
+  box-shadow:0 0 12px 2px hsla(var(--glow-h),var(--glow-sat),60%,.7);flex-shrink:0}
+.point .pt-title{font-family:'Inter','Noto Sans SC';font-weight:500;font-size:max(16px,1.15vw);color:#fff;margin-bottom:.4vh}
+.point .pt-desc{font-family:'Inter','Noto Sans SC';font-weight:300;font-size:max(14px,.92vw);line-height:1.6;color:rgba(255,255,255,.5)}
+
+/* 右列大图占位（玻璃拟态边框）*/
+.shot{position:relative;border-radius:14px;overflow:hidden;aspect-ratio:16/10;
+  background:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.02));
+  border:1px solid rgba(255,255,255,.12);
+  box-shadow:0 30px 80px -20px hsla(var(--glow-h),var(--glow-sat),30%,.5);
+  display:flex;align-items:center;justify-content:center}
+.shot .ph{font-family:'JetBrains Mono';font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.3)}
+.shot::after{content:"";position:absolute;inset:0;
+  background:radial-gradient(circle at 70% 90%, hsla(var(--glow-h2),var(--glow-sat),50%,.18), transparent 60%)}
+
+/* 角标 */
+.chrome{position:absolute;top:5vh;left:6vw;right:6vw;z-index:1;display:flex;justify-content:space-between;
+  font-family:'JetBrains Mono';font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.4)}
+
+/* ===== 调色面板 ===== */
+/* 章节封面：右上 chrome 文字让出按钮位置（文字在左、按钮在右，同一行）*/
+.chapter-cover .chrome{padding-right:62px}
+#panel{position:absolute;top:3.8vh;right:6vw;z-index:60;width:300px;overflow:hidden;
+  background:linear-gradient(155deg,rgba(58,58,80,.30),rgba(14,14,22,.40));
+  backdrop-filter:blur(34px) saturate(1.7);-webkit-backdrop-filter:blur(34px) saturate(1.7);
+  border:1px solid rgba(255,255,255,.16);border-radius:20px;padding:18px 20px 20px;
+  font-family:'Inter','Noto Sans SC';color:#fff;
+  box-shadow:0 24px 64px -16px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.28), inset 0 -1px 0 rgba(255,255,255,.05);
+  transition:transform .4s cubic-bezier(.4,.14,.3,1),opacity .35s}
+/* 玻璃折射：顶部高光条 + 斜向折射光 */
+#panel::before{content:"";position:absolute;top:0;left:14%;right:14%;height:1px;z-index:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.65),transparent);pointer-events:none}
+#panel::after{content:"";position:absolute;top:-30%;left:-25%;width:75%;height:140%;z-index:0;
+  background:radial-gradient(ellipse at center,rgba(255,255,255,.08),transparent 62%);
+  transform:rotate(22deg);pointer-events:none}
+#panel>*{position:relative;z-index:1}
+#panel.collapsed{transform:translateX(calc(100% + 2.4vw));opacity:0}
+#panel h4{font-size:12px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.62);margin-bottom:14px;display:flex;justify-content:space-between;align-items:center}
+#panel .panel-close{background:none;border:none;padding:5px;cursor:pointer;color:rgba(255,255,255,.5);display:flex;border-radius:8px;transition:color .2s,background .2s}
+#panel .panel-close:hover{color:#fff;background:rgba(255,255,255,.1)}
+#panel .panel-close svg{width:15px;height:15px}
+.panel-tools{display:flex;gap:13px;align-items:center}
+.panel-tools button{background:none;border:none;padding:0;color:rgba(255,255,255,.55);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:color .18s,opacity .18s}
+.panel-tools button:hover:not(:disabled){color:#fff}
+.panel-tools button:disabled{opacity:.3;cursor:not-allowed}
+.panel-tools button svg{width:15px;height:15px}
+#panel .preset-row{display:flex;gap:6px;margin-bottom:16px}
+#panel .preset{flex:1;height:30px;border-radius:7px;border:1px solid rgba(255,255,255,.18);cursor:pointer;transition:transform .15s}
+#panel .preset:hover{transform:scale(1.08)}
+.ctrl{margin-bottom:13px}
+.ctrl label{display:flex;justify-content:space-between;font-size:12px;color:rgba(255,255,255,.62);margin-bottom:6px;font-family:'JetBrains Mono'}
+.ctrl label .val{color:#fff}
+.ctrl input[type=range]{width:100%;height:6px;-webkit-appearance:none;border-radius:4px;outline:none;cursor:pointer}
+#s-h{background:linear-gradient(90deg,hsl(0,85%,58%),hsl(60,85%,58%),hsl(120,85%,58%),hsl(180,85%,58%),hsl(240,85%,58%),hsl(300,85%,58%),hsl(360,85%,58%))}
+.ctrl input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:#fff;border:2px solid rgba(0,0,0,.18);box-shadow:0 1px 5px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.3)}
+.hue-track{background:linear-gradient(90deg,hsl(0,85%,58%),hsl(60,85%,58%),hsl(120,85%,58%),hsl(180,85%,58%),hsl(240,85%,58%),hsl(300,85%,58%),hsl(360,85%,58%))}
+/* 语义化轨道：随 --glow-* 变量实时变色 */
+#s-gap{background:rgba(255,255,255,.10);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 6' preserveAspectRatio='none'%3E%3Cpath d='M0 3 L100 0.3 L100 5.7 Z' fill='%23ffffff' fill-opacity='0.55'/%3E%3C/svg%3E");background-size:100% 100%;background-repeat:no-repeat}
+#s-sat{background:linear-gradient(90deg,hsl(var(--glow-h),8%,var(--glow-light)),hsl(var(--glow-h),100%,var(--glow-light)))}
+#s-light{background:linear-gradient(90deg,hsl(var(--glow-h),var(--glow-sat),8%),hsl(var(--glow-h),var(--glow-sat),50%),hsl(var(--glow-h),var(--glow-sat),92%))}
+#s-spread{background:linear-gradient(90deg,hsla(var(--glow-h),var(--glow-sat),var(--glow-light),.18),hsl(var(--glow-h),var(--glow-sat),var(--glow-light)))}
+#s-cint{background:linear-gradient(90deg,hsl(var(--glow-h),var(--glow-sat),7%),hsl(var(--glow-h),var(--glow-sat),calc(var(--glow-light) + 12%)))}
+#s-wint{background:linear-gradient(90deg,hsl(var(--glow-h),16%,10%),hsl(var(--glow-h),18%,93%))}
+.row2{display:flex;align-items:center;justify-content:space-between;font-size:12px;color:rgba(255,255,255,.62);font-family:'JetBrains Mono';margin-bottom:13px}
+.row2 input{accent-color:hsl(var(--glow-h),85%,60%)}
+#panel .tip{font-size:11px;color:rgba(255,255,255,.35);line-height:1.5;margin-top:6px;font-family:'Inter','Noto Sans SC'}
+#toggle{position:absolute;top:3.8vh;right:6vw;z-index:61;width:46px;height:46px;border-radius:14px;
+  background:linear-gradient(155deg,rgba(58,58,80,.4),rgba(14,14,22,.5));
+  backdrop-filter:blur(30px) saturate(1.6);-webkit-backdrop-filter:blur(30px) saturate(1.6);
+  border:1px solid rgba(255,255,255,.18);
+  color:rgba(255,255,255,.82);cursor:pointer;display:none;align-items:center;justify-content:center;
+  box-shadow:0 12px 32px -8px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.28);
+  transition:transform .2s,color .2s}
+#toggle:hover{transform:scale(1.06);color:#fff}
+#toggle svg{width:22px;height:22px}
+/* toggle 显隐由 JS setPanelOpen 控制（避免兄弟选择器在 appendChild 后失效）*/
+/* 调色入口常驻视口右上角；翻页时自动收起面板（见 go()）*/
+
+/* 翻页 */
+#nav{position:fixed;bottom:2.6vh;left:50%;transform:translateX(-50%);z-index:200;display:flex;gap:9px;
+  padding:8px 14px;border-radius:999px;background:rgba(255,255,255,.08);backdrop-filter:blur(10px)}
+#nav .dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.3);cursor:pointer;border:0;transition:all .3s}
+#nav .dot.active{background:#fff;width:22px;border-radius:999px}
+.hint{position:fixed;bottom:2.6vh;right:2.4vw;z-index:200;font-family:'JetBrains Mono';font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.3)}
+
+/* ===== 章节封面页：大序号 + 标题 + 副标题，无图，光晕底 ===== */
+.chapter-cover .inner{grid-template-columns:1fr;align-content:center}
+.cover-block{max-width:62vw}
+.ch-kicker{font-family:'JetBrains Mono';font-size:13px;letter-spacing:.28em;text-transform:uppercase;color:hsl(var(--glow-h),var(--glow-sat),74%);margin-bottom:1.2vh}
+.ch-no{font-family:'Inter';font-weight:200;font-size:min(11vw,17vh);line-height:.9;letter-spacing:-.04em;opacity:.45;
+  background:linear-gradient(120deg,hsl(var(--glow-h),var(--glow-sat),82%),hsl(var(--glow-h2),var(--glow-sat),70%));
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:1vh}
+.ch-cover-title{font-family:'Inter','Noto Sans SC';font-weight:700;font-size:min(6vw,10vh);line-height:1.05;letter-spacing:-.01em;
+  background:linear-gradient(100deg,hsl(var(--glow-h),var(--glow-sat),85%),hsl(var(--glow-h2),var(--glow-sat),74%));
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:2.4vh}
+.ch-cover-sub{font-family:'Inter','Noto Sans SC';font-weight:300;font-size:max(17px,1.4vw);line-height:1.65;color:rgba(255,255,255,.6);max-width:46ch}
+</style>
+</head>
+<body>
+
+<div id="deck">
+
+  <!-- ===== 第一章 · 封面（调色入口，整章共享）===== -->
+  <section class="slide chapter-cover" data-chapter="1">
+    <div class="glow-top"></div><div class="glow"></div><div class="glow-white"></div>
+    <div class="chrome"><div>第一章 · CONTROL & OBSERVABILITY</div><div>CANN DesignConcept · 2026</div></div>
+    <div class="inner">
+      <div class="cover-block">
+        <div class="ch-no">01</div>
+        <h1 class="ch-cover-title">控制与可观测</h1>
+        <p class="ch-cover-sub">让算子执行的全过程可见——把"看代码猜原因"变成"顺着图找问题"。本章包含 2 个设计点。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 1.1 控制流 -->
+  <section class="slide" data-chapter="1">
+    <div class="glow-top"></div><div class="glow"></div><div class="glow-white"></div>
+    <div class="chrome"><div>设计点 1.1 · CONTROL FLOW</div><div>第一章 · 控制与可观测</div></div>
+    <div class="inner">
+      <div>
+        <div class="kicker">DESIGN POINT 1.1</div>
+        <h1 class="h-title">控制流结构化抽象<br/><span class="light">与错误信息增强</span></h1>
+        <p class="body">清晰的控制逻辑与精度的关系定位，让算子执行过程全局可见，一图可达。</p>
+        <div class="points">
+          <div class="point"><div class="dot"></div><div><div class="pt-title">算子执行过程全局可见</div><div class="pt-desc">读取 / 计算 / 决策 / 回写各阶段一目了然，无需逐层定位</div></div></div>
+          <div class="point"><div class="dot"></div><div><div class="pt-title">关键指标可视化</div><div class="pt-desc">数据聚合分析，提供优化建议，缩短调试链路</div></div></div>
+          <div class="point"><div class="dot"></div><div><div class="pt-title">错误信息上下文增强</div><div class="pt-desc">报错携带控制流定位，从"看代码猜原因"到"顺图找问题"</div></div></div>
+        </div>
+      </div>
+      <div class="shot"><span class="ph">控制流可视化界面 · 16:10</span></div>
+    </div>
+  </section>
+
+  <!-- 1.2 Graph 体系 -->
+  <section class="slide" data-chapter="1">
+    <div class="glow-top"></div><div class="glow"></div><div class="glow-white"></div>
+    <div class="chrome"><div>设计点 1.2 · GRAPH SYSTEM</div><div>第一章 · 控制与可观测</div></div>
+    <div class="inner">
+      <div>
+        <div class="kicker">DESIGN POINT 1.2</div>
+        <h1 class="h-title">Graph 体系定义<br/><span class="light">完整的图体系</span></h1>
+        <p class="body">在 Tensor 基础类与 PyTorch 框架内核间下沉，以 TileBlock/Execute 作为 PyTO 的统一价值锚，通过算子性能优化经过 Pass 设计 + machine 维度在 Execute Graph 落实。</p>
+        <div class="points">
+          <div class="point"><div class="dot"></div><div><div class="pt-title">统一图表达</div><div class="pt-desc">训练与推理共用一套 Graph IR，降低跨场景迁移成本</div></div></div>
+          <div class="point"><div class="dot"></div><div><div class="pt-title">分层下沉</div><div class="pt-desc">框架内核到硬件映射逐级清晰，Pass 可插拔</div></div></div>
+        </div>
+      </div>
+      <div class="shot"><span class="ph">节点图编排界面 · 16:10</span></div>
+    </div>
+  </section>
+
+  <!-- ===== 第二章 · 封面 ===== -->
+  <section class="slide chapter-cover" data-chapter="2">
+    <div class="glow-top"></div><div class="glow"></div><div class="glow-white"></div>
+    <div class="chrome"><div>第二章 · DEVELOPER EFFICIENCY</div><div>CANN DesignConcept · 2026</div></div>
+    <div class="inner">
+      <div class="cover-block">
+        <div class="ch-no">02</div>
+        <h1 class="ch-cover-title">开发提效</h1>
+        <p class="ch-cover-sub">用模板化与 AI 辅助压缩算子开发门槛，让更多人写得出、调得动。本章包含 1 个设计点。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2.1 算子开发向导 -->
+  <section class="slide" data-chapter="2">
+    <div class="glow-top"></div><div class="glow"></div><div class="glow-white"></div>
+    <div class="chrome"><div>设计点 2.1 · OPERATOR WIZARD</div><div>第二章 · 开发提效</div></div>
+    <div class="inner">
+      <div>
+        <div class="kicker">DESIGN POINT 2.1</div>
+        <h1 class="h-title">算子开发向导<br/><span class="light">模板化 + 可视化调试</span></h1>
+        <p class="body">从空白文件到可运行算子，向导式引导每一步；模板代码自动生成，调试器可视化中间张量，降低 TBE 开发门槛。</p>
+        <div class="points">
+          <div class="point"><div class="dot"></div><div><div class="pt-title">模板代码生成</div><div class="pt-desc">按算子类型生成骨架，省去样板代码</div></div></div>
+          <div class="point"><div class="dot"></div><div><div class="pt-title">可视化调试器</div><div class="pt-desc">逐步查看中间张量与 tiling，定位精度 / 性能问题</div></div></div>
+          <div class="point"><div class="dot"></div><div><div class="pt-title">硬件映射可视化</div><div class="pt-desc">算子到 AI Core 的映射关系一目了然</div></div></div>
+        </div>
+      </div>
+      <div class="shot"><span class="ph">算子开发向导界面 · 16:10</span></div>
+    </div>
+  </section>
+
+</div>
+
+<!-- 调色面板 -->
+<div id="panel" class="collapsed">
+  <h4><span>底部光晕调色</span><span class="panel-tools">
+    <button id="t-undo" title="撤销"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-2"/></svg></button>
+    <button id="t-redo" title="重做"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14 20 9l-5-5"/><path d="M20 9H9a5 5 0 0 0 0 10h2"/></svg></button>
+    <button id="t-reset" title="重置（回到打开面板前）"><svg style="width:12px; height: 12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg></button>
+  </span></h4>
+  <div class="preset-row">
+    <div class="preset" data-p="255,85,58" style="background:linear-gradient(90deg,hsl(255,85%,58%),hsl(300,85%,58%))" title="蓝紫"></div>
+    <div class="preset" data-p="160,80,56" style="background:linear-gradient(90deg,hsl(160,80%,56%),hsl(205,80%,56%))" title="绿青"></div>
+    <div class="preset" data-p="30,88,58" style="background:linear-gradient(90deg,hsl(30,88%,58%),hsl(75,88%,58%))" title="暖橙"></div>
+    <div class="preset" data-p="200,82,60" style="background:linear-gradient(90deg,hsl(200,82%,60%),hsl(245,82%,60%))" title="青蓝"></div>
+  </div>
+  <div class="ctrl"><label>色相 HUE <span class="val" id="v-h">234</span></label><input type="range" id="s-h" class="hue-track" min="0" max="360" value="234"></div>
+  <div class="ctrl"><label>色相跨度 GAP <span class="val" id="v-gap">57°</span></label><input type="range" id="s-gap" min="0" max="180" value="57"></div>
+  <div class="ctrl"><label>饱和度 SAT <span class="val" id="v-sat">95%</span></label><input type="range" id="s-sat" min="0" max="100" value="95"></div>
+  <div class="ctrl"><label>亮度 LIGHT <span class="val" id="v-light">40%</span></label><input type="range" id="s-light" min="20" max="80" value="40"></div>
+  <div class="ctrl"><label>扩散高度 SPREAD <span class="val" id="v-spread">35vh</span></label><input type="range" id="s-spread" min="20" max="90" value="35"></div>
+  <div class="ctrl"><label>彩色亮度 COLOR <span class="val" id="v-cint">0.68</span></label><input type="range" id="s-cint" min="0" max="100" value="68"></div>
+  <div class="ctrl"><label>白色亮度 WHITE <span class="val" id="v-wint">0.58</span></label><input type="range" id="s-wint" min="0" max="100" value="58"></div>
+  <div class="tip">在章节封面设置色值 → 整章（封面 + 所有设计点）统一生效，一章一种渐变。</div>
+</div>
+<button id="toggle" title="调色面板"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="7" x2="20" y2="7"/><circle cx="10" cy="7" r="2.4"/><line x1="4" y1="17" x2="20" y2="17"/><circle cx="15" cy="17" r="2.4"/></svg></button>
+
+<div id="nav"></div>
+<div class="hint">← → 翻页 · 拖滑块调色</div>
+
+<script>
+const root=document.documentElement;
+const deck=document.getElementById('deck');
+const slides=[...document.querySelectorAll('.slide')];
+let idx=0;
+
+// 章节色值存储（每章一组，整章共享；在章节封面设置即整章生效）
+const chapters={
+  '1':{h:234,gap:57,sat:95,light:40,spread:35,cint:68,wint:58},
+  '2':{h:160,gap:57,sat:95,light:40,spread:35,cint:68,wint:58}
+};
+function cur(){return chapters[slides[idx].dataset.chapter];}
+
+const S={h:'s-h',gap:'s-gap',sat:'s-sat',light:'s-light',spread:'s-spread',cint:'s-cint',wint:'s-wint'};
+const V={h:'v-h',gap:'v-gap',sat:'v-sat',light:'v-light',spread:'v-spread',cint:'v-cint',wint:'v-wint'};
+
+// 给单个 slide 写入它所属章节的色值（inline 变量，优先级高于 :root，各章互不串色）
+function paintSlide(s){
+  const c=chapters[s.dataset.chapter];
+  s.style.setProperty('--glow-h',c.h);
+  s.style.setProperty('--glow-h2',(c.h+c.gap)%360);
+  s.style.setProperty('--glow-sat',c.sat+'%');
+  s.style.setProperty('--glow-light',c.light+'%');
+  s.style.setProperty('--glow-spread',c.spread);
+  s.style.setProperty('--glow-color-int',(c.cint/100).toFixed(2));
+  s.style.setProperty('--glow-white-int',(c.wint/100).toFixed(2));
+}
+function apply(){
+  slides.forEach(paintSlide);   // 每页用各自章节色 → 翻页不串色
+  const c=cur();                // :root 仅供调色面板的语义轨道读取当前章色
+  root.style.setProperty('--glow-h',c.h);
+  root.style.setProperty('--glow-h2',(c.h+c.gap)%360);
+  root.style.setProperty('--glow-sat',c.sat+'%');
+  root.style.setProperty('--glow-light',c.light+'%');
+  root.style.setProperty('--glow-spread',c.spread);
+  root.style.setProperty('--glow-color-int',(c.cint/100).toFixed(2));
+  root.style.setProperty('--glow-white-int',(c.wint/100).toFixed(2));
+}
+function syncPanel(){
+  const c=cur();
+  document.getElementById('s-h').value=c.h;     document.getElementById('v-h').textContent=c.h;
+  document.getElementById('s-gap').value=c.gap; document.getElementById('v-gap').textContent=c.gap+'°';
+  document.getElementById('s-sat').value=c.sat;  document.getElementById('v-sat').textContent=c.sat+'%';
+  document.getElementById('s-light').value=c.light; document.getElementById('v-light').textContent=c.light+'%';
+  document.getElementById('s-spread').value=c.spread; document.getElementById('v-spread').textContent=c.spread+'vh';
+  document.getElementById('s-cint').value=c.cint; document.getElementById('v-cint').textContent=(c.cint/100).toFixed(2);
+  document.getElementById('s-wint').value=c.wint; document.getElementById('v-wint').textContent=(c.wint/100).toFixed(2);
+}
+
+function bind(key){
+  const el=document.getElementById(S[key]);
+  el.addEventListener('input',()=>{
+    cur()[key]=+el.value;
+    const v=document.getElementById(V[key]);
+    if(key==='sat'||key==='light') v.textContent=el.value+'%';
+    else if(key==='spread') v.textContent=el.value+'vh';
+    else if(key==='cint'||key==='wint') v.textContent=(el.value/100).toFixed(2);
+    else if(key==='gap') v.textContent=el.value+'°';
+    else v.textContent=el.value;
+    apply(); updTools();
+  });
+  el.addEventListener('change',pushHist);   // 松手时记一步历史
+}
+Object.keys(S).forEach(bind);
+
+// ===== 撤销 / 重做 / 重置 =====
+const DEFAULTS=JSON.parse(JSON.stringify(chapters));   // 启动时的默认基准
+let history=[JSON.stringify(chapters)], hi=0;
+function pushHist(){history=history.slice(0,hi+1);history.push(JSON.stringify(chapters));hi=history.length-1;updTools();}
+function restoreHist(){const o=JSON.parse(history[hi]);Object.keys(o).forEach(k=>Object.assign(chapters[k],o[k]));apply();syncPanel();updTools();}
+function updTools(){const u=document.getElementById('t-undo'),r=document.getElementById('t-redo'),rs=document.getElementById('t-reset');if(u)u.disabled=hi<=0;if(r)r.disabled=hi>=history.length-1;if(rs)rs.disabled=!openSnap||JSON.stringify(cur())===openSnap;}
+document.getElementById('t-undo').onclick=()=>{if(hi>0){hi--;restoreHist();}};
+document.getElementById('t-redo').onclick=()=>{if(hi<history.length-1){hi++;restoreHist();}};
+let openSnap=null;   // 打开面板那一刻当前章的快照
+document.getElementById('t-reset').onclick=()=>{if(openSnap){Object.assign(cur(),JSON.parse(openSnap));apply();syncPanel();pushHist();}};
+updTools();
+
+// 预设
+document.querySelectorAll('.preset').forEach(p=>{
+  p.onclick=()=>{
+    const [h,sat,light]=p.dataset.p.split(',').map(Number);
+    Object.assign(cur(),{h,sat,light});
+    apply(); syncPanel(); pushHist();
+  };
+});
+
+// 翻页
+function go(n){
+  idx=Math.max(0,Math.min(slides.length-1,n));
+  deck.style.transform=`translateX(${-idx*100}vw)`;
+  document.querySelectorAll('#nav .dot').forEach((d,i)=>d.classList.toggle('active',i===idx));
+  // 调色面板嵌入到当前页内部：只挂进「章节封面页」，设计点页不含面板
+  const s=slides[idx], panel=document.getElementById('panel'), toggle=document.getElementById('toggle');
+  if(s.classList.contains('chapter-cover')){ s.appendChild(panel); s.appendChild(toggle); }
+  setPanelOpen(false);   // 翻页自动收起，回到页内右上角图标
+  apply(); syncPanel();
+}
+const nav=document.getElementById('nav');
+slides.forEach((s,i)=>{const b=document.createElement('button');b.className='dot';b.onclick=()=>go(i);nav.appendChild(b);});
+addEventListener('keydown',e=>{if(e.key==='ArrowRight')go(idx+1);if(e.key==='ArrowLeft')go(idx-1);});
+
+// 面板收起/展开
+function setPanelOpen(open){
+  const p=document.getElementById('panel'),t=document.getElementById('toggle');
+  if(open){ p.classList.remove('collapsed'); p.style.display='block'; t.style.display='none'; }
+  else    { p.classList.add('collapsed');    p.style.display='none';  t.style.display='flex'; }
+}
+// 统一点击处理：点图标→展开；点面板内→保持；点其它→关闭（避免双监听竞态）
+document.addEventListener('click',e=>{
+  const panel=document.getElementById('panel'),toggle=document.getElementById('toggle');
+  if(toggle.contains(e.target)){ openSnap=JSON.stringify(cur()); setPanelOpen(true); updTools(); return; }
+  if(panel.contains(e.target)) return;
+  if(!panel.classList.contains('collapsed')) setPanelOpen(false);
+});
+
+go(0);
+</script>
+</body>
+</html>

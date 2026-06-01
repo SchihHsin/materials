@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CANN DesignConcept · 灰底前瞻设计</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#E9EBEE;       /* 浅冷灰底 */
+  --card:#ffffff;        /* 白卡 */
+  --card-2:#F1F3F6;      /* 次级浅卡（冷）*/
+  --ink:#16191e;         /* 主文字（冷黑）*/
+  --ink-2:#5e646e;       /* 次文字（冷灰）*/
+  --ink-3:#929aa6;       /* 辅助（冷灰）*/
+  --line:#d4d8df;        /* 分隔线（冷）*/
+  --accent:#5B5BD6;      /* 蓝紫 accent */
+  --accent-soft:#ECECFB; /* 淡紫底 */
+  --red:#E60012;         /* CANN 红 */
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:var(--ink);font-family:'Inter','Noto Sans SC',sans-serif;-webkit-font-smoothing:antialiased}
+
+#deck{position:fixed;inset:0;display:flex;width:max-content;height:100vh;transition:transform .8s cubic-bezier(.77,0,.175,1)}
+.slide{position:relative;width:100vw;height:100vh;flex:0 0 100vw;overflow:hidden;padding:5vh 4vw;display:flex;flex-direction:column;
+  background:var(--paper);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 480' preserveAspectRatio='none'%3E%3Cpath d='M0 320 C 380 250 760 330 1080 195 C 1280 140 1380 185 1440 130 L1440 480 L0 480 Z' fill='%237e8696' fill-opacity='0.07'/%3E%3Cpath d='M0 372 C 430 305 820 405 1180 245 C 1340 198 1402 240 1440 190 L1440 480 L0 480 Z' fill='%23949bab' fill-opacity='0.08'/%3E%3C/svg%3E"),
+    linear-gradient(125deg,rgba(120,128,145,.05),transparent 50%);
+  background-position:bottom center,0 0;
+  background-size:100% 50%,100% 100%;
+  background-repeat:no-repeat,no-repeat}
+
+/* ===== 顶部 logo + 标题 ===== */
+.head{display:flex;align-items:flex-start;justify-content:space-between;flex:0 0 auto;margin-bottom:3.4vh}
+.head-l{display:flex;flex-direction:column;gap:.8vh}
+.brand{display:flex;align-items:baseline;gap:.5em}
+.brand .logo{font-family:'Inter';font-weight:800;font-size:26px;letter-spacing:-.02em;line-height:1}
+.brand .logo .r{color:var(--red)}
+.brand .ttl{font-family:'Inter','Noto Sans SC';font-weight:600;font-size:23px;letter-spacing:-.01em}
+.subttl{font-family:'Inter','Noto Sans SC';font-weight:300;font-size:15px;color:var(--ink-2);letter-spacing:.01em}
+.head-r{font-family:'JetBrains Mono';font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);text-align:right;line-height:1.8}
+.tag-on{display:inline-block;font-family:'Inter','Noto Sans SC';font-size:12px;font-weight:500;color:#fff;background:#3FB37F;border-radius:5px;padding:2px 8px;margin-left:8px;vertical-align:middle}
+
+.body-area{flex:1;min-height:0;display:flex;flex-direction:column}
+
+/* ===== 卡片通用 ===== */
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:2.2vh 1.6vw}
+.card.soft{background:var(--card-2);border-color:transparent}
+.icon-sq{width:34px;height:34px;border-radius:9px;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.icon-sq svg{width:18px;height:18px}
+
+/* ===== 区块封面 ===== */
+.cover .body-area{justify-content:center}
+.cover .ck{font-family:'JetBrains Mono';font-size:13px;letter-spacing:.26em;text-transform:uppercase;color:var(--accent);margin-bottom:2vh}
+.cover h1{font-family:'Inter','Noto Sans SC';font-weight:700;font-size:min(6.4vw,11vh);line-height:1.06;letter-spacing:-.02em;margin-bottom:2.6vh}
+.cover .lead{font-family:'Inter','Noto Sans SC';font-weight:300;font-size:max(17px,1.4vw);line-height:1.6;color:var(--ink-2);max-width:48ch;margin-bottom:5vh}
+.cover .chips{display:flex;gap:14px}
+.cover .chip{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:1.8vh 1.6vw;display:flex;align-items:center;gap:.8em;font-weight:500;font-size:max(15px,1.05vw)}
+.cover .chip .n{font-family:'JetBrains Mono';font-size:12px;color:var(--accent)}
+
+/* ===== 全局沙盘：分层架构 ===== */
+.sandbox{display:flex;flex-direction:column;gap:1.4vh;flex:1;min-height:0}
+.layer{display:grid;grid-template-columns:130px 1fr;gap:1.2vw;align-items:stretch}
+.layer-label{display:flex;flex-direction:column;justify-content:center;gap:.5vh;background:var(--accent-soft);border-radius:11px;padding:1vh 1vw}
+.layer-label .lz{font-family:'JetBrains Mono';font-size:11px;color:var(--accent);letter-spacing:.1em}
+.layer-label .ln{font-weight:600;font-size:max(14px,1vw);color:var(--ink)}
+.layer-cards{display:flex;gap:.8vw;align-items:stretch}
+.lc{flex:1;background:var(--card);border:1px solid var(--line);border-radius:11px;padding:1.4vh 1vw;display:flex;flex-direction:column;justify-content:center;gap:.5vh;min-width:0}
+.lc .t{font-weight:600;font-size:max(13px,.95vw);letter-spacing:-.005em}
+.lc .d{font-size:max(12px,.8vw);color:var(--ink-2);line-height:1.45}
+.lc.hl{background:var(--ink);border-color:var(--ink)}
+.lc.hl .t{color:#fff}.lc.hl .d{color:rgba(255,255,255,.7)}
+
+/* ===== 竞品分析：对比卡片 ===== */
+.compare{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4vw;flex:1;min-height:0}
+.cmp{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+.cmp.focus{border:2px solid var(--accent);box-shadow:0 12px 32px -12px rgba(91,91,214,.4)}
+/* 图区（程序化品牌色示意，可替换真实截图）*/
+.cmp-img{height:27vh;position:relative;flex:0 0 auto;background:#0d1016;overflow:hidden}
+.cmp-img img{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
+.cmp-img .bd{position:absolute;top:10px;right:10px;font-family:'JetBrains Mono';font-size:10px;color:#fff;background:var(--accent);border-radius:4px;padding:2px 7px;z-index:1}
+.cmp-body{padding:1.6vh 1.2vw;display:flex;flex-direction:column;gap:.9vh;flex:1}
+.cmp-name{font-weight:700;font-size:max(16px,1.25vw);letter-spacing:-.01em}
+.cmp-sub{font-family:'JetBrains Mono';font-size:10px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.1em;margin-top:.2vh}
+.verdict{flex:0 0 auto;margin-top:1.4vh;display:grid;grid-template-columns:auto 1fr;gap:1.2vw;align-items:center;background:var(--ink);color:#fff;border-radius:12px;padding:1.8vh 1.6vw}
+.verdict .vk{font-family:'JetBrains Mono';font-size:12px;letter-spacing:.16em;text-transform:uppercase;background:var(--accent);border-radius:6px;padding:5px 11px;white-space:nowrap}
+.verdict .vv{font-size:max(14px,1.02vw);line-height:1.55}
+.verdict .vv b{font-weight:700}
+.cmp-row{display:flex;flex-direction:column;gap:.35vh;padding-top:1vh;border-top:1px solid var(--line)}
+.cmp-row:first-child{border-top:0;padding-top:0}
+.cmp-row .k{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.cmp-row .v{font-size:max(13px,.92vw);color:var(--ink);line-height:1.45}
+.cmp-row .score{display:flex;gap:3px;margin-top:.3vh}
+.cmp-row .dot{width:8px;height:8px;border-radius:50%;background:var(--line)}
+.cmp-row .dot.on{background:var(--accent)}
+
+/* ===== 用户旅程：Journey Map（阶段/触点/行为/情绪/痛点/机会点）===== */
+.jmap{flex:1;min-height:0;display:grid;
+  grid-template-columns:92px repeat(6,1fr);
+  grid-template-rows:auto minmax(0,.72fr) minmax(0,2.1fr) 5vh minmax(0,1.05fr) minmax(0,1.05fr);
+  gap:.7vh .55vw}
+.jm-label{display:flex;flex-direction:column;justify-content:center;font-family:'JetBrains Mono';font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);line-height:1.4}
+.jm-stage{background:var(--accent-soft);color:var(--accent);border-radius:8px;padding:1vh .5vw;font-weight:600;font-size:max(13px,1vw);text-align:center;display:flex;align-items:center;justify-content:center;line-height:1.25}
+.jm-touch{background:var(--card-2);border-radius:8px;padding:.8vh .6vw;font-size:max(12px,.86vw);color:var(--ink-2);line-height:1.45;display:flex;align-items:center;justify-content:center;text-align:center}
+/* 行为流：每阶段多个行为小块，斜向 ↘↙ 串联，阶段间 →，迭代处 ↺ */
+.jm-flow{position:relative;display:flex;flex-direction:column;justify-content:center;gap:2.3vh;padding:.4vh .5vw}
+.jm-flow:not(.end)::before{content:"➤";position:absolute;right:-.62vw;top:50%;transform:translateY(-50%);font-size:15px;background:linear-gradient(90deg,var(--accent),#9b7ce8);-webkit-background-clip:text;background-clip:text;color:transparent;z-index:4}
+.act-node{position:relative;width:86%;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:.7vh .55vw;font-size:max(11px,.84vw);color:var(--ink);font-weight:500;line-height:1.3;text-align:center}
+.act-node:nth-child(odd){align-self:flex-start}
+.act-node:nth-child(even){align-self:flex-end}
+.act-node:not(:last-child)::after{content:"➤";position:absolute;bottom:-1.9vh;font-size:12px;background:linear-gradient(135deg,var(--accent),#9b7ce8);-webkit-background-clip:text;background-clip:text;color:transparent;z-index:3}
+.act-node:nth-child(odd):not(:last-child)::after{right:5%;transform:rotate(48deg)}
+.act-node:nth-child(even):not(:last-child)::after{left:5%;transform:rotate(132deg)}
+.act-node.loop{border-color:var(--accent);background:var(--accent-soft)}
+.act-node.loop::before{content:"↺ 反复迭代";position:absolute;top:50%;right:-4.6vw;transform:translateY(-50%);color:#E0533B;font-size:max(10px,.72vw);font-weight:700;white-space:nowrap;font-family:'JetBrains Mono'}
+.jm-emo{grid-column:2 / 8;position:relative}
+.jm-emo svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.jm-emo .edot{position:absolute;width:10px;height:10px;border-radius:50%;background:var(--accent);border:2px solid var(--paper);transform:translate(-50%,-50%);z-index:1}
+.jm-emo .edot.low{background:#E0533B}
+.jm-pain{background:#F8ECEC;border-radius:8px;padding:.9vh .6vw;font-size:max(12px,.86vw);color:#C0392B;line-height:1.45;display:flex;align-items:center;justify-content:center;text-align:center}
+.jm-opp{background:var(--accent);color:#fff;border-radius:8px;padding:.9vh .6vw;font-size:max(12px,.86vw);line-height:1.45;display:flex;align-items:center;justify-content:center;text-align:center}
+
+/* ===== 用户画像 persona ===== */
+.persona-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.6vw;flex:1;min-height:0}
+.persona{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:2.2vh 1.4vw;display:flex;flex-direction:column;gap:1.3vh;overflow:hidden}
+.p-head{display:flex;align-items:center;gap:.9vw;padding-bottom:1.3vh;border-bottom:1px solid var(--line)}
+.p-ava{width:50px;height:50px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--accent),#8a7ce0)}
+.p-id{min-width:0}
+.p-name{font-weight:700;font-size:max(16px,1.25vw);line-height:1.2}
+.p-role{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin-top:.4vh}
+.p-pct{margin-left:auto;font-family:'Inter';font-weight:200;font-size:min(3.2vw,5.4vh);color:var(--accent);line-height:1}
+.p-sec .st{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:.4vh}
+.p-sec .sv{font-size:max(13px,.92vw);color:var(--ink);line-height:1.5}
+.p-quote{margin-top:auto;padding-top:1.3vh;border-top:1px solid var(--line);font-size:max(13px,.92vw);color:var(--ink-2);font-style:italic;line-height:1.5}
+
+/* ===== 痛点 → 设计特性映射 ===== */
+.map-flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:1.1vw;flex:1;min-height:0;align-items:stretch}
+.map-col{display:flex;flex-direction:column;gap:1.1vh;min-height:0}
+.map-colh{font-family:'JetBrains Mono';font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin-bottom:.4vh}
+.map-arrow{display:flex;align-items:center;justify-content:center;font-size:30px;background:linear-gradient(135deg,var(--accent),#9b7ce8);-webkit-background-clip:text;background-clip:text;color:transparent}
+.mcell{border-radius:10px;padding:1.1vh 1vw;line-height:1.45;font-size:max(12px,.88vw);flex:1;display:flex;flex-direction:column;justify-content:center}
+.mcell.pain{background:#F8ECEC;color:#C0392B}
+.mcell.feat{background:var(--accent);color:#fff;font-weight:500}
+.mcell.scene{background:var(--card);border:1px solid var(--line);color:var(--ink)}
+.mcell .mt{font-weight:700;font-size:max(12px,.94vw);margin-bottom:.3vh;display:block}
+
+/* ===== 玻璃折射卡片（灰底白卡统一玻璃质感，背后纹理透出）===== */
+.card,.cmp,.persona,.kpi:not(.accent),.voice,.method .m,.lc:not(.hl),.act-node,.mcell.scene,.layer-label{
+  background:rgba(255,255,255,.46)!important;
+  backdrop-filter:blur(15px) saturate(1.5);
+  -webkit-backdrop-filter:blur(15px) saturate(1.5);
+  border:1px solid rgba(255,255,255,.6)!important;
+  box-shadow:0 8px 26px -12px rgba(30,40,70,.22),inset 0 1px 0 rgba(255,255,255,.8)!important
+}
+.jm-stage{background:rgba(91,91,214,.15)!important;backdrop-filter:blur(12px) saturate(1.4);-webkit-backdrop-filter:blur(12px) saturate(1.4);box-shadow:inset 0 1px 0 rgba(255,255,255,.5)}
+.jm-touch{background:rgba(255,255,255,.38)!important;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.5)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.6)}
+.pain,.jm-pain{background:rgba(248,234,234,.52)!important;backdrop-filter:blur(13px) saturate(1.3);-webkit-backdrop-filter:blur(13px) saturate(1.3);border:1px solid rgba(255,255,255,.5)!important;box-shadow:0 6px 20px -12px rgba(120,40,40,.2),inset 0 1px 0 rgba(255,255,255,.6)!important}
+/* accent/ink 实底块保持不透明，与玻璃白卡形成对比 */
+.kpi.accent,.mcell.feat,.jm-opp,.lc.hl,.plat{backdrop-filter:none;-webkit-backdrop-filter:none}
+
+/* ===== 翻页 ===== */
+#nav{position:fixed;bottom:2.4vh;left:50%;transform:translateX(-50%);z-index:50;display:flex;gap:9px;padding:8px 14px;border-radius:999px;background:rgba(0,0,0,.06)}
+#nav .dot{width:8px;height:8px;border-radius:50%;background:rgba(0,0,0,.2);cursor:pointer;border:0;transition:all .3s}
+#nav .dot.active{background:var(--ink);width:22px;border-radius:999px}
+.foot{position:absolute;bottom:2.4vh;right:4vw;font-family:'JetBrains Mono';font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+
+/* ===== 用户研究：KPI 概览 ===== */
+.kpi-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1.2vw;margin-bottom:2.4vh;flex:0 0 auto}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:2vh 1vw;display:flex;flex-direction:column;gap:.6vh}
+.kpi .n{font-family:'Inter';font-weight:200;font-size:min(4.4vw,7.4vh);line-height:.9;letter-spacing:-.03em;color:var(--ink);font-feature-settings:'tnum'}
+.kpi .n .u{font-size:.3em;font-weight:400;color:var(--ink-2);margin-left:.12em}
+.kpi .l{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.kpi.accent{background:var(--accent);border-color:transparent}
+.kpi.accent .n{color:#fff}.kpi.accent .l{color:rgba(255,255,255,.8)}
+.method{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2vw;flex:1;min-height:0}
+.method .m{background:var(--card-2);border-radius:12px;padding:2.4vh 1.4vw;display:flex;flex-direction:column;gap:1.2vh}
+.method .m .mt{font-weight:600;font-size:max(15px,1.15vw)}
+.method .m .md{font-size:max(13px,.94vw);color:var(--ink-2);line-height:1.55}
+
+/* ===== 用户研究：痛点 + 声音 ===== */
+.research-2{display:grid;grid-template-columns:1fr 1fr;gap:1.6vw;flex:1;min-height:0}
+.col-h{font-family:'JetBrains Mono';font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin-bottom:1.4vh}
+.pains{display:flex;flex-direction:column;gap:1.3vh}
+.pain{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:1.5vh 1.2vw}
+.pain .pt{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.9vh}
+.pain .pn{font-weight:600;font-size:max(14px,1.04vw)}
+.pain .pp{font-family:'Inter';font-weight:300;font-size:max(16px,1.4vw);color:var(--accent)}
+.pain .track{height:6px;background:var(--card-2);border-radius:3px;overflow:hidden}
+.pain .fill{height:100%;background:var(--accent);border-radius:3px}
+.voices{display:flex;flex-direction:column;gap:1.2vh}
+.voice{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:1.6vh 1.2vw;display:flex;gap:1vw;align-items:flex-start}
+.voice .ava{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#8a7ce0);flex-shrink:0}
+.voice .vq{font-size:max(13px,1vw);line-height:1.55;color:var(--ink);margin-bottom:.6vh}
+.voice .vr{font-family:'JetBrains Mono';font-size:11px;color:var(--ink-3)}
+.ucd{position:absolute;bottom:2.4vh;left:4vw;font-family:'JetBrains Mono';font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+</style>
+</head>
+<body>
+
+<div id="deck">
+
+  <!-- ===== 页1：区块封面 ===== -->
+  <section class="slide cover">
+    <div class="head">
+      <div class="head-l">
+        <div class="brand"><span class="logo">C<span class="r">A</span>NN</span><span class="ttl">前瞻性设计</span></div>
+        <div class="subttl">Forward-looking Design · 分析与机会</div>
+      </div>
+      <div class="head-r">CANN DesignConcept<br/>2026 · UCD CENTER</div>
+    </div>
+    <div class="body-area">
+      <div class="ck">ANALYSIS · 灰底分析篇</div>
+      <h1>从全局到旅程，<br/>看清开发者的真实处境</h1>
+      <p class="lead">先用全局沙盘锚定 CANN 在算力产业的位置，再以竞品对照找差距，最后用用户旅程还原从入门到落地的每一步摩擦。</p>
+      <div class="chips">
+        <div class="chip"><span class="n">01</span>用户研究</div>
+        <div class="chip"><span class="n">02</span>用户画像</div>
+        <div class="chip"><span class="n">03</span>全局沙盘</div>
+        <div class="chip"><span class="n">04</span>竞品对照</div>
+        <div class="chip"><span class="n">05</span>用户旅程</div>
+        <div class="chip"><span class="n">06</span>痛点→设计</div>
+      </div>
+    </div>
+    <div class="ucd">▢ UCD CENTER</div>
+    <div class="foot">Section · Gray</div>
+  </section>
+
+  <!-- ===== 页2：用户研究概览 ===== -->
+  <section class="slide">
+    <div class="head">
+      <div class="head-l">
+        <div class="brand"><span class="logo">C<span class="r">A</span>NN</span><span class="ttl">用户研究概览</span></div>
+        <div class="subttl">User Research Overview · 方法与样本</div>
+      </div>
+      <div class="head-r">01 / 用户研究<br/>2026</div>
+    </div>
+    <div class="body-area">
+      <div class="kpi-grid">
+        <div class="kpi"><div class="n">36<span class="u">人</span></div><div class="l">深度访谈</div></div>
+        <div class="kpi"><div class="n">284<span class="u">份</span></div><div class="l">有效问卷</div></div>
+        <div class="kpi"><div class="n">3<span class="u">类</span></div><div class="l">使用场景</div></div>
+        <div class="kpi accent"><div class="n">38</div><div class="l">开发者 NPS</div></div>
+        <div class="kpi"><div class="n">52<span class="u">%</span></div><div class="l">文档满意度</div></div>
+      </div>
+      <div class="method">
+        <div class="m"><div class="mt">定性深访</div><div class="md">36 名开发者 1v1 访谈，覆盖算子开发、框架接入、科研复现三类角色，平均 60 分钟。</div></div>
+        <div class="m"><div class="mt">定量问卷</div><div class="md">284 份有效回收，量化上手时长、满意度、NPS 与各环节痛点强度。</div></div>
+        <div class="m"><div class="mt">混合分析</div><div class="md">亲和图聚类痛点主题，结合行为数据交叉验证，输出优先级与机会点。</div></div>
+      </div>
+    </div>
+    <div class="ucd">▢ UCD CENTER</div>
+    <div class="foot">Page 01 · Research</div>
+  </section>
+
+  <!-- ===== 页3：痛点与用户声音 ===== -->
+  <section class="slide">
+    <div class="head">
+      <div class="head-l">
+        <div class="brand"><span class="logo">C<span class="r">A</span>NN</span><span class="ttl">痛点与用户声音</span></div>
+        <div class="subttl">Pain Points &amp; Voices · 开发者最在意什么</div>
+      </div>
+      <div class="head-r">02 / 痛点声音<br/>2026</div>
+    </div>
+    <div class="body-area">
+      <div class="research-2">
+        <div>
+          <div class="col-h">TOP 痛点 · 选择该项的受访者比例（N=320）</div>
+          <div class="pains">
+            <div class="pain"><div class="pt"><span class="pn">文档覆盖不足</span><span class="pp">72%</span></div><div class="track"><div class="fill" style="width:72%"></div></div></div>
+            <div class="pain"><div class="pt"><span class="pn">调试体验差 · 像黑盒</span><span class="pp">68%</span></div><div class="track"><div class="fill" style="width:68%"></div></div></div>
+            <div class="pain"><div class="pt"><span class="pn">算子开发门槛高</span><span class="pp">61%</span></div><div class="track"><div class="fill" style="width:61%"></div></div></div>
+            <div class="pain"><div class="pt"><span class="pn">性能工具可视化不足</span><span class="pp">54%</span></div><div class="track"><div class="fill" style="width:54%"></div></div></div>
+          </div>
+        </div>
+        <div>
+          <div class="col-h">用户声音 · 原声引用</div>
+          <div class="voices">
+            <div class="voice"><div class="ava"></div><div><div class="vq">"跑通第一个推理流程要 4 天，大半时间在翻文档和猜报错原因。"</div><div class="vr">算法工程师 · 工作 3 年</div></div></div>
+            <div class="voice"><div class="ava" style="background:linear-gradient(135deg,#3FB37F,#7ad6a8)"></div><div><div class="vq">"算子调试像在黑盒里，只能靠 print，定位一个问题要两周。"</div><div class="vr">AI 框架开发者 · 工作 5 年</div></div></div>
+            <div class="voice"><div class="ava" style="background:linear-gradient(135deg,#E89B3F,#f0c07a)"></div><div><div class="vq">"版本依赖矩阵太复杂，换台机器复现实验经常失败。"</div><div class="vr">学术研究者 · 博士在读</div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ucd">▢ UCD CENTER</div>
+    <div class="foot">Page 02 · Voices</div>
+  </section>
+
+  <!-- ===== 页4：用户画像 ===== -->
+  <section class="slide">
+    <div class="head">
+      <div class="head-l">
+        <div class="brand"><span class="logo">C<span class="r">A</span>NN</span><span class="ttl">用户画像</span></div>
+        <div class="subttl">User Persona · 三类核心开发者</div>
+      </div>
+      <div class="head-r">03 / 用户画像<br/>2026</div>
+    </div>
+    <div class="body-area">
+      <div class="persona-grid">
+        <div class="persona">
+          <div class="p-head"><div class="p-ava"></div><div class="p-id"><div class="p-name">算子开发工程师</div><div class="p-role">Operator Dev</div></div><div class="p-pct">45%</div></div>
+          <div class="p-sec"><div class="st">背景</div><div class="sv">3–5 年经验，熟悉 C++ / CUDA，追求高性能算子快速上线。</div></div>
+          <div class="p-sec"><div class="st">目标</div><div class="sv">写出高性能融合算子，缩短从开发到上线的周期。</div></div>
+          <div class="p-sec"><div class="st">痛点</div><div class="sv">Ascend C 门槛高、调试像黑盒，性能瓶颈难定位。</div></div>
+          <div class="p-quote">"算子调试只能靠 print，定位一个问题要两周。"</div>
+        </div>
+        <div class="persona">
+          <div class="p-head"><div class="p-ava" style="background:linear-gradient(135deg,#3FB37F,#7ad6a8)"></div><div class="p-id"><div class="p-name">AI 框架开发者</div><div class="p-role">Framework Dev</div></div><div class="p-pct">35%</div></div>
+          <div class="p-sec"><div class="st">背景</div><div class="sv">5 年以上经验，深耕训练 / 推理框架，关注与 CANN 的高效对接。</div></div>
+          <div class="p-sec"><div class="st">目标</div><div class="sv">让框架高效接入昇腾，统一训练与推理的图表达。</div></div>
+          <div class="p-sec"><div class="st">痛点</div><div class="sv">图体系学习曲线陡，文档碎片化，缺端到端范例。</div></div>
+          <div class="p-quote">"图体系概念多，缺一份从头到尾跑通的范例。"</div>
+        </div>
+        <div class="persona">
+          <div class="p-head"><div class="p-ava" style="background:linear-gradient(135deg,#E89B3F,#f0c07a)"></div><div class="p-id"><div class="p-name">学术研究者</div><div class="p-role">Researcher</div></div><div class="p-pct">20%</div></div>
+          <div class="p-sec"><div class="st">背景</div><div class="sv">高校 / 实验室在读，重视实验复现速度与环境稳定性。</div></div>
+          <div class="p-sec"><div class="st">目标</div><div class="sv">快速搭好环境、复现论文、跑通对比实验。</div></div>
+          <div class="p-sec"><div class="st">痛点</div><div class="sv">版本依赖矩阵复杂，换机器常复现失败。</div></div>
+          <div class="p-quote">"环境总对不上，换台机器实验就跑不起来。"</div>
+        </div>
+      </div>
+    </div>
+    <div class="ucd">▢ UCD CENTER</div>
+    <div class="foot">Page 03 · Persona</div>
+  </section>
+
+  <!-- ===== 页5：全局沙盘 ===== -->
+  <section class="slide">
+    <div class="head">
+      <div class="head-l">
+        <div class="brand"><span class="logo">C<span class="r">A</span>NN</span><span class="ttl">AI 战略 2.0 算力产业产品沙盘</span></div>
+        <div class="subttl">Global Sandbox · 从应用到运维的全栈视图</div>
+      </div>
+      <div class="head-r">04 / 全局沙盘<br/>2026</div>
+    </div>
+    <div class="body-area">
+      <div class="sandbox">
+        <div class="layer">
+          <div class="layer-label"><span class="lz">L1</span><span class="ln">应用开发</span></div>
+          <div class="layer-cards">
+            <div class="lc"><div class="t">小艺智能体</div><div class="d">端侧助手</div></div>
+            <div class="lc"><div class="t">自动驾驶智能体</div><div class="d">车云协同</div></div>
+            <div class="lc"><div class="t">RAG / Agent 开发</div><div class="d">智能体使能平台</div></div>
+            <div class="lc"><div class="t">行业 AI 场景</div><div class="d">6+1 场景</div></div>
+          </div>
+        </div>
+        <div class="layer">
+          <div class="layer-label"><span class="lz">L2</span><span class="ln">模型开发</span></div>
+          <div class="layer-cards">
+            <div class="lc"><div class="t">基础大模型 Pangu</div><div class="d">训练 / 微调</div></div>
+            <div class="lc"><div class="t">OpenPangu 开源</div><div class="d">社区版</div></div>
+            <div class="lc"><div class="t">ModelArts</div><div class="d">云侧训练平台</div></div>
+            <div class="lc"><div class="t">DeepSeek / Qwen</div><div class="d">生态模型接入</div></div>
+          </div>
+        </div>
+        <div class="layer">
+          <div class="layer-label"><span class="lz">L3</span><span class="ln">算子开发</span></div>
+          <div class="layer-cards">
+            <div class="lc hl"><div class="t">CANN</div><div class="d">计算架构核心</div></div>
+            <div class="lc"><div class="t">Ascend C 算子</div><div class="d">单算子 / 融合</div></div>
+            <div class="lc"><div class="t">Tilelang / Triton</div><div class="d">图模式入图</div></div>
+            <div class="lc"><div class="t">PyPTO 融合开发</div><div class="d">框架对接</div></div>
+          </div>
+        </div>
+        <div class="layer">
+          <div class="layer-label"><span class="lz">L4</span><span class="ln">运维</span></div>
+          <div class="layer-cards">
+            <div class="lc"><div class="t">UnifiedBus 灵衢</div><div class="d">互联总线</div></div>
+            <div class="lc"><div class="t">集群 / 服务器 / 标卡</div><div class="d">算-存-网</div></div>
+            <div class="lc"><div class="t">存储 / 网络</div><div class="d">ICT 基础设施</div></div>
+            <div class="lc"><div class="t">开发者套件</div><div class="d">伙伴硬件</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ucd">▢ UCD CENTER</div>
+    <div class="foot">Page 04 · Sandbox</div>
+  </section>
+
+  <!-- ===== 页3：竞品分析 ===== -->
+  <section class="slide">
+    <div class="head">
+      <div class="head-l">
+        <div class="brand"><span class="logo">C<span class="r">A</span>NN</span><span class="ttl">竞品工具对照</span></div>
+        <div class="subttl">Competitive Analysis · 主流性能分析 / 调试工具横向对比</div>
+      </div>
+      <div class="head-r">05 / 竞品对照<br/>2026</div>
+    </div>
+    <div class="body-area">
+      <div class="compare">
+        <div class="cmp">
+          <div class="cmp-img" style="border-bottom:3px solid #76B900"><img src="reference/cmp-nsight.jpg" style="object-position:72% 56%" alt="Nsight Systems 界面"></div>
+          <div class="cmp-body">
+            <div><div class="cmp-name">NVIDIA Nsight Systems</div><div class="cmp-sub">CUDA · Timeline Profiler</div></div>
+            <div class="cmp-row"><span class="k">可视化</span><span class="v">CPU/GPU 统一时间线，框选即缩放定位</span></div>
+            <div class="cmp-row"><span class="k">上手</span><span class="v">教程体系完善，引导式入门</span></div>
+            <div class="cmp-row"><span class="k">亮点</span><span class="v">事件 → 源码一键跳转</span></div>
+          </div>
+        </div>
+        <div class="cmp">
+          <div class="cmp-img" style="border-bottom:3px solid #0071C5"><img src="reference/cmp-vtune.jpg" style="object-position:center 45%" alt="Intel VTune 界面"></div>
+          <div class="cmp-body">
+            <div><div class="cmp-name">Intel VTune Profiler</div><div class="cmp-sub">CPU/GPU · Performance Analyzer</div></div>
+            <div class="cmp-row"><span class="k">可视化</span><span class="v">多分析类型，热点逐层下钻</span></div>
+            <div class="cmp-row"><span class="k">上手</span><span class="v">向导式配置分析任务</span></div>
+            <div class="cmp-row"><span class="k">亮点</span><span class="v">微架构级瓶颈归因</span></div>
+          </div>
+        </div>
+        <div class="cmp">
+          <div class="cmp-img" style="border-bottom:3px solid #ED1C24"><img src="reference/cmp-rocm-tool.jpg" style="object-position:center 82%" alt="AMD rocprof 架构"></div>
+          <div class="cmp-body">
+            <div><div class="cmp-name">AMD rocprof / Omnitrace</div><div class="cmp-sub">ROCm · Trace &amp; Profile</div></div>
+            <div class="cmp-row"><span class="k">可视化</span><span class="v">导出 Perfetto，浏览器看 trace</span></div>
+            <div class="cmp-row"><span class="k">上手</span><span class="v">命令行为主，可视化依赖外部</span></div>
+            <div class="cmp-row"><span class="k">亮点</span><span class="v">开源，Web 端 trace 可分享</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="verdict">
+        <span class="vk">结论</span>
+        <span class="vv">三家共性：<b>统一时间线 + 一键瓶颈定位 + Web 化可视化</b>。CANN 的 Profiling 看板应对标这三点，并补齐<b>事件→源码跳转</b>与<b>浏览器端 trace 分享</b>，把命令行门槛降下来。</span>
+      </div>
+    </div>
+    <div class="ucd">▢ UCD CENTER</div>
+    <div class="foot">Page 05 · Competitive</div>
+  </section>
+
+  <!-- ===== 页4：用户旅程 ===== -->
+  <section class="slide">
+    <div class="head">
+      <div class="head-l">
+        <div class="brand"><span class="logo">C<span class="r">A</span>NN</span><span class="ttl">开发者用户旅程</span><span class="tag-on">已上线</span></div>
+        <div class="subttl">User Journey · 从感知到生态运营的全链路</div>
+      </div>
+      <div class="head-r">06 / 用户旅程<br/>2026</div>
+    </div>
+    <div class="body-area">
+      <div class="jmap">
+        <!-- 行1 阶段 -->
+        <div class="jm-label">阶段<br/>STAGE</div>
+        <div class="jm-stage">感知了解</div>
+        <div class="jm-stage">环境安装</div>
+        <div class="jm-stage">学习上手</div>
+        <div class="jm-stage">算子开发</div>
+        <div class="jm-stage">调试调优</div>
+        <div class="jm-stage">部署运营</div>
+
+        <!-- 行2 触点 -->
+        <div class="jm-label">触点<br/>TOUCH</div>
+        <div class="jm-touch">官网 · 开发者社区 · 搜索引擎</div>
+        <div class="jm-touch">文档中心 · 安装包 · Docker 镜像</div>
+        <div class="jm-touch">教程 · 成长地图 · 样例库</div>
+        <div class="jm-touch">IDE 插件 · 算子模板 · API 参考</div>
+        <div class="jm-touch">Profiling 工具 · 运行日志</div>
+        <div class="jm-touch">CI 流水线 · 镜像仓 · 集群</div>
+
+        <!-- 行3 行为（每阶段多块 + 多向箭头）-->
+        <div class="jm-label">行为<br/>ACTION</div>
+        <div class="jm-flow">
+          <div class="act-node">搜关键词</div>
+          <div class="act-node">逛社区 / 官网</div>
+          <div class="act-node">对比选型评估</div>
+        </div>
+        <div class="jm-flow">
+          <div class="act-node">查版本矩阵</div>
+          <div class="act-node">装驱动 · CANN</div>
+          <div class="act-node">装框架跑通</div>
+        </div>
+        <div class="jm-flow">
+          <div class="act-node">看成长地图</div>
+          <div class="act-node">读 API 文档</div>
+          <div class="act-node">跑官方样例</div>
+        </div>
+        <div class="jm-flow">
+          <div class="act-node">选算子模板</div>
+          <div class="act-node">写 Ascend C</div>
+          <div class="act-node">定义 tiling / 调度</div>
+        </div>
+        <div class="jm-flow">
+          <div class="act-node">Profiling 采集</div>
+          <div class="act-node loop">改代码调优</div>
+          <div class="act-node">比对精度</div>
+        </div>
+        <div class="jm-flow end">
+          <div class="act-node">导出算子</div>
+          <div class="act-node">集成入图</div>
+          <div class="act-node">灰度发布</div>
+        </div>
+
+        <!-- 行4 情绪曲线 -->
+        <div class="jm-label">情绪<br/>EMOTION</div>
+        <div class="jm-emo">
+          <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+            <polyline points="8.3,42 25,66 41.7,56 58.3,48 75,74 91.7,28" fill="none" stroke="var(--accent)" stroke-width="2.4" vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <div class="edot" style="left:8.3%;top:42%"></div>
+          <div class="edot low" style="left:25%;top:66%"></div>
+          <div class="edot" style="left:41.7%;top:56%"></div>
+          <div class="edot" style="left:58.3%;top:48%"></div>
+          <div class="edot low" style="left:75%;top:74%"></div>
+          <div class="edot" style="left:91.7%;top:28%"></div>
+        </div>
+
+        <!-- 行5 痛点 -->
+        <div class="jm-label">痛点<br/>PAIN</div>
+        <div class="jm-pain">入口分散，缺全局鸟瞰，不知从何看起</div>
+        <div class="jm-pain">版本依赖矩阵复杂，环境反复装不对</div>
+        <div class="jm-pain">文档碎片化，缺端到端可运行示例</div>
+        <div class="jm-pain">Ascend C 门槛高，需懂底层硬件</div>
+        <div class="jm-pain">调试像黑盒，只能靠 print，定位慢</div>
+        <div class="jm-pain">部署环节多、链路长，中途易出错</div>
+
+        <!-- 行6 机会点 -->
+        <div class="jm-label">机会点<br/>OPPS</div>
+        <div class="jm-opp">统一开发者门户 + 鸟瞰式成长地图</div>
+        <div class="jm-opp">一键环境容器，版本自动匹配</div>
+        <div class="jm-opp">交互式教程 + 端到端可运行示例</div>
+        <div class="jm-opp">算子开发向导 + 模板代码生成</div>
+        <div class="jm-opp">智能诊断 + 可视化 Profiling 看板</div>
+        <div class="jm-opp">一键发布流水线，全链路打通</div>
+      </div>
+    </div>
+    <div class="ucd">▢ UCD CENTER</div>
+    <div class="foot">Page 06 · Journey</div>
+  </section>
+
+  <!-- ===== 页7：痛点 → 设计特性映射 ===== -->
+  <section class="slide">
+    <div class="head">
+      <div class="head-l">
+        <div class="brand"><span class="logo">C<span class="r">A</span>NN</span><span class="ttl">从痛点到设计</span></div>
+        <div class="subttl">Pain → Feature Mapping · 痛点场景如何转化为设计特性</div>
+      </div>
+      <div class="head-r">07 / 设计映射<br/>2026</div>
+    </div>
+    <div class="body-area">
+      <div class="map-flow">
+        <div class="map-col">
+          <div class="map-colh">痛点场景</div>
+          <div class="mcell pain"><span class="mt">上手慢</span>跑通首个推理要 4 天，文档碎片化</div>
+          <div class="mcell pain"><span class="mt">调试黑盒</span>只能靠 print，瓶颈难定位</div>
+          <div class="mcell pain"><span class="mt">算子门槛高</span>Ascend C 需懂底层硬件</div>
+          <div class="mcell pain"><span class="mt">环境复杂</span>版本矩阵乱，复现易失败</div>
+        </div>
+        <div class="map-arrow">➤</div>
+        <div class="map-col">
+          <div class="map-colh">设计特性</div>
+          <div class="mcell feat"><span class="mt">交互式文档</span>Jupyter 教程 + 端到端示例</div>
+          <div class="mcell feat"><span class="mt">可视化 Profiling</span>时间线 + 一键瓶颈定位</div>
+          <div class="mcell feat"><span class="mt">算子开发向导</span>模板生成 + 可视化调试</div>
+          <div class="mcell feat"><span class="mt">一键环境容器</span>版本自动匹配</div>
+        </div>
+        <div class="map-arrow">➤</div>
+        <div class="map-col">
+          <div class="map-colh">功能场景</div>
+          <div class="mcell scene"><span class="mt">新手 1 天上手</span>照教程跑通第一个模型</div>
+          <div class="mcell scene"><span class="mt">顺图找问题</span>看板里点开瓶颈算子</div>
+          <div class="mcell scene"><span class="mt">向导式写算子</span>填模板即生成骨架</div>
+          <div class="mcell scene"><span class="mt">开箱即复现</span>拉镜像直接跑实验</div>
+        </div>
+      </div>
+    </div>
+    <div class="ucd">▢ UCD CENTER</div>
+    <div class="foot">Page 07 · Mapping</div>
+  </section>
+
+</div>
+
+<div id="nav"></div>
+
+<script>
+const deck=document.getElementById('deck');
+const slides=[...document.querySelectorAll('.slide')];
+const nav=document.getElementById('nav');
+let idx=0;
+function go(n){
+  idx=Math.max(0,Math.min(slides.length-1,n));
+  deck.style.transform=`translateX(${-idx*100}vw)`;
+  nav.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===idx));
+}
+slides.forEach((s,i)=>{const b=document.createElement('button');b.className='dot';b.onclick=()=>go(i);nav.appendChild(b);});
+addEventListener('keydown',e=>{if(e.key==='ArrowRight')go(idx+1);if(e.key==='ArrowLeft')go(idx-1);});
+
+go(0);
+</script>
+</body>
+</html>

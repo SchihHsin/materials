@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CANN DesignConcept · 封面方案对比</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&family=Noto+Sans+SC:wght@200;300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'Inter','Noto Sans SC',sans-serif;-webkit-font-smoothing:antialiased}
+
+.stage{position:fixed;inset:0;width:100vw;height:100vh;overflow:hidden}
+.cover{position:absolute;inset:0;width:100%;height:100%;opacity:0;transition:opacity .6s ease;pointer-events:none}
+.cover.active{opacity:1;pointer-events:auto}
+.cover canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+
+/* ===== 文字层（三个封面共用排版语言）===== */
+.cover-content{position:absolute;inset:0;z-index:2;padding:5.5vh 5.5vw;display:flex;flex-direction:column;justify-content:space-between;pointer-events:none}
+.cc-top{display:flex;justify-content:space-between;align-items:flex-start}
+.huawei{display:flex;align-items:center;gap:.7em;font-family:'Inter';font-weight:600;font-size:15px;letter-spacing:.05em}
+.huawei .petal{width:18px;height:18px;flex-shrink:0}
+.cc-meta{font-family:'JetBrains Mono';font-size:12px;letter-spacing:.2em;text-transform:uppercase;opacity:.5}
+
+.cc-center{display:flex;flex-direction:column;gap:1.6vh}
+.logo-cann{font-family:'Inter';font-weight:800;font-size:min(11vw,18vh);line-height:.9;letter-spacing:-.03em;display:flex;align-items:baseline}
+.logo-cann .red{color:#E60012}
+.cc-sub{font-family:'Inter','Noto Sans SC';font-weight:300;font-size:min(2.6vw,4.4vh);line-height:1.15;letter-spacing:.01em}
+.cc-sub .yr{display:block;font-weight:200;opacity:.7}
+
+.cc-bot{display:flex;justify-content:space-between;align-items:flex-end}
+.ucd{font-family:'JetBrains Mono';font-size:12px;letter-spacing:.18em;text-transform:uppercase;opacity:.55;display:flex;align-items:center;gap:.6em}
+.ucd .sq{width:12px;height:12px;border:1.5px solid currentColor;display:inline-block}
+
+/* 浅色封面用深字，深色封面用浅字 */
+.cover[data-tone="dark"] .cover-content{color:#fff}
+.cover[data-tone="dark"] .logo-cann{color:#fff}
+.cover[data-tone="light"] .cover-content{color:#15110c}
+.cover[data-tone="light"] .logo-cann{color:#15110c}
+
+/* ===== 顶部方案切换器 ===== */
+.switcher{position:fixed;top:2.4vh;left:50%;transform:translateX(-50%);z-index:100;display:flex;gap:0;background:rgba(20,20,22,.7);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.14);border-radius:999px;overflow:hidden;font-family:'Inter','Noto Sans SC';font-size:13px;font-weight:500}
+.switcher button{padding:10px 22px;background:none;border:none;color:rgba(255,255,255,.55);cursor:pointer;transition:all .2s;white-space:nowrap}
+.switcher button:hover{color:rgba(255,255,255,.85)}
+.switcher button.active{background:#fff;color:#0a0a0a}
+
+.hint{position:fixed;bottom:2.4vh;left:50%;transform:translateX(-50%);z-index:100;font-family:'JetBrains Mono';font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.35)}
+.cover[data-tone="light"] ~ .hint{color:rgba(0,0,0,.4)}
+</style>
+</head>
+<body>
+
+<div class="switcher">
+  <button data-i="0" class="active">① 电路板动效</button>
+  <button data-i="1">② 算力粒子流</button>
+  <button data-i="2">③ 2.5D 柔光</button>
+</div>
+
+<div class="stage">
+
+  <!-- ========== 封面 ①：电路板动效（深色暗红 PCB + 流光脉冲）========== -->
+  <div class="cover active" data-tone="dark">
+    <canvas id="cv-pcb"></canvas>
+    <div class="cover-content">
+      <div class="cc-top">
+        <div class="huawei">
+          <svg class="petal" viewBox="0 0 24 24" fill="#E60012"><path d="M12 2c-1 4-3 6-6 7 3 1 5 3 6 7 1-4 3-6 6-7-3-1-5-3-6-7z"/></svg>
+          HUAWEI
+        </div>
+        <div class="cc-meta">NEXT PAGE →</div>
+      </div>
+      <div class="cc-center">
+        <div class="logo-cann">C<span class="red">A</span>NN</div>
+        <div class="cc-sub">DesignConcept<span class="yr">2026</span></div>
+      </div>
+      <div class="cc-bot">
+        <div class="ucd"><span class="sq"></span>UCD CENTER</div>
+        <div class="cc-meta">ASCEND · COMPUTE ARCHITECTURE</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== 封面 ②：算力粒子流（深蓝黑 + 节点网络）========== -->
+  <div class="cover" data-tone="dark">
+    <canvas id="cv-particles"></canvas>
+    <div class="cover-content">
+      <div class="cc-top">
+        <div class="huawei">
+          <svg class="petal" viewBox="0 0 24 24" fill="#E60012"><path d="M12 2c-1 4-3 6-6 7 3 1 5 3 6 7 1-4 3-6 6-7-3-1-5-3-6-7z"/></svg>
+          HUAWEI
+        </div>
+        <div class="cc-meta">NEXT PAGE →</div>
+      </div>
+      <div class="cc-center">
+        <div class="logo-cann">C<span class="red">A</span>NN</div>
+        <div class="cc-sub">DesignConcept<span class="yr">2026</span></div>
+      </div>
+      <div class="cc-bot">
+        <div class="ucd"><span class="sq"></span>UCD CENTER</div>
+        <div class="cc-meta">ASCEND · COMPUTE ARCHITECTURE</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== 封面 ③：2.5D 半透明柔光（等距几何 + 柔和光斑）========== -->
+  <div class="cover" data-tone="dark">
+    <canvas id="cv-soft"></canvas>
+    <div class="cover-content">
+      <div class="cc-top">
+        <div class="huawei">
+          <svg class="petal" viewBox="0 0 24 24" fill="#E60012"><path d="M12 2c-1 4-3 6-6 7 3 1 5 3 6 7 1-4 3-6 6-7-3-1-5-3-6-7z"/></svg>
+          HUAWEI
+        </div>
+        <div class="cc-meta">NEXT PAGE →</div>
+      </div>
+      <div class="cc-center">
+        <div class="logo-cann">C<span class="red">A</span>NN</div>
+        <div class="cc-sub">DesignConcept<span class="yr">2026</span></div>
+      </div>
+      <div class="cc-bot">
+        <div class="ucd"><span class="sq"></span>UCD CENTER</div>
+        <div class="cc-meta">ASCEND · COMPUTE ARCHITECTURE</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="hint">← → 或点击顶部切换方案</div>
+
+<script>
+const DPR = Math.min(window.devicePixelRatio||1, 2);
+function fit(cv){
+  const r = cv.getBoundingClientRect();
+  cv.width = r.width*DPR; cv.height = r.height*DPR;
+  return {w:r.width, h:r.height};
+}
+
+/* ====================================================================
+   封面 ① 电路板动效 — 暗红 PCB 网格 + 焊盘节点 + 沿走线流动的光脉冲
+   ==================================================================== */
+(function(){
+  const cv = document.getElementById('cv-pcb');
+  const ctx = cv.getContext('2d');
+  let W,H, traces=[], pulses=[], pads=[];
+
+  function build(){
+    const d = fit(cv); W=d.w; H=d.h;
+    ctx.setTransform(DPR,0,0,DPR,0,0);
+    const GRID = 46;
+    traces=[]; pads=[];
+    // 生成曼哈顿走线（横竖+折角）
+    const cols = Math.ceil(W/GRID), rows = Math.ceil(H/GRID);
+    for(let i=0;i<70;i++){
+      let x = Math.floor(Math.random()*cols)*GRID;
+      let y = Math.floor(Math.random()*rows)*GRID;
+      const pts=[{x,y}];
+      const segs = 2+Math.floor(Math.random()*4);
+      for(let s=0;s<segs;s++){
+        if(Math.random()<.5) x += (Math.random()<.5?-1:1)*GRID*(1+Math.floor(Math.random()*3));
+        else                 y += (Math.random()<.5?-1:1)*GRID*(1+Math.floor(Math.random()*3));
+        x=Math.max(0,Math.min(W,x)); y=Math.max(0,Math.min(H,y));
+        pts.push({x,y});
+      }
+      traces.push(pts);
+      pads.push(pts[0]); pads.push(pts[pts.length-1]);
+    }
+    pulses=[];
+    for(let i=0;i<26;i++) pulses.push({tr:Math.floor(Math.random()*traces.length), t:Math.random(), spd:.0018+Math.random()*.0034});
+  }
+  build();
+  addEventListener('resize', build);
+
+  function lerpPath(pts, t){
+    // total length param
+    let segLens=[], total=0;
+    for(let i=0;i<pts.length-1;i++){ const l=Math.hypot(pts[i+1].x-pts[i].x,pts[i+1].y-pts[i].y); segLens.push(l); total+=l; }
+    let d=t*total;
+    for(let i=0;i<segLens.length;i++){
+      if(d<=segLens[i]){ const f=segLens[i]?d/segLens[i]:0; return {x:pts[i].x+(pts[i+1].x-pts[i].x)*f, y:pts[i].y+(pts[i+1].y-pts[i].y)*f}; }
+      d-=segLens[i];
+    }
+    return pts[pts.length-1];
+  }
+
+  function draw(){
+    // 暗红径向底
+    const g = ctx.createRadialGradient(W*0.62,H*0.42,0, W*0.62,H*0.42,Math.max(W,H)*0.9);
+    g.addColorStop(0,'#3a0f12'); g.addColorStop(.5,'#240a0d'); g.addColorStop(1,'#0c0506');
+    ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+    // 走线
+    ctx.lineWidth=1.2; ctx.strokeStyle='rgba(255,120,90,.10)';
+    traces.forEach(pts=>{
+      ctx.beginPath(); ctx.moveTo(pts[0].x,pts[0].y);
+      for(let i=1;i<pts.length;i++) ctx.lineTo(pts[i].x,pts[i].y);
+      ctx.stroke();
+    });
+    // 焊盘
+    pads.forEach(p=>{ ctx.beginPath(); ctx.arc(p.x,p.y,2.4,0,7); ctx.fillStyle='rgba(255,140,110,.22)'; ctx.fill(); });
+    // 流光脉冲
+    pulses.forEach(pu=>{
+      pu.t+=pu.spd; if(pu.t>1) pu.t-=1;
+      const pts=traces[pu.tr]; const pos=lerpPath(pts,pu.t);
+      const gr=ctx.createRadialGradient(pos.x,pos.y,0,pos.x,pos.y,18);
+      gr.addColorStop(0,'rgba(255,210,150,.9)'); gr.addColorStop(.4,'rgba(255,130,70,.5)'); gr.addColorStop(1,'rgba(255,90,50,0)');
+      ctx.fillStyle=gr; ctx.beginPath(); ctx.arc(pos.x,pos.y,18,0,7); ctx.fill();
+    });
+    // 右侧大芯片暗示（半透明方块 + 引脚）
+    const cx=W*0.66, cy=H*0.42, cw=W*0.26, ch=cw*0.72;
+    ctx.save();
+    const cg=ctx.createLinearGradient(cx,cy-ch/2,cx+cw,cy+ch/2);
+    cg.addColorStop(0,'rgba(230,0,18,.55)'); cg.addColorStop(1,'rgba(150,0,12,.35)');
+    ctx.fillStyle=cg; ctx.fillRect(cx-cw/2,cy-ch/2,cw,ch);
+    ctx.strokeStyle='rgba(255,160,140,.3)'; ctx.lineWidth=1; ctx.strokeRect(cx-cw/2,cy-ch/2,cw,ch);
+    ctx.restore();
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ====================================================================
+   封面 ② 算力粒子流 — 深蓝黑底 + 节点粒子网络 + 近邻连线 + 缓慢漂移
+   ==================================================================== */
+(function(){
+  const cv = document.getElementById('cv-particles');
+  const ctx = cv.getContext('2d');
+  let W,H, pts=[];
+  const N = 90, LINK = 150;
+  function build(){
+    const d=fit(cv); W=d.w; H=d.h; ctx.setTransform(DPR,0,0,DPR,0,0);
+    pts=[];
+    for(let i=0;i<N;i++) pts.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.25,vy:(Math.random()-.5)*.25,r:Math.random()*1.8+.8});
+  }
+  build(); addEventListener('resize', build);
+  function draw(){
+    const g=ctx.createLinearGradient(0,0,W,H);
+    g.addColorStop(0,'#05080f'); g.addColorStop(.55,'#0a1428'); g.addColorStop(1,'#06101f');
+    ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+    // 连线
+    for(let i=0;i<N;i++){
+      const a=pts[i];
+      for(let j=i+1;j<N;j++){
+        const b=pts[j]; const dx=a.x-b.x, dy=a.y-b.y; const dist=Math.hypot(dx,dy);
+        if(dist<LINK){ const al=(1-dist/LINK)*.22; ctx.strokeStyle=`rgba(90,160,255,${al})`; ctx.lineWidth=.7; ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke(); }
+      }
+    }
+    // 粒子
+    pts.forEach(p=>{
+      p.x+=p.vx; p.y+=p.vy;
+      if(p.x<0||p.x>W)p.vx*=-1; if(p.y<0||p.y>H)p.vy*=-1;
+      const gr=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*5);
+      gr.addColorStop(0,'rgba(150,200,255,.9)'); gr.addColorStop(1,'rgba(80,140,255,0)');
+      ctx.fillStyle=gr; ctx.beginPath(); ctx.arc(p.x,p.y,p.r*5,0,7); ctx.fill();
+      ctx.fillStyle='rgba(200,225,255,.95)'; ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,7); ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ====================================================================
+   封面 ③ 2.5D 半透明柔光 — 深底 + 多个柔和彩色光斑 + 等距半透明几何体
+   ==================================================================== */
+(function(){
+  const cv = document.getElementById('cv-soft');
+  const ctx = cv.getContext('2d');
+  let W,H,t=0;
+  function build(){ const d=fit(cv); W=d.w; H=d.h; ctx.setTransform(DPR,0,0,DPR,0,0); }
+  build(); addEventListener('resize', build);
+
+  // 等距方块（2.5D）
+  function isoBlock(cx,cy,s,hgt,topFill,leftFill,rightFill){
+    const hx=s, hy=s*0.5;
+    ctx.beginPath(); // top
+    ctx.moveTo(cx, cy-hy); ctx.lineTo(cx+hx, cy); ctx.lineTo(cx, cy+hy); ctx.lineTo(cx-hx, cy); ctx.closePath();
+    ctx.fillStyle=topFill; ctx.fill();
+    ctx.beginPath(); // left
+    ctx.moveTo(cx-hx,cy); ctx.lineTo(cx,cy+hy); ctx.lineTo(cx,cy+hy+hgt); ctx.lineTo(cx-hx,cy+hgt); ctx.closePath();
+    ctx.fillStyle=leftFill; ctx.fill();
+    ctx.beginPath(); // right
+    ctx.moveTo(cx+hx,cy); ctx.lineTo(cx,cy+hy); ctx.lineTo(cx,cy+hy+hgt); ctx.lineTo(cx+hx,cy+hgt); ctx.closePath();
+    ctx.fillStyle=rightFill; ctx.fill();
+  }
+
+  function blob(x,y,r,c0,c1){
+    const g=ctx.createRadialGradient(x,y,0,x,y,r);
+    g.addColorStop(0,c0); g.addColorStop(1,c1);
+    ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,r,0,7); ctx.fill();
+  }
+
+  function draw(){
+    t+=0.005;
+    // 深底
+    ctx.fillStyle='#0a0a12'; ctx.fillRect(0,0,W,H);
+    // 柔和彩色光斑（呼吸漂移）
+    ctx.globalCompositeOperation='screen';
+    blob(W*0.32+Math.sin(t)*30, H*0.40+Math.cos(t*.8)*24, Math.max(W,H)*0.34, 'rgba(90,80,255,.55)','rgba(90,80,255,0)');
+    blob(W*0.60+Math.cos(t*.9)*36, H*0.30+Math.sin(t*1.1)*28, Math.max(W,H)*0.30, 'rgba(60,200,220,.45)','rgba(60,200,220,0)');
+    blob(W*0.52+Math.sin(t*1.2)*30, H*0.62+Math.cos(t)*22, Math.max(W,H)*0.32, 'rgba(230,90,180,.40)','rgba(230,90,180,0)');
+    ctx.globalCompositeOperation='source-over';
+    // 等距半透明几何群（右侧聚集，呼应芯片堆叠）
+    const baseX=W*0.66, baseY=H*0.46, S=Math.min(W,H)*0.085;
+    const blocks=[[0,0,1.0],[1.1,0.4,0.7],[-1.0,0.5,0.7],[0.2,-0.9,0.85],[1.0,-0.4,0.6],[-1.1,-0.4,0.55]];
+    blocks.forEach((b,i)=>{
+      const fl=0.6+0.25*Math.sin(t+i);
+      isoBlock(baseX+b[0]*S*1.6, baseY+b[1]*S*1.4, S*b[2], S*b[2]*0.9,
+        `rgba(150,180,255,${0.22*fl+0.10})`,
+        `rgba(70,90,200,${0.18*fl+0.08})`,
+        `rgba(110,140,230,${0.20*fl+0.09})`);
+    });
+    // 细微噪点高光
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ===== 切换逻辑 ===== */
+const covers=[...document.querySelectorAll('.cover')];
+const btns=[...document.querySelectorAll('.switcher button')];
+let idx=0;
+function show(i){
+  idx=(i+covers.length)%covers.length;
+  covers.forEach((c,k)=>c.classList.toggle('active',k===idx));
+  btns.forEach((b,k)=>b.classList.toggle('active',k===idx));
+}
+btns.forEach(b=>b.onclick=()=>show(+b.dataset.i));
+addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight') show(idx+1);
+  if(e.key==='ArrowLeft') show(idx-1);
+});
+</script>
+</body>
+</html>
