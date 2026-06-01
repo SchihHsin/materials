@@ -99,7 +99,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#06060a;color:#fff;f
 /* ===== 调色面板 ===== */
 /* 章节封面：右上 chrome 文字让出按钮位置（文字在左、按钮在右，同一行）*/
 .chapter-cover .chrome{padding-right:62px}
-#panel{position:absolute;top:3.8vh;right:6vw;z-index:60;width:300px;overflow:hidden;
+#panel{position:absolute;top:3.8vh;right:calc(6vw + 58px);z-index:60;width:300px;overflow:hidden;
   background:linear-gradient(155deg,rgba(58,58,80,.30),rgba(14,14,22,.40));
   backdrop-filter:blur(34px) saturate(1.7);-webkit-backdrop-filter:blur(34px) saturate(1.7);
   border:1px solid rgba(255,255,255,.16);border-radius:20px;padding:18px 20px 20px;
@@ -147,7 +147,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#06060a;color:#fff;f
   background:linear-gradient(155deg,rgba(58,58,80,.4),rgba(14,14,22,.5));
   backdrop-filter:blur(30px) saturate(1.6);-webkit-backdrop-filter:blur(30px) saturate(1.6);
   border:1px solid rgba(255,255,255,.18);
-  color:rgba(255,255,255,.82);cursor:pointer;display:none;align-items:center;justify-content:center;
+  color:rgba(255,255,255,.82);cursor:pointer;display:flex;align-items:center;justify-content:center;
   box-shadow:0 12px 32px -8px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.28);
   transition:transform .2s,color .2s}
 #toggle:hover{transform:scale(1.06);color:#fff}
@@ -199,36 +199,36 @@ html,body{width:100%;height:100%;overflow:hidden;background:#06060a;color:#fff;f
     <div class="inner">
       <div>
         <div class="kicker">DESIGN POINT 1.1</div>
-        <h1 class="h-title">控制流结构化抽象<br/><span class="light">与错误信息增强</span></h1>
-        <p class="body">清晰的控制逻辑与精度的关系定位，让算子执行过程全局可见，一图可达。</p>
+        <h1 class="h-title">控制流<br/><span class="light">结构化可视化</span></h1>
+        <p class="body">把算子执行的控制流抽象成结构化视图——读取 / 计算 / 决策 / 回写，一图可达，全局可见。</p>
         <div class="points">
-          <div class="point"><div class="dot"></div><div><div class="pt-title">算子执行过程全局可见</div><div class="pt-desc">读取 / 计算 / 决策 / 回写各阶段一目了然，无需逐层定位</div></div></div>
-          <div class="point"><div class="dot"></div><div><div class="pt-title">关键指标可视化</div><div class="pt-desc">数据聚合分析，提供优化建议，缩短调试链路</div></div></div>
-          <div class="point"><div class="dot"></div><div><div class="pt-title">错误信息上下文增强</div><div class="pt-desc">报错携带控制流定位，从"看代码猜原因"到"顺图找问题"</div></div></div>
+          <div class="point"><div class="dot"></div><div><div class="pt-title">执行过程全局可见</div><div class="pt-desc">各阶段一目了然，无需在代码里逐层定位</div></div></div>
+          <div class="point"><div class="dot"></div><div><div class="pt-title">关键路径高亮</div><div class="pt-desc">自动标注热点算子与数据依赖关系</div></div></div>
+          <div class="point"><div class="dot"></div><div><div class="pt-title">精度与控制逻辑定位</div><div class="pt-desc">精度异常快速对应到具体算子节点</div></div></div>
         </div>
       </div>
       <div class="shot"><span class="ph">控制流可视化界面 · 16:10</span></div>
     </div>
   </section>
 
-  <!-- 1.2 Graph 体系 -->
+  <!-- 1.2 智能错误诊断 -->
   <section class="slide" data-chapter="1">
     <div class="glow-top"></div><div class="glow"></div><div class="glow-white"></div>
-    <div class="chrome"><div>设计点 1.2 · GRAPH SYSTEM</div><div>第一章 · 控制与可观测</div></div>
+    <div class="chrome"><div>设计点 1.2 · ERROR DIAGNOSIS</div><div>第一章 · 控制与可观测</div></div>
     <div class="inner">
       <div>
         <div class="kicker">DESIGN POINT 1.2</div>
-        <h1 class="h-title">Graph 体系定义<br/><span class="light">完整的图体系</span></h1>
-        <p class="body">在 Tensor 基础类与 PyTorch 框架内核间下沉，以 TileBlock/Execute 作为 PyTO 的统一价值锚，通过算子性能优化经过 Pass 设计 + machine 维度在 Execute Graph 落实。</p>
+        <h1 class="h-title">智能错误诊断<br/><span class="light">带上下文与修复建议</span></h1>
+        <p class="body">报错不再只是一行错误码——携带控制流上下文定位，并给出可操作的修复建议，从"看代码猜原因"到"顺图找问题"。</p>
         <div class="points">
-          <div class="point"><div class="dot"></div><div><div class="pt-title">统一图表达</div><div class="pt-desc">训练与推理共用一套 Graph IR，降低跨场景迁移成本</div></div></div>
-          <div class="point"><div class="dot"></div><div><div class="pt-title">分层下沉</div><div class="pt-desc">框架内核到硬件映射逐级清晰，Pass 可插拔</div></div></div>
+          <div class="point"><div class="dot"></div><div><div class="pt-title">上下文感知报错</div><div class="pt-desc">错误信息携带算子位置、输入形状与调用栈</div></div></div>
+          <div class="point"><div class="dot"></div><div><div class="pt-title">一键跳转出错算子</div><div class="pt-desc">从报错直达可视化节点，定位时间从分钟到秒</div></div></div>
+          <div class="point"><div class="dot"></div><div><div class="pt-title">修复建议自动生成</div><div class="pt-desc">常见错误给出可直接套用的修改方案</div></div></div>
         </div>
       </div>
-      <div class="shot"><span class="ph">节点图编排界面 · 16:10</span></div>
+      <div class="shot"><span class="ph">错误诊断面板 · 16:10</span></div>
     </div>
   </section>
-
   <!-- ===== 第二章 · 封面 ===== -->
   <section class="slide chapter-cover" data-chapter="2">
     <div class="glow-top"></div><div class="glow"></div><div class="glow-white"></div>
@@ -237,7 +237,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#06060a;color:#fff;f
       <div class="cover-block">
         <div class="ch-no">02</div>
         <h1 class="ch-cover-title">开发提效</h1>
-        <p class="ch-cover-sub">用模板化与 AI 辅助压缩算子开发门槛，让更多人写得出、调得动。本章包含 1 个设计点。</p>
+        <p class="ch-cover-sub">用模板化与交互式文档压缩开发门槛，让更多人写得出、调得动。本章包含 2 个设计点。</p>
       </div>
     </div>
   </section>
@@ -261,6 +261,24 @@ html,body{width:100%;height:100%;overflow:hidden;background:#06060a;color:#fff;f
     </div>
   </section>
 
+  <!-- 2.2 交互式文档 + 成长地图 -->
+  <section class="slide" data-chapter="2">
+    <div class="glow-top"></div><div class="glow"></div><div class="glow-white"></div>
+    <div class="chrome"><div>设计点 2.2 · LEARNING HUB</div><div>第二章 · 开发提效</div></div>
+    <div class="inner">
+      <div>
+        <div class="kicker">DESIGN POINT 2.2</div>
+        <h1 class="h-title">交互式文档<br/><span class="light">与鸟瞰成长地图</span></h1>
+        <p class="body">从感知到精通，用一张鸟瞰式成长地图串起学习路径，配 Jupyter 可运行教程，把首次上手从 4.2 天压到 1 天内。</p>
+        <div class="points">
+          <div class="point"><div class="dot"></div><div><div class="pt-title">端到端可运行示例</div><div class="pt-desc">边读边跑，复制即用，不再缺少完整范例</div></div></div>
+          <div class="point"><div class="dot"></div><div><div class="pt-title">鸟瞰式知识地图</div><div class="pt-desc">一张图看清全貌，解决"信息分散、不知从何看起"</div></div></div>
+          <div class="point"><div class="dot"></div><div><div class="pt-title">渐进式学习路径</div><div class="pt-desc">按阶段推荐下一步，新手也有清晰主线</div></div></div>
+        </div>
+      </div>
+      <div class="shot"><span class="ph">成长地图 / 交互文档 · 16:10</span></div>
+    </div>
+  </section>
 </div>
 
 <!-- 调色面板 -->
@@ -288,7 +306,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#06060a;color:#fff;f
 <button id="toggle" title="调色面板"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="7" x2="20" y2="7"/><circle cx="10" cy="7" r="2.4"/><line x1="4" y1="17" x2="20" y2="17"/><circle cx="15" cy="17" r="2.4"/></svg></button>
 
 <div id="nav"></div>
-<div class="hint">← → 翻页 · 拖滑块调色</div>
+<div class="hint">← → 翻页</div>
 
 <script>
 const root=document.documentElement;
@@ -393,16 +411,20 @@ addEventListener('keydown',e=>{if(e.key==='ArrowRight')go(idx+1);if(e.key==='Arr
 
 // 面板收起/展开
 function setPanelOpen(open){
-  const p=document.getElementById('panel'),t=document.getElementById('toggle');
-  if(open){ p.classList.remove('collapsed'); p.style.display='block'; t.style.display='none'; }
-  else    { p.classList.add('collapsed');    p.style.display='none';  t.style.display='flex'; }
+  const p=document.getElementById('panel');
+  p.classList.remove('collapsed');
+  p.style.display=open?'block':'none';   // 按钮常驻不动，只控制面板显隐
 }
 // 统一点击处理：点图标→展开；点面板内→保持；点其它→关闭（避免双监听竞态）
 document.addEventListener('click',e=>{
   const panel=document.getElementById('panel'),toggle=document.getElementById('toggle');
-  if(toggle.contains(e.target)){ openSnap=JSON.stringify(cur()); setPanelOpen(true); updTools(); return; }
+  if(toggle.contains(e.target)){
+    if(panel.style.display==='block') setPanelOpen(false);                       // 再次点击收起
+    else { openSnap=JSON.stringify(cur()); setPanelOpen(true); updTools(); }     // 展开（在按钮左侧）
+    return;
+  }
   if(panel.contains(e.target)) return;
-  if(!panel.classList.contains('collapsed')) setPanelOpen(false);
+  if(panel.style.display==='block') setPanelOpen(false);                          // 点面板外关闭
 });
 
 go(0);
