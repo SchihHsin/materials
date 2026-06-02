@@ -245,6 +245,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 .bubble-meta .voc-ava{width:34px;height:34px}
 /* 卡型：左右布局（左头像 + 右 星评/文案/用户信息）*/
 .voc-card.lr{flex-direction:row;align-items:flex-start;gap:.85vw;margin-top:0;padding-top:.7vh}
+.voc-card.lr.tight{margin-top:-1.6vh}  /* 上方是高 head 卡时，单独上提贴近 */
 .voc-card.head{padding-bottom:.7vh}
 .voc-card.lr .voc-ava{width:44px;height:44px;flex-shrink:0;margin-top:.2vh}
 .lr-body{display:flex;flex-direction:column;gap:.7vh;min-width:0;flex:1}
@@ -526,7 +527,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
             <div class="voc-q boxed">新的交互式文档把端到端示例串起来了，照着 Notebook 跑半天就通，不用再翻七八个页面。</div>
             <div class="voc-meta"><div class="voc-ava" data-av='{"type":"short","shirt":"#6c6cf0","skin":"light","bg":"#E6EEFB"}'></div><div><div class="voc-nm">林 · 算法工程师</div><div class="voc-rl">互联网 · 3 年</div></div></div>
           </div>
-          <div class="voc-card lr">
+          <div class="voc-card lr tight">
             <div class="voc-ava" data-av='{"type":"short","shirt":"#E89B3F","skin":"tan","bg":"#FBEFE0"}'></div>
             <div class="lr-body">
               <div class="voc-stars">★★★★<span class="off">★</span></div>
@@ -549,7 +550,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
             <div class="voc-hd">期待全程可视化</div>
             <div class="voc-stars">★★★<span class="off">★</span><span class="off">★</span></div>
             <div class="voc-q">调试偶尔还得回到命令行，希望可视化能覆盖到全流程。</div>
-            <div class="voc-meta"><div class="voc-ava" data-av='{"type":"side","shirt":"#5A7BA8","skin":"light","glasses":true,"bg":"#E6EEFB"}'></div><div><div class="voc-nm">吴 · 系统工程师</div><div class="voc-rl">通信 · 7 年</div></div></div>
+            <div class="voc-meta"><div class="voc-ava" data-av='{"type":"long","shirt":"#E6789B","skin":"light","bg":"#FBE8F0"}'></div><div><div class="voc-nm">吴 · 系统工程师</div><div class="voc-rl">通信 · 7 年</div></div></div>
           </div>
         </div>
 
@@ -815,7 +816,7 @@ function avatar(o){
   // 饱满发型：从头顶 y9 盖到额前 y20，覆盖整个头顶
   let h='';
   switch(o.type){
-    case 'long': h=`<path d="M14 44 C12 22 16 9 32 9 C48 9 52 22 50 44 L43 44 C47 27 45 20 39 19 L25 19 C19 20 17 27 21 44Z" fill="${hair}"/>`; break;
+    case 'long': h=`<path d="M14 44 C12 24 16 12 32 12 C48 12 52 24 50 44 L43 44 C47 28 45 21 39 20 L25 20 C19 21 17 28 21 44Z" fill="${hair}"/>`; break;
     case 'bun': h=`<circle cx="32" cy="8.5" r="5.2" fill="${hair}"/><path d="M16 31 C16 9 48 9 48 31 C44 24 40 20 32 18 C24 20 20 24 16 31Z" fill="${hair}"/>`; break;
     case 'curly': h=`<g fill="${hair}"><circle cx="21" cy="19" r="7"/><circle cx="30" cy="12" r="7.5"/><circle cx="40" cy="15" r="7"/><circle cx="46" cy="23" r="5.6"/><circle cx="18" cy="25" r="5.6"/><circle cx="32" cy="17" r="7"/></g>`; break;
     case 'side': h=`<path d="M16 31 C16 9 48 9 48 31 C44 24 40 20 32 18 C26 19 20 22 16 31Z" fill="${hair}"/>`; break;
