@@ -20,13 +20,15 @@
 }
 /* ===== 全局渐变色彩系统 ===== */
 :root{
-  --g-red:    linear-gradient(135deg,#FF6B6B,#FF4D4D 60%,#E53E3E);
-  --g-green:  linear-gradient(135deg,#56F5A0,#2DD4BF 60%,#10B981);
-  --g-blue:   linear-gradient(135deg,#667EEA,#764BA2);
-  --g-amber:  linear-gradient(135deg,#F6D365,#FDA085);
-  --g-purple: linear-gradient(135deg,#A78BFA,#7C3AED);
-  --g-teal:   linear-gradient(135deg,#38F9D7,#4FACFE);
-  --g-pink:   linear-gradient(135deg,#FF6B9D,#FF8B53);
+  /* 状态渐变：同明度，仅微微色相位移（非深浅变化）*/
+  --g-red:    linear-gradient(120deg,#FF5A6E,#FF6F55);   /* 玫红 → 珊瑚橙红 */
+  --g-green:  linear-gradient(120deg,#23CFA0,#45D65A);   /* 青绿 → 草绿 */
+  --g-neutral:#C4CAD4;                                   /* 中性：纯色 */
+  --g-blue:   linear-gradient(120deg,#667EEA,#764BA2);
+  --g-amber:  linear-gradient(120deg,#FBBF60,#F59E0B);
+  --g-purple: linear-gradient(120deg,#A78BFA,#7C3AED);
+  --g-teal:   linear-gradient(120deg,#38C9D7,#4FACFE);
+  --g-pink:   linear-gradient(120deg,#FF6B9D,#FF8B53);
   --g-ink:    linear-gradient(135deg,#1c1f26,#2d3241);
   --g-accent: linear-gradient(135deg,#5B5BD6,#7C3AED);
 }
@@ -177,7 +179,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 .voc-sent .sh{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
 .voc-bar{display:flex;height:16px;border-radius:8px;overflow:hidden;box-shadow:inset 0 1px 2px rgba(0,0,0,.08)}
 .voc-bar i{display:block;height:100%}
-.voc-bar .pos{background:linear-gradient(90deg,#56F5A0,#10B981)}.voc-bar .neu{background:linear-gradient(90deg,#C2C8D2,#A8B4C4)}.voc-bar .neg{background:linear-gradient(90deg,#FF6B6B,#E53E3E)}
+.voc-bar .pos{background:var(--g-green)}.voc-bar .neu{background:var(--g-neutral)}.voc-bar .neg{background:var(--g-red)}
 .voc-legend{display:flex;gap:1.3vw;font-family:'JetBrains Mono';font-size:11px;color:var(--ink-2)}
 .voc-legend span{display:flex;align-items:center;gap:.45em}
 .voc-legend i{width:9px;height:9px;border-radius:2px;display:inline-block}
@@ -216,14 +218,11 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 .bubble{position:relative;border-radius:14px;padding:1.6vh 1.2vw;display:flex;flex-direction:column;gap:.9vh;
   background:rgba(255,255,255,.52);backdrop-filter:blur(15px) saturate(1.5);-webkit-backdrop-filter:blur(15px) saturate(1.5);
   border:1px solid rgba(255,255,255,.65);box-shadow:0 8px 24px -12px rgba(30,40,70,.22),inset 0 1px 0 rgba(255,255,255,.8)}
-/* 尾巴：旋转正方形，底部边+右边 = 对角尖 */
-.bubble::after{content:'';position:absolute;bottom:-7px;left:50%;transform:translateX(-50%) rotate(45deg);
-  width:14px;height:14px;
+/* 尾巴：旋转方块中心压在气泡底边线上（上半重叠进气泡、下半凸出成三角，无缝衔接）*/
+.bubble::after{content:'';position:absolute;bottom:-6.5px;left:50%;transform:translateX(-50%) rotate(45deg);
+  width:13px;height:13px;
   background:rgba(255,255,255,.52);backdrop-filter:blur(15px) saturate(1.5);-webkit-backdrop-filter:blur(15px) saturate(1.5);
   border-bottom:1px solid rgba(255,255,255,.65);border-right:1px solid rgba(255,255,255,.65);z-index:2}
-/* 盖住尾巴根部的底框线，让尾巴和卡片无缝相接 */
-.bubble::before{content:'';position:absolute;bottom:-1px;left:calc(50% - 8px);width:16px;height:3px;
-  background:rgba(255,255,255,.52);backdrop-filter:blur(15px) saturate(1.5);-webkit-backdrop-filter:blur(15px) saturate(1.5);z-index:3}
 .bubble-meta{display:flex;align-items:center;justify-content:center;gap:.5vw;margin-top:.6vh;position:relative;z-index:4}
 .bubble-meta .voc-ava{width:34px;height:34px}
 /* 重点卡：实底强调，与玻璃卡形成层次 */
