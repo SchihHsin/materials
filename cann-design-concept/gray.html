@@ -95,7 +95,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 .cmp-img{order:2;flex:0 0 auto;padding:0 .9vw .9vw;position:relative;margin-top:auto}
 .cmp-img img{width:100%;height:auto;display:block;border-radius:9px;border:1px solid var(--line)}
 .cmp-cap{font-family:'JetBrains Mono';font-size:11px;color:var(--ink-3);text-align:center;letter-spacing:.02em;margin-top:.7vh}
-.cmp-body{order:1;padding:2vh 1.4vw .6vh;flex:0 0 auto}
+.cmp-body{order:1;padding:2vh 1.4vw .6vh;flex:0 0 auto;display:flex;flex-direction:column;gap:1vh}
+.cmp-h{font-family:'Inter','Noto Sans SC';font-weight:700;font-size:max(15px,1.18vw);letter-spacing:-.01em;line-height:1.3;color:var(--ink)}
+.cmp-h .hk{display:block;font-family:'JetBrains Mono';font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:.5vh}
 .cmp-desc{font-size:max(13px,.98vw);line-height:1.72;color:var(--ink-2)}
 .cmp-desc b{color:var(--ink);font-weight:600;background:linear-gradient(transparent 60%,rgba(91,91,214,.16) 0)}
 .cmp-name{font-weight:700;font-size:max(16px,1.25vw);letter-spacing:-.01em}
@@ -581,18 +583,21 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
       <div class="compare">
         <div class="cmp">
           <div class="cmp-body">
+            <div class="cmp-h"><span class="hk">Timeline 标杆</span>时间线 + 源码跳转，新手零门槛</div>
             <div class="cmp-desc">以 <b>CPU/GPU 统一时间线</b> 为核心，开发者框选即可缩放、定位瓶颈算子，并支持 <b>事件 → 源码一键跳转</b>。配合完善的教程体系，新手也能<b>引导式上手</b> Profiling，几乎零学习成本。</div>
           </div>
           <div class="cmp-img"><img src="reference/cmp-nsight.jpg" alt="Nsight Systems 界面"><div class="cmp-cap">NVIDIA Nsight Systems</div></div>
         </div>
         <div class="cmp">
           <div class="cmp-body">
+            <div class="cmp-h"><span class="hk">归因深度</span>逐层下钻，瓶颈归因到微架构</div>
             <div class="cmp-desc">提供多种分析类型，热点可 <b>逐层下钻</b>，并给出 <b>微架构级瓶颈归因</b>，直指问题根因。向导式配置分析任务，让性能调优<b>有据可依、不靠猜测</b>，深受系统级开发者青睐。</div>
           </div>
           <div class="cmp-img"><img src="reference/cmp-vtune.jpg" alt="Intel VTune 界面"><div class="cmp-cap">Intel VTune Profiler</div></div>
         </div>
         <div class="cmp">
           <div class="cmp-body">
+            <div class="cmp-h"><span class="hk">开放协作</span>开源 Web 化，trace 浏览器可分享</div>
             <div class="cmp-desc">走 <b>开源 + Web 化</b> 路线，trace 可导出 <b>Perfetto</b> 在浏览器中查看与 <b>分享</b>。虽以命令行采集为主，但天然适合<b>团队协作与远程复现</b>，可视化门槛低、可扩展性强。</div>
           </div>
           <div class="cmp-img"><img src="reference/cmp-rocm-tool.jpg" alt="AMD rocprof 架构"><div class="cmp-cap">AMD rocprof / Omnitrace</div></div>
