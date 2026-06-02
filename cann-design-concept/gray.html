@@ -222,6 +222,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 .voc-rl{font-family:'JetBrains Mono';font-size:10px;color:var(--ink-3);margin-top:.2vh}
 .voc-ava{width:40px;height:40px;border-radius:50%;flex-shrink:0;overflow:hidden;background:var(--card-2)}
 .voc-ava svg,.ava-pop svg{width:100%;height:100%;display:block}
+.voc-ava img,.pf-ava img{width:100%;height:100%;display:block;object-fit:cover}
 /* 头像探出卡片边缘 */
 .ava-pop{position:absolute;border-radius:50%;overflow:hidden;border:3px solid rgba(255,255,255,.92);box-shadow:0 5px 15px -4px rgba(20,30,60,.32);background:var(--card-2);z-index:2}
 .ava-tr{top:-16px;right:16px;width:50px;height:50px}
@@ -599,7 +600,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
         <div class="voc-card">
           <div class="voc-stars">★★★★★</div>
           <div class="voc-q">Profiling 看板能直接点到瓶颈算子，框选即缩放，比之前翻日志定位快太多了。</div>
-          <div class="voc-meta"><div class="voc-ava" data-av='{"type":"side","shirt":"#3FB37F","skin":"light","glasses":true,"bg":"#E2F3EA"}'></div><div><div class="voc-nm">陈 · 框架开发者</div><div class="voc-rl">AI 平台 · 5 年</div></div></div>
+          <div class="voc-meta"><div class="voc-ava"><img src="reference/av/chen.svg" alt=""></div><div><div class="voc-nm">陈 · 框架开发者</div><div class="voc-rl">AI 平台 · 5 年</div></div></div>
         </div>
 
         <!-- 刘 · 大引号卡 -->
@@ -607,7 +608,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
           <div class="qm open">“</div>
           <div class="voc-stars">★★★★<span class="off">★</span></div>
           <div class="voc-q">成长地图让我清楚下一步该学什么，照着路线走不再瞎撞。</div>
-          <div class="voc-meta"><div class="voc-ava" data-av='{"type":"short","shirt":"#5B8DEF","skin":"light","glasses":true,"bg":"#E6EEFB"}'></div><div><div class="voc-nm">刘 · 后端工程师</div><div class="voc-rl">云服务 · 2 年</div></div></div>
+          <div class="voc-meta"><div class="voc-ava"><img src="reference/av/liu.svg" alt=""></div><div><div class="voc-nm">刘 · 后端工程师</div><div class="voc-rl">云服务 · 2 年</div></div></div>
         </div>
 
         <!-- 林 · 大标题卡 -->
@@ -616,12 +617,12 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
           <div class="voc-hd">文档终于连起来了</div>
           <div class="voc-stars">★★★★★</div>
           <div class="voc-q boxed">新的交互式文档把端到端示例串起来了，照着 Notebook 跑半天就通，不用再翻七八个页面。</div>
-          <div class="voc-meta"><div class="voc-ava" data-av='{"type":"short","shirt":"#6c6cf0","skin":"light","bg":"#E6EEFB"}'></div><div><div class="voc-nm">林 · 算法工程师</div><div class="voc-rl">互联网 · 3 年</div></div></div>
+          <div class="voc-meta"><div class="voc-ava"><img src="reference/av/lin.svg" alt=""></div><div><div class="voc-nm">林 · 算法工程师</div><div class="voc-rl">互联网 · 3 年</div></div></div>
         </div>
 
         <!-- 王 · 左右布局卡 -->
         <div class="voc-card lr">
-          <div class="voc-ava" data-av='{"type":"short","shirt":"#E89B3F","skin":"tan","bg":"#FBEFE0"}'></div>
+          <div class="voc-ava"><img src="reference/av/wang.svg" alt=""></div>
           <div class="lr-body">
             <div class="voc-stars">★★★★<span class="off">★</span></div>
             <div class="voc-q">算子开发向导生成骨架后，我只要填核心计算逻辑，省了大量样板代码。</div>
@@ -633,7 +634,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
         <div class="voc-card soft">
           <div class="voc-stars">★★★★<span class="off">★</span></div>
           <div class="voc-q">如果环境能一键拉起来、版本自动对齐，复现实验就不再是噩梦，能省下大量重装和排错的时间。</div>
-          <div class="voc-meta"><div class="voc-ava" data-av='{"type":"long","shirt":"#7a9bf2","skin":"light","bg":"#EDE9FB"}'></div><div><div class="voc-nm">赵 · 学术研究者</div><div class="voc-rl">高校 · 博士在读</div></div></div>
+          <div class="voc-meta"><div class="voc-ava"><img src="reference/av/zhao.svg" alt=""></div><div><div class="voc-nm">赵 · 学术研究者</div><div class="voc-rl">高校 · 博士在读</div></div></div>
         </div>
 
         <!-- 吴 · 大标题卡 -->
@@ -642,7 +643,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
           <div class="voc-hd">期待全程可视化</div>
           <div class="voc-stars">★★★<span class="off">★</span><span class="off">★</span></div>
           <div class="voc-q">调试偶尔还得回到命令行，希望可视化能覆盖到全流程。</div>
-          <div class="voc-meta"><div class="voc-ava" data-av='{"type":"curly","shirt":"#E6789B","skin":"light","hair":"#7A4A28","bg":"#FBE8F0"}'></div><div><div class="voc-nm">吴 · 系统工程师</div><div class="voc-rl">通信 · 7 年</div></div></div>
+          <div class="voc-meta"><div class="voc-ava"><img src="reference/av/wu.svg" alt=""></div><div><div class="voc-nm">吴 · 系统工程师</div><div class="voc-rl">通信 · 7 年</div></div></div>
         </div>
 
         <!-- 孙 · 大引号卡 -->
@@ -650,12 +651,12 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
           <div class="qm open">“</div>
           <div class="voc-stars">★★★★★</div>
           <div class="voc-q">智能错误诊断给的修复建议挺准，直接点出可疑算子，少跑了好几趟社区。</div>
-          <div class="voc-meta"><div class="voc-ava" data-av='{"type":"curly","shirt":"#9b59b6","skin":"brown","bg":"#F2E7F6"}'></div><div><div class="voc-nm">孙 · 推理优化工程师</div><div class="voc-rl">自动驾驶 · 6 年</div></div></div>
+          <div class="voc-meta"><div class="voc-ava"><img src="reference/av/sun.svg" alt=""></div><div><div class="voc-nm">孙 · 推理优化工程师</div><div class="voc-rl">自动驾驶 · 6 年</div></div></div>
         </div>
 
         <!-- 周 · 左右布局卡 -->
         <div class="voc-card lr">
-          <div class="voc-ava" data-av='{"type":"bun","shirt":"#16a085","skin":"pale","bg":"#E0F2EE"}'></div>
+          <div class="voc-ava"><img src="reference/av/zhou.svg" alt=""></div>
           <div class="lr-body">
             <div class="voc-stars">★★★<span class="off">★</span><span class="off">★</span></div>
             <div class="voc-q">希望文档的中英文版本能同步更新，目前英文版常滞后两三个版本。</div>
@@ -1086,7 +1087,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
       <div class="pf">
         <!-- 左：人物侧栏 -->
         <div class="pf-side">
-          <div class="pf-ava" data-av='{"type":"short","shirt":"#5B5BD6","skin":"light","glasses":true,"bg":"#ECECFB"}'></div>
+          <div class="pf-ava"><img src="reference/av/persona.svg" alt=""></div>
           <div class="pf-name">王 · 算子开发工程师</div>
           <div class="pf-role">Operator Developer</div>
           <div class="pf-chips">
