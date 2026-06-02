@@ -91,15 +91,14 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 .compare{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4vw;flex:1;min-height:0}
 .cmp{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
 .cmp.focus{border:2px solid var(--accent);box-shadow:0 12px 32px -12px rgba(91,91,214,.4)}
-/* 图区（程序化品牌色示意，可替换真实截图）*/
-.cmp-img{height:27vh;position:relative;flex:0 0 auto;background:#0d1016;overflow:hidden}
-.cmp-img img{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
-.cmp-img .bd{position:absolute;top:10px;right:10px;font-family:'JetBrains Mono';font-size:10px;color:#fff;background:var(--accent);border-radius:4px;padding:2px 7px;z-index:1}
-.cmp-body{padding:1.6vh 1.2vw;display:flex;flex-direction:column;gap:.9vh;flex:1}
+/* 图区：沉到卡片最底（order:2），文案在上（order:1）；图片不裁切+圆角+留白+padding */
+.cmp-img{order:2;flex:0 0 auto;padding:0 1.1vw 1.3vh;position:relative}
+.cmp-img img{width:100%;height:21vh;object-fit:contain;object-position:center;display:block;border-radius:10px;background:#EEF0F4;border:1px solid var(--line)}
+.cmp-body{order:1;padding:1.6vh 1.2vw .6vh;display:flex;flex-direction:column;gap:.9vh;flex:1}
 .cmp-name{font-weight:700;font-size:max(16px,1.25vw);letter-spacing:-.01em}
 .cmp-sub{font-family:'JetBrains Mono';font-size:10px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.1em;margin-top:.2vh}
 .verdict{flex:0 0 auto;margin-top:1.4vh;display:grid;grid-template-columns:auto 1fr;gap:1.2vw;align-items:center;background:var(--g-ink);color:#fff;border-radius:12px;padding:1.8vh 1.6vw}
-.verdict .vk{font-family:'JetBrains Mono';font-size:12px;letter-spacing:.16em;text-transform:uppercase;background:var(--accent);border-radius:6px;padding:5px 11px;white-space:nowrap}
+.verdict .vk{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.9);background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);border-radius:100px;padding:5px 14px;white-space:nowrap}
 .verdict .vv{font-size:max(14px,1.02vw);line-height:1.55}
 .verdict .vv b{font-weight:700}
 .cmp-row{display:flex;flex-direction:column;gap:.35vh;padding-top:1vh;border-top:1px solid var(--line)}
@@ -271,7 +270,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 .jrn-rn{font-size:10px;font-weight:700;color:var(--ink-2);line-height:1.4}
 .jrn-re{font-size:8px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.5px;margin-top:1px}
 .jrn-pw{padding-right:5px;display:flex;flex-direction:column}
-.jrn-ph{flex:1;border-radius:10px 10px 0 0;padding:.9vh .75vw .75vh;background:var(--g-ink);position:relative;overflow:hidden}
+.jrn-ph{flex:1;border-radius:10px 10px 0 0;padding:1.1vh .85vw 1.4vh;background:var(--g-ink);position:relative;overflow:hidden}
 .jrn-ph::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px}
 .jpc1 .jrn-ph::after{background:#EF4444}.jpc2 .jrn-ph::after{background:#F59E0B}
 .jpc3 .jrn-ph::after{background:#3B82F6}.jpc4 .jrn-ph::after{background:#10B981}
@@ -289,9 +288,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 .jrn-fl{font-size:max(9.5px,.7vw);font-weight:500;color:var(--ink);line-height:1.4}
 .jrn-fd{font-size:max(9px,.66vw);color:var(--ink-3);line-height:1.35}
 /* 情绪行：5 个独立格子（与其他行对齐、有间隔），每格内嵌曲线段+圆点+emoji+标签 */
-.jrn-grid.je{flex-shrink:0}  /* 锁死高度，内容全为绝对定位、否则会被 flex 压扁 */
+.jrn-grid.je{flex-shrink:0;height:16vh}  /* 显式锁死高度，内容全为绝对定位、否则会被 flex 压扁 */
 .jrn-ew{padding-right:5px;display:flex;flex-direction:column}
-.jrn-ec{flex:1;position:relative;height:16vh;border-left:1px solid rgba(255,255,255,.6);border-right:1px solid rgba(255,255,255,.6);border-bottom:1px solid rgba(255,255,255,.6);background:rgba(250,251,255,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);overflow:hidden}
+.jrn-ec{flex:1;position:relative;height:100%;border-left:1px solid rgba(255,255,255,.6);border-right:1px solid rgba(255,255,255,.6);border-bottom:1px solid rgba(255,255,255,.6);background:rgba(250,251,255,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);overflow:hidden}
 .jrn-ec svg{position:absolute;inset:0;width:100%;height:100%;display:block}
 .jrn-ec .d{position:absolute;width:9px;height:9px;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.2);transform:translate(-50%,-50%);left:50%;z-index:3}
 .jrn-ec .e{position:absolute;font-size:13px;transform:translate(-50%,0);left:50%;z-index:3;line-height:1}
@@ -544,7 +543,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
     <div class="body-area">
       <div class="compare">
         <div class="cmp">
-          <div class="cmp-img" style="border-bottom:3px solid #76B900"><img src="reference/cmp-nsight.jpg" style="object-position:72% 56%" alt="Nsight Systems 界面"></div>
+          <div class="cmp-img"><img src="reference/cmp-nsight.jpg" alt="Nsight Systems 界面"></div>
           <div class="cmp-body">
             <div><div class="cmp-name">NVIDIA Nsight Systems</div><div class="cmp-sub">CUDA · Timeline Profiler</div></div>
             <div class="cmp-row"><span class="k">可视化</span><span class="v">CPU/GPU 统一时间线，框选即缩放定位</span></div>
@@ -553,7 +552,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
           </div>
         </div>
         <div class="cmp">
-          <div class="cmp-img" style="border-bottom:3px solid #0071C5"><img src="reference/cmp-vtune.jpg" style="object-position:center 45%" alt="Intel VTune 界面"></div>
+          <div class="cmp-img"><img src="reference/cmp-vtune.jpg" alt="Intel VTune 界面"></div>
           <div class="cmp-body">
             <div><div class="cmp-name">Intel VTune Profiler</div><div class="cmp-sub">CPU/GPU · Performance Analyzer</div></div>
             <div class="cmp-row"><span class="k">可视化</span><span class="v">多分析类型，热点逐层下钻</span></div>
@@ -562,7 +561,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
           </div>
         </div>
         <div class="cmp">
-          <div class="cmp-img" style="border-bottom:3px solid #ED1C24"><img src="reference/cmp-rocm-tool.jpg" style="object-position:center 82%" alt="AMD rocprof 架构"></div>
+          <div class="cmp-img"><img src="reference/cmp-rocm-tool.jpg" alt="AMD rocprof 架构"></div>
           <div class="cmp-body">
             <div><div class="cmp-name">AMD rocprof / Omnitrace</div><div class="cmp-sub">ROCm · Trace &amp; Profile</div></div>
             <div class="cmp-row"><span class="k">可视化</span><span class="v">导出 Perfetto，浏览器看 trace</span></div>
