@@ -260,8 +260,12 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 .jmb{height:2.5px;border-radius:2px;background:#E5E7EB}
 .jrn-fl{font-size:max(10.5px,.76vw);font-weight:600;color:var(--ink);line-height:1.4}
 .jrn-fd{font-size:max(9px,.68vw);color:var(--ink-3);line-height:1.35}
-.jrn-emow{grid-column:2/7;margin-right:5px;position:relative;height:9vh;background:rgba(250,251,255,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.6);border-top:0}
+.jrn-emow{grid-column:2/7;margin-right:5px;position:relative;height:11vh;background:rgba(250,251,255,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.6);border-top:0}
 .jrn-emow svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+/* 圆点和 emoji：HTML 元素，绝对定位，不随 SVG 变形 */
+.jrn-edot{position:absolute;width:9px;height:9px;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.18);transform:translate(-50%,-50%);z-index:3}
+.jrn-emoji{position:absolute;font-size:13px;transform:translate(-50%,0);z-index:3;line-height:1}
+.jrn-elbl{position:absolute;font-family:'JetBrains Mono';font-size:8px;font-weight:700;transform:translateX(-50%);z-index:3;white-space:nowrap;bottom:3px}
 .jrn-dw{padding-right:5px}
 .jrn-dc{border-left:1px solid rgba(255,255,255,.6);border-right:1px solid rgba(255,255,255,.6);border-bottom:1px solid rgba(255,255,255,.6);border-radius:0 0 9px 9px;padding:.7vh .65vw;display:flex;flex-direction:column;gap:.4vh;background:rgba(255,255,255,.42);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px)}
 .jrn-ki{display:flex;gap:4px;align-items:flex-start}
@@ -579,33 +583,43 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
         <div class="jrn-grid">
           <div class="jrn-rl"><div class="jrn-rn">情绪</div><div class="jrn-re">Emotion</div></div>
           <div class="jrn-emow">
-            <svg viewBox="0 0 1050 86" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- SVG 只负责曲线+填充+网格，不含圆点 emoji -->
+            <svg viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
               <defs>
-                <linearGradient id="jfill" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#4361EE" stop-opacity=".08"/><stop offset="100%" stop-color="#7C3AED" stop-opacity=".01"/></linearGradient>
+                <linearGradient id="jfill" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#4361EE" stop-opacity=".09"/><stop offset="100%" stop-color="#7C3AED" stop-opacity=".01"/></linearGradient>
                 <linearGradient id="jstroke" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#4361EE"/><stop offset="100%" stop-color="#7C3AED"/></linearGradient>
               </defs>
-              <line x1="0" y1="20" x2="1050" y2="20" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="4,4"/>
-              <line x1="0" y1="43" x2="1050" y2="43" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="4,4"/>
-              <line x1="0" y1="66" x2="1050" y2="66" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="4,4"/>
-              <text x="4" y="17" font-size="7" fill="#9CA3AF">积极</text><text x="4" y="67" font-size="7" fill="#9CA3AF">消极</text>
-              <path d="M105,49 C175,42 240,32 315,26 C390,20 450,15 525,12 C600,9 660,8 735,9 C800,10 860,11 945,13 L945,84 L105,84 Z" fill="url(#jfill)"/>
-              <path d="M105,49 C175,42 240,32 315,26 C390,20 450,15 525,12 C600,9 660,8 735,9 C800,10 860,11 945,13" fill="none" stroke="url(#jstroke)" stroke-width="1.5" stroke-linecap="round" opacity=".75"/>
-              <circle cx="105" cy="49" r="4.5" fill="#EF4444" stroke="white" stroke-width="1.8"/>
-              <circle cx="315" cy="26" r="4.5" fill="#3B82F6" stroke="white" stroke-width="1.8"/>
-              <circle cx="525" cy="12" r="4.5" fill="#10B981" stroke="white" stroke-width="1.8"/>
-              <circle cx="735" cy="9"  r="4.5" fill="#059669" stroke="white" stroke-width="1.8"/>
-              <circle cx="945" cy="13" r="4.5" fill="#8B5CF6" stroke="white" stroke-width="1.8"/>
-              <text x="105" y="57" font-size="11" text-anchor="middle">😌</text>
-              <text x="315" y="36" font-size="11" text-anchor="middle">🎯</text>
-              <text x="525" y="21" font-size="11" text-anchor="middle">🚀</text>
-              <text x="735" y="17" font-size="11" text-anchor="middle">💡</text>
-              <text x="945" y="21" font-size="11" text-anchor="middle">😊</text>
-              <text x="105" y="80" font-size="7.5" font-weight="600" fill="#B91C1C" text-anchor="middle">清晰·被引导</text>
-              <text x="315" y="60" font-size="7.5" font-weight="600" fill="#1D4ED8" text-anchor="middle">兴奋·有方向</text>
-              <text x="525" y="43" font-size="7.5" font-weight="600" fill="#065F46" text-anchor="middle">专注·不打断</text>
-              <text x="735" y="36" font-size="7.5" font-weight="600" fill="#065F46" text-anchor="middle">掌控·高效</text>
-              <text x="945" y="40" font-size="7.5" font-weight="600" fill="#5B21B6" text-anchor="middle">满足·归属</text>
+              <!-- grid lines at 23%, 50%, 77% height -->
+              <line x1="0" y1="23" x2="100" y2="23" stroke="#E5E7EB" stroke-width=".8" stroke-dasharray="3,3" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="50" x2="100" y2="50" stroke="#E5E7EB" stroke-width=".8" stroke-dasharray="3,3" vector-effect="non-scaling-stroke"/>
+              <line x1="0" y1="77" x2="100" y2="77" stroke="#E5E7EB" stroke-width=".8" stroke-dasharray="3,3" vector-effect="non-scaling-stroke"/>
+              <!-- fill: curve goes from (10%,57%) rising to (90%,15%) -->
+              <path d="M10,57 C18,49 26,38 30,30 C36,23 44,18 50,14 C56,11 63,10 70,10.5 C76,11 83,12.8 90,15 L90,100 L10,100 Z" fill="url(#jfill)"/>
+              <!-- curve line -->
+              <path d="M10,57 C18,49 26,38 30,30 C36,23 44,18 50,14 C56,11 63,10 70,10.5 C76,11 83,12.8 90,15" fill="none" stroke="url(#jstroke)" stroke-width="1.2" stroke-linecap="round" opacity=".8" vector-effect="non-scaling-stroke"/>
             </svg>
+            <!-- 圆点：HTML 元素，绝对定位，不受 SVG 拉伸影响 -->
+            <!-- 5 列中心 x 在 grid-column:2/7 容器内 = 10% 30% 50% 70% 90% -->
+            <!-- y 对应曲线百分比高度 -->
+            <div class="jrn-edot" style="left:10%;top:57%;background:#EF4444"></div>
+            <div class="jrn-emoji" style="left:10%;top:calc(57% + 6px)">😌</div>
+            <div class="jrn-elbl" style="left:10%;color:#B91C1C">清晰·被引导</div>
+
+            <div class="jrn-edot" style="left:30%;top:30%;background:#3B82F6"></div>
+            <div class="jrn-emoji" style="left:30%;top:calc(30% + 6px)">🎯</div>
+            <div class="jrn-elbl" style="left:30%;color:#1D4ED8">兴奋·有方向</div>
+
+            <div class="jrn-edot" style="left:50%;top:14%;background:#10B981"></div>
+            <div class="jrn-emoji" style="left:50%;top:calc(14% + 6px)">🚀</div>
+            <div class="jrn-elbl" style="left:50%;color:#065F46">专注·不打断</div>
+
+            <div class="jrn-edot" style="left:70%;top:10.5%;background:#059669"></div>
+            <div class="jrn-emoji" style="left:70%;top:calc(10.5% + 6px)">💡</div>
+            <div class="jrn-elbl" style="left:70%;color:#065F46">掌控·高效</div>
+
+            <div class="jrn-edot" style="left:90%;top:15%;background:#8B5CF6"></div>
+            <div class="jrn-emoji" style="left:90%;top:calc(15% + 6px)">😊</div>
+            <div class="jrn-elbl" style="left:90%;color:#5B21B6">满足·归属</div>
           </div>
         </div>
 
