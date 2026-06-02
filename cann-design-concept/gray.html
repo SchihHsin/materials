@@ -94,7 +94,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 /* 图区：沉到卡片最底（order:2），文案在上（order:1）；图片不裁切+圆角+留白+padding */
 .cmp-img{order:2;flex:0 0 auto;padding:0 .7vw .7vw;position:relative}
 .cmp-img img{width:100%;height:auto;display:block;border-radius:9px;border:1px solid var(--line)}
-.cmp-body{order:1;padding:1.6vh 1.2vw .4vh;display:flex;flex-direction:column;gap:.9vh;flex:1}
+.cmp-body{order:1;padding:1.6vh 1.2vw .4vh;display:flex;flex-direction:column;gap:.9vh;flex:0 0 auto}
 .cmp-name{font-weight:700;font-size:max(16px,1.25vw);letter-spacing:-.01em}
 .cmp-sub{font-family:'JetBrains Mono';font-size:10px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.1em;margin-top:.2vh}
 .verdict{flex:0 0 auto;margin-top:1.4vh;display:grid;grid-template-columns:auto 1fr;gap:1.2vw;align-items:center;background:var(--g-ink);color:#fff;border-radius:12px;padding:1.8vh 1.6vw}
@@ -319,6 +319,23 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 .jrn-oi{display:flex;gap:4px;align-items:flex-start}
 .jrn-oi-dot{width:7px;height:7px;border-radius:50%;background:#10B981;flex-shrink:0;margin-top:3px}
 .jrn-ot{font-size:max(9.5px,.7vw);color:#064E3B;line-height:1.45}
+
+/* ===== 竞品分析（备选版）：图文并茂 + 分点论述 ===== */
+.cx-wrap{flex:1;min-height:0;display:flex;flex-direction:column;gap:2.2vh}
+.cx-shots{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4vw;flex:0 0 auto}
+.cx-shot{display:flex;flex-direction:column;gap:.6vh}
+.cx-shot img{width:100%;height:18vh;object-fit:cover;object-position:top center;border-radius:10px;border:1px solid var(--line);display:block}
+.cx-cap{font-family:'JetBrains Mono';font-size:11px;color:var(--ink-3);text-align:center;letter-spacing:.02em}
+.cx-points{flex:1;min-height:0;display:flex;flex-direction:column;gap:1.2vh;justify-content:center}
+.cx-point{display:flex;gap:1vw;align-items:flex-start}
+.cx-num{font-family:'Inter';font-weight:700;font-size:max(15px,1.2vw);background:var(--g-accent);-webkit-background-clip:text;background-clip:text;color:transparent;flex-shrink:0;line-height:1.35;width:1.5em}
+.cx-pt .pt{font-weight:700;font-size:max(14px,1.05vw);color:var(--ink);margin-right:.5em}
+.cx-pt .pd{font-size:max(12.5px,.94vw);color:var(--ink-2);line-height:1.6}
+.cx-pt .pd b{color:var(--ink);font-weight:600;background:linear-gradient(transparent 60%,rgba(91,91,214,.16) 0)}
+.cx-concl{flex:0 0 auto;display:grid;grid-template-columns:auto 1fr;gap:1.2vw;align-items:center;background:var(--g-ink);color:#fff;border-radius:12px;padding:1.7vh 1.5vw}
+.cx-concl .ck{font-family:'Inter','Noto Sans SC';font-size:13px;font-weight:700;color:var(--ink);background:#fff;border-radius:12px;padding:6px 15px;white-space:nowrap}
+.cx-concl .cv{font-size:max(13px,1vw);line-height:1.6}
+.cx-concl .cv b{font-weight:700}
 
 /* ===== 翻页 ===== */
 #nav{position:fixed;bottom:2.4vh;left:50%;transform:translateX(-50%);z-index:50;display:flex;gap:9px;padding:8px 14px;border-radius:999px;background:rgba(0,0,0,.06)}
@@ -580,6 +597,49 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
     </div>
     <div class="ucd">▢ UCD CENTER</div>
     <div class="foot">Page 03 · Competitive</div>
+  </section>
+
+  <!-- ===== 页3B：竞品分析（备选版 · 图文并茂+分点论述）===== -->
+  <section class="slide">
+    <div class="head">
+      <div class="head-l">
+        <div class="brand"><span class="logo">C<span class="r">A</span>NN</span><span class="ttl">竞品圈定 Profiling 的三大设计点</span></div>
+        <div class="subttl">Competitive Analysis · Nsight / VTune / rocprof 横向对比</div>
+      </div>
+      <div class="head-r">03 / 竞品对照<br/>2026</div>
+    </div>
+    <div class="body-area">
+      <div class="cx-wrap">
+        <!-- 竞品截图 + 低调注释 -->
+        <div class="cx-shots">
+          <div class="cx-shot"><img src="reference/cmp-nsight.jpg" alt="Nsight"><div class="cx-cap">NVIDIA Nsight Systems</div></div>
+          <div class="cx-shot"><img src="reference/cmp-vtune.jpg" alt="VTune"><div class="cx-cap">Intel VTune Profiler</div></div>
+          <div class="cx-shot"><img src="reference/cmp-rocm-tool.jpg" alt="rocprof"><div class="cx-cap">AMD rocprof / Omnitrace</div></div>
+        </div>
+        <!-- 分点论述：重点字段加粗 -->
+        <div class="cx-points">
+          <div class="cx-point">
+            <div class="cx-num">01</div>
+            <div class="cx-pt"><span class="pt">统一时间线已成标配</span><span class="pd">Nsight 与 VTune 均提供 <b>CPU/GPU 统一时间线</b>，支持框选即缩放，瓶颈算子一眼定位；CANN 目前仍需在<b>多份运行日志间手动比对</b>。</span></div>
+          </div>
+          <div class="cx-point">
+            <div class="cx-num">02</div>
+            <div class="cx-pt"><span class="pt">瓶颈定位走向智能化</span><span class="pd">VTune 提供 <b>微架构级瓶颈归因</b>，Nsight 支持 <b>事件 → 源码一键跳转</b>，定位效率远高于 CANN 当前依赖的 <b>print 排查</b>。</span></div>
+          </div>
+          <div class="cx-point">
+            <div class="cx-num">03</div>
+            <div class="cx-pt"><span class="pt">可视化全面 Web 化</span><span class="pd">AMD rocprof / Omnitrace 可导出 <b>Perfetto</b>，在浏览器中查看并 <b>分享 trace</b>，摆脱本地重型客户端依赖，协作门槛更低。</span></div>
+          </div>
+        </div>
+        <!-- 设计点结论 -->
+        <div class="cx-concl">
+          <span class="ck">设计点</span>
+          <span class="cv">CANN Profiling 看板应对标 <b>统一时间线 + 一键瓶颈定位 + Web 化可视化</b>，并补齐 <b>事件→源码跳转</b> 与 <b>浏览器端 trace 分享</b>，把命令行门槛降下来。</span>
+        </div>
+      </div>
+    </div>
+    <div class="ucd">▢ UCD CENTER</div>
+    <div class="foot">Page 03B · Competitive（备选）</div>
   </section>
 
   <!-- ===== 页4：用户旅程（CANN 开发者全链路）===== -->
