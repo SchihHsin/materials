@@ -146,7 +146,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 .mcell .mt{font-weight:700;font-size:max(12px,.94vw);margin-bottom:.3vh;display:block}
 
 /* ===== 玻璃折射卡片（灰底白卡统一玻璃质感，背后纹理透出）===== */
-.card,.cmp,.persona,.kpi:not(.accent),.voice,.method .m,.lc:not(.hl),.act-node,.mcell.scene,.layer-label,.voc-sent,.voc-stat,.voc-card:not(.hl):not(.accent){
+.card,.cmp,.persona,.kpi:not(.accent),.voice,.method .m,.lc:not(.hl),.act-node,.mcell.scene,.layer-label,.voc-sent,.voc-stat,.voc-card:not(.hl):not(.accent):not(.bubble){
   background:rgba(255,255,255,.46)!important;
   backdrop-filter:blur(15px) saturate(1.5);
   -webkit-backdrop-filter:blur(15px) saturate(1.5);
@@ -173,21 +173,44 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 .voc-stat .n{font-family:'Inter';font-weight:200;font-size:min(3.4vw,5.6vh);line-height:.9;letter-spacing:-.03em;color:var(--ink);font-feature-settings:'tnum'}
 .voc-stat .n .u{font-size:.34em;font-weight:400;color:var(--ink-2);margin-left:.12em}
 .voc-stat .l{font-family:'JetBrains Mono';font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
-.voc-wall{flex:1;min-height:0;column-count:4;column-gap:1vw}
-.voc-card{break-inside:avoid;border-radius:13px;padding:1.6vh 1.1vw;margin-bottom:1vw;display:flex;flex-direction:column;gap:1vh;position:relative;overflow:hidden}
-.voc-card .qm{font-family:'Inter';font-weight:800;font-size:34px;line-height:.5;color:var(--accent);opacity:.28}
-.voc-q{font-size:max(12px,.86vw);line-height:1.52;color:var(--ink)}
+.voc-wall{flex:1;min-height:0;column-count:4;column-gap:1.1vw}
+.voc-card{break-inside:avoid;margin-bottom:1.1vw;border-radius:15px;padding:1.7vh 1.2vw;position:relative;display:flex;flex-direction:column;gap:.95vh}
+.voc-q{font-size:max(12px,.86vw);line-height:1.55;color:var(--ink)}
 .voc-stars{display:flex;gap:2px;color:#E8A93C;font-size:13px;letter-spacing:1px}
 .voc-stars .off{color:var(--line)}
-.voc-meta{display:flex;align-items:center;gap:.6vw;margin-top:auto;padding-top:.4vh}
-.voc-ava{width:34px;height:34px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--accent),#8a7ce0)}
+.voc-hd{font-family:'Inter','Noto Sans SC';font-weight:700;font-size:max(15px,1.18vw);letter-spacing:-.01em;line-height:1.2;color:var(--ink)}
+.qm{font-family:Georgia,'Times New Roman',serif;font-weight:700;color:var(--accent);opacity:.24}
+.qm.open{font-size:42px;line-height:.72;margin-bottom:-.6vh}
+/* 元信息：头像 + 名字 */
+.voc-meta{display:flex;align-items:center;gap:.55vw;margin-top:auto;padding-top:.3vh}
 .voc-nm{font-weight:600;font-size:max(12px,.84vw);line-height:1.2}
 .voc-rl{font-family:'JetBrains Mono';font-size:10px;color:var(--ink-3);margin-top:.2vh}
+.voc-ava{width:40px;height:40px;border-radius:50%;flex-shrink:0;overflow:hidden;background:var(--card-2)}
+.voc-ava svg,.ava-pop svg{width:100%;height:100%;display:block}
+/* 头像探出卡片边缘 */
+.ava-pop{position:absolute;border-radius:50%;overflow:hidden;border:3px solid rgba(255,255,255,.92);box-shadow:0 5px 15px -4px rgba(20,30,60,.32);background:var(--card-2);z-index:2}
+.ava-tr{top:-16px;right:16px;width:50px;height:50px}
+.ava-tc{top:-27px;left:50%;transform:translateX(-50%);width:56px;height:56px}
+/* 卡型：右上角探出头像 */
+.voc-card.corner{margin-top:20px;padding-top:1.5vh}
+.voc-card.corner .voc-id{padding-right:44px;margin-bottom:.3vh}
+/* 卡型：居中头像浮顶 */
+.voc-card.center{align-items:center;text-align:center;margin-top:32px;padding-top:34px}
+.voc-card.center .voc-meta{margin-top:1vh;flex-direction:column;gap:.1vh}
+/* 卡型：消息气泡 + 外置头像 */
+.voc-card.bubble{background:transparent!important;border:0!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;padding:0;gap:.95vh}
+.bubble{position:relative;border-radius:16px;padding:1.6vh 1.2vw;display:flex;flex-direction:column;gap:.9vh;
+  background:rgba(255,255,255,.52);backdrop-filter:blur(15px) saturate(1.5);-webkit-backdrop-filter:blur(15px) saturate(1.5);
+  border:1px solid rgba(255,255,255,.65);box-shadow:0 8px 24px -12px rgba(30,40,70,.22),inset 0 1px 0 rgba(255,255,255,.8)}
+.bubble::after{content:"";position:absolute;left:26px;bottom:-7px;width:15px;height:15px;background:rgba(255,255,255,.62);
+  border-right:1px solid rgba(255,255,255,.65);border-bottom:1px solid rgba(255,255,255,.65);transform:rotate(45deg)}
+.bubble-meta{display:flex;align-items:center;gap:.5vw;padding-left:.6vw}
+.bubble-meta .voc-ava{width:34px;height:34px}
 /* 重点卡：实底强调，与玻璃卡形成层次 */
 .voc-card.hl{background:var(--ink)!important;border-color:transparent!important;backdrop-filter:none;-webkit-backdrop-filter:none;box-shadow:0 12px 30px -12px rgba(20,25,30,.5)!important}
-.voc-card.hl .voc-q,.voc-card.hl .voc-nm{color:#fff}.voc-card.hl .voc-rl{color:rgba(255,255,255,.6)}.voc-card.hl .qm{color:#9b8ce8;opacity:.85}
+.voc-card.hl .voc-q,.voc-card.hl .voc-nm,.voc-card.hl .voc-hd{color:#fff}.voc-card.hl .voc-rl{color:rgba(255,255,255,.6)}.voc-card.hl .qm{color:#9b8ce8;opacity:.9}
 .voc-card.accent{background:var(--accent)!important;border-color:transparent!important;backdrop-filter:none;-webkit-backdrop-filter:none;box-shadow:0 12px 30px -12px rgba(91,91,214,.5)!important}
-.voc-card.accent .voc-q,.voc-card.accent .voc-nm{color:#fff}.voc-card.accent .voc-rl{color:rgba(255,255,255,.72)}.voc-card.accent .qm{color:#fff;opacity:.5}
+.voc-card.accent .voc-q,.voc-card.accent .voc-nm,.voc-card.accent .voc-hd{color:#fff}.voc-card.accent .voc-rl{color:rgba(255,255,255,.72)}.voc-card.accent .qm{color:#fff;opacity:.55}
 .voc-card.accent .voc-stars,.voc-card.hl .voc-stars{color:#FFC861}.voc-card.accent .voc-stars .off,.voc-card.hl .voc-stars .off{color:rgba(255,255,255,.3)}
 
 /* ===== 翻页 ===== */
@@ -344,54 +367,66 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
         <div class="voc-stat"><div class="n">4.1<span class="u">/5</span></div><div class="l">平均评分</div></div>
         <div class="voc-stat"><div class="n">6<span class="u">类</span></div><div class="l">主题聚类</div></div>
       </div>
-      <!-- 声音墙：错落 masonry -->
+      <!-- 声音墙：5 种卡型错落 masonry -->
       <div class="voc-wall">
-        <div class="voc-card hl">
-          <div class="qm">“</div>
+        <!-- 大标题卡（深底重点）-->
+        <div class="voc-card hl head">
+          <div class="qm open">“</div>
+          <div class="voc-hd">文档终于连起来了</div>
           <div class="voc-stars">★★★★★</div>
-          <div class="voc-q">新的交互式文档把端到端示例串起来了，照着 Notebook 跑半天就通了，不用再翻七八个页面。</div>
-          <div class="voc-meta"><div class="voc-ava"></div><div><div class="voc-nm">林 · 算法工程师</div><div class="voc-rl">互联网 · 3 年</div></div></div>
+          <div class="voc-q">新的交互式文档把端到端示例串起来了，照着 Notebook 跑半天就通，不用再翻七八个页面。</div>
+          <div class="voc-meta"><div class="voc-ava" data-av='{"type":"short","shirt":"#6c6cf0","skin":"light","bg":"#2a2d33"}'></div><div><div class="voc-nm">林 · 算法工程师</div><div class="voc-rl">互联网 · 3 年</div></div></div>
         </div>
-        <div class="voc-card">
-          <div class="qm">“</div>
+        <!-- 右上角探出头像卡 -->
+        <div class="voc-card corner">
+          <div class="ava-pop ava-tr" data-av='{"type":"side","shirt":"#3FB37F","skin":"light","glasses":true}'></div>
+          <div class="voc-id"><div class="voc-nm">陈 · 框架开发者</div><div class="voc-rl">AI 平台 · 5 年</div></div>
           <div class="voc-stars">★★★★★</div>
           <div class="voc-q">Profiling 看板能直接点到瓶颈算子，比之前翻日志定位快太多。</div>
-          <div class="voc-meta"><div class="voc-ava" style="background:linear-gradient(135deg,#3FB37F,#7ad6a8)"></div><div><div class="voc-nm">陈 · 框架开发者</div><div class="voc-rl">AI 平台 · 5 年</div></div></div>
         </div>
-        <div class="voc-card">
-          <div class="qm">“</div>
-          <div class="voc-stars">★★★★<span class="off">★</span></div>
-          <div class="voc-q">算子开发向导生成骨架后，我只要填核心计算逻辑，省了大量样板代码。</div>
-          <div class="voc-meta"><div class="voc-ava" style="background:linear-gradient(135deg,#E89B3F,#f0c07a)"></div><div><div class="voc-nm">王 · 算子工程师</div><div class="voc-rl">芯片厂商 · 4 年</div></div></div>
+        <!-- 消息气泡卡 -->
+        <div class="voc-card bubble">
+          <div class="bubble">
+            <div class="voc-stars">★★★★<span class="off">★</span></div>
+            <div class="voc-q">算子开发向导生成骨架后，我只要填核心计算逻辑，省了大量样板代码。</div>
+          </div>
+          <div class="bubble-meta"><div class="voc-ava" data-av='{"type":"short","shirt":"#E89B3F","skin":"tan"}'></div><div><div class="voc-nm">王 · 算子工程师</div><div class="voc-rl">芯片厂商 · 4 年</div></div></div>
         </div>
-        <div class="voc-card accent">
-          <div class="qm">“</div>
+        <!-- 居中头像浮顶卡（accent 重点）-->
+        <div class="voc-card accent center">
+          <div class="ava-pop ava-tc" data-av='{"type":"long","shirt":"#7a9bf2","skin":"light"}'></div>
           <div class="voc-q">如果环境能一键拉起来、版本自动对齐，复现实验就不再是噩梦了。</div>
-          <div class="voc-meta"><div class="voc-ava" style="background:rgba(255,255,255,.3)"></div><div><div class="voc-nm">赵 · 学术研究者</div><div class="voc-rl">高校 · 博士在读</div></div></div>
+          <div class="voc-meta"><div class="voc-nm">赵 · 学术研究者</div><div class="voc-rl">高校 · 博士在读</div></div>
         </div>
+        <!-- 大引号卡 -->
         <div class="voc-card">
-          <div class="qm">“</div>
+          <div class="qm open">“</div>
           <div class="voc-stars">★★★★<span class="off">★</span></div>
           <div class="voc-q">成长地图让我清楚下一步该学什么，不再瞎撞。</div>
-          <div class="voc-meta"><div class="voc-ava" style="background:linear-gradient(135deg,#5B8DEF,#8ab4f8)"></div><div><div class="voc-nm">刘 · 后端工程师</div><div class="voc-rl">云服务 · 2 年</div></div></div>
+          <div class="voc-meta"><div class="voc-ava" data-av='{"type":"short","shirt":"#5B8DEF","skin":"light","glasses":true}'></div><div><div class="voc-nm">刘 · 后端工程师</div><div class="voc-rl">云服务 · 2 年</div></div></div>
         </div>
-        <div class="voc-card">
-          <div class="qm">“</div>
+        <!-- 右上角探出头像卡 -->
+        <div class="voc-card corner">
+          <div class="ava-pop ava-tr" data-av='{"type":"curly","shirt":"#9b59b6","skin":"brown"}'></div>
+          <div class="voc-id"><div class="voc-nm">孙 · 推理优化工程师</div><div class="voc-rl">自动驾驶 · 6 年</div></div>
           <div class="voc-stars">★★★★★</div>
           <div class="voc-q">智能错误诊断给的修复建议挺准，少跑了好几趟社区。</div>
-          <div class="voc-meta"><div class="voc-ava" style="background:linear-gradient(135deg,#9b59b6,#c39bd3)"></div><div><div class="voc-nm">孙 · 推理优化工程师</div><div class="voc-rl">自动驾驶 · 6 年</div></div></div>
         </div>
-        <div class="voc-card">
-          <div class="qm">“</div>
-          <div class="voc-stars">★★★<span class="off">★</span><span class="off">★</span></div>
-          <div class="voc-q">希望文档的中英文版本能同步更新，目前英文常滞后。</div>
-          <div class="voc-meta"><div class="voc-ava" style="background:linear-gradient(135deg,#16a085,#48c9b0)"></div><div><div class="voc-nm">周 · 海外开发者</div><div class="voc-rl">Startup · 3 年</div></div></div>
+        <!-- 消息气泡卡 -->
+        <div class="voc-card bubble">
+          <div class="bubble">
+            <div class="voc-stars">★★★<span class="off">★</span><span class="off">★</span></div>
+            <div class="voc-q">希望文档的中英文版本能同步更新，目前英文常滞后。</div>
+          </div>
+          <div class="bubble-meta"><div class="voc-ava" data-av='{"type":"bun","shirt":"#16a085","skin":"pale"}'></div><div><div class="voc-nm">周 · 海外开发者</div><div class="voc-rl">Startup · 3 年</div></div></div>
         </div>
-        <div class="voc-card">
-          <div class="qm">“</div>
+        <!-- 大标题卡 -->
+        <div class="voc-card head">
+          <div class="qm open">“</div>
+          <div class="voc-hd">期待全程可视化</div>
           <div class="voc-stars">★★★<span class="off">★</span><span class="off">★</span></div>
-          <div class="voc-q">调试偶尔还得回到命令行，期待全程可视化覆盖。</div>
-          <div class="voc-meta"><div class="voc-ava" style="background:linear-gradient(135deg,#e67e22,#f0a05a)"></div><div><div class="voc-nm">吴 · 系统工程师</div><div class="voc-rl">通信 · 7 年</div></div></div>
+          <div class="voc-q">调试偶尔还得回到命令行，希望可视化能覆盖全流程。</div>
+          <div class="voc-meta"><div class="voc-ava" data-av='{"type":"side","shirt":"#e67e22","skin":"tan"}'></div><div><div class="voc-nm">吴 · 系统工程师</div><div class="voc-rl">通信 · 7 年</div></div></div>
         </div>
       </div>
     </div>
@@ -692,6 +727,32 @@ function go(n){
   nav.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===idx));
 }
 slides.forEach((s,i)=>{const b=document.createElement('button');b.className='dot';b.onclick=()=>go(i);nav.appendChild(b);});
+
+/* ===== 简笔人物头像生成 ===== */
+const AV_SKIN={light:'#F3D2B0',tan:'#E1B188',brown:'#B97F58',pale:'#F7DEC4'};
+function avatar(o){
+  const skin=AV_SKIN[o.skin]||AV_SKIN.light, shirt=o.shirt||'#5B5BD6', hair=o.hair||'#33312f', bg=o.bg||'#EAECF1';
+  let h='';
+  switch(o.type){
+    case 'long': h=`<path d="M15 42 C13 24 18 12 32 12 C46 12 51 24 49 42 L43 42 C46 26 43 19 38 19 L26 19 C21 19 18 26 21 42Z" fill="${hair}"/><path d="M18 28 C18 14 46 14 46 28 C46 21 40 17 32 17 C24 17 18 21 18 28Z" fill="${hair}"/>`; break;
+    case 'bun': h=`<circle cx="32" cy="10" r="4.6" fill="${hair}"/><path d="M18 28 C18 14 46 14 46 28 C46 21 40 17 32 17 C24 17 18 21 18 28Z" fill="${hair}"/>`; break;
+    case 'curly': h=`<g fill="${hair}"><circle cx="22" cy="20" r="6.2"/><circle cx="30" cy="14.5" r="7"/><circle cx="40" cy="18" r="6.2"/><circle cx="44.5" cy="25" r="5"/><circle cx="19" cy="26" r="5"/></g>`; break;
+    case 'side': h=`<path d="M18 28 C18 13 46 13 46 26 C42 19 35 18 29 19.5 C24 20.6 20 23.5 18 28Z" fill="${hair}"/>`; break;
+    default: h=`<path d="M18 28 C18 14 46 14 46 28 C46 21 40 17 32 17 C24 17 18 21 18 28Z" fill="${hair}"/>`;
+  }
+  const g=o.glasses?`<g stroke="#3a3a3a" stroke-width="1.3" fill="none"><circle cx="26.6" cy="30" r="3.6"/><circle cx="37.4" cy="30" r="3.6"/><line x1="30.2" y1="30" x2="33.8" y2="30"/></g>`:'';
+  return `<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">`
+    +`<rect width="64" height="64" fill="${bg}"/>`
+    +`<path d="M10 64 C10 51 19 45 32 45 C45 45 54 51 54 64Z" fill="${shirt}"/>`
+    +`<path d="M37 46 L32 53 L27 46 Z" fill="rgba(255,255,255,.22)"/>`
+    +`<rect x="28.6" y="39" width="6.8" height="9" rx="3.2" fill="${skin}"/>`
+    +`<circle cx="32" cy="30" r="12.4" fill="${skin}"/>`
+    +h
+    +`<circle cx="27" cy="30" r="1.5" fill="#3a3a3a"/><circle cx="37" cy="30" r="1.5" fill="#3a3a3a"/>`
+    +`<path d="M28.5 35.5 Q32 38 35.5 35.5" stroke="#a06a48" fill="none" stroke-width="1.5" stroke-linecap="round"/>`
+    +g+`</svg>`;
+}
+document.querySelectorAll('[data-av]').forEach(el=>{try{el.innerHTML=avatar(JSON.parse(el.getAttribute('data-av')));}catch(e){}});
 addEventListener('keydown',e=>{if(e.key==='ArrowRight')go(idx+1);if(e.key==='ArrowLeft')go(idx-1);});
 
 go(0);
