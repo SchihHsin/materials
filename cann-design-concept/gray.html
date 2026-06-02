@@ -18,6 +18,18 @@
   --accent-soft:#ECECFB; /* 淡紫底 */
   --red:#E60012;         /* CANN 红 */
 }
+/* ===== 全局渐变色彩系统 ===== */
+:root{
+  --g-red:    linear-gradient(135deg,#FF6B6B,#FF4D4D 60%,#E53E3E);
+  --g-green:  linear-gradient(135deg,#56F5A0,#2DD4BF 60%,#10B981);
+  --g-blue:   linear-gradient(135deg,#667EEA,#764BA2);
+  --g-amber:  linear-gradient(135deg,#F6D365,#FDA085);
+  --g-purple: linear-gradient(135deg,#A78BFA,#7C3AED);
+  --g-teal:   linear-gradient(135deg,#38F9D7,#4FACFE);
+  --g-pink:   linear-gradient(135deg,#FF6B9D,#FF8B53);
+  --g-ink:    linear-gradient(135deg,#1c1f26,#2d3241);
+  --g-accent: linear-gradient(135deg,#5B5BD6,#7C3AED);
+}
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:var(--ink);font-family:'Inter','Noto Sans SC',sans-serif;-webkit-font-smoothing:antialiased}
 
@@ -215,9 +227,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 .bubble-meta{display:flex;align-items:center;justify-content:center;gap:.5vw;margin-top:.6vh;position:relative;z-index:4}
 .bubble-meta .voc-ava{width:34px;height:34px}
 /* 重点卡：实底强调，与玻璃卡形成层次 */
-.voc-card.hl{background:var(--ink)!important;border-color:transparent!important;backdrop-filter:none;-webkit-backdrop-filter:none;box-shadow:0 12px 30px -12px rgba(20,25,30,.5)!important}
+.voc-card.hl{background:var(--g-ink)!important;border-color:transparent!important;backdrop-filter:none;-webkit-backdrop-filter:none;box-shadow:0 12px 30px -12px rgba(20,25,30,.5)!important}
 .voc-card.hl .voc-q,.voc-card.hl .voc-nm,.voc-card.hl .voc-hd{color:#fff}.voc-card.hl .voc-rl{color:rgba(255,255,255,.6)}.voc-card.hl .qm{color:#9b8ce8;opacity:.9}
-.voc-card.accent{background:var(--accent)!important;border-color:transparent!important;backdrop-filter:none;-webkit-backdrop-filter:none;box-shadow:0 12px 30px -12px rgba(91,91,214,.5)!important}
+.voc-card.accent{background:var(--g-accent)!important;border-color:transparent!important;backdrop-filter:none;-webkit-backdrop-filter:none;box-shadow:0 12px 30px -12px rgba(91,91,214,.5)!important}
 .voc-card.accent .voc-q,.voc-card.accent .voc-nm,.voc-card.accent .voc-hd{color:#fff}.voc-card.accent .voc-rl{color:rgba(255,255,255,.72)}.voc-card.accent .qm{color:#fff;opacity:.55}
 .voc-card.accent .voc-stars,.voc-card.hl .voc-stars{color:#FFC861}.voc-card.accent .voc-stars .off,.voc-card.hl .voc-stars .off{color:rgba(255,255,255,.3)}
 
@@ -272,6 +284,24 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 .jrn-kd{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:3px}
 .jrn-kt{font-size:max(9.5px,.7vw);color:var(--ink);line-height:1.5}
 .jrn-tg{display:inline-block;font-size:7.5px;font-weight:700;padding:1px 5px;border-radius:100px;margin-left:3px;vertical-align:middle}
+/* 触点行 */
+.jrn-tw{padding-right:5px}
+.jrn-tc{border-left:1px solid rgba(255,255,255,.6);border-right:1px solid rgba(255,255,255,.6);border-bottom:1px solid rgba(255,255,255,.6);padding:.5vh .65vw;background:rgba(236,236,251,.55);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);display:flex;flex-direction:column;gap:.3vh}
+.jrn-touch{font-size:max(9px,.68vw);color:var(--accent);font-weight:500;line-height:1.35;display:flex;align-items:baseline;gap:.3em}
+.jrn-touch::before{content:"·";flex-shrink:0;font-weight:700}
+/* 痛点行 */
+.jrn-pw2{padding-right:5px}
+.jrn-pc{border-left:1px solid rgba(255,255,255,.6);border-right:1px solid rgba(255,255,255,.6);border-bottom:1px solid rgba(255,255,255,.6);padding:.6vh .65vw;display:flex;flex-direction:column;gap:.45vh;background:linear-gradient(160deg,rgba(254,236,236,.72),rgba(255,247,240,.55));backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.jrn-pi{display:flex;gap:4px;align-items:flex-start}
+.jrn-pi-icon{width:16px;height:16px;border-radius:4px;background:#FEF3C7;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center}
+.jrn-pi-icon svg{width:9px;height:9px;stroke:#92400E}
+.jrn-pt{font-size:max(9px,.68vw);color:#7F1D1D;line-height:1.45}
+/* 机会点行 */
+.jrn-ow{padding-right:5px}
+.jrn-oc{border-left:1px solid rgba(255,255,255,.6);border-right:1px solid rgba(255,255,255,.6);border-bottom:1px solid rgba(255,255,255,.6);border-radius:0 0 9px 9px;padding:.6vh .65vw;display:flex;flex-direction:column;gap:.45vh;background:linear-gradient(160deg,rgba(220,252,231,.72),rgba(240,253,244,.55));backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.jrn-oi{display:flex;gap:4px;align-items:flex-start}
+.jrn-oi-dot{width:7px;height:7px;border-radius:50%;background:#10B981;flex-shrink:0;margin-top:3px}
+.jrn-ot{font-size:max(9px,.68vw);color:#064E3B;line-height:1.45}
 
 /* ===== 翻页 ===== */
 #nav{position:fixed;bottom:2.4vh;left:50%;transform:translateX(-50%);z-index:50;display:flex;gap:9px;padding:8px 14px;border-radius:999px;background:rgba(0,0,0,.06)}
@@ -532,119 +562,168 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
     <div class="foot">Page 03 · Competitive</div>
   </section>
 
-  <!-- ===== 页4：用户旅程（AFTER · AI 驱动）===== -->
+  <!-- ===== 页4：用户旅程（CANN 开发者全链路）===== -->
   <section class="slide">
     <div class="head">
       <div class="head-l">
-        <div class="brand"><span class="logo">C<span class="r">A</span>NN</span><span class="ttl">开发者旅程重塑</span></div>
-        <div class="subttl">User Journey · AI 驱动的新版开发者旅程</div>
+        <div class="brand"><span class="logo">C<span class="r">A</span>NN</span><span class="ttl">开发者用户旅程地图</span></div>
+        <div class="subttl">User Journey Map · 环境搭建 → 算子开发 → 调试优化 → 集成发布</div>
       </div>
       <div class="head-r">04 / 用户旅程<br/>2026</div>
     </div>
     <div class="body-area">
       <div class="jrn-wrap">
 
-        <!-- Phase headers row -->
+        <!-- ① 阶段 Phase headers -->
         <div class="jrn-grid">
           <div></div>
-          <div class="jrn-pw jpc1"><div class="jrn-ph"><div class="pn">01</div><div class="pt">AI 精准分流</div><div class="ptm">⏱ 0–3 min</div></div></div>
-          <div class="jrn-pw jpc2"><div class="jrn-ph"><div class="pn">02</div><div class="pt">生成学习路径</div><div class="ptm">⏱ 3–10 min</div></div></div>
-          <div class="jrn-pw jpc3"><div class="jrn-ph"><div class="pn">03</div><div class="pt">文档智能阅读</div><div class="ptm">⏱ 10–30 min</div></div></div>
-          <div class="jrn-pw jpc4"><div class="jrn-ph"><div class="pn">04</div><div class="pt">在线实验</div><div class="ptm">⏱ 30–90 min</div></div></div>
-          <div class="jrn-pw jpc5"><div class="jrn-ph"><div class="pn">05</div><div class="pt">沉淀复用</div><div class="ptm">⏱ 持续</div></div></div>
+          <div class="jrn-pw jpc1"><div class="jrn-ph"><div class="pn">01</div><div class="pt">环境搭建</div><div class="ptm">⏱ 2–8 hr</div></div></div>
+          <div class="jrn-pw jpc2"><div class="jrn-ph"><div class="pn">02</div><div class="pt">文档学习</div><div class="ptm">⏱ 1–3 天</div></div></div>
+          <div class="jrn-pw jpc3"><div class="jrn-ph"><div class="pn">03</div><div class="pt">算子开发</div><div class="ptm">⏱ 1–4 周</div></div></div>
+          <div class="jrn-pw jpc4"><div class="jrn-ph"><div class="pn">04</div><div class="pt">调试优化</div><div class="ptm">⏱ 持续迭代</div></div></div>
+          <div class="jrn-pw jpc5"><div class="jrn-ph"><div class="pn">05</div><div class="pt">集成发布</div><div class="ptm">⏱ 数天</div></div></div>
         </div>
 
-        <!-- Flow row -->
+        <!-- ② 触点 Touchpoints -->
         <div class="jrn-grid">
-          <div class="jrn-rl"><div class="jrn-rn">操作流程</div><div class="jrn-re">Flow</div></div>
-          <div class="jrn-fw"><div class="jrn-fc">
-            <div class="jrn-scr"><div class="jrn-sb"><div class="jrn-sd" style="background:#FF5F57"></div><div class="jrn-sd" style="background:#FFBD2E"></div><div class="jrn-sd" style="background:#28CA41"></div></div><div class="jrn-sc"><div style="background:#F1F4F9;border-radius:4px;padding:4px;display:flex;flex-direction:column;gap:2px"><div class="jmb" style="width:40%;height:5px;background:#0A0A0F"></div><div style="display:flex;gap:2px"><div style="flex:1;height:22px;border-radius:6px;background:#0A0A0F;border:1.5px solid #0A0A0F"></div><div style="flex:1;height:22px;border-radius:6px;background:white;border:1.5px solid #ddd"></div><div style="flex:1;height:22px;border-radius:6px;background:white;border:1.5px solid #ddd"></div></div><div style="border:1px solid #ddd;border-radius:3px;padding:3px;background:white;display:flex;flex-direction:column;gap:1.5px"><div class="jmb" style="width:90%"></div><div style="display:flex;gap:2px"><div style="flex:1;height:7px;background:#0A0A0F;border-radius:2px"></div><div style="flex:1;height:7px;background:#F1F4F9;border-radius:2px;border:1px solid #ddd"></div></div></div></div></div></div>
-            <div class="jrn-fl">意图卡片选择，首页内联展开</div><div class="jrn-fd">说出需求，AI 自动定向，30 秒完成意图定位</div>
+          <div class="jrn-rl"><div class="jrn-rn">触点</div><div class="jrn-re">Touch</div></div>
+          <div class="jrn-tw"><div class="jrn-tc">
+            <div class="jrn-touch">官网文档中心</div>
+            <div class="jrn-touch">Driver/CANN 版本矩阵</div>
+            <div class="jrn-touch">Docker 镜像仓库</div>
           </div></div>
-          <div class="jrn-fw"><div class="jrn-fc">
-            <div class="jrn-scr"><div class="jrn-sb"><div class="jrn-sd" style="background:#FF5F57"></div><div class="jrn-sd" style="background:#FFBD2E"></div><div class="jrn-sd" style="background:#28CA41"></div></div><div class="jrn-sc"><div style="background:#F1F4F9;border-radius:4px;padding:4px"><div style="padding-left:9px;position:relative;display:flex;flex-direction:column;gap:3px"><div style="position:absolute;left:0;top:3px;bottom:3px;width:1.5px;background:#D1D5DB;border-radius:1px"></div><div style="display:flex;align-items:center;gap:3px"><div style="width:7px;height:7px;border-radius:50%;background:#10B981;margin-left:-3.5px;flex-shrink:0"></div><div style="flex:1;height:11px;background:white;border-radius:3px;border:1px solid #ddd"></div></div><div style="display:flex;align-items:center;gap:3px"><div style="width:7px;height:7px;border-radius:50%;background:#F59E0B;margin-left:-3.5px;flex-shrink:0"></div><div style="flex:1;height:11px;background:white;border-radius:3px;border:1px solid #ddd"></div></div><div style="display:flex;align-items:center;gap:3px"><div style="width:7px;height:7px;border-radius:50%;background:#8B5CF6;margin-left:-3.5px;flex-shrink:0"></div><div style="flex:1;height:11px;background:white;border-radius:3px;border:1px solid #ddd"></div></div></div></div></div></div>
-            <div class="jrn-fl">AI 生成分段学习路径</div><div class="jrn-fd">入门→中级→高级 Timeline，节点直链真实课程</div>
+          <div class="jrn-tw"><div class="jrn-tc">
+            <div class="jrn-touch">开发者成长地图</div>
+            <div class="jrn-touch">API 参考文档</div>
+            <div class="jrn-touch">样例库 · 交互式教程</div>
           </div></div>
-          <div class="jrn-fw"><div class="jrn-fc">
-            <div class="jrn-scr"><div class="jrn-sb"><div class="jrn-sd" style="background:#FF5F57"></div><div class="jrn-sd" style="background:#FFBD2E"></div><div class="jrn-sd" style="background:#28CA41"></div></div><div class="jrn-sc" style="flex-direction:row;gap:4px;padding:4px 5px"><div style="flex:1;display:flex;flex-direction:column;gap:2px"><div class="jmb" style="width:55%;height:4px;background:#0A0A0F"></div><div class="jmb" style="width:100%"></div><div style="background:#0F172A;border-radius:3px;padding:3px;display:flex;flex-direction:column;gap:1.5px"><div style="height:2px;background:rgba(255,255,255,.25);border-radius:1px;width:80%"></div><div style="height:2px;background:rgba(255,255,255,.12);border-radius:1px;width:90%"></div></div></div><div style="width:44px;border:1px solid #E4E6EC;border-radius:4px;padding:3px;display:flex;flex-direction:column;gap:2px;background:white;flex-shrink:0"><div style="display:flex;align-items:center;gap:2px;padding-bottom:2px;border-bottom:1px solid #eee"><div style="width:5px;height:5px;border-radius:50%;background:#8B5CF6"></div><div style="height:3px;background:#0A0A0F;border-radius:1px;flex:1"></div></div><div style="height:12px;border-radius:2px;background:#F1F4F9;padding:2px"><div class="jmb" style="width:90%"></div></div><div style="height:16px;border-radius:2px;background:#0A0A0F;padding:2px"><div style="height:2px;background:rgba(255,255,255,.3);border-radius:1px;width:95%"></div><div style="height:2px;background:rgba(255,255,255,.15);border-radius:1px;width:80%;margin-top:1.5px"></div></div></div></div></div>
-            <div class="jrn-fl">文档旁侧边栏 AI 实时解惑</div><div class="jrn-fd">学习路径 Timeline 同步标记进度，心流不断</div>
+          <div class="jrn-tw"><div class="jrn-tc">
+            <div class="jrn-touch">IDE 插件 · 算子模板库</div>
+            <div class="jrn-touch">Ascend C 编译器</div>
+            <div class="jrn-touch">算子开发向导</div>
           </div></div>
-          <div class="jrn-fw"><div class="jrn-fc">
-            <div class="jrn-scr"><div class="jrn-sb"><div class="jrn-sd" style="background:#FF5F57"></div><div class="jrn-sd" style="background:#FFBD2E"></div><div class="jrn-sd" style="background:#28CA41"></div></div><div class="jrn-sc" style="padding:0;flex-direction:column"><div style="flex:1;background:#F8F9FB"></div><div style="background:#0F172A;padding:4px 5px;display:flex;flex-direction:column;gap:2px"><div style="display:flex;gap:2px;padding-bottom:2px;border-bottom:1px solid rgba(255,255,255,.07)"><div style="height:5px;width:28px;background:#60A5FA;border-radius:2px"></div><div style="height:5px;width:16px;background:rgba(255,255,255,.18);border-radius:2px"></div></div><div style="display:flex;gap:2px;padding:1px 0"><div style="height:3px;width:26px;border-radius:2px;background:rgba(255,255,255,.1);overflow:hidden"><div style="height:100%;width:65%;background:linear-gradient(90deg,#8B5CF6,#A78BFA)"></div></div><div style="height:3px;width:26px;border-radius:2px;background:rgba(255,255,255,.1);overflow:hidden"><div style="height:100%;width:45%;background:linear-gradient(90deg,#3B82F6,#60A5FA)"></div></div></div><div style="height:5px;background:rgba(59,130,246,.3);border-radius:2px;margin-top:1px"></div></div></div></div>
-            <div class="jrn-fl">一键载入 HiDevLab 在线实验</div><div class="jrn-fd">Notebook 真机运行，NPU 利用率实时可见，零配置</div>
+          <div class="jrn-tw"><div class="jrn-tc">
+            <div class="jrn-touch">MindStudio Profiling</div>
+            <div class="jrn-touch">运行日志 · 错误诊断</div>
+            <div class="jrn-touch">性能分析看板</div>
           </div></div>
-          <div class="jrn-fw"><div class="jrn-fc">
-            <div class="jrn-scr"><div class="jrn-sb"><div class="jrn-sd" style="background:#FF5F57"></div><div class="jrn-sd" style="background:#FFBD2E"></div><div class="jrn-sd" style="background:#28CA41"></div></div><div class="jrn-sc"><div style="background:#F1F4F9;border-radius:4px;padding:4px;display:flex;flex-direction:column;gap:3px"><div style="display:flex;align-items:center;gap:3px"><div class="jmb" style="width:35%;height:4px;background:#8B5CF6"></div><div style="width:10px;height:10px;border-radius:50%;background:#8B5CF6;margin-left:auto;flex-shrink:0"></div></div><div style="background:white;border-radius:4px;border:1px solid #ddd;padding:3px 4px;display:flex;align-items:center;gap:3px"><div style="flex:1;height:3px;background:#555;border-radius:2px"></div><div style="height:9px;width:16px;background:#0A0A0F;border-radius:3px"></div></div><div style="background:white;border-radius:4px;border:1px solid #ddd;padding:3px 4px;display:flex;align-items:center;gap:3px"><div style="flex:1;height:3px;background:#555;border-radius:2px"></div><div style="height:9px;width:16px;background:#0A0A0F;border-radius:3px"></div></div></div></div></div>
-            <div class="jrn-fl">收藏路径，保存 Notebook 到工作区</div><div class="jrn-fd">跨会话持久保存，下次从上次断点继续</div>
+          <div class="jrn-tw"><div class="jrn-tc">
+            <div class="jrn-touch">atc 导出工具</div>
+            <div class="jrn-touch">框架接入文档</div>
+            <div class="jrn-touch">CI/CD 流水线 · 镜像仓</div>
           </div></div>
         </div>
 
-        <!-- Emotion curve row (spans all 5 cols) -->
+        <!-- ③ 行为 Actions -->
+        <div class="jrn-grid">
+          <div class="jrn-rl"><div class="jrn-rn">行为</div><div class="jrn-re">Action</div></div>
+          <div class="jrn-fw"><div class="jrn-fc">
+            <div class="jrn-scr" style="height:11vh"><div class="jrn-sb"><div class="jrn-sd" style="background:#FF5F57"></div><div class="jrn-sd" style="background:#FFBD2E"></div><div class="jrn-sd" style="background:#28CA41"></div></div><div class="jrn-sc"><div style="background:#1E1E1E;border-radius:3px;padding:4px;display:flex;flex-direction:column;gap:1.5px"><div style="height:2.5px;background:rgba(255,255,255,.2);border-radius:1px;width:90%"></div><div style="height:2.5px;background:#EF4444;border-radius:1px;width:70%"></div><div style="height:2.5px;background:#EF4444;border-radius:1px;width:80%"></div><div style="height:2.5px;background:rgba(255,255,255,.1);border-radius:1px;width:60%"></div></div><div class="jmb" style="width:95%;margin-top:2px"></div><div class="jmb" style="width:80%"></div></div></div>
+            <div class="jrn-fl">查版本矩阵 → 装 Driver + CANN → 验证 Hello World</div>
+          </div></div>
+          <div class="jrn-fw"><div class="jrn-fc">
+            <div class="jrn-scr" style="height:11vh"><div class="jrn-sb"><div class="jrn-sd" style="background:#FF5F57"></div><div class="jrn-sd" style="background:#FFBD2E"></div><div class="jrn-sd" style="background:#28CA41"></div></div><div class="jrn-sc" style="flex-direction:row;gap:3px"><div style="width:26px;border:1px solid #ddd;background:#FAFAFA;display:flex;flex-direction:column;gap:1.5px;padding:2px;flex-shrink:0"><div class="jmb" style="width:90%;height:2px;background:#bbb"></div><div class="jmb" style="width:80%;height:2px"></div><div class="jmb" style="width:100%;height:2px;background:#888"></div><div class="jmb" style="width:75%;height:2px"></div><div class="jmb" style="width:90%;height:2px"></div></div><div style="flex:1;display:flex;flex-direction:column;gap:2px"><div class="jmb" style="height:4px;width:70%;background:#bbb"></div><div class="jmb" style="width:100%"></div><div class="jmb" style="width:90%"></div><div style="background:#0F172A;border-radius:2px;padding:2px"><div style="height:2px;background:rgba(255,255,255,.25);border-radius:1px;width:80%"></div></div></div></div></div>
+            <div class="jrn-fl">找成长地图 → 读 API 文档 → 跑官方示例代码</div>
+          </div></div>
+          <div class="jrn-fw"><div class="jrn-fc">
+            <div class="jrn-scr" style="height:11vh"><div class="jrn-sb"><div class="jrn-sd" style="background:#FF5F57"></div><div class="jrn-sd" style="background:#FFBD2E"></div><div class="jrn-sd" style="background:#28CA41"></div></div><div class="jrn-sc"><div style="background:#0F172A;border-radius:3px;padding:4px;display:flex;flex-direction:column;gap:1.5px"><div style="height:2.5px;background:#60A5FA;border-radius:1px;width:45%"></div><div style="height:2.5px;background:rgba(255,255,255,.2);border-radius:1px;width:90%"></div><div style="height:2.5px;background:#34D399;border-radius:1px;width:70%"></div><div style="height:2.5px;background:rgba(255,255,255,.1);border-radius:1px;width:80%"></div></div><div class="jmb" style="width:85%;margin-top:2px"></div></div></div>
+            <div class="jrn-fl">选模板 → 写 Ascend C → 定义 Tiling → 编译验证</div>
+          </div></div>
+          <div class="jrn-fw"><div class="jrn-fc">
+            <div class="jrn-scr" style="height:11vh"><div class="jrn-sb"><div class="jrn-sd" style="background:#FF5F57"></div><div class="jrn-sd" style="background:#FFBD2E"></div><div class="jrn-sd" style="background:#28CA41"></div></div><div class="jrn-sc" style="padding:0;flex-direction:column"><div style="flex:1;background:#F8F9FB"></div><div style="background:#0F172A;padding:3px 4px;display:flex;flex-direction:column;gap:1.5px"><div style="display:flex;gap:2px"><div style="height:2.5px;width:24px;background:rgba(255,255,255,.1);border-radius:1px;overflow:hidden"><div style="height:100%;width:62%;background:linear-gradient(90deg,#8B5CF6,#A78BFA)"></div></div><div style="height:2.5px;width:24px;background:rgba(255,255,255,.1);border-radius:1px;overflow:hidden"><div style="height:100%;width:41%;background:linear-gradient(90deg,#3B82F6,#60A5FA)"></div></div></div><div style="height:4px;background:rgba(59,130,246,.3);border-radius:1px;margin-top:1px"></div></div></div></div>
+            <div class="jrn-fl">Profiling 采集 → 分析瓶颈 → 迭代调优 → 精度对比</div>
+          </div></div>
+          <div class="jrn-fw"><div class="jrn-fc">
+            <div class="jrn-scr" style="height:11vh"><div class="jrn-sb"><div class="jrn-sd" style="background:#FF5F57"></div><div class="jrn-sd" style="background:#FFBD2E"></div><div class="jrn-sd" style="background:#28CA41"></div></div><div class="jrn-sc"><div style="display:flex;flex-direction:column;gap:2px"><div style="display:flex;align-items:center;gap:2px"><div style="width:6px;height:6px;border-radius:50%;background:#10B981;flex-shrink:0"></div><div style="flex:1;height:9px;background:white;border-radius:2px;border:1px solid #ddd"></div></div><div style="display:flex;align-items:center;gap:2px"><div style="width:6px;height:6px;border-radius:50%;background:#10B981;flex-shrink:0"></div><div style="flex:1;height:9px;background:white;border-radius:2px;border:1px solid #ddd"></div></div><div style="display:flex;align-items:center;gap:2px"><div style="width:6px;height:6px;border-radius:50%;background:#F59E0B;flex-shrink:0"></div><div style="flex:1;height:9px;background:#FEF3C7;border-radius:2px;border:1px solid #FDE68A"></div></div></div></div></div>
+            <div class="jrn-fl">导出算子 → 接入框架图 → CI 验证 → 灰度发布</div>
+          </div></div>
+        </div>
+
+        <!-- ④ 情绪曲线 Emotion（CANN 开发者当前沮丧走势）-->
         <div class="jrn-grid">
           <div class="jrn-rl"><div class="jrn-rn">情绪</div><div class="jrn-re">Emotion</div></div>
           <div class="jrn-emow">
-            <!-- SVG 只负责曲线+填充+网格，不含圆点 emoji -->
             <svg viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
               <defs>
-                <linearGradient id="jfill" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#4361EE" stop-opacity=".09"/><stop offset="100%" stop-color="#7C3AED" stop-opacity=".01"/></linearGradient>
-                <linearGradient id="jstroke" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#4361EE"/><stop offset="100%" stop-color="#7C3AED"/></linearGradient>
+                <linearGradient id="jfill" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#EF4444" stop-opacity=".1"/><stop offset="100%" stop-color="#EF4444" stop-opacity=".01"/></linearGradient>
+                <linearGradient id="jstroke" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#F59E0B"/><stop offset="60%" stop-color="#EF4444"/><stop offset="100%" stop-color="#F59E0B"/></linearGradient>
               </defs>
-              <!-- grid lines at 23%, 50%, 77% height -->
               <line x1="0" y1="23" x2="100" y2="23" stroke="#E5E7EB" stroke-width=".8" stroke-dasharray="3,3" vector-effect="non-scaling-stroke"/>
               <line x1="0" y1="50" x2="100" y2="50" stroke="#E5E7EB" stroke-width=".8" stroke-dasharray="3,3" vector-effect="non-scaling-stroke"/>
               <line x1="0" y1="77" x2="100" y2="77" stroke="#E5E7EB" stroke-width=".8" stroke-dasharray="3,3" vector-effect="non-scaling-stroke"/>
-              <!-- fill: curve goes from (10%,57%) rising to (90%,15%) -->
-              <path d="M10,57 C18,49 26,38 30,30 C36,23 44,18 50,14 C56,11 63,10 70,10.5 C76,11 83,12.8 90,15 L90,100 L10,100 Z" fill="url(#jfill)"/>
-              <!-- curve line -->
-              <path d="M10,57 C18,49 26,38 30,30 C36,23 44,18 50,14 C56,11 63,10 70,10.5 C76,11 83,12.8 90,15" fill="none" stroke="url(#jstroke)" stroke-width="1.2" stroke-linecap="round" opacity=".8" vector-effect="non-scaling-stroke"/>
+              <!-- 沮丧走势：开始中等 → 逐渐跌至调试阶段谷底 → 发布稍回升 -->
+              <path d="M10,45 C20,50 28,58 30,62 C34,66 40,72 50,76 C58,79 65,82 70,83 C76,80 83,65 90,52 L90,100 L10,100 Z" fill="url(#jfill)"/>
+              <path d="M10,45 C20,50 28,58 30,62 C34,66 40,72 50,76 C58,79 65,82 70,83 C76,80 83,65 90,52" fill="none" stroke="url(#jstroke)" stroke-width="1.2" stroke-linecap="round" opacity=".85" vector-effect="non-scaling-stroke"/>
             </svg>
-            <!-- 圆点：HTML 元素，绝对定位，不受 SVG 拉伸影响 -->
-            <!-- 5 列中心 x 在 grid-column:2/7 容器内 = 10% 30% 50% 70% 90% -->
-            <!-- y 对应曲线百分比高度 -->
-            <div class="jrn-edot" style="left:10%;top:57%;background:#EF4444"></div>
-            <div class="jrn-emoji" style="left:10%;top:calc(57% + 6px)">😌</div>
-            <div class="jrn-elbl" style="left:10%;color:#B91C1C">清晰·被引导</div>
+            <div class="jrn-edot" style="left:10%;top:45%;background:#F59E0B"></div>
+            <div class="jrn-emoji" style="left:10%;top:calc(45% - 18px)">😐</div>
+            <div class="jrn-elbl" style="left:10%;color:#92400E">摸索中</div>
 
-            <div class="jrn-edot" style="left:30%;top:30%;background:#3B82F6"></div>
-            <div class="jrn-emoji" style="left:30%;top:calc(30% + 6px)">🎯</div>
-            <div class="jrn-elbl" style="left:30%;color:#1D4ED8">兴奋·有方向</div>
+            <div class="jrn-edot" style="left:30%;top:62%;background:#F97316"></div>
+            <div class="jrn-emoji" style="left:30%;top:calc(62% - 18px)">😕</div>
+            <div class="jrn-elbl" style="left:30%;color:#9A3412">找不到头绪</div>
 
-            <div class="jrn-edot" style="left:50%;top:14%;background:#10B981"></div>
-            <div class="jrn-emoji" style="left:50%;top:calc(14% + 6px)">🚀</div>
-            <div class="jrn-elbl" style="left:50%;color:#065F46">专注·不打断</div>
+            <div class="jrn-edot" style="left:50%;top:76%;background:#EF4444"></div>
+            <div class="jrn-emoji" style="left:50%;top:calc(76% - 18px)">😤</div>
+            <div class="jrn-elbl" style="left:50%;color:#991B1B">门槛极高</div>
 
-            <div class="jrn-edot" style="left:70%;top:10.5%;background:#059669"></div>
-            <div class="jrn-emoji" style="left:70%;top:calc(10.5% + 6px)">💡</div>
-            <div class="jrn-elbl" style="left:70%;color:#065F46">掌控·高效</div>
+            <div class="jrn-edot" style="left:70%;top:83%;background:#DC2626"></div>
+            <div class="jrn-emoji" style="left:70%;top:calc(83% - 18px)">😩</div>
+            <div class="jrn-elbl" style="left:70%;color:#7F1D1D">像黑盒</div>
 
-            <div class="jrn-edot" style="left:90%;top:15%;background:#8B5CF6"></div>
-            <div class="jrn-emoji" style="left:90%;top:calc(15% + 6px)">😊</div>
-            <div class="jrn-elbl" style="left:90%;color:#5B21B6">满足·归属</div>
+            <div class="jrn-edot" style="left:90%;top:52%;background:#10B981"></div>
+            <div class="jrn-emoji" style="left:90%;top:calc(52% - 18px)">😮‍💨</div>
+            <div class="jrn-elbl" style="left:90%;color:#065F46">终于通了</div>
           </div>
         </div>
 
-        <!-- Design points row -->
+        <!-- ⑤ 痛点 Pain Points -->
         <div class="jrn-grid">
-          <div class="jrn-rl"><div class="jrn-rn">设计点</div><div class="jrn-re">Design</div></div>
-          <div class="jrn-dw"><div class="jrn-dc">
-            <div class="jrn-ki"><div class="jrn-kd" style="background:#EF4444"></div><div class="jrn-kt">意图驱动，系统自动定向<span class="jrn-tg" style="background:#FEE2E2;color:#991B1B">意图驱动</span></div></div>
-            <div class="jrn-ki"><div class="jrn-kd" style="background:#3B82F6"></div><div class="jrn-kt">三条路径一眼可辨，首页内联展开<span class="jrn-tg" style="background:#EEF4FF;color:#1A56DB">零摩擦</span></div></div>
+          <div class="jrn-rl"><div class="jrn-rn">痛点</div><div class="jrn-re">Pain</div></div>
+          <div class="jrn-pw2"><div class="jrn-pc">
+            <div class="jrn-pi"><div class="jrn-pi-icon"><svg fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="jrn-pt"><b>版本依赖复杂</b>，Driver/CANN/框架三者版本须精准匹配，一错全报</div></div>
+            <div class="jrn-pi"><div class="jrn-pi-icon"><svg fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div><div class="jrn-pt">报错信息晦涩，只能逐字 Google 错误码，<b>无任何修复引导</b></div></div>
           </div></div>
-          <div class="jrn-dw"><div class="jrn-dc">
-            <div class="jrn-ki"><div class="jrn-kd" style="background:#8B5CF6"></div><div class="jrn-kt">按难度分段，Timeline 进度一目了然<span class="jrn-tg" style="background:#F5F3FF;color:#5B21B6">结构化</span></div></div>
-            <div class="jrn-ki"><div class="jrn-kd" style="background:#10B981"></div><div class="jrn-kt">节点直链真实课程，可收藏复用<span class="jrn-tg" style="background:#ECFDF5;color:#065F46">真实可达</span></div></div>
+          <div class="jrn-pw2"><div class="jrn-pc">
+            <div class="jrn-pi"><div class="jrn-pi-icon"><svg fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg></div><div class="jrn-pt"><b>文档碎片化</b>，目录层级深，看不到全局结构，不知从何开始</div></div>
+            <div class="jrn-pi"><div class="jrn-pi-icon"><svg fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="13 17 18 12 13 7"/><polyline points="6 17 11 12 6 7"/></svg></div><div class="jrn-pt">缺<b>端到端可运行示例</b>，示例代码无上下文，无法直接复用</div></div>
           </div></div>
-          <div class="jrn-dw"><div class="jrn-dc">
-            <div class="jrn-ki"><div class="jrn-kd" style="background:#8B5CF6"></div><div class="jrn-kt">侧边栏 AI 随时提问不离页面<span class="jrn-tg" style="background:#F5F3FF;color:#5B21B6">不打断</span></div></div>
-            <div class="jrn-ki"><div class="jrn-kd" style="background:#EF4444"></div><div class="jrn-kt">代码块一键「在线运行」，所见即所跑<span class="jrn-tg" style="background:#FEE2E2;color:#991B1B">即读即跑</span></div></div>
+          <div class="jrn-pw2"><div class="jrn-pc">
+            <div class="jrn-pi"><div class="jrn-pi-icon"><svg fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="jrn-pt">Ascend C 需<b>深懂底层硬件架构</b>，新人上手门槛极高</div></div>
+            <div class="jrn-pi"><div class="jrn-pi-icon"><svg fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg></div><div class="jrn-pt">Tiling 策略设计复杂，<b>缺可视化辅助工具</b>，全凭经验</div></div>
           </div></div>
-          <div class="jrn-dw"><div class="jrn-dc">
-            <div class="jrn-ki"><div class="jrn-kd" style="background:#10B981"></div><div class="jrn-kt">真机运行，5 分钟跑通首个 NPU 推理<span class="jrn-tg" style="background:#ECFDF5;color:#065F46">零门槛</span></div></div>
-            <div class="jrn-ki"><div class="jrn-kd" style="background:#8B5CF6"></div><div class="jrn-kt">NPU/HBM 实时监控条，资源可视化<span class="jrn-tg" style="background:#F5F3FF;color:#5B21B6">监控</span></div></div>
+          <div class="jrn-pw2"><div class="jrn-pc">
+            <div class="jrn-pi"><div class="jrn-pi-icon"><svg fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg></div><div class="jrn-pt">调试体验如<b>黑盒</b>，只能靠 print 排查，定位一个问题要数天</div></div>
+            <div class="jrn-pi"><div class="jrn-pi-icon"><svg fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div><div class="jrn-pt">缺<b>统一可视化 Profiling</b> 时间线，瓶颈来自哪层难以定位</div></div>
           </div></div>
-          <div class="jrn-dw"><div class="jrn-dc">
-            <div class="jrn-ki"><div class="jrn-kd" style="background:#8B5CF6"></div><div class="jrn-kt">工作区跨会话保存，从上次断点继续<span class="jrn-tg" style="background:#F5F3FF;color:#5B21B6">工作区</span></div></div>
-            <div class="jrn-ki"><div class="jrn-kd" style="background:#EF4444"></div><div class="jrn-kt">错题本 + 测验，形成个人知识图谱<span class="jrn-tg" style="background:#FEE2E2;color:#991B1B">留存</span></div></div>
+          <div class="jrn-pw2"><div class="jrn-pc">
+            <div class="jrn-pi"><div class="jrn-pi-icon"><svg fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.51"/></svg></div><div class="jrn-pt">算子导出<b>步骤繁多</b>，中途易出错，排错文档分散</div></div>
+            <div class="jrn-pi"><div class="jrn-pi-icon"><svg fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div><div class="jrn-pt">多框架（MindSpore/PyTorch/PaddlePaddle）接入方式<b>不统一</b></div></div>
+          </div></div>
+        </div>
+
+        <!-- ⑥ 机会点 Opportunities -->
+        <div class="jrn-grid">
+          <div class="jrn-rl"><div class="jrn-rn">机会点</div><div class="jrn-re">Opps</div></div>
+          <div class="jrn-ow"><div class="jrn-oc">
+            <div class="jrn-oi"><div class="jrn-oi-dot"></div><div class="jrn-ot">一键环境容器，Driver/CANN/框架版本<b>自动匹配锁定</b></div></div>
+            <div class="jrn-oi"><div class="jrn-oi-dot"></div><div class="jrn-ot">智能报错解析，提供<b>上下文感知的修复建议</b></div></div>
+          </div></div>
+          <div class="jrn-ow"><div class="jrn-oc">
+            <div class="jrn-oi"><div class="jrn-oi-dot"></div><div class="jrn-ot">AI 生成<b>个性化成长路径</b>，节点直链真实可运行课程</div></div>
+            <div class="jrn-oi"><div class="jrn-oi-dot"></div><div class="jrn-ot">交互式 Notebook 教程，<b>端到端可运行</b>，文档即代码</div></div>
+          </div></div>
+          <div class="jrn-ow"><div class="jrn-oc">
+            <div class="jrn-oi"><div class="jrn-oi-dot"></div><div class="jrn-ot">算子开发向导：<b>模板生成 + 可视化 Tiling</b> 参数配置</div></div>
+            <div class="jrn-oi"><div class="jrn-oi-dot"></div><div class="jrn-ot">Ascend C 代码补全，高亮硬件约束，<b>降低认知负荷</b></div></div>
+          </div></div>
+          <div class="jrn-ow"><div class="jrn-oc">
+            <div class="jrn-oi"><div class="jrn-oi-dot"></div><div class="jrn-ot">可视化 Profiling 看板：<b>统一时间线 + 一键瓶颈定位</b></div></div>
+            <div class="jrn-oi"><div class="jrn-oi-dot"></div><div class="jrn-ot">智能错误诊断，直接指向<b>可疑算子 + 修复路径</b></div></div>
+          </div></div>
+          <div class="jrn-ow"><div class="jrn-oc">
+            <div class="jrn-oi"><div class="jrn-oi-dot"></div><div class="jrn-ot">一键发布流水线，<b>全链路健康检查</b> + 自动化回归</div></div>
+            <div class="jrn-oi"><div class="jrn-oi-dot"></div><div class="jrn-ot">统一多框架接入指南，<b>标准化接口文档</b>，减少重复踩坑</div></div>
           </div></div>
         </div>
 
