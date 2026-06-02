@@ -194,7 +194,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 .voc-stat .l{font-family:'JetBrains Mono';font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
 
 /* —— 方案1：深色指标带（明暗对比）—— */
-.voc-top.t-dark{background:var(--g-ink);border-radius:14px;padding:1.8vh 1.6vw;gap:0;align-items:stretch;box-shadow:0 14px 34px -16px rgba(20,25,35,.55)}
+.voc-top.t-dark{background:var(--g-ink);border-radius:14px;padding:1.8vh 1.6vw;gap:0;align-items:stretch}
 .voc-top.t-dark .voc-sent{background:transparent!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;border:0!important;box-shadow:none!important;padding:0 1.4vw 0 0}
 .voc-top.t-dark .voc-sent .sh{color:rgba(255,255,255,.5)}
 .voc-top.t-dark .voc-legend{color:rgba(255,255,255,.72)}
@@ -235,11 +235,15 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 .voc-card.center{align-items:center;text-align:center;margin-top:32px;padding-top:34px}
 .voc-card.center .voc-meta{margin-top:1vh;flex-direction:column;gap:.1vh}
 /* 卡型：消息气泡 + 外置头像 */
-.voc-card.bubble{background:transparent!important;border:0!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;padding:0;gap:.95vh}
+.voc-card.bubble{background:transparent!important;border:0!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;padding:0;gap:.95vh;margin-top:-1.4vh}
 .bubble{position:relative;border-radius:14px;padding:1.6vh 1.2vw;display:flex;flex-direction:column;gap:.9vh;
   background:rgba(255,255,255,.52);backdrop-filter:blur(15px) saturate(1.5);-webkit-backdrop-filter:blur(15px) saturate(1.5);
   border:1px solid rgba(255,255,255,.65);box-shadow:0 8px 24px -12px rgba(30,40,70,.22),inset 0 1px 0 rgba(255,255,255,.8)}
-.bubble-meta{display:flex;align-items:center;justify-content:center;gap:.5vw;margin-top:.7vh;position:relative;z-index:4}
+/* 尾巴：纯 CSS 三角紧贴气泡框底边中央、朝下指向头像（位置固定不漂移）*/
+.bubble::after{content:'';position:absolute;left:50%;bottom:-8px;transform:translateX(-50%);
+  width:0;height:0;border-left:9px solid transparent;border-right:9px solid transparent;
+  border-top:9px solid rgba(255,255,255,.62)}
+.bubble-meta{display:flex;align-items:center;justify-content:center;gap:.5vw;margin-top:1.4vh;position:relative;z-index:4}
 .bubble-meta .voc-ava{width:34px;height:34px}
 /* 重点卡：实底强调，与玻璃卡形成层次 */
 .voc-card.hl{background:var(--g-ink)!important;border-color:transparent!important;backdrop-filter:none;-webkit-backdrop-filter:none;box-shadow:0 12px 30px -12px rgba(20,25,30,.5)!important}
