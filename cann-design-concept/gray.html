@@ -146,7 +146,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 .mcell .mt{font-weight:700;font-size:max(12px,.94vw);margin-bottom:.3vh;display:block}
 
 /* ===== 玻璃折射卡片（灰底白卡统一玻璃质感，背后纹理透出）===== */
-.card,.cmp,.persona,.kpi:not(.accent),.voice,.method .m,.lc:not(.hl),.act-node,.mcell.scene,.layer-label{
+.card,.cmp,.persona,.kpi:not(.accent),.voice,.method .m,.lc:not(.hl),.act-node,.mcell.scene,.layer-label,.voc-sent,.voc-stat,.voc-card:not(.hl):not(.accent){
   background:rgba(255,255,255,.46)!important;
   backdrop-filter:blur(15px) saturate(1.5);
   -webkit-backdrop-filter:blur(15px) saturate(1.5);
@@ -158,6 +158,37 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 .pain,.jm-pain{background:rgba(248,234,234,.52)!important;backdrop-filter:blur(13px) saturate(1.3);-webkit-backdrop-filter:blur(13px) saturate(1.3);border:1px solid rgba(255,255,255,.5)!important;box-shadow:0 6px 20px -12px rgba(120,40,40,.2),inset 0 1px 0 rgba(255,255,255,.6)!important}
 /* accent/ink 实底块保持不透明，与玻璃白卡形成对比 */
 .kpi.accent,.mcell.feat,.jm-opp,.lc.hl,.plat{backdrop-filter:none;-webkit-backdrop-filter:none}
+
+/* ===== VOC 分析：情感概览 + 用户声音墙 ===== */
+.voc-top{display:grid;grid-template-columns:1.7fr 1fr 1fr 1fr;gap:1vw;flex:0 0 auto;margin-bottom:2.2vh}
+.voc-sent{display:flex;flex-direction:column;gap:1.2vh;justify-content:center;border-radius:12px;padding:1.6vh 1.3vw}
+.voc-sent .sh{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.voc-bar{display:flex;height:16px;border-radius:8px;overflow:hidden;box-shadow:inset 0 1px 2px rgba(0,0,0,.08)}
+.voc-bar i{display:block;height:100%}
+.voc-bar .pos{background:#3FB37F}.voc-bar .neu{background:#C2C8D2}.voc-bar .neg{background:#E0533B}
+.voc-legend{display:flex;gap:1.3vw;font-family:'JetBrains Mono';font-size:11px;color:var(--ink-2)}
+.voc-legend span{display:flex;align-items:center;gap:.45em}
+.voc-legend i{width:9px;height:9px;border-radius:2px;display:inline-block}
+.voc-stat{display:flex;flex-direction:column;justify-content:center;gap:.5vh;border-radius:12px;padding:1.4vh 1vw}
+.voc-stat .n{font-family:'Inter';font-weight:200;font-size:min(3.4vw,5.6vh);line-height:.9;letter-spacing:-.03em;color:var(--ink);font-feature-settings:'tnum'}
+.voc-stat .n .u{font-size:.34em;font-weight:400;color:var(--ink-2);margin-left:.12em}
+.voc-stat .l{font-family:'JetBrains Mono';font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+.voc-wall{flex:1;min-height:0;column-count:4;column-gap:1vw}
+.voc-card{break-inside:avoid;border-radius:13px;padding:1.6vh 1.1vw;margin-bottom:1vw;display:flex;flex-direction:column;gap:1vh;position:relative;overflow:hidden}
+.voc-card .qm{font-family:'Inter';font-weight:800;font-size:34px;line-height:.5;color:var(--accent);opacity:.28}
+.voc-q{font-size:max(12px,.86vw);line-height:1.52;color:var(--ink)}
+.voc-stars{display:flex;gap:2px;color:#E8A93C;font-size:13px;letter-spacing:1px}
+.voc-stars .off{color:var(--line)}
+.voc-meta{display:flex;align-items:center;gap:.6vw;margin-top:auto;padding-top:.4vh}
+.voc-ava{width:34px;height:34px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--accent),#8a7ce0)}
+.voc-nm{font-weight:600;font-size:max(12px,.84vw);line-height:1.2}
+.voc-rl{font-family:'JetBrains Mono';font-size:10px;color:var(--ink-3);margin-top:.2vh}
+/* 重点卡：实底强调，与玻璃卡形成层次 */
+.voc-card.hl{background:var(--ink)!important;border-color:transparent!important;backdrop-filter:none;-webkit-backdrop-filter:none;box-shadow:0 12px 30px -12px rgba(20,25,30,.5)!important}
+.voc-card.hl .voc-q,.voc-card.hl .voc-nm{color:#fff}.voc-card.hl .voc-rl{color:rgba(255,255,255,.6)}.voc-card.hl .qm{color:#9b8ce8;opacity:.85}
+.voc-card.accent{background:var(--accent)!important;border-color:transparent!important;backdrop-filter:none;-webkit-backdrop-filter:none;box-shadow:0 12px 30px -12px rgba(91,91,214,.5)!important}
+.voc-card.accent .voc-q,.voc-card.accent .voc-nm{color:#fff}.voc-card.accent .voc-rl{color:rgba(255,255,255,.72)}.voc-card.accent .qm{color:#fff;opacity:.5}
+.voc-card.accent .voc-stars,.voc-card.hl .voc-stars{color:#FFC861}.voc-card.accent .voc-stars .off,.voc-card.hl .voc-stars .off{color:rgba(255,255,255,.3)}
 
 /* ===== 翻页 ===== */
 #nav{position:fixed;bottom:2.4vh;left:50%;transform:translateX(-50%);z-index:50;display:flex;gap:9px;padding:8px 14px;border-radius:999px;background:rgba(0,0,0,.06)}
@@ -215,11 +246,12 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
       <p class="lead">先用全局沙盘锚定 CANN 在算力产业的位置，再以竞品对照找差距，最后用用户旅程还原从入门到落地的每一步摩擦。</p>
       <div class="chips">
         <div class="chip"><span class="n">01</span>用户研究</div>
-        <div class="chip"><span class="n">02</span>用户画像</div>
-        <div class="chip"><span class="n">03</span>全局沙盘</div>
-        <div class="chip"><span class="n">04</span>竞品对照</div>
-        <div class="chip"><span class="n">05</span>用户旅程</div>
-        <div class="chip"><span class="n">06</span>痛点→设计</div>
+        <div class="chip"><span class="n">02</span>VOC 分析</div>
+        <div class="chip"><span class="n">03</span>用户画像</div>
+        <div class="chip"><span class="n">04</span>全局沙盘</div>
+        <div class="chip"><span class="n">05</span>竞品对照</div>
+        <div class="chip"><span class="n">06</span>用户旅程</div>
+        <div class="chip"><span class="n">07</span>痛点→设计</div>
       </div>
     </div>
     <div class="ucd">▢ UCD CENTER</div>
@@ -287,14 +319,94 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
     <div class="foot">Page 02 · Voices</div>
   </section>
 
-  <!-- ===== 页4：用户画像 ===== -->
+  <!-- ===== 页4：VOC 分析（用户声音墙）===== -->
+  <section class="slide">
+    <div class="head">
+      <div class="head-l">
+        <div class="brand"><span class="logo">C<span class="r">A</span>NN</span><span class="ttl">VOC 分析</span></div>
+        <div class="subttl">Voice of Customer · 原声情感聚类与主题洞察</div>
+      </div>
+      <div class="head-r">03 / VOC 分析<br/>2026</div>
+    </div>
+    <div class="body-area">
+      <!-- 顶部：情感概览 + 关键指标 -->
+      <div class="voc-top">
+        <div class="voc-sent">
+          <div class="sh">情感倾向 · Sentiment（N=320）</div>
+          <div class="voc-bar"><i class="pos" style="width:58%"></i><i class="neu" style="width:27%"></i><i class="neg" style="width:15%"></i></div>
+          <div class="voc-legend">
+            <span><i style="background:#3FB37F"></i>正面 58%</span>
+            <span><i style="background:#C2C8D2"></i>中性 27%</span>
+            <span><i style="background:#E0533B"></i>负面 15%</span>
+          </div>
+        </div>
+        <div class="voc-stat"><div class="n">320<span class="u">条</span></div><div class="l">原声样本</div></div>
+        <div class="voc-stat"><div class="n">4.1<span class="u">/5</span></div><div class="l">平均评分</div></div>
+        <div class="voc-stat"><div class="n">6<span class="u">类</span></div><div class="l">主题聚类</div></div>
+      </div>
+      <!-- 声音墙：错落 masonry -->
+      <div class="voc-wall">
+        <div class="voc-card hl">
+          <div class="qm">“</div>
+          <div class="voc-stars">★★★★★</div>
+          <div class="voc-q">新的交互式文档把端到端示例串起来了，照着 Notebook 跑半天就通了，不用再翻七八个页面。</div>
+          <div class="voc-meta"><div class="voc-ava"></div><div><div class="voc-nm">林 · 算法工程师</div><div class="voc-rl">互联网 · 3 年</div></div></div>
+        </div>
+        <div class="voc-card">
+          <div class="qm">“</div>
+          <div class="voc-stars">★★★★★</div>
+          <div class="voc-q">Profiling 看板能直接点到瓶颈算子，比之前翻日志定位快太多。</div>
+          <div class="voc-meta"><div class="voc-ava" style="background:linear-gradient(135deg,#3FB37F,#7ad6a8)"></div><div><div class="voc-nm">陈 · 框架开发者</div><div class="voc-rl">AI 平台 · 5 年</div></div></div>
+        </div>
+        <div class="voc-card">
+          <div class="qm">“</div>
+          <div class="voc-stars">★★★★<span class="off">★</span></div>
+          <div class="voc-q">算子开发向导生成骨架后，我只要填核心计算逻辑，省了大量样板代码。</div>
+          <div class="voc-meta"><div class="voc-ava" style="background:linear-gradient(135deg,#E89B3F,#f0c07a)"></div><div><div class="voc-nm">王 · 算子工程师</div><div class="voc-rl">芯片厂商 · 4 年</div></div></div>
+        </div>
+        <div class="voc-card accent">
+          <div class="qm">“</div>
+          <div class="voc-q">如果环境能一键拉起来、版本自动对齐，复现实验就不再是噩梦了。</div>
+          <div class="voc-meta"><div class="voc-ava" style="background:rgba(255,255,255,.3)"></div><div><div class="voc-nm">赵 · 学术研究者</div><div class="voc-rl">高校 · 博士在读</div></div></div>
+        </div>
+        <div class="voc-card">
+          <div class="qm">“</div>
+          <div class="voc-stars">★★★★<span class="off">★</span></div>
+          <div class="voc-q">成长地图让我清楚下一步该学什么，不再瞎撞。</div>
+          <div class="voc-meta"><div class="voc-ava" style="background:linear-gradient(135deg,#5B8DEF,#8ab4f8)"></div><div><div class="voc-nm">刘 · 后端工程师</div><div class="voc-rl">云服务 · 2 年</div></div></div>
+        </div>
+        <div class="voc-card">
+          <div class="qm">“</div>
+          <div class="voc-stars">★★★★★</div>
+          <div class="voc-q">智能错误诊断给的修复建议挺准，少跑了好几趟社区。</div>
+          <div class="voc-meta"><div class="voc-ava" style="background:linear-gradient(135deg,#9b59b6,#c39bd3)"></div><div><div class="voc-nm">孙 · 推理优化工程师</div><div class="voc-rl">自动驾驶 · 6 年</div></div></div>
+        </div>
+        <div class="voc-card">
+          <div class="qm">“</div>
+          <div class="voc-stars">★★★<span class="off">★</span><span class="off">★</span></div>
+          <div class="voc-q">希望文档的中英文版本能同步更新，目前英文常滞后。</div>
+          <div class="voc-meta"><div class="voc-ava" style="background:linear-gradient(135deg,#16a085,#48c9b0)"></div><div><div class="voc-nm">周 · 海外开发者</div><div class="voc-rl">Startup · 3 年</div></div></div>
+        </div>
+        <div class="voc-card">
+          <div class="qm">“</div>
+          <div class="voc-stars">★★★<span class="off">★</span><span class="off">★</span></div>
+          <div class="voc-q">调试偶尔还得回到命令行，期待全程可视化覆盖。</div>
+          <div class="voc-meta"><div class="voc-ava" style="background:linear-gradient(135deg,#e67e22,#f0a05a)"></div><div><div class="voc-nm">吴 · 系统工程师</div><div class="voc-rl">通信 · 7 年</div></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="ucd">▢ UCD CENTER</div>
+    <div class="foot">Page 03 · VOC</div>
+  </section>
+
+  <!-- ===== 页5：用户画像 ===== -->
   <section class="slide">
     <div class="head">
       <div class="head-l">
         <div class="brand"><span class="logo">C<span class="r">A</span>NN</span><span class="ttl">用户画像</span></div>
         <div class="subttl">User Persona · 三类核心开发者</div>
       </div>
-      <div class="head-r">03 / 用户画像<br/>2026</div>
+      <div class="head-r">04 / 用户画像<br/>2026</div>
     </div>
     <div class="body-area">
       <div class="persona-grid">
@@ -322,7 +434,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
       </div>
     </div>
     <div class="ucd">▢ UCD CENTER</div>
-    <div class="foot">Page 03 · Persona</div>
+    <div class="foot">Page 04 · Persona</div>
   </section>
 
   <!-- ===== 页5：全局沙盘 ===== -->
@@ -332,7 +444,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
         <div class="brand"><span class="logo">C<span class="r">A</span>NN</span><span class="ttl">AI 战略 2.0 算力产业产品沙盘</span></div>
         <div class="subttl">Global Sandbox · 从应用到运维的全栈视图</div>
       </div>
-      <div class="head-r">04 / 全局沙盘<br/>2026</div>
+      <div class="head-r">05 / 全局沙盘<br/>2026</div>
     </div>
     <div class="body-area">
       <div class="sandbox">
@@ -375,7 +487,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
       </div>
     </div>
     <div class="ucd">▢ UCD CENTER</div>
-    <div class="foot">Page 04 · Sandbox</div>
+    <div class="foot">Page 05 · Sandbox</div>
   </section>
 
   <!-- ===== 页3：竞品分析 ===== -->
@@ -385,7 +497,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
         <div class="brand"><span class="logo">C<span class="r">A</span>NN</span><span class="ttl">竞品工具对照</span></div>
         <div class="subttl">Competitive Analysis · 主流性能分析 / 调试工具横向对比</div>
       </div>
-      <div class="head-r">05 / 竞品对照<br/>2026</div>
+      <div class="head-r">06 / 竞品对照<br/>2026</div>
     </div>
     <div class="body-area">
       <div class="compare">
@@ -423,7 +535,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
       </div>
     </div>
     <div class="ucd">▢ UCD CENTER</div>
-    <div class="foot">Page 05 · Competitive</div>
+    <div class="foot">Page 06 · Competitive</div>
   </section>
 
   <!-- ===== 页4：用户旅程 ===== -->
@@ -433,7 +545,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
         <div class="brand"><span class="logo">C<span class="r">A</span>NN</span><span class="ttl">开发者用户旅程</span><span class="tag-on">已上线</span></div>
         <div class="subttl">User Journey · 从感知到生态运营的全链路</div>
       </div>
-      <div class="head-r">06 / 用户旅程<br/>2026</div>
+      <div class="head-r">07 / 用户旅程<br/>2026</div>
     </div>
     <div class="body-area">
       <div class="jmap">
@@ -522,7 +634,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
       </div>
     </div>
     <div class="ucd">▢ UCD CENTER</div>
-    <div class="foot">Page 06 · Journey</div>
+    <div class="foot">Page 07 · Journey</div>
   </section>
 
   <!-- ===== 页7：痛点 → 设计特性映射 ===== -->
@@ -532,7 +644,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
         <div class="brand"><span class="logo">C<span class="r">A</span>NN</span><span class="ttl">从痛点到设计</span></div>
         <div class="subttl">Pain → Feature Mapping · 痛点场景如何转化为设计特性</div>
       </div>
-      <div class="head-r">07 / 设计映射<br/>2026</div>
+      <div class="head-r">08 / 设计映射<br/>2026</div>
     </div>
     <div class="body-area">
       <div class="map-flow">
@@ -562,7 +674,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
       </div>
     </div>
     <div class="ucd">▢ UCD CENTER</div>
-    <div class="foot">Page 07 · Mapping</div>
+    <div class="foot">Page 08 · Mapping</div>
   </section>
 
 </div>

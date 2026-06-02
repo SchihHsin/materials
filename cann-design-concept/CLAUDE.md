@@ -29,7 +29,7 @@
 - **玻璃卡**（半透明 + `backdrop-filter:blur`，背后纹理透出）；accent/ink 实底块保持不透明
 - **底部大波浪**：两层错位贝塞尔大色块（灰蓝 `#7e8696`/`#949bab`，opacity .07/.08，左低右高微倾斜）
 - **面性渐变箭头**：实心 `➤` + accent→紫 `background-clip:text`
-- **8 页**：①区块封面 ②用户研究概览 ③痛点与用户声音 ④用户画像 ⑤全局沙盘 ⑥竞品对照(YouTube截图) ⑦用户旅程(Journey Map：阶段/触点/行为多块+多向箭头/情绪曲线/痛点/机会点) ⑧痛点→设计映射
+- **9 页**：①区块封面 ②用户研究概览 ③痛点与用户声音 ④VOC 分析(情感占比条+关键指标+masonry 声音墙：星评/头像/引号，hl/accent 实底重点卡) ⑤用户画像 ⑥全局沙盘 ⑦竞品对照(YouTube截图) ⑧用户旅程(Journey Map：阶段/触点/行为多块+多向箭头/情绪曲线/痛点/机会点) ⑨痛点→设计映射
 
 ## 能力 / 约定
 - 能用 `curl` 下载网图（Wikimedia logo / **YouTube 缩略图** `img.youtube.com/vi/<id>/maxresdefault.jpg`），**不能生成 AI 图**
