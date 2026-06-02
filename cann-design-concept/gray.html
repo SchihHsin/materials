@@ -209,7 +209,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 .voc-q.boxed{background:rgba(22,30,46,.055);border-radius:9px;padding:1vh 1vw}
 
 .voc-wall{flex:1;min-height:0;display:flex;gap:1.1vw;align-items:flex-start;padding-top:30px}
-.voc-col{flex:1;min-width:0;display:flex;flex-direction:column;gap:1.1vw}
+.voc-col{flex:1;min-width:0;display:flex;flex-direction:column;gap:.75vw}
 .voc-col>.voc-card:first-child{margin-top:0}
 .voc-card{border-radius:15px;padding:1.7vh 1.2vw;position:relative;display:flex;flex-direction:column;gap:.95vh}
 .voc-q{font-size:max(12px,.86vw);line-height:1.55;color:var(--ink)}
@@ -239,12 +239,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 .bubble{position:relative;border-radius:14px;padding:1.6vh 1.2vw;display:flex;flex-direction:column;gap:.9vh;
   background:rgba(255,255,255,.52);backdrop-filter:blur(15px) saturate(1.5);-webkit-backdrop-filter:blur(15px) saturate(1.5);
   border:1px solid rgba(255,255,255,.65);box-shadow:0 8px 24px -12px rgba(30,40,70,.22),inset 0 1px 0 rgba(255,255,255,.8)}
-/* 尾巴：旋转方块中心压在气泡底边线上（上半重叠进气泡、下半凸出成三角，无缝衔接）*/
-.bubble::after{content:'';position:absolute;bottom:-6.5px;left:50%;transform:translateX(-50%) rotate(45deg);
-  width:13px;height:13px;
-  background:rgba(255,255,255,.52);backdrop-filter:blur(15px) saturate(1.5);-webkit-backdrop-filter:blur(15px) saturate(1.5);
-  border-bottom:1px solid rgba(255,255,255,.65);border-right:1px solid rgba(255,255,255,.65);z-index:2}
-.bubble-meta{display:flex;align-items:center;justify-content:center;gap:.5vw;margin-top:.6vh;position:relative;z-index:4}
+.bubble-meta{display:flex;align-items:center;justify-content:center;gap:.5vw;margin-top:.7vh;position:relative;z-index:4}
 .bubble-meta .voc-ava{width:34px;height:34px}
 /* 重点卡：实底强调，与玻璃卡形成层次 */
 .voc-card.hl{background:var(--g-ink)!important;border-color:transparent!important;backdrop-filter:none;-webkit-backdrop-filter:none;box-shadow:0 12px 30px -12px rgba(20,25,30,.5)!important}
