@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Workflow plan — Gantt</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --teal:#6C5CE0;
+    --teal-d:#3C3489;
+    --ink:#1B2622;
+    --muted:#7C857F;
+    --bar-h:8.9%;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0}
+  body{
+    font-family:"Plus Jakarta Sans",-apple-system,BlinkMacSystemFont,sans-serif;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:40px 24px;
+    background:#ECEEE9;
+  }
+
+  .wrap{width:100%;max-width:1120px}
+
+  .stage{
+    position:relative;
+    width:100%;
+    aspect-ratio:16/9;
+    border-radius:28px;
+    overflow:hidden;
+    background:#F3F1EA;
+    box-shadow:0 24px 70px rgba(30,50,42,.16), inset 0 1px 0 rgba(255,255,255,.6);
+    border:1px solid rgba(255,255,255,.6);
+  }
+
+  .title{position:absolute;left:5.3%;top:7%;font-size:clamp(18px,2.1vw,26px);font-weight:700;letter-spacing:-.01em;color:var(--ink)}
+  .sub{position:absolute;right:5.3%;top:9%;font-size:clamp(11px,1.2vw,14px);font-weight:500;color:var(--muted)}
+
+  .date{position:absolute;top:16%;transform:translateX(-50%);font-size:clamp(9px,1vw,12px);font-weight:500;color:var(--muted);white-space:nowrap}
+  .now-pill{
+    position:absolute;left:35.88%;top:14.2%;transform:translateX(-50%);
+    font-size:clamp(9px,1vw,12px);font-weight:600;color:#fff;
+    background:rgba(108,92,224,.9);padding:3px 10px;border-radius:9px;
+    -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+    box-shadow:0 3px 10px rgba(60,52,137,.32);
+  }
+  .now-line{
+    position:absolute;left:35.88%;top:23%;height:71%;width:2px;
+    background:linear-gradient(rgba(108,92,224,.85),rgba(108,92,224,.4));
+    box-shadow:0 0 12px rgba(108,92,224,.5);
+  }
+  .now-tri{
+    position:absolute;left:35.88%;top:21.4%;transform:translateX(-50%);
+    width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;
+    border-top:7px solid var(--teal);
+  }
+
+  .bar{
+    position:absolute;height:var(--bar-h);min-height:30px;border-radius:14px;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:0 12px;font-size:clamp(11px,1.25vw,13px);font-weight:500;
+    -webkit-backdrop-filter:blur(2px) saturate(130%);backdrop-filter:blur(2px) saturate(130%);
+    opacity:0;transform:translateY(8px);
+    animation:rise .55s cubic-bezier(.22,1,.36,1) forwards;
+  }
+  .bar .lbl{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:0 0 auto}
+  .badge{font-size:clamp(9px,1vw,11px);font-weight:600;padding:3px 9px;border-radius:7px;white-space:nowrap;margin-left:8px;flex:none}
+
+  .g-white{background:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.72);color:#243029;box-shadow:0 8px 22px rgba(30,50,42,.1),inset 0 1px 0 rgba(255,255,255,.78)}
+  .g-white .badge{background:#2C2C2A;color:#fff}
+  .g-dark{background:radial-gradient(130% 90% at 10% -25%,rgba(255,255,255,.22),rgba(255,255,255,0) 55%),rgba(16,17,16,.8);border:1px solid rgba(255,255,255,.24);color:#fff;box-shadow:0 8px 26px rgba(0,0,0,.32),inset 0 1px 0 rgba(255,255,255,.32),inset 0 -10px 18px rgba(0,0,0,.28),inset 1px 0 0 rgba(255,255,255,.1)}
+  .g-dark .badge{background:rgba(255,255,255,.92);color:#242a26}
+  .g-teal{background:rgba(105,90,222,.88);border:1px solid rgba(255,255,255,.32);color:#fff;box-shadow:0 8px 22px rgba(60,52,137,.26),inset 0 1px 0 rgba(255,255,255,.35)}
+  .g-teal .badge{background:rgba(255,255,255,.94);color:var(--teal-d)}
+  .g-dev{background:linear-gradient(135deg,rgba(112,97,228,.92),rgba(60,52,137,.9));border:1px solid rgba(255,255,255,.3);color:#fff;box-shadow:0 10px 28px rgba(60,52,137,.32),inset 0 1px 0 rgba(255,255,255,.32)}
+  .g-dev .badge{background:rgba(255,255,255,.95);color:var(--teal-d)}
+
+  .diamond{
+    position:absolute;left:44.1%;top:85.5%;width:18px;height:18px;transform:rotate(45deg);
+    background:radial-gradient(140% 140% at 18% 0%,rgba(255,255,255,.28),rgba(255,255,255,0) 60%),rgba(18,19,18,.88);border:1px solid rgba(255,255,255,.3);border-radius:3px;
+    -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:0 5px 14px rgba(0,0,0,.22);
+  }
+  .ms-lbl{position:absolute;left:48%;top:84.4%;font-size:clamp(10px,1.1vw,12.5px);font-weight:500;color:#4A4A46}
+
+  .pill{position:absolute;top:81.5%;width:14px;height:11.5%;border-radius:7px;
+    -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+  .pill.glass{background:rgba(255,255,255,.46);border:1px solid rgba(255,255,255,.62);box-shadow:inset 0 1px 0 rgba(255,255,255,.7)}
+  .pill.accent{background:rgba(105,90,222,.88);border:1px solid rgba(255,255,255,.4);box-shadow:0 5px 14px rgba(60,52,137,.28)}
+
+  @keyframes rise{to{opacity:1;transform:translateY(0)}}
+  @media (prefers-reduced-motion:reduce){.bar{animation:none;opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="stage">
+    <div class="title">Workflow plan</div>
+    <div class="sub">3,5 months</div>
+
+    <div class="date" style="left:7.65%">Feb 15</div>
+    <div class="date" style="left:17.06%">Feb 20</div>
+    <div class="date" style="left:26.47%">Feb 25</div>
+    <div class="now-pill">Now</div>
+    <div class="date" style="left:45.29%">Mar 10</div>
+    <div class="date" style="left:54.71%">Mar 20</div>
+    <div class="date" style="left:64.12%">Mar 30</div>
+    <div class="date" style="left:73.53%">Apr 15</div>
+    <div class="date" style="left:82.94%">Apr 20</div>
+    <div class="date" style="left:92.35%">Apr 30</div>
+
+    <div class="now-line"></div>
+    <div class="now-tri"></div>
+
+    <div class="bar g-dark" style="left:22.94%;width:38.53%;top:24%;animation-delay:.10s"><span class="lbl">Business Analysis</span><span class="badge">25 days</span></div>
+    <div class="bar g-white" style="left:6.47%;width:18.82%;top:24%;animation-delay:.04s"><span class="lbl">Research</span><span class="badge">4 days</span></div>
+
+    <div class="bar g-white" style="left:28.24%;width:27.94%;top:35%;animation-delay:.16s"><span class="lbl">Wireframes, proto</span><span class="badge">12 days</span></div>
+    <div class="bar g-dark" style="left:57.06%;width:25%;top:35%;animation-delay:.22s"><span class="lbl">UI design</span><span class="badge">15 days</span></div>
+
+    <div class="bar g-dev" style="left:57.06%;width:36.47%;top:46%;animation-delay:.28s"><span class="lbl">Development</span><span class="badge">45 days</span></div>
+
+    <div class="bar g-teal" style="left:45.29%;width:18%;top:60%;animation-delay:.34s"><span class="lbl">Sync</span><span class="badge">2 days</span></div>
+
+    <div class="bar g-white" style="left:36.18%;width:17.65%;top:71%;animation-delay:.40s"><span class="lbl">WF Testing</span><span class="badge">4 days</span></div>
+    <div class="bar g-dark" style="left:76.47%;width:16.47%;top:71%;animation-delay:.46s"><span class="lbl">Feedback</span><span class="badge">2 days</span></div>
+
+    <div class="diamond"></div>
+    <div class="ms-lbl">Dev Start</div>
+
+    <div class="pill glass" style="left:21.8%"></div>
+    <div class="pill glass" style="left:72.2%"></div>
+    <div class="pill accent" style="left:75.4%"></div>
+  </div>
+</div>
+</body>
+</html>

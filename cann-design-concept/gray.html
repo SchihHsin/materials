@@ -360,6 +360,24 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 .gt-track{position:relative;height:100%}
 .gt-bar{position:absolute;top:50%;transform:translateY(-50%);height:4.2vh;border-radius:999px;display:flex;align-items:center;padding:0 .9vw;color:#fff;font-size:max(10px,.74vw);font-weight:600;white-space:nowrap;overflow:hidden;opacity:.86;backdrop-filter:blur(6px) saturate(1.3);-webkit-backdrop-filter:blur(6px) saturate(1.3);border:1px solid rgba(255,255,255,.35);box-shadow:inset 0 1px 0 rgba(255,255,255,.4);text-shadow:0 1px 2px rgba(0,0,0,.25)}
 
+/* ===== 浮动条甘特图（参照 workflow-plan-gantt 样式 + 规范配色）===== */
+.rm{position:relative;flex:1;min-height:0;margin-top:1vh}
+.rm-date{position:absolute;top:0;transform:translateX(-50%);font-family:'JetBrains Mono';font-size:max(9px,.66vw);font-weight:500;color:var(--ink-3);white-space:nowrap}
+.rm-now-pill{position:absolute;top:1.6%;transform:translateX(-50%);font-size:max(9px,.66vw);font-weight:600;color:#fff;background:rgba(91,91,214,.92);padding:3px 11px;border-radius:9px;box-shadow:0 3px 10px rgba(60,52,137,.32);z-index:3}
+.rm-now-line{position:absolute;top:9%;height:84%;width:2px;background:linear-gradient(rgba(91,91,214,.85),rgba(91,91,214,.35));box-shadow:0 0 12px rgba(91,91,214,.5);z-index:1}
+.rm-now-tri{position:absolute;top:7.2%;transform:translateX(-50%);width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:7px solid var(--accent);z-index:2}
+.rm-bar{position:absolute;height:10.5%;min-height:32px;border-radius:14px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;font-size:max(11px,.94vw);font-weight:500;backdrop-filter:blur(2px) saturate(130%);-webkit-backdrop-filter:blur(2px) saturate(130%);z-index:2}
+.rm-bar .lbl{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rm-badge{font-size:max(9px,.74vw);font-weight:600;padding:3px 9px;border-radius:7px;white-space:nowrap;margin-left:10px;flex:none}
+.rm-bar.white{background:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.75);color:var(--ink);box-shadow:0 8px 22px rgba(30,40,70,.1),inset 0 1px 0 rgba(255,255,255,.8)}
+.rm-bar.white .rm-badge{background:var(--dark);color:#fff}
+.rm-bar.dark{background:var(--g-ink);border:1px solid rgba(255,255,255,.22);color:#fff;box-shadow:0 8px 26px rgba(20,25,35,.32),inset 0 1px 0 rgba(255,255,255,.28)}
+.rm-bar.dark .rm-badge{background:rgba(255,255,255,.92);color:var(--dark)}
+.rm-bar.accent{background:var(--g-accent);border:1px solid rgba(255,255,255,.34);color:#fff;box-shadow:0 10px 28px rgba(91,91,214,.3),inset 0 1px 0 rgba(255,255,255,.35)}
+.rm-bar.accent .rm-badge{background:#fff;color:#5B21B6}
+.rm-diamond{position:absolute;width:18px;height:18px;transform:rotate(45deg);background:var(--g-ink);border:1px solid rgba(255,255,255,.3);border-radius:3px;box-shadow:0 5px 14px rgba(0,0,0,.22);z-index:3}
+.rm-ms{position:absolute;font-size:max(10px,.78vw);font-weight:500;color:var(--ink-2)}
+
 /* ===== 翻页 ===== */
 #nav{position:fixed;bottom:2.4vh;left:50%;transform:translateX(-50%);z-index:50;display:flex;gap:9px;padding:8px 14px;border-radius:999px;background:rgba(0,0,0,.06)}
 #nav .dot{width:8px;height:8px;border-radius:50%;background:rgba(0,0,0,.2);cursor:pointer;border:0;transition:all .3s}
@@ -785,6 +803,47 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
     </div>
     <div class="ucd">▢ UCD CENTER</div>
     <div class="foot">Page 04 · Journey</div>
+  </section>
+
+  <!-- ===== 页5：实施路线甘特图（浮动条）===== -->
+  <section class="slide">
+    <div class="head">
+      <div class="head-l">
+        <div class="brand"><span class="logo">C<span class="r">A</span>NN</span><span class="ttl">设计与开发并行推进，开发是关键路径</span></div>
+        <div class="subttl">Roadmap · 2026 H1 设计落地时间线</div>
+      </div>
+      <div class="head-r">05 / 实施路线<br/>2026</div>
+    </div>
+    <div class="body-area">
+      <div class="rm">
+        <!-- 月份刻度 -->
+        <div class="rm-date" style="left:6%">2 月初</div>
+        <div class="rm-date" style="left:25%">3 月初</div>
+        <div class="rm-date" style="left:44%">4 月初</div>
+        <div class="rm-date" style="left:63%">5 月初</div>
+        <div class="rm-date" style="left:82%">6 月初</div>
+        <!-- Now（当前进度：3 月底）-->
+        <div class="rm-now-pill" style="left:40%">Now</div>
+        <div class="rm-now-tri" style="left:40%"></div>
+        <div class="rm-now-line" style="left:40%"></div>
+
+        <!-- 阶段条（错落 · badge 周期）-->
+        <div class="rm-bar dark"  style="left:5%;width:21%;top:13%"><span class="lbl">用户研究 &amp; VOC</span><span class="rm-badge">25 天</span></div>
+        <div class="rm-bar white" style="left:11%;width:14%;top:25%"><span class="lbl">竞品调研</span><span class="rm-badge">10 天</span></div>
+        <div class="rm-bar white" style="left:25%;width:16%;top:37%"><span class="lbl">设计概念定义</span><span class="rm-badge">12 天</span></div>
+        <div class="rm-bar dark"  style="left:39%;width:25%;top:25%"><span class="lbl">交互式文档 &amp; 成长地图</span><span class="rm-badge">20 天</span></div>
+        <div class="rm-bar accent" style="left:50%;width:26%;top:49%"><span class="lbl">可视化 Profiling 看板</span><span class="rm-badge">30 天</span></div>
+        <div class="rm-bar accent" style="left:58%;width:28%;top:37%"><span class="lbl">算子开发向导</span><span class="rm-badge">28 天</span></div>
+        <div class="rm-bar white" style="left:70%;width:16%;top:61%"><span class="lbl">智能错误诊断</span><span class="rm-badge">12 天</span></div>
+        <div class="rm-bar dark"  style="left:83%;width:14%;top:49%"><span class="lbl">联调 &amp; 灰度发布</span><span class="rm-badge">10 天</span></div>
+
+        <!-- 里程碑：设计定稿 -->
+        <div class="rm-diamond" style="left:41%;top:73%"></div>
+        <div class="rm-ms" style="left:44%;top:72.5%">设计定稿 · 转入开发</div>
+      </div>
+    </div>
+    <div class="ucd">▢ UCD CENTER</div>
+    <div class="foot">Page 05 · Roadmap</div>
   </section>
 
 </div>
