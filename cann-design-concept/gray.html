@@ -550,7 +550,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
             <div class="voc-hd">期待全程可视化</div>
             <div class="voc-stars">★★★<span class="off">★</span><span class="off">★</span></div>
             <div class="voc-q">调试偶尔还得回到命令行，希望可视化能覆盖到全流程。</div>
-            <div class="voc-meta"><div class="voc-ava" data-av='{"type":"long","shirt":"#E6789B","skin":"light","bg":"#FBE8F0"}'></div><div><div class="voc-nm">吴 · 系统工程师</div><div class="voc-rl">通信 · 7 年</div></div></div>
+            <div class="voc-meta"><div class="voc-ava" data-av='{"type":"curly","shirt":"#E6789B","skin":"light","hair":"#7A4A28","bg":"#FBE8F0"}'></div><div><div class="voc-nm">吴 · 系统工程师</div><div class="voc-rl">通信 · 7 年</div></div></div>
           </div>
         </div>
 
@@ -816,9 +816,9 @@ function avatar(o){
   // 饱满发型：从头顶 y9 盖到额前 y20，覆盖整个头顶
   let h='';
   switch(o.type){
-    case 'long': h=`<path d="M14 44 C12 24 16 12 32 12 C48 12 52 24 50 44 L43 44 C47 28 45 21 39 20 L25 20 C19 21 17 28 21 44Z" fill="${hair}"/>`; break;
+    case 'long': h=`<path d="M14 44 C12 26 16 14 32 14 C48 14 52 26 50 44 L43 44 C47 29 45 22 39 21 L25 21 C19 22 17 29 21 44Z" fill="${hair}"/>`; break;
     case 'bun': h=`<circle cx="32" cy="8.5" r="5.2" fill="${hair}"/><path d="M16 31 C16 9 48 9 48 31 C44 24 40 20 32 18 C24 20 20 24 16 31Z" fill="${hair}"/>`; break;
-    case 'curly': h=`<g fill="${hair}"><circle cx="21" cy="19" r="7"/><circle cx="30" cy="12" r="7.5"/><circle cx="40" cy="15" r="7"/><circle cx="46" cy="23" r="5.6"/><circle cx="18" cy="25" r="5.6"/><circle cx="32" cy="17" r="7"/></g>`; break;
+    case 'curly': h=`<g fill="${hair}"><circle cx="21" cy="23" r="7"/><circle cx="30" cy="16" r="7.5"/><circle cx="40" cy="19" r="7"/><circle cx="46" cy="27" r="5.6"/><circle cx="18" cy="29" r="5.6"/><circle cx="32" cy="21" r="7"/></g>`; break;
     case 'side': h=`<path d="M16 31 C16 9 48 9 48 31 C44 24 40 20 32 18 C26 19 20 22 16 31Z" fill="${hair}"/>`; break;
     default: h=`<path d="M16 31 C16 9 48 9 48 31 C44 24 40 20 32 18 C24 20 20 24 16 31Z" fill="${hair}"/>`;
   }
