@@ -92,9 +92,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 .cmp{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
 .cmp.focus{border:2px solid var(--accent);box-shadow:0 12px 32px -12px rgba(91,91,214,.4)}
 /* 图区：沉到卡片最底（order:2），文案在上（order:1）；图片不裁切+圆角+留白+padding */
-.cmp-img{order:2;flex:0 0 auto;padding:0;position:relative}
-.cmp-img img{width:100%;height:auto;display:block}
-.cmp-body{order:1;padding:1.6vh 1.2vw .6vh;display:flex;flex-direction:column;gap:.9vh;flex:1}
+.cmp-img{order:2;flex:0 0 auto;padding:0 .7vw .7vw;position:relative}
+.cmp-img img{width:100%;height:auto;display:block;border-radius:9px;border:1px solid var(--line)}
+.cmp-body{order:1;padding:1.6vh 1.2vw .4vh;display:flex;flex-direction:column;gap:.9vh;flex:1}
 .cmp-name{font-weight:700;font-size:max(16px,1.25vw);letter-spacing:-.01em}
 .cmp-sub{font-family:'JetBrains Mono';font-size:10px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.1em;margin-top:.2vh}
 .verdict{flex:0 0 auto;margin-top:1.4vh;display:grid;grid-template-columns:auto 1fr;gap:1.2vw;align-items:center;background:var(--g-ink);color:#fff;border-radius:12px;padding:1.8vh 1.6vw}
