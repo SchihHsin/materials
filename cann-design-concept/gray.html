@@ -92,9 +92,12 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 .cmp{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
 .cmp.focus{border:2px solid var(--accent);box-shadow:0 12px 32px -12px rgba(91,91,214,.4)}
 /* 图区：沉到卡片最底（order:2），文案在上（order:1）；图片不裁切+圆角+留白+padding */
-.cmp-img{order:2;flex:0 0 auto;padding:0 .7vw .7vw;position:relative}
+.cmp-img{order:2;flex:0 0 auto;padding:0 .9vw .9vw;position:relative;margin-top:auto}
 .cmp-img img{width:100%;height:auto;display:block;border-radius:9px;border:1px solid var(--line)}
-.cmp-body{order:1;padding:1.6vh 1.2vw .4vh;display:flex;flex-direction:column;gap:.9vh;flex:0 0 auto}
+.cmp-cap{font-family:'JetBrains Mono';font-size:11px;color:var(--ink-3);text-align:center;letter-spacing:.02em;margin-top:.7vh}
+.cmp-body{order:1;padding:2vh 1.4vw .6vh;flex:0 0 auto}
+.cmp-desc{font-size:max(13px,.98vw);line-height:1.72;color:var(--ink-2)}
+.cmp-desc b{color:var(--ink);font-weight:600;background:linear-gradient(transparent 60%,rgba(91,91,214,.16) 0)}
 .cmp-name{font-weight:700;font-size:max(16px,1.25vw);letter-spacing:-.01em}
 .cmp-sub{font-family:'JetBrains Mono';font-size:10px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.1em;margin-top:.2vh}
 .verdict{flex:0 0 auto;margin-top:1.4vh;display:grid;grid-template-columns:auto 1fr;gap:1.2vw;align-items:center;background:var(--g-ink);color:#fff;border-radius:12px;padding:1.8vh 1.6vw}
@@ -337,6 +340,19 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 .cx-concl .cv{font-size:max(13px,1vw);line-height:1.6}
 .cx-concl .cv b{font-weight:700}
 
+/* ===== 甘特图：实施时间规划 ===== */
+.gantt{flex:1;min-height:0;display:flex;flex-direction:column}
+.gt-axis{display:grid;grid-template-columns:15vw 1fr;flex:0 0 auto;margin-bottom:1.4vh}
+.gt-qs{display:grid;grid-template-columns:repeat(4,1fr)}
+.gt-q{font-family:'JetBrains Mono';font-size:12px;color:var(--ink-2);text-align:center;padding-bottom:.7vh;border-bottom:1.5px solid var(--line)}
+.gt-rows{flex:1;min-height:0;display:flex;flex-direction:column}
+.gt-row{flex:1;display:grid;grid-template-columns:15vw 1fr;align-items:center}
+.gt-name{font-size:max(12px,.92vw);font-weight:600;color:var(--ink);padding-right:1vw;display:flex;align-items:center;gap:.5em}
+.gt-name .gn{width:7px;height:7px;border-radius:2px;flex-shrink:0}
+.gt-track{position:relative;height:100%;background-image:linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:25% 100%}
+.gt-bar{position:absolute;top:50%;transform:translateY(-50%);height:3.1vh;border-radius:999px;display:flex;align-items:center;padding:0 .9vw;color:#fff;font-size:max(10px,.74vw);font-weight:500;white-space:nowrap;overflow:hidden;box-shadow:0 5px 14px -6px rgba(20,30,60,.45)}
+.gt-mile{position:absolute;top:50%;transform:translate(-50%,-50%);width:11px;height:11px;border-radius:50%;background:#fff;border:2.5px solid var(--accent);z-index:2;box-shadow:0 2px 6px rgba(0,0,0,.2)}
+
 /* ===== 翻页 ===== */
 #nav{position:fixed;bottom:2.4vh;left:50%;transform:translateX(-50%);z-index:50;display:flex;gap:9px;padding:8px 14px;border-radius:999px;background:rgba(0,0,0,.06)}
 #nav .dot{width:8px;height:8px;border-radius:50%;background:rgba(0,0,0,.2);cursor:pointer;border:0;transition:all .3s}
@@ -563,31 +579,22 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
     <div class="body-area">
       <div class="compare">
         <div class="cmp">
-          <div class="cmp-img"><img src="reference/cmp-nsight.jpg" alt="Nsight Systems 界面"></div>
           <div class="cmp-body">
-            <div><div class="cmp-name">NVIDIA Nsight Systems</div><div class="cmp-sub">CUDA · Timeline Profiler</div></div>
-            <div class="cmp-row"><span class="k">可视化</span><span class="v">CPU/GPU 统一时间线，框选即缩放定位</span></div>
-            <div class="cmp-row"><span class="k">上手</span><span class="v">教程体系完善，引导式入门</span></div>
-            <div class="cmp-row"><span class="k">亮点</span><span class="v">事件 → 源码一键跳转</span></div>
+            <div class="cmp-desc">以 <b>CPU/GPU 统一时间线</b> 为核心，开发者框选即可缩放、定位瓶颈算子，并支持 <b>事件 → 源码一键跳转</b>。配合完善的教程体系，新手也能<b>引导式上手</b> Profiling，几乎零学习成本。</div>
           </div>
+          <div class="cmp-img"><img src="reference/cmp-nsight.jpg" alt="Nsight Systems 界面"><div class="cmp-cap">NVIDIA Nsight Systems</div></div>
         </div>
         <div class="cmp">
-          <div class="cmp-img"><img src="reference/cmp-vtune.jpg" alt="Intel VTune 界面"></div>
           <div class="cmp-body">
-            <div><div class="cmp-name">Intel VTune Profiler</div><div class="cmp-sub">CPU/GPU · Performance Analyzer</div></div>
-            <div class="cmp-row"><span class="k">可视化</span><span class="v">多分析类型，热点逐层下钻</span></div>
-            <div class="cmp-row"><span class="k">上手</span><span class="v">向导式配置分析任务</span></div>
-            <div class="cmp-row"><span class="k">亮点</span><span class="v">微架构级瓶颈归因</span></div>
+            <div class="cmp-desc">提供多种分析类型，热点可 <b>逐层下钻</b>，并给出 <b>微架构级瓶颈归因</b>，直指问题根因。向导式配置分析任务，让性能调优<b>有据可依、不靠猜测</b>，深受系统级开发者青睐。</div>
           </div>
+          <div class="cmp-img"><img src="reference/cmp-vtune.jpg" alt="Intel VTune 界面"><div class="cmp-cap">Intel VTune Profiler</div></div>
         </div>
         <div class="cmp">
-          <div class="cmp-img"><img src="reference/cmp-rocm-tool.jpg" alt="AMD rocprof 架构"></div>
           <div class="cmp-body">
-            <div><div class="cmp-name">AMD rocprof / Omnitrace</div><div class="cmp-sub">ROCm · Trace &amp; Profile</div></div>
-            <div class="cmp-row"><span class="k">可视化</span><span class="v">导出 Perfetto，浏览器看 trace</span></div>
-            <div class="cmp-row"><span class="k">上手</span><span class="v">命令行为主，可视化依赖外部</span></div>
-            <div class="cmp-row"><span class="k">亮点</span><span class="v">开源，Web 端 trace 可分享</span></div>
+            <div class="cmp-desc">走 <b>开源 + Web 化</b> 路线，trace 可导出 <b>Perfetto</b> 在浏览器中查看与 <b>分享</b>。虽以命令行采集为主，但天然适合<b>团队协作与远程复现</b>，可视化门槛低、可扩展性强。</div>
           </div>
+          <div class="cmp-img"><img src="reference/cmp-rocm-tool.jpg" alt="AMD rocprof 架构"><div class="cmp-cap">AMD rocprof / Omnitrace</div></div>
         </div>
       </div>
       <div class="verdict">
@@ -597,49 +604,6 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
     </div>
     <div class="ucd">▢ UCD CENTER</div>
     <div class="foot">Page 03 · Competitive</div>
-  </section>
-
-  <!-- ===== 页3B：竞品分析（备选版 · 图文并茂+分点论述）===== -->
-  <section class="slide">
-    <div class="head">
-      <div class="head-l">
-        <div class="brand"><span class="logo">C<span class="r">A</span>NN</span><span class="ttl">竞品圈定 Profiling 的三大设计点</span></div>
-        <div class="subttl">Competitive Analysis · Nsight / VTune / rocprof 横向对比</div>
-      </div>
-      <div class="head-r">03 / 竞品对照<br/>2026</div>
-    </div>
-    <div class="body-area">
-      <div class="cx-wrap">
-        <!-- 竞品截图 + 低调注释 -->
-        <div class="cx-shots">
-          <div class="cx-shot"><img src="reference/cmp-nsight.jpg" alt="Nsight"><div class="cx-cap">NVIDIA Nsight Systems</div></div>
-          <div class="cx-shot"><img src="reference/cmp-vtune.jpg" alt="VTune"><div class="cx-cap">Intel VTune Profiler</div></div>
-          <div class="cx-shot"><img src="reference/cmp-rocm-tool.jpg" alt="rocprof"><div class="cx-cap">AMD rocprof / Omnitrace</div></div>
-        </div>
-        <!-- 分点论述：重点字段加粗 -->
-        <div class="cx-points">
-          <div class="cx-point">
-            <div class="cx-num">01</div>
-            <div class="cx-pt"><span class="pt">统一时间线已成标配</span><span class="pd">Nsight 与 VTune 均提供 <b>CPU/GPU 统一时间线</b>，支持框选即缩放，瓶颈算子一眼定位；CANN 目前仍需在<b>多份运行日志间手动比对</b>。</span></div>
-          </div>
-          <div class="cx-point">
-            <div class="cx-num">02</div>
-            <div class="cx-pt"><span class="pt">瓶颈定位走向智能化</span><span class="pd">VTune 提供 <b>微架构级瓶颈归因</b>，Nsight 支持 <b>事件 → 源码一键跳转</b>，定位效率远高于 CANN 当前依赖的 <b>print 排查</b>。</span></div>
-          </div>
-          <div class="cx-point">
-            <div class="cx-num">03</div>
-            <div class="cx-pt"><span class="pt">可视化全面 Web 化</span><span class="pd">AMD rocprof / Omnitrace 可导出 <b>Perfetto</b>，在浏览器中查看并 <b>分享 trace</b>，摆脱本地重型客户端依赖，协作门槛更低。</span></div>
-          </div>
-        </div>
-        <!-- 设计点结论 -->
-        <div class="cx-concl">
-          <span class="ck">设计点</span>
-          <span class="cv">CANN Profiling 看板应对标 <b>统一时间线 + 一键瓶颈定位 + Web 化可视化</b>，并补齐 <b>事件→源码跳转</b> 与 <b>浏览器端 trace 分享</b>，把命令行门槛降下来。</span>
-        </div>
-      </div>
-    </div>
-    <div class="ucd">▢ UCD CENTER</div>
-    <div class="foot">Page 03B · Competitive（备选）</div>
   </section>
 
   <!-- ===== 页4：用户旅程（CANN 开发者全链路）===== -->
@@ -813,6 +777,68 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
     </div>
     <div class="ucd">▢ UCD CENTER</div>
     <div class="foot">Page 04 · Journey</div>
+  </section>
+
+  <!-- ===== 页5：实施路线甘特图 ===== -->
+  <section class="slide">
+    <div class="head">
+      <div class="head-l">
+        <div class="brand"><span class="logo">C<span class="r">A</span>NN</span><span class="ttl">2026 全年分四阶段落地</span></div>
+        <div class="subttl">Roadmap · 从用户研究到全链路灰度的时间规划</div>
+      </div>
+      <div class="head-r">05 / 实施路线<br/>2026</div>
+    </div>
+    <div class="body-area">
+      <div class="gantt">
+        <!-- 时间轴表头 -->
+        <div class="gt-axis">
+          <div></div>
+          <div class="gt-qs">
+            <div class="gt-q">Q1 · 研究洞察</div>
+            <div class="gt-q">Q2 · 概念定义</div>
+            <div class="gt-q">Q3 · 设计实现</div>
+            <div class="gt-q">Q4 · 验证发布</div>
+          </div>
+        </div>
+        <!-- 任务行 -->
+        <div class="gt-rows">
+          <div class="gt-row">
+            <div class="gt-name"><span class="gn" style="background:#38C9D7"></span>用户研究 &amp; VOC</div>
+            <div class="gt-track"><div class="gt-bar" style="left:0;width:22%;background:var(--g-teal)">深访 36 · 问卷 284</div></div>
+          </div>
+          <div class="gt-row">
+            <div class="gt-name"><span class="gn" style="background:#667EEA"></span>竞品调研</div>
+            <div class="gt-track"><div class="gt-bar" style="left:11%;width:21%;background:var(--g-blue)">Nsight / VTune / rocprof</div></div>
+          </div>
+          <div class="gt-row">
+            <div class="gt-name"><span class="gn" style="background:#5B5BD6"></span>设计概念定义</div>
+            <div class="gt-track"><div class="gt-bar" style="left:25%;width:20%;background:var(--g-accent)">三基调设计语言</div></div>
+          </div>
+          <div class="gt-row">
+            <div class="gt-name"><span class="gn" style="background:#34D399"></span>交互式文档 &amp; 成长地图</div>
+            <div class="gt-track"><div class="gt-bar" style="left:40%;width:32%;background:var(--g-green)">Notebook 端到端教程</div></div>
+          </div>
+          <div class="gt-row">
+            <div class="gt-name"><span class="gn" style="background:#F59E0B"></span>可视化 Profiling 看板</div>
+            <div class="gt-track"><div class="gt-bar" style="left:52%;width:26%;background:var(--g-amber)">统一时间线 + 一键定位</div></div>
+          </div>
+          <div class="gt-row">
+            <div class="gt-name"><span class="gn" style="background:#7C3AED"></span>算子开发向导</div>
+            <div class="gt-track"><div class="gt-bar" style="left:60%;width:30%;background:var(--g-purple)">模板 + 可视化 Tiling</div></div>
+          </div>
+          <div class="gt-row">
+            <div class="gt-name"><span class="gn" style="background:#FF7A45"></span>智能错误诊断</div>
+            <div class="gt-track"><div class="gt-bar" style="left:72%;width:20%;background:var(--g-pink)">上下文修复建议</div></div>
+          </div>
+          <div class="gt-row">
+            <div class="gt-name"><span class="gn" style="background:#16191E"></span>联调 &amp; 灰度发布</div>
+            <div class="gt-track"><div class="gt-bar" style="left:84%;width:16%;background:var(--g-ink)">全链路灰度</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ucd">▢ UCD CENTER</div>
+    <div class="foot">Page 05 · Roadmap</div>
   </section>
 
 </div>
