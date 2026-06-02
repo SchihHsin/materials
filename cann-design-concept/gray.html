@@ -235,15 +235,13 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 .voc-card.center{align-items:center;text-align:center;margin-top:32px;padding-top:34px}
 .voc-card.center .voc-meta{margin-top:1vh;flex-direction:column;gap:.1vh}
 /* 卡型：消息气泡 + 外置头像 */
-.voc-card.bubble{background:transparent!important;border:0!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;padding:0;gap:.95vh;margin-top:-1.4vh}
-.bubble{position:relative;border-radius:14px;padding:1.6vh 1.2vw;display:flex;flex-direction:column;gap:.9vh;
-  background:rgba(255,255,255,.52);backdrop-filter:blur(15px) saturate(1.5);-webkit-backdrop-filter:blur(15px) saturate(1.5);
-  border:1px solid rgba(255,255,255,.65);box-shadow:0 8px 24px -12px rgba(30,40,70,.22),inset 0 1px 0 rgba(255,255,255,.8)}
-/* 尾巴：纯 CSS 三角紧贴气泡框底边中央、朝下指向头像（位置固定不漂移）*/
-.bubble::after{content:'';position:absolute;left:50%;bottom:-8px;transform:translateX(-50%);
-  width:0;height:0;border-left:9px solid transparent;border-right:9px solid transparent;
-  border-top:9px solid rgba(255,255,255,.62)}
-.bubble-meta{display:flex;align-items:center;justify-content:center;gap:.5vw;margin-top:1.4vh;position:relative;z-index:4}
+.voc-card.bubble{background:transparent!important;border:0!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;padding:0;gap:.95vh;margin-top:-2.2vh}
+/* 气泡：clip-path 一笔画出「圆角主体 + 底部居中尖角」整体形状，玻璃与阴影跟随整体、绝不分离 */
+.bubble{position:relative;padding:1.6vh 1.2vw calc(1.6vh + 11px);display:flex;flex-direction:column;gap:.9vh;
+  background:rgba(255,255,255,.55);backdrop-filter:blur(15px) saturate(1.5);-webkit-backdrop-filter:blur(15px) saturate(1.5);
+  filter:drop-shadow(0 6px 16px rgba(30,40,70,.14));
+  clip-path:polygon(0 0,100% 0,100% calc(100% - 11px),calc(50% + 9px) calc(100% - 11px),50% 100%,calc(50% - 9px) calc(100% - 11px),0 calc(100% - 11px))}
+.bubble-meta{display:flex;align-items:center;justify-content:center;gap:.5vw;margin-top:.6vh;position:relative;z-index:4}
 .bubble-meta .voc-ava{width:34px;height:34px}
 /* 重点卡：实底强调，与玻璃卡形成层次 */
 .voc-card.hl{background:var(--g-ink)!important;border-color:transparent!important;backdrop-filter:none;-webkit-backdrop-filter:none;box-shadow:0 12px 30px -12px rgba(20,25,30,.5)!important}
