@@ -289,6 +289,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 .jrn-fl{font-size:max(9.5px,.7vw);font-weight:500;color:var(--ink);line-height:1.4}
 .jrn-fd{font-size:max(9px,.66vw);color:var(--ink-3);line-height:1.35}
 /* 情绪行：5 个独立格子（与其他行对齐、有间隔），每格内嵌曲线段+圆点+emoji+标签 */
+.jrn-grid.je{flex-shrink:0}  /* 锁死高度，内容全为绝对定位、否则会被 flex 压扁 */
 .jrn-ew{padding-right:5px;display:flex;flex-direction:column}
 .jrn-ec{flex:1;position:relative;height:16vh;border-left:1px solid rgba(255,255,255,.6);border-right:1px solid rgba(255,255,255,.6);border-bottom:1px solid rgba(255,255,255,.6);background:rgba(250,251,255,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);overflow:hidden}
 .jrn-ec svg{position:absolute;inset:0;width:100%;height:100%;display:block}
@@ -657,7 +658,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
         </div>
 
         <!-- ④ 情绪曲线 Emotion（CANN 开发者当前沮丧走势）-->
-        <div class="jrn-grid">
+        <div class="jrn-grid je">
           <div class="jrn-rl"><div class="jrn-rn">情绪</div><div class="jrn-re">Emotion</div></div>
           <!-- 格1：摸索中 38（38→45）-->
           <div class="jrn-ew"><div class="jrn-ec">
