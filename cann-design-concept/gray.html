@@ -363,8 +363,13 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 /* ===== 浮动条甘特图（参照 workflow-plan-gantt 样式 + 规范配色）===== */
 .rm{position:relative;flex:1;min-height:0;margin-top:1vh;
   background:rgba(255,255,255,.55);backdrop-filter:blur(16px) saturate(1.4);-webkit-backdrop-filter:blur(16px) saturate(1.4);
-  border:1px solid rgba(255,255,255,.7);border-radius:18px;box-shadow:0 12px 34px -16px rgba(30,40,70,.22),inset 0 1px 0 rgba(255,255,255,.85);
-  padding:5.5vh 3vw 3.4vh}
+  border:1px solid rgba(255,255,255,.7);border-radius:18px;box-shadow:0 12px 34px -16px rgba(30,40,70,.22),inset 0 1px 0 rgba(255,255,255,.85)}
+/* 内层定位容器（用 inset 做内边距，绝对定位的条/刻度相对它，padding 才生效）*/
+.rm-pad{position:absolute;top:6vh;left:3.2vw;right:3.2vw;bottom:4vh}
+/* 淡虚线网格底纹（在条之下）*/
+.rm-pad::before{content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Cpath d='M40 0H0V40' fill='none' stroke='%237e8696' stroke-opacity='0.18' stroke-width='1' stroke-dasharray='2,4'/%3E%3C/svg%3E");
+  background-size:40px 40px}
 .rm-date{position:absolute;top:0;transform:translateX(-50%);font-family:'JetBrains Mono';font-size:max(9px,.66vw);font-weight:500;color:var(--ink-3);white-space:nowrap}
 .rm-now-pill{position:absolute;top:1.6%;transform:translateX(-50%);font-size:max(9px,.66vw);font-weight:600;color:#fff;background:rgba(91,91,214,.92);padding:3px 11px;border-radius:9px;box-shadow:0 3px 10px rgba(60,52,137,.32);z-index:3}
 .rm-now-line{position:absolute;top:9%;height:84%;width:2px;background:linear-gradient(rgba(91,91,214,.85),rgba(91,91,214,.35));box-shadow:0 0 12px rgba(91,91,214,.5);z-index:1}
@@ -819,6 +824,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
     </div>
     <div class="body-area">
       <div class="rm">
+        <div class="rm-pad">
         <!-- 月份刻度 -->
         <div class="rm-date" style="left:6%">2 月初</div>
         <div class="rm-date" style="left:25%">3 月初</div>
@@ -843,6 +849,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
         <!-- 里程碑：设计定稿 -->
         <div class="rm-diamond" style="left:41%;top:73%"></div>
         <div class="rm-ms" style="left:44%;top:72.5%">设计定稿 · 转入开发</div>
+        </div>
       </div>
     </div>
     <div class="ucd">▢ UCD CENTER</div>
