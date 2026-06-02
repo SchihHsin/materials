@@ -243,6 +243,12 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
   clip-path:polygon(0 0,100% 0,100% calc(100% - 11px),calc(50% + 9px) calc(100% - 11px),50% 100%,calc(50% - 9px) calc(100% - 11px),0 calc(100% - 11px))}
 .bubble-meta{display:flex;align-items:center;justify-content:center;gap:.5vw;margin-top:.6vh;position:relative;z-index:4}
 .bubble-meta .voc-ava{width:34px;height:34px}
+/* 卡型：左右布局（左头像 + 右 星评/文案/用户信息）*/
+.voc-card.lr{flex-direction:row;align-items:flex-start;gap:.85vw;margin-top:0}
+.voc-card.lr .voc-ava{width:44px;height:44px;flex-shrink:0;margin-top:.2vh}
+.lr-body{display:flex;flex-direction:column;gap:.7vh;min-width:0;flex:1}
+.lr-name{display:flex;align-items:baseline;gap:.5em;flex-wrap:wrap;margin-top:.2vh}
+.lr-name .voc-rl{margin-top:0}
 /* 重点卡：实底强调，与玻璃卡形成层次 */
 .voc-card.hl{background:var(--g-ink)!important;border-color:transparent!important;backdrop-filter:none;-webkit-backdrop-filter:none;box-shadow:0 12px 30px -12px rgba(20,25,30,.5)!important}
 .voc-card.hl .voc-q,.voc-card.hl .voc-nm,.voc-card.hl .voc-hd{color:#fff}.voc-card.hl .voc-rl{color:rgba(255,255,255,.6)}.voc-card.hl .qm{color:#9b8ce8;opacity:.9}
@@ -519,13 +525,13 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
             <div class="voc-q boxed">新的交互式文档把端到端示例串起来了，照着 Notebook 跑半天就通，不用再翻七八个页面。</div>
             <div class="voc-meta"><div class="voc-ava" data-av='{"type":"short","shirt":"#6c6cf0","skin":"light","bg":"#E6EEFB"}'></div><div><div class="voc-nm">林 · 算法工程师</div><div class="voc-rl">互联网 · 3 年</div></div></div>
           </div>
-          <div class="voc-card bubble">
-            <div class="bubble">
+          <div class="voc-card lr">
+            <div class="voc-ava" data-av='{"type":"short","shirt":"#E89B3F","skin":"tan","bg":"#FBEFE0"}'></div>
+            <div class="lr-body">
               <div class="voc-stars">★★★★<span class="off">★</span></div>
               <div class="voc-q">算子开发向导生成骨架后，我只要填核心计算逻辑，省了大量样板代码。</div>
+              <div class="lr-name"><span class="voc-nm">王 · 算子工程师</span><span class="voc-rl">芯片厂商 · 4 年</span></div>
             </div>
-
-            <div class="bubble-meta"><div class="voc-ava" data-av='{"type":"short","shirt":"#E89B3F","skin":"tan","bg":"#FBEFE0"}'></div><div><div class="voc-nm">王 · 算子工程师</div><div class="voc-rl">芯片厂商 · 4 年</div></div></div>
           </div>
         </div>
 
@@ -554,13 +560,13 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
             <div class="voc-stars">★★★★★</div>
             <div class="voc-q">智能错误诊断给的修复建议挺准，直接点出可疑算子，少跑了好几趟社区。</div>
           </div>
-          <div class="voc-card bubble">
-            <div class="bubble">
+          <div class="voc-card lr">
+            <div class="voc-ava" data-av='{"type":"bun","shirt":"#16a085","skin":"pale","bg":"#E0F2EE"}'></div>
+            <div class="lr-body">
               <div class="voc-stars">★★★<span class="off">★</span><span class="off">★</span></div>
               <div class="voc-q">希望文档的中英文版本能同步更新，目前英文版常滞后两三个版本。</div>
+              <div class="lr-name"><span class="voc-nm">周 · 海外开发者</span><span class="voc-rl">Startup · 3 年</span></div>
             </div>
-
-            <div class="bubble-meta"><div class="voc-ava" data-av='{"type":"bun","shirt":"#16a085","skin":"pale","bg":"#E0F2EE"}'></div><div><div class="voc-nm">周 · 海外开发者</div><div class="voc-rl">Startup · 3 年</div></div></div>
           </div>
         </div>
 
