@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>图表 Gallery · 主题色预览</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<script src="lib/echarts.min.js"></script>
+<style>
+:root{--paper:#E9EBEE;--ink:#16191e;--ink2:#5e646e;--ink3:#929aa6;--line:#d4d8df;--accent:#5B5BD6}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:'Inter','Noto Sans SC',sans-serif;padding:40px 48px 80px}
+.gh{margin-bottom:8px;font-weight:700;font-size:28px;letter-spacing:-.02em}
+.gs{color:var(--ink2);font-size:14px;margin-bottom:36px;line-height:1.6}
+.gs b{color:var(--accent)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.card{background:rgba(255,255,255,.55);backdrop-filter:blur(15px) saturate(1.4);border:1px solid rgba(255,255,255,.7);border-radius:16px;box-shadow:0 10px 30px -16px rgba(30,40,70,.2),inset 0 1px 0 rgba(255,255,255,.85);padding:18px 18px 8px;display:flex;flex-direction:column}
+.ct{display:flex;align-items:baseline;gap:8px;margin-bottom:6px}
+.ct .n{font-family:'JetBrains Mono','Inter';font-weight:700;font-size:13px;color:var(--accent)}
+.ct .t{font-weight:600;font-size:15px}
+.ct .e{font-size:11px;color:var(--ink3);font-family:'Inter'}
+.chart{width:100%;height:240px}
+</style>
+</head>
+<body>
+  <div class="gh">图表 Gallery · 主题色预览</div>
+  <div class="gs">基于当前 deck 规范色（<b>accent #5B5BD6 / 紫 / 绿 / 琥珀 / 蓝 / 玫粉</b>）渲染，引擎为开源 <b>ECharts</b>。数据为 CANN 用户研究示意。<br/>看完告诉我你想用哪几种、用在哪页，我把它（连同 ECharts）内联进对应页面。</div>
+  <div class="grid">
+    <div class="card"><div class="ct"><span class="n">01</span><span class="t">柱状图</span><span class="e">Bar</span></div><div class="chart" id="c1"></div></div>
+    <div class="card"><div class="ct"><span class="n">02</span><span class="t">折线 / 面积</span><span class="e">Line / Area</span></div><div class="chart" id="c2"></div></div>
+    <div class="card"><div class="ct"><span class="n">03</span><span class="t">堆叠柱状</span><span class="e">Stacked Bar</span></div><div class="chart" id="c3"></div></div>
+    <div class="card"><div class="ct"><span class="n">04</span><span class="t">饼图</span><span class="e">Pie</span></div><div class="chart" id="c4"></div></div>
+    <div class="card"><div class="ct"><span class="n">05</span><span class="t">环形图</span><span class="e">Donut</span></div><div class="chart" id="c5"></div></div>
+    <div class="card"><div class="ct"><span class="n">06</span><span class="t">雷达图</span><span class="e">Radar</span></div><div class="chart" id="c6"></div></div>
+    <div class="card"><div class="ct"><span class="n">07</span><span class="t">气泡 / 散点</span><span class="e">Scatter</span></div><div class="chart" id="c7"></div></div>
+    <div class="card"><div class="ct"><span class="n">08</span><span class="t">漏斗图</span><span class="e">Funnel</span></div><div class="chart" id="c8"></div></div>
+    <div class="card"><div class="ct"><span class="n">09</span><span class="t">仪表盘</span><span class="e">Gauge</span></div><div class="chart" id="c9"></div></div>
+    <div class="card"><div class="ct"><span class="n">10</span><span class="t">桑基图</span><span class="e">Sankey</span></div><div class="chart" id="c10"></div></div>
+    <div class="card"><div class="ct"><span class="n">11</span><span class="t">热力图</span><span class="e">Heatmap</span></div><div class="chart" id="c11"></div></div>
+    <div class="card"><div class="ct"><span class="n">12</span><span class="t">横向条形</span><span class="e">Bar · horizontal</span></div><div class="chart" id="c12"></div></div>
+  </div>
+
+<script>
+const C={accent:'#5B5BD6',purple:'#7C3AED',green:'#2FCB8E',amber:'#F59E0B',blue:'#4FACFE',pink:'#E6789B',red:'#FF6F55',ink:'#16191e',ink2:'#5e646e',ink3:'#929aa6',line:'#d4d8df'};
+const PAL=[C.accent,C.purple,C.green,C.amber,C.blue,C.pink,C.red];
+const BASE={color:PAL,textStyle:{fontFamily:'Inter, "Noto Sans SC", sans-serif',color:C.ink2},grid:{left:38,right:18,top:24,bottom:24}};
+function grad(a,b){return new echarts.graphic.LinearGradient(0,0,0,1,[{offset:0,color:a},{offset:1,color:b}]);}
+function gradX(a,b){return new echarts.graphic.LinearGradient(0,0,1,0,[{offset:0,color:a},{offset:1,color:b}]);}
+const ax={axisLine:{lineStyle:{color:C.line}},axisLabel:{color:C.ink3,fontSize:11},axisTick:{show:false},splitLine:{lineStyle:{color:C.line,type:'dashed',opacity:.6}}};
+const I=(id,opt)=>{const e=echarts.init(document.getElementById(id));e.setOption(Object.assign({},BASE,opt));};
+
+// 1 Bar 各阶段耗时
+I('c1',{grid:{left:38,right:18,top:20,bottom:26},xAxis:{type:'category',data:['环境','文档','算子','调试','发布'],...ax},yAxis:{type:'value',...ax},series:[{type:'bar',barWidth:'52%',itemStyle:{borderRadius:[6,6,0,0],color:grad('#7C7AE8',C.accent)},data:[8,18,30,22,10]}]});
+// 2 Line + Area 满意度趋势
+I('c2',{grid:{left:38,right:18,top:20,bottom:26},xAxis:{type:'category',boundaryGap:false,data:['1月','2月','3月','4月','5月','6月'],...ax},yAxis:{type:'value',...ax},series:[{type:'line',smooth:true,symbol:'circle',symbolSize:7,lineStyle:{width:3,color:C.accent},itemStyle:{color:C.accent},areaStyle:{color:grad('rgba(91,91,214,.28)','rgba(91,91,214,0)')},data:[52,55,58,63,69,74]}]});
+// 3 Stacked Bar 角色x痛点
+I('c3',{legend:{top:0,textStyle:{color:C.ink2,fontSize:11},itemWidth:12,itemHeight:8},grid:{left:38,right:18,top:30,bottom:26},xAxis:{type:'category',data:['算子','框架','学术'],...ax},yAxis:{type:'value',...ax},series:[{name:'文档',type:'bar',stack:'x',itemStyle:{color:C.accent},data:[40,55,60]},{name:'调试',type:'bar',stack:'x',itemStyle:{color:C.purple},data:[68,30,25]},{name:'环境',type:'bar',stack:'x',itemStyle:{color:C.blue},data:[30,28,55]}]});
+// 4 Pie 用户构成
+I('c4',{legend:{bottom:0,textStyle:{color:C.ink2,fontSize:11},itemWidth:12,itemHeight:8},series:[{type:'pie',radius:'62%',center:['50%','46%'],label:{color:C.ink2,fontSize:11},data:[{value:45,name:'算子开发'},{value:35,name:'框架开发'},{value:20,name:'学术研究'}]}]});
+// 5 Donut 情感
+I('c5',{series:[{type:'pie',radius:['52%','74%'],center:['50%','50%'],avoidLabelOverlap:false,label:{show:false},data:[{value:58,name:'正面',itemStyle:{color:C.green}},{value:27,name:'中性',itemStyle:{color:'#C2C8D2'}},{value:15,name:'负面',itemStyle:{color:C.red}}]}],graphic:{type:'text',left:'center',top:'42%',style:{text:'58%',fontSize:30,fontWeight:700,fill:C.ink}},title:{text:'正面情感',left:'center',top:'60%',textStyle:{fontSize:12,color:C.ink3,fontWeight:400}}});
+// 6 Radar 能力对比
+I('c6',{legend:{top:0,textStyle:{color:C.ink2,fontSize:11},itemWidth:12,itemHeight:8},radar:{center:['50%','56%'],radius:'62%',indicator:[{name:'可视化'},{name:'上手'},{name:'归因'},{name:'Web化'},{name:'生态'}],axisName:{color:C.ink3,fontSize:11},splitLine:{lineStyle:{color:C.line}},splitArea:{areaStyle:{color:['rgba(91,91,214,.03)','rgba(91,91,214,.07)']}},axisLine:{lineStyle:{color:C.line}}},series:[{type:'radar',data:[{value:[60,55,50,45,80],name:'CANN 现状',itemStyle:{color:C.accent},areaStyle:{color:'rgba(91,91,214,.2)'}},{value:[90,85,88,85,70],name:'竞品标杆',itemStyle:{color:C.amber},areaStyle:{color:'rgba(245,158,11,.15)'}}]}]});
+// 7 Scatter 气泡 痛点 频次x强度
+I('c7',{grid:{left:40,right:20,top:20,bottom:28},xAxis:{type:'value',name:'频次',nameTextStyle:{color:C.ink3},...ax},yAxis:{type:'value',name:'强度',nameTextStyle:{color:C.ink3},...ax},series:[{type:'scatter',symbolSize:v=>v[2]*1.4,data:[[72,80,30],[68,75,26],[61,70,22],[54,55,18],[47,60,16]],itemStyle:{color:grad(C.purple,C.accent),opacity:.8}}]});
+// 8 Funnel 漏斗
+I('c8',{series:[{type:'funnel',left:'10%',right:'10%',top:10,bottom:10,minSize:'28%',label:{color:'#fff',fontSize:11,fontWeight:600},data:[{value:100,name:'访问官网',itemStyle:{color:C.accent}},{value:72,name:'注册',itemStyle:{color:C.purple}},{value:48,name:'跑通示例',itemStyle:{color:C.blue}},{value:30,name:'持续使用',itemStyle:{color:C.green}}]}]});
+// 9 Gauge NPS
+I('c9',{series:[{type:'gauge',min:-100,max:100,startAngle:200,endAngle:-20,progress:{show:true,width:14,itemStyle:{color:C.accent}},axisLine:{lineStyle:{width:14,color:[[1,C.line]]}},axisLabel:{show:false},axisTick:{show:false},splitLine:{show:false},pointer:{show:false},anchor:{show:false},detail:{valueAnimation:true,offsetCenter:[0,0],fontSize:34,fontWeight:700,color:C.ink,formatter:'{value}'},title:{offsetCenter:[0,'32%'],color:C.ink3,fontSize:12},data:[{value:38,name:'开发者 NPS'}]}]});
+// 10 Sankey 痛点→设计
+I('c10',{series:[{type:'sankey',left:6,right:60,top:8,bottom:8,nodeWidth:12,nodeGap:8,label:{color:C.ink2,fontSize:10},lineStyle:{color:'gradient',opacity:.4},data:[{name:'文档碎片'},{name:'调试黑盒'},{name:'环境复杂'},{name:'交互式文档'},{name:'可视化Profiling'},{name:'一键环境'}],links:[{source:'文档碎片',target:'交互式文档',value:6},{source:'调试黑盒',target:'可视化Profiling',value:5},{source:'环境复杂',target:'一键环境',value:4},{source:'文档碎片',target:'可视化Profiling',value:2}]}],color:PAL});
+// 11 Heatmap 阶段x痛点
+const hx=['环境','文档','算子','调试','发布'],hy=['门槛','效率','体验'];
+const hd=[];const hv=[[3,2,1],[2,3,2],[1,1,3],[2,2,1],[1,2,2]];for(let i=0;i<hx.length;i++)for(let j=0;j<hy.length;j++)hd.push([i,j,hv[i][j]]);
+I('c11',{grid:{left:44,right:14,top:14,bottom:42},xAxis:{type:'category',data:hx,...ax,splitLine:{show:false}},yAxis:{type:'category',data:hy,...ax,splitLine:{show:false}},visualMap:{min:1,max:3,calculable:true,orient:'horizontal',left:'center',bottom:0,itemHeight:60,inRange:{color:['#ECECFB',C.accent,C.purple]},textStyle:{color:C.ink3,fontSize:10}},series:[{type:'heatmap',data:hd,label:{show:false},itemStyle:{borderRadius:4,borderColor:'#fff',borderWidth:2}}]});
+// 12 HBar TOP痛点
+I('c12',{grid:{left:96,right:30,top:12,bottom:18},xAxis:{type:'value',max:100,...ax},yAxis:{type:'category',data:['性能工具','算子门槛','调试体验','文档覆盖'],...ax,axisLabel:{color:C.ink2,fontSize:11}},series:[{type:'bar',barWidth:'56%',itemStyle:{borderRadius:[0,6,6,0],color:gradX(C.purple,C.accent)},label:{show:true,position:'right',color:C.ink2,fontSize:11,formatter:'{c}%'},data:[54,61,68,72]}]});
+
+addEventListener('resize',()=>{document.querySelectorAll('.chart').forEach(d=>{const i=echarts.getInstanceByDom(d);if(i)i.resize();});});
+</script>
+</body>
+</html>
