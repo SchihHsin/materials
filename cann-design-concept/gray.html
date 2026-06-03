@@ -440,6 +440,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 .pf-sb.white{background:#fff}
 .pf-sb .sbh{font-size:max(9px,.72vw);color:#999;font-weight:700;margin-bottom:.25vh}
 .pf-sb .sbt{font-size:max(9.5px,.78vw);color:#333;line-height:1.5}
+.pf-chips{display:flex;flex-wrap:wrap;gap:.4vw}
+.pf-chips span{font-size:max(9.5px,.74vw);color:var(--b);background:var(--bs);border-radius:6px;padding:.4vh .65vw}
 /* 右栏：岗位特征 + 上下游 左右并排 */
 .pf-row{display:grid;grid-template-columns:.82fr 1.7fr;gap:1.8vw;align-items:start}
 .pf-block{display:flex;flex-direction:column;min-width:0}
@@ -1151,8 +1153,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
   <section class="slide">
     <div class="head">
       <div class="head-l">
-        <div class="brand"><img class="logo" src="reference/CANNlogo.png" alt="CANN"><span class="ttl">推理引擎工程师：把推理链路适配昇腾的实战派</span></div>
-        <div class="subttl">User Persona · 互联网推理引擎工程师</div>
+        <div class="brand"><img class="logo" src="reference/CANNlogo.png" alt="CANN"><span class="ttl">资深用户：追求极致性能的内源算子专家</span></div>
+        <div class="subttl">User Persona · 内源团队主力</div>
       </div>
       <div class="head-r">07 / 用户画像<br/>2026</div>
     </div>
@@ -1161,11 +1163,10 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
         <!-- 左：人物信息栏 -->
         <div class="pf-side">
           <div class="pf-portrait"><img src="reference/av/persona.svg" alt=""></div>
-          <div class="pf-sb head"><div class="nm">推理引擎工程师</div><div class="rl">某互联网公司</div></div>
-          <div class="pf-sb white"><div class="sbh">职责</div><div class="sbt">将公司推荐 / 大模型业务的推理链路适配昇腾 NPU，保障线上服务吞吐与时延 SLA</div></div>
-          <div class="pf-sb white"><div class="sbh">部门</div><div class="sbt">AML 机器学习平台</div></div>
-          <div class="pf-sb white"><div class="sbh">知识结构</div><div class="sbt">PyTorch、TensorRT、CUDA 编程、分布式推理、基础 Linux 运维</div></div>
-          <div class="pf-sb white" style="margin-top:auto"><div class="sbh">原声</div><div class="pf-quote">平台要支持昇腾，但很多算子在 NPU 上行为和 CUDA 不一样，文档又说得含糊，只能一个个试。</div></div>
+          <div class="pf-sb head"><div class="nm">李 · 资深算子工程师</div><div class="rl">Senior Operator Engineer · 内源团队</div></div>
+          <div class="pf-sb white"><div class="sbh">标签</div><div class="pf-chips"><span>8 年经验</span><span>团队 Leader</span><span>Ascend C 专家</span><span>C++ / CUDA</span></div></div>
+          <div class="pf-sb white"><div class="sbh">职责</div><div class="sbt">负责高性能融合算子开发与性能调优，沉淀团队算子库与开发规范</div></div>
+          <div class="pf-sb white" style="margin-top:auto"><div class="sbh">原声</div><div class="pf-quote">性能优化是门手艺，工具得让我看见每一层。</div></div>
         </div>
         <!-- 右：四区 -->
         <div class="pf-r">
