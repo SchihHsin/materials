@@ -20,12 +20,18 @@ body{background:var(--paper);color:var(--ink);font-family:'Inter','Noto Sans SC'
 .ct .t{font-weight:600;font-size:15px}
 .ct .e{font-size:11px;color:var(--ink3);font-family:'Inter'}
 .chart{width:100%;height:240px}
+.card.wide3{grid-column:1 / -1}
+.sc-t{font-weight:700;font-size:17px}
+.sc-d{font-size:12px;color:var(--ink2);margin-top:2px;margin-bottom:4px}
+.sc-foot{display:flex;gap:8px;align-items:baseline;padding:8px 2px 2px;font-size:12px;font-weight:600;color:#16a34a}
+.sc-foot span{color:var(--ink3);font-weight:400}
 </style>
 </head>
 <body>
   <div class="gh">图表 Gallery · 主题色预览</div>
   <div class="gs">基于当前 deck 规范色（<b>accent #5B5BD6 / 紫 / 绿 / 琥珀 / 蓝 / 玫粉</b>）渲染，引擎为开源 <b>ECharts</b>。数据为 CANN 用户研究示意。<br/>看完告诉我你想用哪几种、用在哪页，我把它（连同 ECharts）内联进对应页面。</div>
   <div class="grid">
+    <div class="card wide3"><div class="sc-t">用户满意度趋势 · shadcn 风格（ECharts 复刻）</div><div class="sc-d">文档 / 调试 / 环境 三项满意度 · 2026 H1 · 柔和渐变面积 + 淡虚线网格</div><div class="chart" id="c0" style="height:300px"></div><div class="sc-foot">↑ 同比提升 12%<span>近 6 个月稳步上升，调试满意度增幅最大</span></div></div>
     <div class="card"><div class="ct"><span class="n">01</span><span class="t">柱状图</span><span class="e">Bar</span></div><div class="chart" id="c1"></div></div>
     <div class="card"><div class="ct"><span class="n">02</span><span class="t">折线 / 面积</span><span class="e">Line / Area</span></div><div class="chart" id="c2"></div></div>
     <div class="card"><div class="ct"><span class="n">03</span><span class="t">堆叠柱状</span><span class="e">Stacked Bar</span></div><div class="chart" id="c3"></div></div>
@@ -49,6 +55,18 @@ function gradX(a,b){return new echarts.graphic.LinearGradient(0,0,1,0,[{offset:0
 const ax={axisLine:{lineStyle:{color:C.line}},axisLabel:{color:C.ink3,fontSize:11},axisTick:{show:false},splitLine:{lineStyle:{color:C.line,type:'dashed',opacity:.6}}};
 const I=(id,opt)=>{const e=echarts.init(document.getElementById(id));e.setOption(Object.assign({},BASE,opt));};
 
+// 0 shadcn 风格 stacked area
+const scAx={axisLine:{show:false},axisTick:{show:false},axisLabel:{color:C.ink3,fontSize:11}};
+I('c0',{color:[C.accent,C.blue,C.green],legend:{top:0,right:0,textStyle:{color:C.ink2,fontSize:11},itemWidth:11,itemHeight:8,icon:'roundRect'},
+  tooltip:{trigger:'axis',backgroundColor:'rgba(255,255,255,.96)',borderColor:C.line,textStyle:{color:C.ink,fontSize:12}},
+  grid:{left:34,right:14,top:34,bottom:24},
+  xAxis:{type:'category',boundaryGap:false,data:['1月','2月','3月','4月','5月','6月'],...scAx},
+  yAxis:{type:'value',...scAx,splitLine:{lineStyle:{color:C.line,type:'dashed',opacity:.5}}},
+  series:[
+    {name:'文档',type:'line',stack:'s',smooth:true,showSymbol:false,lineStyle:{width:2,color:C.accent},areaStyle:{color:grad('rgba(91,91,214,.45)','rgba(91,91,214,.04)')},data:[28,30,33,38,42,46]},
+    {name:'调试',type:'line',stack:'s',smooth:true,showSymbol:false,lineStyle:{width:2,color:C.blue},areaStyle:{color:grad('rgba(79,172,254,.4)','rgba(79,172,254,.04)')},data:[14,16,18,22,28,34]},
+    {name:'环境',type:'line',stack:'s',smooth:true,showSymbol:false,lineStyle:{width:2,color:C.green},areaStyle:{color:grad('rgba(47,203,142,.4)','rgba(47,203,142,.04)')},data:[10,12,14,16,18,20]}
+  ]});
 // 1 Bar 各阶段耗时
 I('c1',{grid:{left:38,right:18,top:20,bottom:26},xAxis:{type:'category',data:['环境','文档','算子','调试','发布'],...ax},yAxis:{type:'value',...ax},series:[{type:'bar',barWidth:'52%',itemStyle:{borderRadius:[6,6,0,0],color:grad('#7C7AE8',C.accent)},data:[8,18,30,22,10]}]});
 // 2 Line + Area 满意度趋势

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>图表库对比 · ECharts(shadcn 风格) vs ApexCharts</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<script src="lib/echarts.min.js"></script>
+<script src="lib/apexcharts.min.js"></script>
+<style>
+:root{--paper:#E9EBEE;--ink:#16191e;--ink2:#5e646e;--ink3:#929aa6;--line:#d4d8df;--accent:#5B5BD6}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:'Inter','Noto Sans SC',sans-serif;padding:40px 48px 80px}
+.gh{font-weight:700;font-size:28px;letter-spacing:-.02em;margin-bottom:6px}
+.gs{color:var(--ink2);font-size:14px;margin-bottom:32px;line-height:1.6}
+.gs b{color:var(--accent)}
+.row{margin-bottom:34px}
+.rh{font-weight:600;font-size:16px;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.rh .tag{font-family:'JetBrains Mono','Inter';font-size:11px;color:var(--ink3);font-weight:500}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.card{background:rgba(255,255,255,.55);backdrop-filter:blur(15px) saturate(1.4);border:1px solid rgba(255,255,255,.7);border-radius:16px;box-shadow:0 10px 30px -16px rgba(30,40,70,.2),inset 0 1px 0 rgba(255,255,255,.85);padding:16px 18px 10px}
+.lib{display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono','Inter';font-size:11px;font-weight:600;color:#fff;padding:3px 10px;border-radius:7px;margin-bottom:8px}
+.lib.ec{background:linear-gradient(135deg,#5B5BD6,#7C3AED)}
+.lib.ax{background:linear-gradient(135deg,#2FCB8E,#4FACFE)}
+.chart{width:100%;height:280px}
+</style>
+</head>
+<body>
+  <div class="gh">图表库对比 · 好看优先</div>
+  <div class="gs">同数据、同主题色，左 <b>ECharts</b>（按 shadcn 风格调）vs 右 <b>ApexCharts</b>（自身默认美化）。两者都能下载内联离线、嵌进我们的纯 HTML deck。你挑顺眼的，我就用它落地。</div>
+
+  <div class="row">
+    <div class="rh">① 面积图 <span class="tag">满意度趋势 · 文档/调试/环境</span></div>
+    <div class="pair">
+      <div class="card"><span class="lib ec">ECharts · shadcn 风格</span><div class="chart" id="ec-area"></div></div>
+      <div class="card"><span class="lib ax">ApexCharts</span><div class="chart" id="ax-area"></div></div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="rh">② 柱状图 <span class="tag">各阶段平均耗时（天）</span></div>
+    <div class="pair">
+      <div class="card"><span class="lib ec">ECharts · shadcn 风格</span><div class="chart" id="ec-bar"></div></div>
+      <div class="card"><span class="lib ax">ApexCharts</span><div class="chart" id="ax-bar"></div></div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="rh">③ 环形图 <span class="tag">情感占比 · 正/中/负</span></div>
+    <div class="pair">
+      <div class="card"><span class="lib ec">ECharts · shadcn 风格</span><div class="chart" id="ec-donut"></div></div>
+      <div class="card"><span class="lib ax">ApexCharts</span><div class="chart" id="ax-donut"></div></div>
+    </div>
+  </div>
+
+<script>
+const C={accent:'#5B5BD6',purple:'#7C3AED',green:'#2FCB8E',amber:'#F59E0B',blue:'#4FACFE',red:'#FF6F55',ink:'#16191e',ink2:'#5e646e',ink3:'#929aa6',line:'#d4d8df'};
+const FONT='Inter, "Noto Sans SC", sans-serif';
+const months=['1月','2月','3月','4月','5月','6月'];
+
+/* ---------- ECharts (shadcn 风格) ---------- */
+function eg(a,b){return new echarts.graphic.LinearGradient(0,0,0,1,[{offset:0,color:a},{offset:1,color:b}]);}
+const eAx={axisLine:{show:false},axisTick:{show:false},axisLabel:{color:C.ink3,fontSize:11}};
+const eInit=(id,opt)=>{const e=echarts.init(document.getElementById(id));e.setOption(Object.assign({textStyle:{fontFamily:FONT}},opt));};
+
+eInit('ec-area',{color:[C.accent,C.blue,C.green],legend:{top:0,right:0,icon:'roundRect',itemWidth:11,itemHeight:8,textStyle:{color:C.ink2,fontSize:11}},
+  tooltip:{trigger:'axis',backgroundColor:'rgba(255,255,255,.96)',borderColor:C.line,textStyle:{color:C.ink,fontSize:12}},grid:{left:32,right:14,top:34,bottom:24},
+  xAxis:{type:'category',boundaryGap:false,data:months,...eAx},yAxis:{type:'value',...eAx,splitLine:{lineStyle:{color:C.line,type:'dashed',opacity:.5}}},
+  series:[{name:'文档',type:'line',stack:'s',smooth:true,showSymbol:false,lineStyle:{width:2,color:C.accent},areaStyle:{color:eg('rgba(91,91,214,.45)','rgba(91,91,214,.03)')},data:[28,30,33,38,42,46]},
+    {name:'调试',type:'line',stack:'s',smooth:true,showSymbol:false,lineStyle:{width:2,color:C.blue},areaStyle:{color:eg('rgba(79,172,254,.4)','rgba(79,172,254,.03)')},data:[14,16,18,22,28,34]},
+    {name:'环境',type:'line',stack:'s',smooth:true,showSymbol:false,lineStyle:{width:2,color:C.green},areaStyle:{color:eg('rgba(47,203,142,.4)','rgba(47,203,142,.03)')},data:[10,12,14,16,18,20]}]});
+
+eInit('ec-bar',{color:[C.accent],tooltip:{trigger:'axis',backgroundColor:'rgba(255,255,255,.96)',borderColor:C.line,textStyle:{color:C.ink,fontSize:12}},grid:{left:32,right:14,top:18,bottom:24},
+  xAxis:{type:'category',data:['环境','文档','算子','调试','发布'],...eAx},yAxis:{type:'value',...eAx,splitLine:{lineStyle:{color:C.line,type:'dashed',opacity:.5}}},
+  series:[{type:'bar',barWidth:'52%',itemStyle:{borderRadius:[6,6,0,0],color:eg('#7C7AE8',C.accent)},data:[8,18,30,22,10]}]});
+
+eInit('ec-donut',{tooltip:{trigger:'item'},series:[{type:'pie',radius:['54%','76%'],center:['50%','50%'],label:{show:false},
+  data:[{value:58,name:'正面',itemStyle:{color:C.green}},{value:27,name:'中性',itemStyle:{color:'#C2C8D2'}},{value:15,name:'负面',itemStyle:{color:C.red}}]}],
+  graphic:{type:'text',left:'center',top:'42%',style:{text:'58%',fontSize:30,fontWeight:700,fill:C.ink,font:'700 30px '+FONT}},
+  title:{text:'正面情感',left:'center',top:'58%',textStyle:{fontSize:12,color:C.ink3,fontWeight:400}}});
+
+/* ---------- ApexCharts ---------- */
+const axBase={chart:{fontFamily:FONT,toolbar:{show:false},animations:{enabled:true}},dataLabels:{enabled:false},
+  grid:{borderColor:C.line,strokeDashArray:4},legend:{position:'top',horizontalAlign:'right',fontSize:'11px',labels:{colors:C.ink2},markers:{radius:3}},
+  tooltip:{theme:'light'}};
+function ax(id,opt){new ApexCharts(document.querySelector('#'+id),Object.assign({},axBase,opt)).render();}
+
+ax('ax-area',{chart:{type:'area',stacked:true,height:280,fontFamily:FONT,toolbar:{show:false}},colors:[C.accent,C.blue,C.green],
+  stroke:{curve:'smooth',width:2},fill:{type:'gradient',gradient:{shadeIntensity:1,opacityFrom:.5,opacityTo:.05,stops:[0,95]}},
+  dataLabels:{enabled:false},grid:{borderColor:C.line,strokeDashArray:4},legend:{position:'top',horizontalAlign:'right',fontSize:'11px',labels:{colors:C.ink2}},
+  xaxis:{categories:months,labels:{style:{colors:C.ink3,fontSize:'11px'}},axisBorder:{show:false},axisTicks:{show:false}},
+  yaxis:{labels:{style:{colors:C.ink3,fontSize:'11px'}}},
+  series:[{name:'文档',data:[28,30,33,38,42,46]},{name:'调试',data:[14,16,18,22,28,34]},{name:'环境',data:[10,12,14,16,18,20]}]});
+
+ax('ax-bar',{chart:{type:'bar',height:280,fontFamily:FONT,toolbar:{show:false}},colors:[C.accent],
+  plotOptions:{bar:{borderRadius:6,columnWidth:'52%',borderRadiusApplication:'end'}},
+  fill:{type:'gradient',gradient:{shade:'light',type:'vertical',gradientToColors:['#8A7CE8'],opacityFrom:1,opacityTo:1,stops:[0,100]}},
+  dataLabels:{enabled:false},grid:{borderColor:C.line,strokeDashArray:4},legend:{show:false},
+  xaxis:{categories:['环境','文档','算子','调试','发布'],labels:{style:{colors:C.ink3,fontSize:'11px'}},axisBorder:{show:false},axisTicks:{show:false}},
+  yaxis:{labels:{style:{colors:C.ink3,fontSize:'11px'}}},series:[{name:'耗时',data:[8,18,30,22,10]}]});
+
+ax('ax-donut',{chart:{type:'donut',height:280,fontFamily:FONT},colors:[C.green,'#C2C8D2',C.red],labels:['正面','中性','负面'],
+  stroke:{width:0},dataLabels:{enabled:false},legend:{position:'bottom',fontSize:'11px',labels:{colors:C.ink2}},
+  plotOptions:{pie:{donut:{size:'72%',labels:{show:true,total:{show:true,label:'正面情感',color:C.ink3,fontSize:'12px',formatter:()=>'58%'},value:{color:C.ink,fontSize:'26px',fontWeight:700}}}}},
+  series:[58,27,15]});
+
+addEventListener('resize',()=>{document.querySelectorAll('[id^="ec-"]').forEach(d=>{const i=echarts.getInstanceByDom(d);if(i)i.resize();});});
+</script>
+</body>
+</html>
