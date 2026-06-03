@@ -50,8 +50,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 .head{display:flex;align-items:flex-start;justify-content:space-between;flex:0 0 auto;margin-bottom:3.4vh}
 .head-l{display:flex;flex-direction:column;gap:.8vh}
 .brand{display:flex;align-items:baseline;gap:.5em}
-.brand .logo{font-family:'Inter';font-weight:800;font-size:26px;letter-spacing:-.02em;line-height:1}
-.brand .logo .r{color:var(--red)}
+.brand .logo{height:clamp(19px,1.7vw,25px);width:auto;display:block;flex-shrink:0}
 .brand .ttl{font-family:'Inter','Noto Sans SC';font-weight:600;font-size:23px;letter-spacing:-.01em}
 .subttl{font-family:'Inter','Noto Sans SC';font-weight:300;font-size:15px;color:var(--ink-2);letter-spacing:.01em}
 .head-r{font-family:'JetBrains Mono';font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);text-align:right;line-height:1.8}
@@ -413,9 +412,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 .sb-bi{width:17px;height:17px;border-radius:5px;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:8.5px;font-weight:800;flex-shrink:0}
 .sb-node{background:#fff;border:1px solid var(--line);border-radius:9px;padding:.5vh .8vw;display:inline-flex;align-items:center;gap:.45em;
   font-weight:700;font-size:max(9.5px,.74vw);color:var(--ink);box-shadow:0 6px 16px -8px rgba(30,40,70,.28)}
-.sb-node.cann{padding:.7vh 1.1vw;font-size:max(11px,.85vw)}
-.sb-node.cann .lg{font-family:'Inter';font-weight:800;font-size:max(13px,1vw);letter-spacing:-.02em}
-.sb-node.cann .lg .r{color:var(--red)}
+.sb-node.cann{padding:.7vh 1.1vw}
+.sb-node.cann .lg{height:max(16px,1.3vw);width:auto;display:block}
 .sb-grp{display:inline-flex;flex-direction:column;gap:.3vh;background:rgba(255,255,255,.28);border:1px solid rgba(255,255,255,.5);border-radius:9px;padding:.4vh .55vw}
 .sb-grp .gh{font-size:max(7.5px,.56vw);font-family:'JetBrains Mono';letter-spacing:.06em;color:var(--ink-3);text-transform:uppercase;text-align:center}
 .sb-grp .gc{display:flex;gap:.35vw}
@@ -503,7 +501,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
   <section class="slide">
     <div class="head">
       <div class="head-l">
-        <div class="brand"><span class="logo">C<span class="r">A</span>NN</span><span class="ttl">文档、调试、环境是三大核心障碍</span></div>
+        <div class="brand"><img class="logo" src="reference/CANNlogo.png" alt="CANN"><span class="ttl">文档、调试、环境是三大核心障碍</span></div>
         <div class="subttl">User Research · 2026 Q1 · 关键指标概览</div>
       </div>
       <div class="head-r">01 / 用户研究<br/>2026</div>
@@ -572,7 +570,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
   <section class="slide">
     <div class="head">
       <div class="head-l">
-        <div class="brand"><span class="logo">C<span class="r">A</span>NN</span><span class="ttl">新设计获好评，调试与环境仍待解</span></div>
+        <div class="brand"><img class="logo" src="reference/CANNlogo.png" alt="CANN"><span class="ttl">新设计获好评，调试与环境仍待解</span></div>
         <div class="subttl">Voice of Customer · 原声情感聚类与主题洞察</div>
       </div>
       <div class="head-r">02 / VOC 分析<br/>2026</div>
@@ -674,7 +672,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
   <section class="slide">
     <div class="head">
       <div class="head-l">
-        <div class="brand"><span class="logo">C<span class="r">A</span>NN</span><span class="ttl">竞品已普及统一时间线，CANN 仍缺位</span></div>
+        <div class="brand"><img class="logo" src="reference/CANNlogo.png" alt="CANN"><span class="ttl">竞品已普及统一时间线，CANN 仍缺位</span></div>
         <div class="subttl">Competitive Analysis · Nsight / VTune / rocprof 横向对比</div>
       </div>
       <div class="head-r">03 / 竞品对照<br/>2026</div>
@@ -716,7 +714,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
   <section class="slide">
     <div class="head">
       <div class="head-l">
-        <div class="brand"><span class="logo">C<span class="r">A</span>NN</span><span class="ttl">情绪低谷集中在算子开发与调试阶段</span></div>
+        <div class="brand"><img class="logo" src="reference/CANNlogo.png" alt="CANN"><span class="ttl">情绪低谷集中在算子开发与调试阶段</span></div>
         <div class="subttl">User Journey Map · 环境搭建 → 算子开发 → 调试优化 → 集成发布</div>
       </div>
       <div class="head-r">04 / 用户旅程<br/>2026</div>
@@ -889,7 +887,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
   <section class="slide">
     <div class="head">
       <div class="head-l">
-        <div class="brand"><span class="logo">C<span class="r">A</span>NN</span><span class="ttl">设计与开发并行推进，开发是关键路径</span></div>
+        <div class="brand"><img class="logo" src="reference/CANNlogo.png" alt="CANN"><span class="ttl">设计与开发并行推进，开发是关键路径</span></div>
         <div class="subttl">Roadmap · 2026 H1 设计落地时间线</div>
       </div>
       <div class="head-r">05 / 实施路线<br/>2026</div>
@@ -932,7 +930,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
   <section class="slide">
     <div class="head">
       <div class="head-l">
-        <div class="brand"><span class="logo">C<span class="r">A</span>NN</span><span class="ttl">AI 战略 2.0 算力产业产品沙盘 2026</span></div>
+        <div class="brand"><img class="logo" src="reference/CANNlogo.png" alt="CANN"><span class="ttl">AI 战略 2.0 算力产业产品沙盘 2026</span></div>
         <div class="subttl">Global Sandbox · 从应用到运维的全栈视图</div>
       </div>
       <div class="head-r">06 / 全局沙盘<br/>2026</div>
@@ -1030,7 +1028,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
                 <div class="sb-c">GE</div>
                 <div class="sb-c">ACL Graph</div>
                 <div class="sb-tag">图模式到整网</div>
-                <div class="sb-node cann"><span class="lg">C<span class="r">A</span>NN</span></div>
+                <div class="sb-node cann"><img class="lg" src="reference/CANNlogo.png" alt="CANN"></div>
               </div>
             </div>
             <div class="sb-line">
@@ -1078,7 +1076,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
   <section class="slide">
     <div class="head">
       <div class="head-l">
-        <div class="brand"><span class="logo">C<span class="r">A</span>NN</span><span class="ttl">核心用户：追求极致性能的算子开发者</span></div>
+        <div class="brand"><img class="logo" src="reference/CANNlogo.png" alt="CANN"><span class="ttl">核心用户：追求极致性能的算子开发者</span></div>
         <div class="subttl">User Persona · 占受访者 45% 的主力人群</div>
       </div>
       <div class="head-r">07 / 用户画像<br/>2026</div>
