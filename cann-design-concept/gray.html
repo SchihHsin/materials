@@ -431,7 +431,18 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 .pf-kv{background:#fff;border-radius:10px;padding:.85vh .9vw;font-size:max(9.5px,.78vw)}
 .pf-kv .k{color:#999;font-weight:700;margin-bottom:.25vh}
 .pf-kv .v{color:#333;line-height:1.5}
-.pf-quote{margin-top:auto;font-size:max(10.5px,.84vw);color:#333;font-weight:600;line-height:1.55;border-top:1px dashed #ccd1d9;padding-top:1.1vh;text-decoration:underline;text-underline-offset:3px;text-decoration-color:#c2c7d0}
+.pf-quote{font-size:max(10px,.82vw);color:#333;font-weight:600;line-height:1.5;text-decoration:underline;text-underline-offset:3px;text-decoration-color:#c2c7d0}
+/* 左栏块（上版样式恢复）*/
+.pf-sb{border-radius:11px;padding:.95vh .9vw;flex:0 0 auto}
+.pf-sb.head{background:var(--bs)}
+.pf-sb.head .nm{font-family:'Inter','Noto Sans SC';font-weight:800;font-size:max(15px,1.25vw);color:#1a1a1a;line-height:1.2}
+.pf-sb.head .rl{font-size:max(10px,.8vw);color:var(--b);font-weight:600;margin-top:.3vh}
+.pf-sb.white{background:#fff}
+.pf-sb .sbh{font-size:max(9px,.72vw);color:#999;font-weight:700;margin-bottom:.25vh}
+.pf-sb .sbt{font-size:max(9.5px,.78vw);color:#333;line-height:1.5}
+/* 右栏：岗位特征 + 上下游 左右并排 */
+.pf-row{display:grid;grid-template-columns:.82fr 1.7fr;gap:1.8vw;align-items:start}
+.pf-block{display:flex;flex-direction:column;min-width:0}
 /* 右四区 */
 .pf-r{display:flex;flex-direction:column;gap:1vh;min-height:0}
 .pf-h2{align-self:flex-start;display:inline-flex;align-items:center;gap:.45em;background:var(--b);color:#fff;border-radius:20px;padding:.3vh .9vw .3vh .3vh;font-weight:700;font-size:max(11px,.9vw)}
@@ -1150,14 +1161,16 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
         <!-- 左：人物信息栏 -->
         <div class="pf-side">
           <div class="pf-portrait"><img src="reference/av/persona.svg" alt=""></div>
-          <div><div class="pf-nm">推理引擎工程师</div><div class="pf-rl">某互联网公司</div></div>
-          <div class="pf-duty">负责将公司推荐 / 大模型业务的推理链路适配昇腾 NPU，保障线上服务吞吐与时延 SLA</div>
-          <div class="pf-kv"><div class="k">部门</div><div class="v">AML 机器学习平台</div></div>
-          <div class="pf-kv"><div class="k">知识结构</div><div class="v">PyTorch、TensorRT、CUDA 编程、分布式推理、基础 Linux 运维</div></div>
-          <div class="pf-quote">平台要支持昇腾，但很多算子在 NPU 上行为和 CUDA 不一样，文档又说得含糊，只能一个个试。</div>
+          <div class="pf-sb head"><div class="nm">推理引擎工程师</div><div class="rl">某互联网公司</div></div>
+          <div class="pf-sb white"><div class="sbh">职责</div><div class="sbt">将公司推荐 / 大模型业务的推理链路适配昇腾 NPU，保障线上服务吞吐与时延 SLA</div></div>
+          <div class="pf-sb white"><div class="sbh">部门</div><div class="sbt">AML 机器学习平台</div></div>
+          <div class="pf-sb white"><div class="sbh">知识结构</div><div class="sbt">PyTorch、TensorRT、CUDA 编程、分布式推理、基础 Linux 运维</div></div>
+          <div class="pf-sb white" style="margin-top:auto"><div class="sbh">原声</div><div class="pf-quote">平台要支持昇腾，但很多算子在 NPU 上行为和 CUDA 不一样，文档又说得含糊，只能一个个试。</div></div>
         </div>
         <!-- 右：四区 -->
         <div class="pf-r">
+          <div class="pf-row">
+          <div class="pf-block">
           <!-- 岗位特征 -->
           <div class="pf-h2"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#385CFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7.5" width="18" height="12" rx="2"/><path d="M8 7.5V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1.5"/></svg></span>岗位特征</div>
           <div class="pf-sub">主要工作职责及分配占比</div>
@@ -1166,6 +1179,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
             <div class="pf-rg"><div class="dn" style="--p:30%"><b>30%</b></div><div class="rl2">吞吐 / 时延<br/>性能调优</div></div>
             <div class="pf-rg"><div class="dn" style="--p:25%"><b>25%</b></div><div class="rl2">文档查阅与<br/>问题排查</div></div>
           </div>
+          </div>
+          <div class="pf-block">
           <!-- 上下游协同关系 -->
           <div class="pf-h2"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#385CFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="6" height="5" rx="1"/><rect x="15" y="15" width="6" height="5" rx="1"/><path d="M9 6.5h3.5a2 2 0 0 1 2 2V15.5"/></svg></span>上下游协同关系</div>
           <div class="pf-flow">
@@ -1176,6 +1191,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
             <div class="pf-fc"><div class="ft">下一步流转</div><div class="fl">SRE 团队接手灰度上线</div><div class="fl">业务方验收精度与响应时延</div></div>
             <div class="pf-fa">➤</div>
             <div class="pf-fc"><div class="ft">产出去向</div><div class="fl">线上推理服务正式替换 GPU 集群</div></div>
+          </div>
+          </div>
           </div>
           <!-- 典型业务场景及工具 -->
           <div class="pf-h2"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#385CFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="1.2"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.2"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.2"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.2"/></svg></span>典型业务场景及工具</div>
