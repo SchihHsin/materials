@@ -389,14 +389,14 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 
 /* ===== 全局沙盘：分层架构 ===== */
 .sb{flex:1;min-height:0;display:flex;flex-direction:column;gap:.7vh}
-.sb-band{flex:1;min-height:0;display:grid;grid-template-columns:68px 1fr;gap:.7vw;align-items:stretch;
-  background:rgba(255,255,255,.32);border:1px solid rgba(255,255,255,.55);border-radius:12px;padding:.7vh .9vw}
-.sb-bn{font-weight:700;font-size:max(12px,.95vw);color:var(--accent);text-align:center;line-height:1.3;letter-spacing:.02em;
-  display:flex;align-items:center;justify-content:center;background:var(--accent-soft);border-radius:8px}
+.sb-band{flex:1;min-height:0;display:grid;grid-template-columns:62px 1fr;gap:.85vw;align-items:stretch}
+.sb-bn{font-weight:700;font-size:max(13px,1.02vw);color:var(--ink);text-align:center;line-height:1.3;letter-spacing:.02em;
+  display:flex;align-items:center;justify-content:center}
 /* 层间向下箭头（调用栈关系）*/
 .sb-arrow{flex:0 0 auto;text-align:center;line-height:.6;font-size:max(13px,1vw);
   background:linear-gradient(180deg,#6E6BE0,#7C3AED);-webkit-background-clip:text;background-clip:text;color:transparent}
-.sb-sub{display:flex;flex-direction:column;gap:.6vh;min-width:0;height:100%}
+.sb-sub{display:flex;flex-direction:column;gap:.6vh;min-width:0;height:100%;
+  background:rgba(255,255,255,.3);border:1px solid rgba(255,255,255,.55);border-radius:12px;padding:.7vh .9vw}
 .sb-line{flex:1;min-height:0;display:grid;grid-template-columns:104px 1fr;align-items:center;gap:.6vw;
   background:rgba(255,255,255,.62);border:1px solid rgba(255,255,255,.8);border-radius:10px;padding:.7vh .9vw;
   box-shadow:0 4px 14px -9px rgba(30,40,70,.2),inset 0 1px 0 rgba(255,255,255,.7)}
