@@ -420,46 +420,57 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 .sb-tag{font-size:max(8px,.6vw);font-weight:600;color:var(--accent);background:var(--accent-soft);border-radius:6px;padding:.35vh .55vw;white-space:nowrap}
 .sb-mid{display:flex;justify-content:center;gap:1vw;align-items:center;margin:.2vh 0}
 
-/* ===== 用户画像 A（还原 Persona.svg 版式：左灰侧栏 + 右胶囊标题/数据卡/场景卡）===== */
-.pf{--b:#385CFF;--bs:rgba(56,92,255,.1);flex:1;min-height:0;display:grid;grid-template-columns:27% 1fr;gap:1.8vw}
-.pf-side{background:#EFEFF1;border-radius:18px;padding:2.2vh 1.5vw;display:flex;flex-direction:column}
-.pf-portrait{width:100%;aspect-ratio:1/1.06;border-radius:14px;overflow:hidden;background:#fff;margin-bottom:1.6vh}
+/* ===== 用户画像 A（推理引擎工程师·完整版：左信息栏 + 右四区）===== */
+.pf{--b:#385CFF;--bs:rgba(56,92,255,.1);flex:1;min-height:0;display:grid;grid-template-columns:23% 1fr;gap:1.5vw}
+.pf-side{background:#EFEFF1;border-radius:16px;padding:1.7vh 1.2vw;display:flex;flex-direction:column;gap:.9vh;overflow:hidden}
+.pf-portrait{width:100%;aspect-ratio:1/.86;border-radius:12px;overflow:hidden;background:#fff;flex:0 0 auto}
 .pf-portrait img{width:100%;height:100%;object-fit:cover;display:block}
-.pf-sb{border-radius:14px;padding:1.3vh 1vw;margin-bottom:1vh}
-.pf-sb.head{background:var(--bs)}
-.pf-sb.head .nm{font-family:'Inter','Noto Sans SC';font-weight:800;font-size:max(17px,1.4vw);color:#1a1a1a;line-height:1.15}
-.pf-sb.head .rl{font-size:max(10px,.76vw);color:var(--b);font-weight:600;margin-top:.4vh}
-.pf-sb.white{background:#fff}
-.pf-sb .sbh{font-size:max(9.5px,.7vw);color:#999;font-weight:600;margin-bottom:.5vh}
-.pf-chips{display:flex;flex-wrap:wrap;gap:.4vw}
-.pf-chips span{font-size:max(9.5px,.72vw);color:var(--b);background:var(--bs);border-radius:6px;padding:.4vh .65vw}
-.pf-quote{font-size:max(11px,.86vw);color:#555;font-style:italic;line-height:1.55}
-.pf-quote::before{content:'“';color:var(--b);font-family:Georgia;font-weight:700;font-size:1.4em;margin-right:.08em;vertical-align:-.3em}
-.pf-main{display:flex;flex-direction:column;gap:1.4vh;min-height:0}
-.pf-pill{align-self:flex-start;display:inline-flex;align-items:center;gap:.5em;background:var(--b);color:#fff;border-radius:25px;padding:.4vh 1.1vw .4vh .4vh;font-weight:600;font-size:max(12px,.95vw)}
-.pf-pill .ico{width:clamp(26px,2.2vw,34px);height:clamp(26px,2.2vw,34px);border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.pf-pill .ico svg{width:56%;height:56%;display:block}
-.pf-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1vw}
-.pf-stat{background:var(--bs);border-radius:14px;padding:1.4vh 1.1vw;display:flex;flex-direction:column;gap:.3vh}
-.pf-stat.line{background:#fff;border:1px solid var(--b)}
-.pf-stat .n{font-family:'Inter';font-weight:300;font-size:max(22px,2.1vw);color:#1a1a1a;line-height:1}
-.pf-stat .n u{font-size:.38em;text-decoration:none;color:#999;margin-left:.1em}
-.pf-stat .l{font-size:max(9.5px,.72vw);color:#666;line-height:1.3}
-.pf-scenes{display:grid;grid-template-columns:repeat(4,1fr);gap:1vw;flex:1;min-height:0}
-.pf-scene{background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:15px;padding:1.5vh 1.1vw;display:flex;flex-direction:column;gap:.8vh}
-.pf-scene .si{width:clamp(30px,2.8vw,40px);height:clamp(30px,2.8vw,40px);border-radius:10px;background:var(--bs);color:var(--b);display:flex;align-items:center;justify-content:center;font-size:max(15px,1.3vw)}
-/* 场景界面 mockup（抽象 UI 线框）*/
-.pf-mk{flex:0 0 auto;height:9vh;border-radius:9px;overflow:hidden;border:1px solid #E0E3EA;background:#F6F8FC;display:flex;flex-direction:column}
-.pf-mk .bar{display:flex;align-items:center;gap:3px;padding:3px 6px;background:#EBEEF4;border-bottom:1px solid #E0E3EA;flex-shrink:0}
-.pf-mk .bar i{width:4px;height:4px;border-radius:50%;background:#C4CAD6}
-.pf-mk .bd{flex:1;padding:5px 6px;display:flex;flex-direction:column;gap:3px;overflow:hidden}
-.mkl{height:3px;border-radius:1.5px;background:#D3D8E2;display:block;flex-shrink:0}
+.pf-nm{font-family:'Inter','Noto Sans SC';font-weight:800;font-size:max(15px,1.3vw);color:#1a1a1a;line-height:1.2}
+.pf-rl{font-size:max(10.5px,.82vw);color:var(--b);font-weight:600;margin-top:-.3vh}
+.pf-duty{background:var(--bs);border-radius:10px;padding:1vh .9vw;font-size:max(10px,.82vw);line-height:1.55;color:#333;font-weight:500}
+.pf-kv{background:#fff;border-radius:10px;padding:.85vh .9vw;font-size:max(9.5px,.78vw)}
+.pf-kv .k{color:#999;font-weight:700;margin-bottom:.25vh}
+.pf-kv .v{color:#333;line-height:1.5}
+.pf-quote{margin-top:auto;font-size:max(10.5px,.84vw);color:#333;font-weight:600;line-height:1.55;border-top:1px dashed #ccd1d9;padding-top:1.1vh;text-decoration:underline;text-underline-offset:3px;text-decoration-color:#c2c7d0}
+/* 右四区 */
+.pf-r{display:flex;flex-direction:column;gap:1vh;min-height:0}
+.pf-h2{align-self:flex-start;display:inline-flex;align-items:center;gap:.45em;background:var(--b);color:#fff;border-radius:20px;padding:.3vh .9vw .3vh .3vh;font-weight:700;font-size:max(11px,.9vw)}
+.pf-h2 .ico{width:clamp(21px,1.8vw,27px);height:clamp(21px,1.8vw,27px);border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.pf-h2 .ico svg{width:56%;height:56%;display:block}
+.pf-sub{font-weight:700;font-size:max(10.5px,.84vw);color:#333;margin:.1vh 0 .4vh .2vw}
+/* 岗位特征环形 */
+.pf-rings{display:flex;gap:2vw;padding-left:.3vw}
+.pf-rg{display:flex;flex-direction:column;align-items:center;gap:.4vh;text-align:center;width:min(13vw,150px)}
+.pf-rg .dn{width:clamp(46px,4.4vw,62px);height:clamp(46px,4.4vw,62px);border-radius:50%;position:relative;display:flex;align-items:center;justify-content:center}
+.pf-rg .dn::before{content:'';position:absolute;inset:0;border-radius:50%;background:conic-gradient(var(--b) 0 var(--p),#D6DAE4 0)}
+.pf-rg .dn::after{content:'';position:absolute;inset:23%;border-radius:50%;background:var(--paper)}
+.pf-rg .dn b{position:relative;z-index:1;font-weight:700;font-size:max(12px,.98vw);color:#1a1a1a}
+.pf-rg .rl2{font-size:max(9px,.72vw);color:#555;line-height:1.4}
+/* 上下游流程 */
+.pf-flow{display:flex;align-items:stretch;gap:.25vw}
+.pf-fc{flex:1;background:var(--bs);border-radius:10px;padding:.85vh .75vw;display:flex;flex-direction:column;gap:.35vh;min-width:0}
+.pf-fc .ft{font-weight:700;font-size:max(9.5px,.74vw);color:var(--b)}
+.pf-fc .fl{font-size:max(8.5px,.66vw);color:#444;line-height:1.4;display:flex;gap:.3em}
+.pf-fc .fl::before{content:'·';color:var(--b);font-weight:700;flex-shrink:0}
+.pf-fa{display:flex;align-items:center;color:var(--b);font-size:max(11px,.9vw);flex-shrink:0}
+/* 场景 4 卡 */
+.pf-scs{display:grid;grid-template-columns:repeat(4,1fr);gap:.7vw}
+.pf-sc{background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:12px;padding:.9vh .75vw;display:flex;flex-direction:column;gap:.55vh}
+.pf-sc .st{font-weight:700;font-size:max(10px,.82vw);color:#1a1a1a}
+.pf-sc .sd{font-size:max(8.5px,.72vw);color:#666;line-height:1.45}
+/* 痛点列表 */
+.pf-pains{display:flex;flex-direction:column;gap:.4vh}
+.pf-pain{font-size:max(9.5px,.82vw);line-height:1.5;color:#333;display:flex;gap:.5em;align-items:flex-start}
+.pf-pain::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--b);flex-shrink:0;margin-top:.55em}
+.pf-pain b{color:var(--b);font-weight:600}
+/* mockup 复用（缩小）*/
+.pf-mk{flex:0 0 auto;height:6.5vh;border-radius:8px;overflow:hidden;border:1px solid #E0E3EA;background:#F6F8FC;display:flex;flex-direction:column}
+.pf-mk .bar{display:flex;align-items:center;gap:3px;padding:2px 5px;background:#EBEEF4;border-bottom:1px solid #E0E3EA;flex-shrink:0}
+.pf-mk .bar i{width:3.5px;height:3.5px;border-radius:50%;background:#C4CAD6}
+.pf-mk .bd{flex:1;padding:4px 5px;display:flex;flex-direction:column;gap:2px;overflow:hidden}
+.mkl{height:2.5px;border-radius:1.5px;background:#D3D8E2;display:block;flex-shrink:0}
 .mkl.b{background:var(--b)}
 .mkl.o{background:#E8896B}
-.pf-scene .st{font-weight:700;font-size:max(12px,.94vw);color:#1a1a1a}
-.pf-scene .sd{font-size:max(10px,.78vw);color:#666;line-height:1.55}
-.pf-need{display:flex;flex-wrap:wrap;gap:.6vw;align-items:center}
-.pf-need .nd{font-size:max(11px,.88vw);color:#222;background:var(--bs);border-radius:8px;padding:.55vh .9vw;font-weight:500}
 
 /* ===== 用户画像 B（还原 AscendC 参考原版：橙红 + 扁平）===== */
 .pp{--o:#E8533B;--od:#C0392B;--osoft:#F2DAD3;flex:1;min-height:0;display:flex;flex-direction:column;gap:0}
@@ -1129,42 +1140,60 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
   <section class="slide">
     <div class="head">
       <div class="head-l">
-        <div class="brand"><img class="logo" src="reference/CANNlogo.png" alt="CANN"><span class="ttl">资深用户：追求极致性能的内源算子专家</span></div>
-        <div class="subttl">User Persona · 内源团队主力</div>
+        <div class="brand"><img class="logo" src="reference/CANNlogo.png" alt="CANN"><span class="ttl">推理引擎工程师：把推理链路适配昇腾的实战派</span></div>
+        <div class="subttl">User Persona · 互联网推理引擎工程师</div>
       </div>
       <div class="head-r">07 / 用户画像<br/>2026</div>
     </div>
     <div class="body-area">
       <div class="pf">
-        <!-- 左：人物侧栏 -->
+        <!-- 左：人物信息栏 -->
         <div class="pf-side">
           <div class="pf-portrait"><img src="reference/av/persona.svg" alt=""></div>
-          <div class="pf-sb head"><div class="nm">李 · 资深算子工程师</div><div class="rl">Senior Operator Engineer · 内源团队</div></div>
-          <div class="pf-sb white"><div class="sbh">标签</div><div class="pf-chips"><span>8 年经验</span><span>团队 Leader</span><span>Ascend C 专家</span><span>C++ / CUDA</span></div></div>
-          <div class="pf-sb white" style="margin-top:auto;margin-bottom:0"><div class="sbh">原声</div><div class="pf-quote">性能优化是门手艺，工具得让我看见每一层。</div></div>
+          <div><div class="pf-nm">推理引擎工程师</div><div class="pf-rl">某互联网公司</div></div>
+          <div class="pf-duty">负责将公司推荐 / 大模型业务的推理链路适配昇腾 NPU，保障线上服务吞吐与时延 SLA</div>
+          <div class="pf-kv"><div class="k">部门</div><div class="v">AML 机器学习平台</div></div>
+          <div class="pf-kv"><div class="k">知识结构</div><div class="v">PyTorch、TensorRT、CUDA 编程、分布式推理、基础 Linux 运维</div></div>
+          <div class="pf-quote">平台要支持昇腾，但很多算子在 NPU 上行为和 CUDA 不一样，文档又说得含糊，只能一个个试。</div>
         </div>
-        <!-- 右：胶囊标题 + 数据卡 + 场景卡 -->
-        <div class="pf-main">
-          <div class="pf-pill"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#385CFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.4" r="3.3"/><path d="M5.8 19a6.2 6.2 0 0 1 12.4 0"/></svg></span>基础画像</div>
-          <div class="pf-stats">
-            <div class="pf-stat"><div class="n">8<u>年</u></div><div class="l">算子开发经验</div></div>
-            <div class="pf-stat line"><div class="n">6<u>人</u></div><div class="l">带队规模</div></div>
-            <div class="pf-stat"><div class="n">30<u>+</u></div><div class="l">上线融合算子</div></div>
-            <div class="pf-stat line"><div class="n">95<u>%</u></div><div class="l">性能达标率</div></div>
+        <!-- 右：四区 -->
+        <div class="pf-r">
+          <!-- 岗位特征 -->
+          <div class="pf-h2"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#385CFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7.5" width="18" height="12" rx="2"/><path d="M8 7.5V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1.5"/></svg></span>岗位特征</div>
+          <div class="pf-sub">主要工作职责及分配占比</div>
+          <div class="pf-rings">
+            <div class="pf-rg"><div class="dn" style="--p:45%"><b>45%</b></div><div class="rl2">NPU 推理链路<br/>适配与调试</div></div>
+            <div class="pf-rg"><div class="dn" style="--p:30%"><b>30%</b></div><div class="rl2">吞吐 / 时延<br/>性能调优</div></div>
+            <div class="pf-rg"><div class="dn" style="--p:25%"><b>25%</b></div><div class="rl2">文档查阅与<br/>问题排查</div></div>
           </div>
-          <div class="pf-pill"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#385CFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4.5" width="17" height="13" rx="2"/><path d="M3.5 9h17M9 21h6"/></svg></span>关键场景</div>
-          <div class="pf-scenes">
-            <div class="pf-scene"><div class="pf-mk"><div class="bar"><i></i><i></i><i></i></div><div class="bd" style="flex-direction:row;gap:5px"><div style="width:9px;display:flex;flex-direction:column;gap:2.5px"><span class="mkl"></span><span class="mkl"></span><span class="mkl"></span><span class="mkl"></span></div><div style="flex:1;display:flex;flex-direction:column;gap:2.5px"><span class="mkl b" style="width:50%"></span><span class="mkl" style="width:92%"></span><div style="background:#1E2740;border-radius:3px;padding:3px;display:flex;flex-direction:column;gap:2px"><span class="mkl" style="width:70%;background:rgba(255,255,255,.28)"></span><span class="mkl" style="width:88%;background:rgba(120,150,255,.55)"></span></div></div></div></div><div class="st">融合算子开发</div><div class="sd">写 Ascend C，设计 Tiling 与调度，吃满算力</div></div>
-            <div class="pf-scene"><div class="pf-mk"><div class="bar"><i></i><i></i><i></i></div><div class="bd"><div style="display:flex;gap:3px"><span style="height:6px;width:32%;background:var(--b);border-radius:2px"></span><span style="height:6px;width:22%;background:#E8896B;border-radius:2px"></span><span style="height:6px;width:18%;background:#D3D8E2;border-radius:2px"></span></div><span class="mkl" style="width:90%"></span><span class="mkl b" style="width:62%"></span><span class="mkl" style="width:78%"></span></div></div><div class="st">性能调优</div><div class="sd">Profiling 采集，逐层定位瓶颈、迭代压榨</div></div>
-            <div class="pf-scene"><div class="pf-mk"><div class="bar"><i></i><i></i><i></i></div><div class="bd" style="flex-direction:row;gap:5px"><div style="flex:1;display:flex;flex-direction:column;gap:2.5px"><span class="mkl b" style="width:60%"></span><span class="mkl" style="width:90%"></span><span class="mkl" style="width:80%"></span></div><div style="width:1px;background:#E0E3EA"></div><div style="flex:1;display:flex;flex-direction:column;gap:2.5px"><span class="mkl" style="width:60%"></span><span class="mkl o" style="width:85%"></span><span class="mkl" style="width:75%"></span></div></div></div><div class="st">精度对齐</div><div class="sd">与标杆比对，定位精度偏差并修正</div></div>
-            <div class="pf-scene"><div class="pf-mk"><div class="bar"><i></i><i></i><i></i></div><div class="bd" style="gap:4px"><div style="display:flex;align-items:center;gap:4px"><span style="width:6px;height:6px;border-radius:50%;background:var(--b);flex-shrink:0"></span><span class="mkl" style="flex:1"></span></div><div style="display:flex;align-items:center;gap:4px"><span style="width:6px;height:6px;border-radius:50%;background:#E8896B;flex-shrink:0"></span><span class="mkl" style="flex:1;width:auto"></span></div><div style="display:flex;align-items:center;gap:4px"><span style="width:6px;height:6px;border-radius:50%;background:#D3D8E2;flex-shrink:0"></span><span class="mkl" style="flex:1;width:auto"></span></div></div></div><div class="st">团队 Review</div><div class="sd">沉淀算子模板与规范，带教新人</div></div>
+          <!-- 上下游协同关系 -->
+          <div class="pf-h2"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#385CFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="6" height="5" rx="1"/><rect x="15" y="15" width="6" height="5" rx="1"/><path d="M9 6.5h3.5a2 2 0 0 1 2 2V15.5"/></svg></span>上下游协同关系</div>
+          <div class="pf-flow">
+            <div class="pf-fc"><div class="ft">需求来源</div><div class="fl">推荐/大模型业务方提出上线需求</div><div class="fl">算法团队交付待部署模型</div></div>
+            <div class="pf-fa">➤</div>
+            <div class="pf-fc"><div class="ft">交付物</div><div class="fl">昇腾适配推理服务包</div><div class="fl">性能基线报告与调优方案</div><div class="fl">算子缺失问题排查记录</div></div>
+            <div class="pf-fa">➤</div>
+            <div class="pf-fc"><div class="ft">下一步流转</div><div class="fl">SRE 团队接手灰度上线</div><div class="fl">业务方验收精度与响应时延</div></div>
+            <div class="pf-fa">➤</div>
+            <div class="pf-fc"><div class="ft">产出去向</div><div class="fl">线上推理服务正式替换 GPU 集群</div></div>
           </div>
-          <div class="pf-pill"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#385CFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.2"/></svg></span>核心诉求</div>
-          <div class="pf-need">
-            <span class="nd">可视化 Profiling 看板</span>
-            <span class="nd">底层全链路可观测</span>
-            <span class="nd">调试提效 · 告别 print</span>
-            <span class="nd">团队知识沉淀复用</span>
+          <!-- 典型业务场景及工具 -->
+          <div class="pf-h2"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#385CFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="1.2"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.2"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.2"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.2"/></svg></span>典型业务场景及工具</div>
+          <div class="pf-scs">
+            <div class="pf-sc"><div class="pf-mk"><div class="bar"><i></i><i></i><i></i></div><div class="bd"><span class="mkl b" style="width:45%"></span><span class="mkl" style="width:90%"></span><div style="display:flex;align-items:center;gap:3px"><span style="width:4px;height:4px;border-radius:50%;background:#385CFF;flex-shrink:0"></span><span class="mkl" style="flex:1"></span></div><div style="display:flex;align-items:center;gap:3px"><span style="width:4px;height:4px;border-radius:50%;background:#C4CAD6;flex-shrink:0"></span><span class="mkl" style="flex:1"></span></div></div></div><div class="st">资源获取与问题解决</div><div class="sd">昇腾社区 · GitCode</div></div>
+            <div class="pf-sc"><div class="pf-mk"><div class="bar"><i></i><i></i><i></i></div><div class="bd" style="flex-direction:row;gap:4px"><div style="width:8px;display:flex;flex-direction:column;gap:2px"><span class="mkl"></span><span class="mkl"></span><span class="mkl"></span></div><div style="flex:1;background:#1E2740;border-radius:3px;padding:3px;display:flex;flex-direction:column;gap:2px"><span class="mkl" style="width:70%;background:rgba(255,255,255,.28)"></span><span class="mkl" style="width:88%;background:rgba(120,150,255,.55)"></span><span class="mkl" style="width:60%;background:rgba(255,255,255,.2)"></span></div></div></div><div class="st">推理代码适配</div><div class="sd">Trae（AI IDE）· 智能体协作</div></div>
+            <div class="pf-sc"><div class="pf-mk"><div class="bar"><i></i><i></i><i></i></div><div class="bd"><div style="display:flex;gap:3px"><span style="height:5px;width:34%;background:var(--b);border-radius:2px"></span><span style="height:5px;width:24%;background:#E8896B;border-radius:2px"></span></div><span class="mkl b" style="width:62%"></span><span class="mkl" style="width:80%"></span></div></div><div class="st">性能 Profiling</div><div class="sd">MindStudio · 火山引擎监控平台</div></div>
+            <div class="pf-sc"><div class="pf-mk"><div class="bar"><i></i><i></i><i></i></div><div class="bd"><svg viewBox="0 0 100 40" preserveAspectRatio="none" style="width:100%;flex:1"><polyline points="2,30 20,16 38,24 56,9 74,20 98,7" fill="none" stroke="#385CFF" stroke-width="2" vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div><div class="st">精度对齐验证</div><div class="sd">Jupyter Notebook · 内部测评框架</div></div>
+          </div>
+          <!-- 核心痛点 -->
+          <div class="pf-h2"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#385CFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4l8.5 15h-17z"/><path d="M12 10v3.6M12 16.6h.01"/></svg></span>核心痛点</div>
+          <div class="pf-pains">
+            <div class="pf-pain">算子行为与 <b>CUDA 存在细微差异</b>，文档描述模糊，只能靠反复试验定位，严重拖慢上线排期</div>
+            <div class="pf-pain"><b>文档碎片化、多版本并存</b>，找到的示例代码不确定是否适配当前 CANN 版本，踩坑成本极高</div>
+            <div class="pf-pain">用通用 AI 助手问昇腾问题，往往得到 <b>CUDA 思路的答案</b>，甚至给出不存在的 API，浪费排查时间</div>
+            <div class="pf-pain">缺乏「从 TensorRT/CUDA <b>迁移到昇腾</b>」的系统化路径，差异点散落各处，新人上手周期被拉长</div>
+            <div class="pf-pain">性能调优缺乏可落地的 <b>NPU 最佳实践指引</b>，Profiling 数据看得懂但不知下一步优化哪里</div>
+            <div class="pf-pain">遇到算子缺失或 Bug 只能发飞书群等回复，<b>响应时间不可控</b>，影响项目整体节奏</div>
           </div>
         </div>
       </div>
