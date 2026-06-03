@@ -456,44 +456,43 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 .pf-skill .fill{height:100%;border-radius:3px;background:var(--g-accent)}
 .pf-skill .pct{font-family:'JetBrains Mono';font-size:max(9px,.7vw);color:var(--ink-3)}
 
-/* ===== 用户画像 B（横条 + 三栏 + 环形 + 分段条 + 雷达）===== */
-.pp{flex:1;min-height:0;display:flex;flex-direction:column;gap:1.4vh}
-.pp-top{flex:0 0 auto;display:grid;grid-template-columns:14% 1fr 26%;gap:1.6vw;align-items:center;
-  background:rgba(255,255,255,.5);backdrop-filter:blur(15px) saturate(1.4);border:1px solid rgba(255,255,255,.7);border-radius:16px;
-  box-shadow:0 10px 30px -16px rgba(30,40,70,.2),inset 0 1px 0 rgba(255,255,255,.85);padding:1.8vh 1.8vw}
-.pp-photo{width:100%;aspect-ratio:1;border-radius:14px;overflow:hidden;background:var(--accent-soft)}
+/* ===== 用户画像 B（还原 AscendC 参考原版：橙红 + 扁平）===== */
+.pp{--o:#E8533B;--od:#C0392B;--osoft:#F2DAD3;flex:1;min-height:0;display:flex;flex-direction:column;gap:0}
+.pp-top{flex:0 0 auto;display:grid;grid-template-columns:13% 1fr 26%;gap:1.8vw;align-items:center;
+  background:linear-gradient(180deg,#E8EAED,#E0E3E7);border-radius:14px;padding:2vh 2vw;margin-bottom:2.2vh}
+.pp-photo{width:100%;aspect-ratio:1;border-radius:12px;overflow:hidden;background:#dfe7e0}
 .pp-photo img{width:100%;height:100%;object-fit:cover;display:block}
-.pp-badge{display:inline-flex;align-items:center;gap:.4em;font-size:max(11px,.78vw);font-weight:600;color:#fff;background:var(--g-accent);border-radius:8px;padding:.4vh .7vw}
-.pp-title{font-family:'Inter','Noto Sans SC';font-weight:800;font-size:max(22px,1.9vw);letter-spacing:-.01em;color:var(--ink);margin:.6vh 0 .5vh}
-.pp-tags{display:flex;flex-wrap:wrap;gap:.45vw;margin-bottom:1vh}
-.pp-tags span{font-size:max(10px,.74vw);color:var(--accent);background:rgba(91,91,214,.1);border-radius:6px;padding:.4vh .65vw}
-.pp-ring{display:flex;align-items:center;gap:1.1vw}
-.pp-donut{width:clamp(52px,4.4vw,66px);height:clamp(52px,4.4vw,66px);border-radius:50%;flex-shrink:0;position:relative;
-  background:conic-gradient(var(--accent) 0 77%,#9B8CE8 77% 94%,#D6CEF2 94% 100%)}
-.pp-donut::after{content:'';position:absolute;inset:30%;background:#fff;border-radius:50%}
-.pp-leg{display:flex;gap:1.2vw;flex-wrap:wrap}
-.pp-leg .it{display:flex;flex-direction:column;gap:.1vh}
-.pp-leg .k{font-size:max(9px,.66vw);color:var(--ink-2);display:flex;align-items:center;gap:.35em}
+.pp-badge{display:inline-flex;align-items:center;gap:.4em;font-size:max(11px,.78vw);font-weight:600;color:#fff;background:var(--o);border-radius:7px;padding:.4vh .7vw}
+.pp-title{font-family:'Inter','Noto Sans SC';font-weight:800;font-size:max(22px,1.95vw);letter-spacing:-.01em;color:#1a1a1a;margin:.7vh 0 .6vh}
+.pp-tags{display:flex;flex-wrap:wrap;gap:.45vw;margin-bottom:1.2vh}
+.pp-tags span{font-size:max(10px,.74vw);color:var(--od);background:var(--osoft);border-radius:5px;padding:.4vh .65vw}
+.pp-ring{display:flex;align-items:center;gap:1.4vw}
+.pp-donut{width:clamp(54px,4.6vw,70px);height:clamp(54px,4.6vw,70px);border-radius:50%;flex-shrink:0;position:relative;
+  background:conic-gradient(var(--o) 0 77%,#F0A595 77% 94%,#F7D3CA 94% 100%)}
+.pp-donut::after{content:'';position:absolute;inset:32%;background:#E4E6EA;border-radius:50%}
+.pp-leg{display:flex;gap:1.6vw;flex-wrap:wrap;align-items:flex-end}
+.pp-leg .it{display:flex;flex-direction:column;gap:.3vh}
+.pp-leg .k{font-size:max(9.5px,.68vw);color:#444;display:flex;align-items:center;gap:.35em}
 .pp-leg .k i{width:9px;height:9px;border-radius:2px;display:inline-block}
-.pp-leg .v{font-family:'Inter';font-weight:200;font-size:max(18px,1.5vw);color:var(--ink);line-height:1}
-.pp-leg .v u{font-size:.42em;text-decoration:none;color:var(--ink-3);margin-left:.1em}
-.pp-exp .eh{font-weight:700;font-size:max(15px,1.2vw);color:var(--ink);margin-bottom:.6vh}
-.pp-exp .et{font-size:max(13px,1.05vw);line-height:1.55;color:var(--ink-2)}
-.pp-body{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1.12fr 1fr;gap:1.6vw}
-.pp-col{display:flex;flex-direction:column;gap:1.3vh;min-height:0;
-  background:rgba(255,255,255,.42);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.6);border-radius:14px;padding:1.8vh 1.3vw;box-shadow:0 8px 24px -16px rgba(30,40,70,.18)}
-.pp-sec .sh{font-family:'JetBrains Mono','Noto Sans SC';font-size:max(10.5px,.8vw);font-weight:600;color:var(--ink);margin-bottom:.4vh}
-.pp-sec .sh em{font-style:normal;color:var(--ink-3);font-weight:400;font-size:.92em}
-.pp-sec .sv{font-size:max(11.5px,.9vw);line-height:1.55;color:var(--ink-2)}
-.pp-sec .sv b{color:var(--accent);font-weight:700}
-.pp-stat{font-size:max(13px,1.05vw);line-height:1.5;color:var(--ink)}
-.pp-stat b{color:var(--accent);font-weight:700;font-size:1.15em}
+.pp-leg .v{font-family:'Inter';font-weight:300;font-size:max(20px,1.7vw);color:#1a1a1a;line-height:1}
+.pp-leg .v u{font-size:.4em;text-decoration:none;color:#888;margin-left:.1em}
+.pp-exp .eh{font-weight:800;font-size:max(16px,1.3vw);color:#1a1a1a;margin-bottom:.7vh}
+.pp-exp .et{font-size:max(13px,1.1vw);line-height:1.6;color:#333}
+.pp-body{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1.12fr 1.04fr;gap:2.4vw;padding:0 .4vw}
+.pp-col{display:flex;flex-direction:column;gap:1.6vh;min-height:0}
+.pp-col+.pp-col{border-left:1px solid #d8dade;padding-left:2vw;margin-left:-1.2vw}
+.pp-sec .sh{font-weight:700;font-size:max(11px,.86vw);color:#555;margin-bottom:.5vh}
+.pp-sec .sh em{font-style:normal;color:#999;font-weight:400;font-size:.9em}
+.pp-sec .sv{font-size:max(12px,.94vw);line-height:1.6;color:#333}
+.pp-sec .sv b{color:var(--od);font-weight:700}
+.pp-stat{font-size:max(13px,1.08vw);line-height:1.5;color:#222}
+.pp-stat b{color:var(--od);font-weight:700;font-size:1.18em}
 /* 分段条 */
-.pp-seg-lbl{display:flex;font-size:max(8.5px,.64vw);color:var(--ink-3);margin-bottom:.4vh}
-.pp-seg{display:flex;height:13px;border-radius:7px;overflow:hidden}
+.pp-seg-lbl{display:flex;font-size:max(8.5px,.66vw);color:#888;margin-bottom:.45vh}
+.pp-seg{display:flex;height:14px;border-radius:3px;overflow:hidden}
 .pp-seg i{display:block;height:100%}
 .pp-radar{flex:1;min-height:0;width:100%}
-.pp-rleg{display:flex;gap:1.2vw;font-size:max(10px,.74vw);color:var(--ink-2);margin-bottom:.3vh}
+.pp-rleg{display:flex;gap:1.4vw;font-size:max(10px,.76vw);color:#444;margin-bottom:.3vh}
 .pp-rleg span{display:flex;align-items:center;gap:.4em}
 .pp-rleg i{width:14px;height:3px;border-radius:2px;display:inline-block}
 
@@ -1207,9 +1206,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
             <div class="pp-ring">
               <div class="pp-donut"></div>
               <div class="pp-leg">
-                <div class="it"><div class="k"><i style="background:#5B5BD6"></i>高校学生 / 个人开发者</div><div class="v">77<u>%</u></div></div>
-                <div class="it"><div class="k"><i style="background:#9B8CE8"></i>企业工程师</div><div class="v">17<u>%</u></div></div>
-                <div class="it"><div class="k"><i style="background:#D6CEF2"></i>科研机构</div><div class="v">6<u>%</u></div></div>
+                <div class="it"><div class="k"><i style="background:#E8533B"></i>高校学生 / 个人开发者</div><div class="v">77<u>%</u></div></div>
+                <div class="it"><div class="k"><i style="background:#F0A595"></i>企业工程师</div><div class="v">17<u>%</u></div></div>
+                <div class="it"><div class="k"><i style="background:#F7D3CA"></i>科研机构</div><div class="v">6<u>%</u></div></div>
               </div>
             </div>
           </div>
@@ -1232,7 +1231,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
               <div class="sh">技能水平低</div>
               <div class="pp-stat"><b>95%</b> 实践级及以下</div>
               <div class="pp-seg-lbl" style="margin-top:.7vh"><span style="width:25%">入门 25%</span><span style="width:70%">实践 70%</span><span style="width:5%;text-align:right">专家 5%</span></div>
-              <div class="pp-seg"><i style="width:25%;background:#C9C2EE"></i><i style="width:70%;background:#5B5BD6"></i><i style="width:5%;background:#4A3F9E"></i></div>
+              <div class="pp-seg"><i style="width:25%;background:#DADADA"></i><i style="width:70%;background:#E8533B"></i><i style="width:5%;background:#C0392B"></i></div>
             </div>
             <div class="pp-sec"><div class="sh">开发语言</div><div class="pp-stat"><b>87%</b> 过去半年使用过 C/C++ & Python</div></div>
             <div class="pp-sec"><div class="sh">竞品经验</div><div class="pp-stat"><b>23%</b> 熟悉 CUDA</div></div>
@@ -1241,7 +1240,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
           <!-- 右：雷达对比 -->
           <div class="pp-col">
             <div class="pp-sec"><div class="sh">内源 & 生态用户掌握的前置知识对比</div></div>
-            <div class="pp-rleg"><span><i style="background:#5B5BD6"></i>内源用户</span><span><i style="background:#F59E0B"></i>生态用户</span></div>
+            <div class="pp-rleg"><span><i style="background:#3B5BDB"></i>内源用户</span><span><i style="background:#E8533B"></i>生态用户</span></div>
             <div class="pp-radar" id="pp-radar"></div>
           </div>
         </div>
@@ -1304,15 +1303,15 @@ go(0);
   var ch=echarts.init(el);
   ch.setOption({
     textStyle:{fontFamily:'Inter, "Noto Sans SC", sans-serif'},
-    color:['#5B5BD6','#F59E0B'],
+    color:['#3B5BDB','#E8533B'],
     radar:{center:['50%','54%'],radius:'68%',
       indicator:[{name:'C/C++ 编程'},{name:'汇编语言'},{name:'计算机体系结构'},{name:'cpu 原理'},{name:'并行计算原理'},{name:'数学结构与算法'},{name:'机器学习基础'},{name:'数学基础'}],
       axisName:{color:'#5e646e',fontSize:10},
       splitLine:{lineStyle:{color:'#d4d8df'}},axisLine:{lineStyle:{color:'#d4d8df'}},
-      splitArea:{areaStyle:{color:['rgba(91,91,214,.03)','rgba(91,91,214,.06)']}}},
+      splitArea:{areaStyle:{color:['rgba(0,0,0,.02)','rgba(0,0,0,.04)']}}},
     series:[{type:'radar',symbol:'none',data:[
-      {value:[95,70,80,72,85,78,55,75],name:'内源用户',lineStyle:{color:'#5B5BD6',width:2},areaStyle:{color:'rgba(91,91,214,.12)'}},
-      {value:[94,40,55,48,58,60,35,94],name:'生态用户',lineStyle:{color:'#F59E0B',width:2},areaStyle:{color:'rgba(245,158,11,.1)'}}
+      {value:[95,70,80,72,85,78,55,75],name:'内源用户',lineStyle:{color:'#3B5BDB',width:2},areaStyle:{color:'rgba(59,91,219,.1)'}},
+      {value:[94,40,55,48,58,60,35,94],name:'生态用户',lineStyle:{color:'#E8533B',width:2},areaStyle:{color:'rgba(232,83,59,.1)'}}
     ]}]
   });
   addEventListener('resize',function(){ch.resize();});
