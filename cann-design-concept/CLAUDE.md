@@ -38,6 +38,11 @@
 - **③ 竞品对照**：三卡**大段论述**（重点加粗+紫高亮底）+ **图沉卡底**（`order:2`，占满宽/圆角/小 margin/不裁切）+ 产品名图下**低调注释**；`.compare` grid 三卡等高（`align-items:stretch`，图 `margin-top:auto` 贴底对齐）；底部**对策**深色条（tag 白底黑字、圆角同容器）
 - **④ 用户旅程**：CANN 专属阶段（环境搭建/文档学习/算子开发/调试优化/集成发布）；6 行 = 阶段 / 触点(中性色) / 行为(mini UI 线框截图) / **情绪曲线(5 个独立格子，每格曲线段+渐变填充+虚线横纹，`flex-shrink:0` 锁高)** / 痛点(每列 2 条) / 机会点(每列 2 条)
 
+## 图表选型（重要原则）
+- **能手画就手画优先**：占比(胶囊条/环形SVG/进度)、排行(横条/KPI大数字)、简单趋势(SVG折线面积)、星级、甘特 —— 全用纯 CSS/SVG 手画（自包含、最贴主题色、最轻）
+- **手画不动才用库**：雷达/桑基/热力/关系树图/大量散点/精细交互多系列 —— 用 `lib/` 已内联的库：基础图用 **ApexCharts**(540KB,MIT,省心)、复杂图用 **ECharts**(1MB,Apache-2.0,最全)；配色一律用规范渐变 token
+- 预览：`charts-gallery.html`(ECharts 12 种)、`charts-compare.html`(ECharts vs ApexCharts)；结论：两库「好看」打平，按体积/图型选
+
 ## 能力 / 约定
 - `curl` 下载网图（Wikimedia / **YouTube 缩略图** `img.youtube.com/vi/<id>/maxresdefault.jpg`），**不能生成 AI 图**
 - 竞品分析 = 同类工具对比（Nsight/VTune/rocprof，**不含 CANN**）+ 对策结论
