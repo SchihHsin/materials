@@ -8,7 +8,7 @@
 ## 文件
 - `cover.html` 封面：用户生成的 2.5D 芯片背景图 `reference/cover-bg.png` + logo/标题
 - `glow.html` 黑底光晕设计点（章节调色面板）
-- `gray.html` 灰底分析篇 **4 页**（数据洞察 / VOC / 竞品 / 旅程）
+- `gray.html` 灰底分析篇 **7 页**（数据洞察 / VOC / 竞品 / 旅程 / 甘特 roadmap / 用户画像·形式一 / 用户画像·形式二）
 - `covers.html` 封面三程序化方案备选
 - `reference/` 素材：CANN logo、cover-bg、竞品截图（cmp-*.jpg）
 
@@ -37,6 +37,11 @@
 - **② VOC 分析**：顶部**深色指标带**（`--g-ink`，与下方浅色墙明暗对比，无阴影）；声音墙用 **`column-count:4` 瀑布流**——卡间距全靠统一 `margin-bottom`（⚠️ **勿用 flex 列**，曾因 flex 列高度推挤/`margin-top:auto` 反复出诡异间距 bug，最终弃用）；卡型多样：大标题(boxed 灰块衬正文)/大引号(qm)/左右布局 `.lr`/普通/`.soft` 浅灰
 - **③ 竞品对照**：三卡**大段论述**（重点加粗+紫高亮底）+ **图沉卡底**（`order:2`，占满宽/圆角/小 margin/不裁切）+ 产品名图下**低调注释**；`.compare` grid 三卡等高（`align-items:stretch`，图 `margin-top:auto` 贴底对齐）；底部**对策**深色条（tag 白底黑字、圆角同容器）
 - **④ 用户旅程**：CANN 专属阶段（环境搭建/文档学习/算子开发/调试优化/集成发布）；6 行 = 阶段 / 触点(中性色) / 行为(mini UI 线框截图) / **情绪曲线(5 个独立格子，每格曲线段+渐变填充+虚线横纹，`flex-shrink:0` 锁高)** / 痛点(每列 2 条) / 机会点(每列 2 条)
+
+## 用户画像两形式（gray.html 第 6/7 页）
+- **形式一**（`.pf` 前缀，蓝 `--b:#385CFF`）：仿 `reference/Persona.svg`，左 23% 人物栏（portrait + head/标签/职责/原声）+ 右四区（岗位特征 conic 环 | 上下游协同 flow+交付物 KPI / 典型业务场景 16:9 mockup×4 / 核心痛点）
+- **形式二**（`.pp` 前缀，橙 `--o:#E8533B` 扁平）：仿 `reference/Persona.jpg`(AscendC)，顶栏 pp-top（人物/环形/期待 等距）+ 三栏（含 ECharts 雷达 内源蓝/生态红）
+- **左栏垂直间距坑**：`.pf-side` flex column 用统一 `gap`（块间严格等距）+ 原声 `margin-top:auto` 自适应贴底。⚠️ head 块是唯一淡蓝块且含 role 副标题，内部底部留白会让「名字离标签」视觉放大 → 收紧 head 的 `padding`+role `margin-top`，别去动 gap（gap 本就对称）
 
 ## 图表选型（重要原则）
 - **手画优先**：能纯 CSS/SVG 手画的就手画（自包含、最贴主题、最轻）—— 但「能画」≠「好看」，**好看必须精心调**
