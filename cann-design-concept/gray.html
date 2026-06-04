@@ -421,8 +421,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 .sb-mid{display:flex;justify-content:center;gap:1vw;align-items:center;margin:.2vh 0}
 
 /* ===== 用户画像 A（推理引擎工程师·完整版：左信息栏 + 右四区）===== */
-.pf{--b:#385CFF;--bs:rgba(56,92,255,.1);flex:1;min-height:0;display:grid;grid-template-columns:23% 1fr;gap:1.5vw}
-.pf-side{background:#EFEFF1;border-radius:16px;padding:1.7vh 1.2vw;display:flex;flex-direction:column;gap:.9vh;overflow:hidden}
+.pf{--b:#385CFF;--bs:rgba(56,92,255,.1);flex:0 1 auto;min-height:0;display:grid;grid-template-columns:23% 1fr;gap:1.5vw;align-items:stretch}
+.pf-side{background:#EFEFF1;border-radius:16px;padding:1.7vh 1.2vw;display:flex;flex-direction:column;gap:.72vh;overflow:hidden}
 .pf-portrait{width:100%;aspect-ratio:1/.86;border-radius:12px;overflow:hidden;background:#fff;flex:0 0 auto}
 .pf-portrait img{width:100%;height:100%;object-fit:cover;display:block}
 .pf-nm{font-family:'Inter','Noto Sans SC';font-weight:800;font-size:max(15px,1.3vw);color:#1a1a1a;line-height:1.2}
@@ -446,7 +446,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 .pf-row{display:grid;grid-template-columns:.82fr 1.7fr;gap:1.8vw;align-items:start}
 .pf-block{display:flex;flex-direction:column;min-width:0}
 /* 右四区 */
-.pf-r{display:flex;flex-direction:column;gap:1vh;min-height:0;justify-content:space-between}
+.pf-r{display:flex;flex-direction:column;gap:1.1vh;min-height:0}
 .pf-h2{align-self:flex-start;display:inline-flex;align-items:center;gap:.45em;background:var(--b);color:#fff;border-radius:20px;padding:.3vh .9vw .3vh .3vh;font-weight:700;font-size:max(11px,.9vw);margin-bottom:.8vh}
 .pf-h2 .ico{width:clamp(21px,1.8vw,27px);height:clamp(21px,1.8vw,27px);border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .pf-h2 .ico svg{width:56%;height:56%;display:block}
@@ -466,6 +466,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 .pf-fc .fl{font-size:max(8.5px,.66vw);color:#444;line-height:1.4;display:flex;gap:.3em}
 .pf-fc .fl::before{content:'·';color:var(--b);font-weight:700;flex-shrink:0}
 .pf-fa{display:flex;align-items:center;color:var(--b);font-size:max(11px,.9vw);flex-shrink:0}
+.pf-fc .fkpi{margin-top:.5vh;padding-top:.5vh;border-top:1px dashed rgba(56,92,255,.35);display:flex;flex-wrap:wrap;gap:.2em .55em;align-items:center}
+.pf-fc .fkpi .kl{font-size:max(7.5px,.58vw);color:#999;font-weight:700;background:#fff;border-radius:4px;padding:.1vh .4vw}
+.pf-fc .fkpi b{font-size:max(8px,.64vw);color:var(--b);font-weight:700}
 /* 场景 4 卡 */
 .pf-scs{display:grid;grid-template-columns:repeat(4,1fr);gap:.7vw}
 .pf-sc{background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:12px;padding:.9vh .75vw;display:flex;flex-direction:column;gap:.55vh}
@@ -1003,152 +1006,6 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
     <div class="foot">Page 05 · Roadmap</div>
   </section>
 
-  <!-- ===== 页6：全局沙盘（AI 战略 2.0 算力产业产品沙盘）===== -->
-  <section class="slide">
-    <div class="head">
-      <div class="head-l">
-        <div class="brand"><img class="logo" src="reference/CANNlogo.png" alt="CANN"><span class="ttl">AI 战略 2.0 算力产业产品沙盘 2026</span></div>
-        <div class="subttl">Global Sandbox · 从应用到运维的全栈视图</div>
-      </div>
-      <div class="head-r">06 / 全局沙盘<br/>2026</div>
-    </div>
-    <div class="body-area">
-      <div class="sb">
-
-        <!-- 应用开发 -->
-        <div class="sb-band">
-          <div class="sb-bn">应用开发</div>
-          <div class="sb-sub">
-            <div class="sb-line">
-              <div class="sb-role"><div class="rt">业务应用</div></div>
-              <div class="sb-cards">
-                <div class="sb-c ghost"><span class="ic">⊞</span>小艺智能体</div>
-                <div class="sb-c ghost"><span class="ic">⊞</span>自动驾驶智能体</div>
-                <div class="sb-c ghost"><span class="ic">⊞</span>伙伴业务（千行百业）</div>
-                <div class="sb-c ghost"><span class="ic">⊞</span>AI 内部业务（6+1 场景）</div>
-              </div>
-            </div>
-            <div class="sb-line">
-              <div class="sb-role"><div class="ra" data-av='{"type":"short","shirt":"#5B8DEF","skin":"light","glasses":true,"bg":"#E6EEFB"}'></div><div class="rt">AI 应用开发工程师<em>平台层</em></div></div>
-              <div class="sb-cards">
-                <div class="sb-c"><span class="ic">⊞</span>RAG</div>
-                <div class="sb-c"><span class="ic">⊞</span>Agent 开发</div>
-                <div class="sb-c"><span class="ic">⊞</span>模型微调</div>
-                <div class="sb-node"><span class="sb-bi" style="background:linear-gradient(135deg,#5B5BD6,#7C3AED)">智</span>智能体使能平台（商业版）</div>
-                <div class="sb-node">智能体使能平台（开源版）</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="sb-arrow">▼</div>
-        <!-- 模型开发 -->
-        <div class="sb-band">
-          <div class="sb-bn">模型开发</div>
-          <div class="sb-sub">
-            <div class="sb-line">
-              <div class="sb-role"><div class="rt">模型层</div></div>
-              <div class="sb-cards">
-                <div class="sb-c ghost">鸿蒙 PC/手机/座舱等大小模型</div>
-                <div class="sb-c ghost">终端小艺</div>
-                <div class="sb-c ghost">产业闭源模型</div>
-                <div class="sb-c ghost">华为云百模千态</div>
-                <div class="sb-c"><span class="sb-bi" style="background:#2E6BE6">D</span>Deepseek</div>
-                <div class="sb-c"><span class="sb-bi" style="background:#E8533B">P</span>基础大模型 Pangu</div>
-                <div class="sb-c"><span class="sb-bi" style="background:#C0392B">开</span>基础大模型 OpenPangu</div>
-                <div class="sb-c"><span class="sb-bi" style="background:#7C5CE0">Q</span>Qwen</div>
-              </div>
-            </div>
-            <div class="sb-line">
-              <div class="sb-role"><div class="ra" data-av='{"type":"short","shirt":"#5e646e","skin":"tan","bg":"#ECEDF0"}'></div><div class="rt">（云服务）AI 工程师<em>云服务层</em></div></div>
-              <div class="sb-cards">
-                <div class="sb-node"><span class="sb-bi" style="background:#1E6FE0">M</span>ModelArts</div>
-                <div class="sb-tag">云侧训练 / 推理平台</div>
-              </div>
-            </div>
-            <div class="sb-line">
-              <div class="sb-role"><div class="ra" data-av='{"type":"short","shirt":"#3A5A9C","skin":"light","bg":"#E6EAF3"}'></div><div class="rt">平台运维开发工程师<em>平台层</em></div></div>
-              <div class="sb-cards">
-                <div class="sb-grp"><div class="gh">训练</div><div class="gc"><span class="sb-c">Mindspeed</span><span class="sb-c">Deepspeed</span></div></div>
-                <div class="sb-grp"><div class="gh">MindSDK AI 应用软件开发套件</div><div class="gc"><span class="sb-c">MindCluster</span><span class="sb-c">MindEage</span></div></div>
-                <div class="sb-grp"><div class="gh">推理</div><div class="gc"><span class="sb-c">MindIE</span><span class="sb-c">vLLM</span><span class="sb-c">SGLang</span></div></div>
-                <div class="sb-tag">部署到环境（训练 / 推理）</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="sb-arrow">▼</div>
-        <!-- 算子开发 -->
-        <div class="sb-band">
-          <div class="sb-bn">算子开发</div>
-          <div class="sb-sub">
-            <div class="sb-line">
-              <div class="sb-role"><div class="ra" data-av='{"type":"side","shirt":"#E89B3F","skin":"light","glasses":true,"bg":"#FBEFE0"}'></div><div class="rt">AI infra 工程师<em>框架层 · 模型开发</em></div></div>
-              <div class="sb-cards">
-                <div class="sb-tag">单算子模式（单算子调用）</div>
-                <div class="sb-tag">图模式（算子入图）</div>
-                <div class="sb-c"><span class="ic">▲</span>TensorFlow 框架（推荐）</div>
-                <div class="sb-c"><span class="ic">◎</span>ONNX 框架（离线推理）</div>
-                <div class="sb-node"><span class="sb-bi" style="background:#1E6FE0">M</span>Mindspore</div>
-                <div class="sb-c"><span class="ic">◉</span>PyTorch 框架（大模型 训练 推理）</div>
-                <div class="sb-c"><span class="ic">⊞</span>第三方自研框架</div>
-              </div>
-            </div>
-            <div class="sb-line">
-              <div class="sb-role"><div class="rt">算子库 / 图引擎</div></div>
-              <div class="sb-cards">
-                <div class="sb-c">AOL 算子库</div>
-                <div class="sb-c">ATB 算子库</div>
-                <div class="sb-tag">算子库到整网</div>
-                <div class="sb-c">图引擎</div>
-                <div class="sb-c">GE</div>
-                <div class="sb-c">ACL Graph</div>
-                <div class="sb-tag">图模式到整网</div>
-                <div class="sb-node cann"><img class="lg" src="reference/CANNlogo.png" alt="CANN"></div>
-              </div>
-            </div>
-            <div class="sb-line">
-              <div class="sb-role"><div class="ra" data-av='{"type":"short","shirt":"#3FB37F","skin":"light","bg":"#E2F3EA"}'></div><div class="rt">算子开发工程师<em>算子层</em></div></div>
-              <div class="sb-cards">
-                <div class="sb-c"><span class="sb-bi" style="background:#C0392B">A</span>Ascend C 算子开发</div>
-                <div class="sb-c"><span class="sb-bi" style="background:#7C5CE0">T</span>Tilelang</div>
-                <div class="sb-c"><span class="sb-bi" style="background:#16A085">▲</span>Triton</div>
-                <div class="sb-c"><span class="sb-bi" style="background:#E8533B">P</span>PyPTO 融合算子开发</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="sb-arrow">▼</div>
-        <!-- 运维 -->
-        <div class="sb-band">
-          <div class="sb-bn">运维</div>
-          <div class="sb-sub">
-            <div class="sb-line">
-              <div class="sb-role"><div class="rt">设备层<em>算-存-网 · ICT 基础设施</em></div></div>
-              <div class="sb-cards">
-                <div class="sb-node"><span class="sb-bi" style="background:linear-gradient(135deg,#5B5BD6,#7C3AED)">灵</span>灵衢 UnifiedBus</div>
-                <div class="sb-c ghost">集群</div>
-                <div class="sb-c ghost">服务器</div>
-                <div class="sb-c ghost">标卡</div>
-                <div class="sb-c ghost">边缘</div>
-                <div class="sb-c ghost">模组</div>
-                <div class="sb-c ghost">开发者套件</div>
-                <div class="sb-c ghost">伙伴硬件</div>
-                <div class="sb-tag">存储</div>
-                <div class="sb-tag">网络</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-    <div class="ucd">▢ UCD CENTER</div>
-    <div class="foot">Page 06 · Sandbox</div>
-  </section>
-
   <!-- ===== 页7：用户画像 Persona ===== -->
   <section class="slide">
     <div class="head">
@@ -1156,7 +1013,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
         <div class="brand"><img class="logo" src="reference/CANNlogo.png" alt="CANN"><span class="ttl">资深用户：追求极致性能的内源算子专家</span></div>
         <div class="subttl">User Persona · 内源团队主力</div>
       </div>
-      <div class="head-r">07 / 用户画像<br/>2026</div>
+      <div class="head-r">06 / 用户画像 · 形式一<br/>2026</div>
     </div>
     <div class="body-area">
       <div class="pf">
@@ -1187,7 +1044,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
           <div class="pf-flow">
             <div class="pf-fc"><div class="ft">需求来源</div><div class="fl">推荐/大模型业务方提出上线需求</div><div class="fl">算法团队交付待部署模型</div></div>
             <div class="pf-fa">➤</div>
-            <div class="pf-fc"><div class="ft">交付物</div><div class="fl">昇腾适配推理服务包</div><div class="fl">性能基线报告与调优方案</div><div class="fl">算子缺失问题排查记录</div></div>
+            <div class="pf-fc"><div class="ft">交付物</div><div class="fl">昇腾适配推理服务包</div><div class="fl">性能基线报告与调优方案</div><div class="fl">算子缺失问题排查记录</div><div class="fkpi"><span class="kl">KPI</span><b>推理时延 P99</b><b>GPU 替换率</b><b>上线周期</b></div></div>
             <div class="pf-fa">➤</div>
             <div class="pf-fc"><div class="ft">下一步流转</div><div class="fl">SRE 团队接手灰度上线</div><div class="fl">业务方验收精度与响应时延</div></div>
             <div class="pf-fa">➤</div>
@@ -1217,7 +1074,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
       </div>
     </div>
     <div class="ucd">▢ UCD CENTER</div>
-    <div class="foot">Page 07 · Persona</div>
+    <div class="foot">Page 06 · 用户画像形式一</div>
   </section>
 
   <!-- ===== 页8：用户画像 B · 生态用户 ===== -->
@@ -1227,7 +1084,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
         <div class="brand"><img class="logo" src="reference/CANNlogo.png" alt="CANN"><span class="ttl">生态用户：从竞赛起步、偏理论的高校算子新人</span></div>
         <div class="subttl">User Persona · 生态侧以高校学生与个人开发者为主</div>
       </div>
-      <div class="head-r">08 / 用户画像<br/>2026</div>
+      <div class="head-r">07 / 用户画像 · 形式二<br/>2026</div>
     </div>
     <div class="body-area">
       <div class="pp">
@@ -1284,7 +1141,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
       </div>
     </div>
     <div class="ucd">▢ UCD CENTER</div>
-    <div class="foot">Page 08 · Persona B</div>
+    <div class="foot">Page 07 · 用户画像形式二</div>
   </section>
 
 </div>
