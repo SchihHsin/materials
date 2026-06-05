@@ -10,7 +10,8 @@
 - `glow.html` 黑底光晕设计点（章节调色面板）
 - `gray.html` 灰底分析篇 **7 页**（数据洞察 / VOC / 竞品 / 旅程 / 甘特 roadmap / 用户画像·形式一 / 用户画像·形式二）
 - `covers.html` 封面三程序化方案备选
-- `reference/` 素材：CANN logo、cover-bg、竞品截图（cmp-*.jpg）
+- `reference/` 素材：**CANN logo 图片版 `CANNlogo.png`**（已替代手画文字 logo）、cover-bg、竞品截图（cmp-*.jpg）、`Persona.svg`/`Persona.jpg`（画像模板）、`workflow-plan-gantt(1).html`（甘特参考）、**`av/*.svg`（DiceBear notionists 开源头像，CC0，已替代手画简笔头像）**
+- `lib/` 内联图表库：`echarts.min.js`（Apache-2.0）、`apexcharts.min.js`（MIT）
 
 ## 三基调（写 skill 的核心规则）
 - **封面**：大图作底 + CANN logo（文字版 `C`+红`A`+`NN`）+ DesignConcept 2026 + HUAWEI（左上）+ UCD CENTER（左下）
@@ -30,13 +31,14 @@
 - **统一深色**：所有深色大色块（VOC 指标带 / 竞品结论条 / 旅程阶段头）都引用 `var(--g-ink)`，不再各自定义
 - **标题 = 结论导向**：标题直接说出该页主要发现（非空泛词），副标题放英文+说明；各页统一 `.head`（CANN logo + 中文标题 + 英文副标题 + 右上页码）
 
-## gray.html 关键（4 页）
+## gray.html 关键（7 页）
 - 冷灰配色 `--paper:#E9EBEE` `--ink:#16191e` `--accent:#5B5BD6`；**玻璃折射白卡**（半透明 + `backdrop-filter`，背后纹理透出）；底部大波浪纹理
-- **简笔头像**：`avatar()` JS 按 `data-av`（`type`短/长/丸子/卷/侧分 · `shirt` · `skin` · `hair` · `glasses` · `bg`）即时绘制 SVG，发型须贴头（外顶 ~y11-14，发际沿头圆 `C44 24 40 20 32 18`，否则浮高脱节）
+- **头像**：统一用 **DiceBear notionists 开源头像**（`reference/av/*.svg`，CC0）；下载时 `beardProbability=0` 避免「女生长胡子」，`backgroundColor` 跟随所在页底色（如橙页 eco.svg 用 `FBEEE9`）。曾用 `avatar()` JS 手画简笔头像，已弃用
 - **① 数据洞察**：渐变胶囊条（左右两段**同色谱连续衔接**：左段终点色=右段起点色）+ 超大百分比数字
 - **② VOC 分析**：顶部**深色指标带**（`--g-ink`，与下方浅色墙明暗对比，无阴影）；声音墙用 **`column-count:4` 瀑布流**——卡间距全靠统一 `margin-bottom`（⚠️ **勿用 flex 列**，曾因 flex 列高度推挤/`margin-top:auto` 反复出诡异间距 bug，最终弃用）；卡型多样：大标题(boxed 灰块衬正文)/大引号(qm)/左右布局 `.lr`/普通/`.soft` 浅灰
 - **③ 竞品对照**：三卡**大段论述**（重点加粗+紫高亮底）+ **图沉卡底**（`order:2`，占满宽/圆角/小 margin/不裁切）+ 产品名图下**低调注释**；`.compare` grid 三卡等高（`align-items:stretch`，图 `margin-top:auto` 贴底对齐）；底部**对策**深色条（tag 白底黑字、圆角同容器）
 - **④ 用户旅程**：CANN 专属阶段（环境搭建/文档学习/算子开发/调试优化/集成发布）；6 行 = 阶段 / 触点(中性色) / 行为(mini UI 线框截图) / **情绪曲线(5 个独立格子，每格曲线段+渐变填充+虚线横纹，`flex-shrink:0` 锁高)** / 痛点(每列 2 条) / 机会点(每列 2 条)
+- **⑤ 甘特 roadmap**：仿 `reference/workflow-plan-gantt(1).html`；白底**玻璃折射大卡**（`.gantt` 高 54vh、`margin:auto 0` 居中）+ 内层 `.rm-pad`（`position:absolute;inset...`，因绝对定位子元素会无视父 padding，故加内层容器撑出留白）+ **虚线 SVG 网格底纹**（画在白卡背景，实线全去）；浮动条 `.rm-bar`（`opacity:.86` + `backdrop-filter`，`max-height:46px` 限高）
 
 ## 用户画像两形式（gray.html 第 6/7 页）
 - **形式一**（`.pf` 前缀，蓝 `--b:#385CFF`）：仿 `reference/Persona.svg`，左 23% 人物栏（portrait + head/标签/职责/原声）+ 右四区（岗位特征 conic 环 | 上下游协同 flow+交付物 KPI / 典型业务场景 16:9 mockup×4 / 核心痛点）
