@@ -6,9 +6,16 @@
 华为 **CANN 2026 设计概念汇报 PPT**，单/多文件 HTML 横向翻页 deck，由 UCD CENTER 出品。独立于 `cann-research-ppt`（不进总览聚合页）。仓库 `SchihHsin/materials`，Pages 路径 `…/materials/cann-design-concept/<file>.html`。
 
 ## 文件
-- `cover.html` 封面：用户生成的 2.5D 芯片背景图 `reference/cover-bg.png` + logo/标题
-- `glow.html` 黑底光晕设计点（章节调色面板）
-- `gray.html` 灰底分析篇 **7 页**（数据洞察 / VOC / 竞品 / 旅程 / 甘特 roadmap / 用户画像·形式一 / 用户画像·形式二）
+- **`index.html` 合并版完整 deck（14 页）= 封面 + gray 7 页 + glow 6 页**，统一翻页/导航/字体/字号。⚠️ **由 `build_index.py` 从三个分册自动拼装，不要手改 index.html**——改内容改分册再 `python3 build_index.py` 重生成
+- `build_index.py` 拼装脚本：逐块 verbatim 抽取三分册的 CSS/slide/script → 把各册 `.slide` 作用域化（`.slide.s-gray` / `.slide.s-glow`，避免黑/灰底互相覆盖）→ 全局换 HarmonyOS Sans + 套字号 token → 合成单文件单 `#deck`/单 `go()`/单 nav；glow 调色面板逻辑保留但对非 glow 页惰性（`curChap()` 判 `data-chapter`）
+- `cover.html` 封面（分册源）：2.5D 芯片背景图 `reference/cover-bg.png` + logo/标题
+- `glow.html` 黑底光晕设计点（分册源，章节调色面板）
+- `gray.html` 灰底分析篇 **7 页**（分册源：数据洞察 / VOC / 竞品 / 旅程 / 甘特 roadmap / 用户画像·形式一 / 用户画像·形式二）
+
+## 字体与字号规范（index.html，写 skill 用）
+- **主字体 = HarmonyOS Sans SC（鸿蒙黑体）**，CDN @font-face `cdn.jsdelivr.net/gh/IKKI2000/harmonyos-fonts@master/css/harmonyos_sans_sc.css`（MIT，权重 100/300/400/500/700/900）；字体栈 `'HarmonyOS Sans SC','Inter','Noto Sans SC'`（Latin 回退 Inter）；**JetBrains Mono 仅保留给英文 kicker/meta/页码等刻意等宽标签**
+- **字号 token（`:root`，响应式 clamp）**：`--fs-h1` 页面主标题 clamp(20,1.7vw,30) / `--fs-h2` 区块标题 clamp(15,1.15vw,21) / `--fs-h3` 卡片小标题 clamp(13,.95vw,16) / `--fs-body` 正文 clamp(12,.82vw,15) / `--fs-sm` 次要正文 clamp(10.5,.72vw,13) / `--fs-xs` 标签/注释/页码 clamp(9,.62vw,11)
+- **落地**：在「统一层」（拼装后置于各册 CSS 之后）用 `!important` 把跨页通用角色绑到 token——`.brand .ttl`→h1、`.subttl`→sm、`.head-r`/`.kicker`/`.chrome`/`.cmp-cap`→xs、`.body`→body、`.point .pt-title`→h3、`.pt-desc`→sm；**超大展示数字（封面 CANN、大百分比、章节序号、glow 渐变章节标题）属 bespoke 不进 ramp**
 - `covers.html` 封面三程序化方案备选
 - `reference/` 素材：**CANN logo 图片版 `CANNlogo.png`**（已替代手画文字 logo）、cover-bg、竞品截图（cmp-*.jpg）、`Persona.svg`/`Persona.jpg`（画像模板）、`workflow-plan-gantt(1).html`（甘特参考）、**`av/*.svg`（DiceBear notionists 开源头像，CC0，已替代手画简笔头像）**
 - `lib/` 内联图表库：`echarts.min.js`（Apache-2.0）、`apexcharts.min.js`（MIT）
