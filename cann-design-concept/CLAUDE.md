@@ -67,7 +67,7 @@
 - 偏好：**多步任务一次做完不打断**；**改完 push**
 
 ## report-ppt-skill（通用汇报 PPT skill，由本项目提炼）
-内容 = SKILL.md + references/{type-and-color,components,deck-architecture,chart-selection,pitfalls}.md + assets/{deck-template.html, cover-bg.png, cann-dark-logo.svg, CANNlogo.png, persona.svg, cmp-*.jpg}。不绑死 CANN，写别的汇报材料可直接用。
+内容 = README.md + SKILL.md + references/{type-and-color,components,deck-architecture,chart-selection,pitfalls}.md + assets/{deck-template.html, cover-bg.png, cann-dark-logo.svg, CANNlogo.png, persona.svg, cmp-*.jpg}。不绑死 CANN，写别的汇报材料可直接用。对外分享走 ③ 独立仓库。
 
 ⚠️ **同一份 skill 现存 3 处，其中 2 处是各自独立的 git 仓库，改完必须同步全部三处**：
 1. `~/.claude/skills/report-ppt-skill/` — 用户级（跨项目通用，**不在 git**，纯本地）
@@ -75,6 +75,8 @@
 3. `/Users/hsin/Documents/Coding/report-ppt-skill/` — **独立仓库 `SchihHsin/report-ppt-skill`（git@github.com:SchihHsin/report-ppt-skill.git，main 分支）**，可单独分发/安装
 
 **同步规则（两个 git 仓库各自独立提交）**：任一处改动后，`cp -R` 同步到另两处；②要在 materials 仓库 commit&push，③要在它自己的仓库 commit&push（`git -C /Users/hsin/Documents/Coding/report-ppt-skill add/commit/push`），①只是本地拷贝。**别只推一个仓库就以为完事**（曾出现 ③ 落后、缺竞品/画像/dark-logo）。权威源建议以 ③ 独立仓库为准（skill 的天然主仓）。
+
+**改 skill 的固定动作清单**（每次都走完）：① 改任一份 → ② `cp -R` 同步 A/B/C 三处 → ③ `git -C …/report-ppt-skill add&commit&push`（③ 仓库）→ ④ materials 仓库 `add&commit&push`（含 ② 内嵌份）→ ⑤ 若涉及规范/位置变化，更新本 CLAUDE.md 并随 materials 一起 push。
 
 ## 待办
 - [x] 整合成完整 deck（封面 + 灰底 gray + 黑底 glow，统一翻页/索引）→ `index.html`（build_index.py 拼装）
