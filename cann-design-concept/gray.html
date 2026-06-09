@@ -18,6 +18,15 @@
   --accent-soft:#ECECFB; /* 淡紫底 */
   --red:#E60012;         /* CANN 红 */
 }
+:root{
+  /* ===== 字号规范 type scale ===== */
+  --fs-h1:clamp(20px,1.7vw,30px);   /* 页面主标题 */
+  --fs-h2:clamp(15px,1.15vw,21px);  /* 区块标题/人名 */
+  --fs-h3:clamp(13px,.95vw,16px);   /* 卡片小标题/数字 */
+  --fs-body:clamp(12px,.82vw,15px); /* 正文 */
+  --fs-sm:clamp(10.5px,.72vw,13px); /* 次要正文/说明 */
+  --fs-xs:clamp(9px,.62vw,11px);    /* 标签/注释/页码 */
+}
 /* ===== 全局渐变色彩系统 ===== */
 :root{
   /* 状态渐变：同明度，仅微微色相位移（非深浅变化）*/
@@ -425,58 +434,58 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 .pf-side{background:#EFEFF1;border-radius:16px;padding:1.7vh 1.2vw;display:flex;flex-direction:column;gap:.85vh;overflow:hidden}
 .pf-portrait{width:100%;aspect-ratio:1/.86;border-radius:12px;overflow:hidden;background:#fff;flex:0 0 auto}
 .pf-portrait img{width:100%;height:100%;object-fit:cover;display:block}
-.pf-nm{font-family:'Inter','Noto Sans SC';font-weight:800;font-size:max(15px,1.3vw);color:#1a1a1a;line-height:1.2}
-.pf-rl{font-size:max(10.5px,.82vw);color:var(--b);font-weight:600;margin-top:-.3vh}
-.pf-duty{background:var(--bs);border-radius:10px;padding:1vh .9vw;font-size:max(10px,.82vw);line-height:1.55;color:#333;font-weight:500}
-.pf-kv{background:#fff;border-radius:10px;padding:.85vh .9vw;font-size:max(9.5px,.78vw)}
+.pf-nm{font-family:'Inter','Noto Sans SC';font-weight:800;font-size:var(--fs-h2);color:#1a1a1a;line-height:1.2}
+.pf-rl{font-size:var(--fs-sm);color:var(--b);font-weight:600;margin-top:-.3vh}
+.pf-duty{background:var(--bs);border-radius:10px;padding:1vh .9vw;font-size:var(--fs-body);line-height:1.55;color:#333;font-weight:500}
+.pf-kv{background:#fff;border-radius:10px;padding:.85vh .9vw;font-size:var(--fs-body)}
 .pf-kv .k{color:#999;font-weight:700;margin-bottom:.25vh}
 .pf-kv .v{color:#333;line-height:1.5}
-.pf-quote{font-size:max(10px,.82vw);color:#333;font-weight:600;line-height:1.5;text-decoration:underline;text-underline-offset:3px;text-decoration-color:#c2c7d0}
+.pf-quote{font-size:var(--fs-body);color:#333;font-weight:600;line-height:1.5;text-decoration:underline;text-underline-offset:3px;text-decoration-color:#c2c7d0}
 /* 左栏块（上版样式恢复）*/
 .pf-sb{border-radius:11px;padding:.95vh .9vw;flex:0 0 auto}
 .pf-sb.head{background:var(--bs);padding-top:.85vh;padding-bottom:.85vh}
-.pf-sb.head .nm{font-family:'Inter','Noto Sans SC';font-weight:800;font-size:max(15px,1.25vw);color:#1a1a1a;line-height:1.2}
-.pf-sb.head .rl{font-size:max(10px,.8vw);color:var(--b);font-weight:600;margin-top:.1vh}
+.pf-sb.head .nm{font-family:'Inter','Noto Sans SC';font-weight:800;font-size:var(--fs-h2);color:#1a1a1a;line-height:1.2}
+.pf-sb.head .rl{font-size:var(--fs-sm);color:var(--b);font-weight:600;margin-top:.1vh}
 .pf-sb.white{background:#fff}
-.pf-sb .sbh{font-size:max(9px,.72vw);color:#999;font-weight:700;margin-bottom:.25vh}
-.pf-sb .sbt{font-size:max(9.5px,.78vw);color:#333;line-height:1.5}
+.pf-sb .sbh{font-size:var(--fs-xs);color:#999;font-weight:700;margin-bottom:.25vh}
+.pf-sb .sbt{font-size:var(--fs-body);color:#333;line-height:1.5}
 .pf-chips{display:flex;flex-wrap:wrap;gap:.4vw}
-.pf-chips span{font-size:max(9.5px,.74vw);color:var(--b);background:var(--bs);border-radius:6px;padding:.4vh .65vw}
+.pf-chips span{font-size:var(--fs-sm);color:var(--b);background:var(--bs);border-radius:6px;padding:.4vh .65vw}
 /* 右栏：岗位特征 + 上下游 左右并排 */
 .pf-row{display:grid;grid-template-columns:.82fr 1.7fr;gap:1.8vw;align-items:start}
 .pf-block{display:flex;flex-direction:column;min-width:0}
 /* 右四区 */
 .pf-r{display:flex;flex-direction:column;gap:1.1vh;min-height:0}
-.pf-h2{align-self:flex-start;display:inline-flex;align-items:center;gap:.45em;background:var(--b);color:#fff;border-radius:20px;padding:.3vh .9vw .3vh .3vh;font-weight:700;font-size:max(11px,.9vw);margin-bottom:.8vh}
+.pf-h2{align-self:flex-start;display:inline-flex;align-items:center;gap:.45em;background:var(--b);color:#fff;border-radius:20px;padding:.3vh .9vw .3vh .3vh;font-weight:700;font-size:var(--fs-h3);margin-bottom:.8vh}
 .pf-h2 .ico{width:clamp(21px,1.8vw,27px);height:clamp(21px,1.8vw,27px);border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .pf-h2 .ico svg{width:56%;height:56%;display:block}
-.pf-sub{font-weight:700;font-size:max(10.5px,.84vw);color:#333;margin:.1vh 0 .4vh .2vw}
+.pf-sub{font-weight:700;font-size:var(--fs-sm);color:#333;margin:.1vh 0 .4vh .2vw}
 /* 岗位特征环形 */
 .pf-rings{display:flex;gap:2vw;padding-left:.3vw}
 .pf-rg{display:flex;flex-direction:column;align-items:center;gap:.4vh;text-align:center;width:min(13vw,150px)}
 .pf-rg .dn{width:clamp(46px,4.4vw,62px);height:clamp(46px,4.4vw,62px);border-radius:50%;position:relative;display:flex;align-items:center;justify-content:center}
 .pf-rg .dn::before{content:'';position:absolute;inset:0;border-radius:50%;background:conic-gradient(var(--b) 0 var(--p),#D6DAE4 0)}
 .pf-rg .dn::after{content:'';position:absolute;inset:23%;border-radius:50%;background:var(--paper)}
-.pf-rg .dn b{position:relative;z-index:1;font-weight:700;font-size:max(12px,.98vw);color:#1a1a1a}
-.pf-rg .rl2{font-size:max(9px,.72vw);color:#555;line-height:1.4}
+.pf-rg .dn b{position:relative;z-index:1;font-weight:700;font-size:var(--fs-h3);color:#1a1a1a}
+.pf-rg .rl2{font-size:var(--fs-sm);color:#555;line-height:1.4}
 /* 上下游流程 */
 .pf-flow{display:flex;align-items:stretch;gap:.25vw}
 .pf-fc{flex:1;background:var(--bs);border-radius:10px;padding:.85vh .75vw;display:flex;flex-direction:column;gap:.35vh;min-width:0}
-.pf-fc .ft{font-weight:700;font-size:max(9.5px,.74vw);color:var(--b)}
-.pf-fc .fl{font-size:max(8.5px,.66vw);color:#444;line-height:1.4;display:flex;gap:.3em}
+.pf-fc .ft{font-weight:700;font-size:var(--fs-sm);color:var(--b)}
+.pf-fc .fl{font-size:var(--fs-xs);color:#444;line-height:1.4;display:flex;gap:.3em}
 .pf-fc .fl::before{content:'·';color:var(--b);font-weight:700;flex-shrink:0}
-.pf-fa{display:flex;align-items:center;color:var(--b);font-size:max(11px,.9vw);flex-shrink:0}
+.pf-fa{display:flex;align-items:center;color:var(--b);font-size:var(--fs-sm);flex-shrink:0}
 .pf-fc .fkpi{margin-top:.5vh;padding-top:.5vh;border-top:1px dashed rgba(56,92,255,.35);display:flex;flex-wrap:wrap;gap:.2em .55em;align-items:center}
-.pf-fc .fkpi .kl{font-size:max(7.5px,.58vw);color:#999;font-weight:700;background:#fff;border-radius:4px;padding:.1vh .4vw}
-.pf-fc .fkpi b{font-size:max(8px,.64vw);color:var(--b);font-weight:700}
+.pf-fc .fkpi .kl{font-size:var(--fs-xs);color:#999;font-weight:700;background:#fff;border-radius:4px;padding:.1vh .4vw}
+.pf-fc .fkpi b{font-size:var(--fs-xs);color:var(--b);font-weight:700}
 /* 场景 4 卡 */
 .pf-scs{display:grid;grid-template-columns:repeat(4,1fr);gap:.7vw}
 .pf-sc{background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:12px;padding:.9vh .75vw;display:flex;flex-direction:column;gap:.55vh}
-.pf-sc .st{font-weight:700;font-size:max(10px,.82vw);color:#1a1a1a}
-.pf-sc .sd{font-size:max(8.5px,.72vw);color:#666;line-height:1.45}
+.pf-sc .st{font-weight:700;font-size:var(--fs-body);color:#1a1a1a}
+.pf-sc .sd{font-size:var(--fs-sm);color:#666;line-height:1.45}
 /* 痛点列表 */
 .pf-pains{display:flex;flex-direction:column;gap:.4vh}
-.pf-pain{font-size:max(9.5px,.82vw);line-height:1.5;color:#333;display:flex;gap:.5em;align-items:flex-start}
+.pf-pain{font-size:var(--fs-body);line-height:1.5;color:#333;display:flex;gap:.5em;align-items:flex-start}
 .pf-pain::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--b);flex-shrink:0;margin-top:.55em}
 .pf-pain b{color:var(--b);font-weight:600}
 /* mockup 复用（缩小）*/
@@ -497,10 +506,10 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 .pp-lead{display:flex;align-items:center;gap:1.1vw;min-width:0;flex:0 1 auto}
 .pp-photo{width:clamp(80px,8vw,116px);flex:0 0 auto;aspect-ratio:1;border-radius:12px;overflow:hidden;background:#FBEEE9}
 .pp-photo img{width:100%;height:100%;object-fit:cover;display:block}
-.pp-badge{display:inline-flex;align-items:center;gap:.4em;font-size:max(11px,.78vw);font-weight:600;color:#fff;background:var(--o);border-radius:7px;padding:.4vh .7vw}
-.pp-title{font-family:'Inter','Noto Sans SC';font-weight:800;font-size:max(22px,1.95vw);letter-spacing:-.01em;color:#1a1a1a;margin:.7vh 0 .6vh}
+.pp-badge{display:inline-flex;align-items:center;gap:.4em;font-size:var(--fs-sm);font-weight:600;color:#fff;background:var(--o);border-radius:7px;padding:.4vh .7vw}
+.pp-title{font-family:'Inter','Noto Sans SC';font-weight:800;font-size:var(--fs-h2);letter-spacing:-.01em;color:#1a1a1a;margin:.7vh 0 .6vh}
 .pp-tags{display:flex;flex-wrap:wrap;gap:.45vw;margin-bottom:1.2vh}
-.pp-tags span{font-size:max(10px,.74vw);color:var(--od);background:var(--osoft);border-radius:5px;padding:.4vh .65vw}
+.pp-tags span{font-size:var(--fs-sm);color:var(--od);background:var(--osoft);border-radius:5px;padding:.4vh .65vw}
 .pp-ring{display:flex;align-items:center;gap:1vw;flex:0 0 auto}
 .pp-leg{flex-direction:row;gap:1vw;align-items:flex-end;flex-wrap:nowrap}
 .pp-donut{width:clamp(54px,4.6vw,70px);height:clamp(54px,4.6vw,70px);border-radius:50%;flex-shrink:0;position:relative;
@@ -508,12 +517,12 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 .pp-donut::after{content:'';position:absolute;inset:32%;background:#E4E6EA;border-radius:50%}
 .pp-leg{display:flex;gap:1.6vw;flex-wrap:wrap;align-items:flex-end}
 .pp-leg .it{display:flex;flex-direction:column;gap:.3vh}
-.pp-leg .k{font-size:max(9.5px,.68vw);color:#444;display:flex;align-items:center;gap:.35em}
+.pp-leg .k{font-size:var(--fs-xs);color:#444;display:flex;align-items:center;gap:.35em}
 .pp-leg .k i{width:9px;height:9px;border-radius:2px;display:inline-block}
-.pp-leg .v{font-family:'Inter';font-weight:300;font-size:max(16px,1.3vw);color:#1a1a1a;line-height:1}
+.pp-leg .v{font-family:'Inter';font-weight:300;font-size:var(--fs-h3);color:#1a1a1a;line-height:1}
 .pp-leg .v u{font-size:.4em;text-decoration:none;color:#888;margin-left:.1em}
-.pp-exp .eh{font-weight:800;font-size:max(16px,1.3vw);color:#1a1a1a;margin-bottom:.7vh}
-.pp-exp .et{font-size:max(13px,1.1vw);line-height:1.6;color:#333}
+.pp-exp .eh{font-weight:800;font-size:var(--fs-h3);color:#1a1a1a;margin-bottom:.7vh}
+.pp-exp .et{font-size:var(--fs-body);line-height:1.6;color:#333}
 .pp-body{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1.12fr 1.04fr;gap:2.4vw;padding:0 .4vw}
 .pp-col{display:flex;flex-direction:column;gap:1.5vh;min-height:0}
 .pp-col:first-child{gap:1vh}
@@ -521,18 +530,18 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 .pp-col:first-child .pp-sec .pf-ico{width:clamp(26px,2.2vw,32px);height:clamp(26px,2.2vw,32px);border-radius:8px;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .pp-col:first-child .pp-sec .pf-ico svg{width:56%;height:56%;display:block}
 .pp-col+.pp-col{border-left:1px solid #d8dade;padding-left:2vw;margin-left:-1.2vw}
-.pp-sec .sh{font-weight:700;font-size:max(11.5px,.9vw);color:#555;margin-bottom:.6vh}
+.pp-sec .sh{font-weight:700;font-size:var(--fs-h3);color:#555;margin-bottom:.6vh}
 .pp-sec .sh em{font-style:normal;color:#999;font-weight:400;font-size:.9em}
-.pp-sec .sv{font-size:max(13px,1.02vw);line-height:1.7;color:#333}
+.pp-sec .sv{font-size:var(--fs-body);line-height:1.7;color:#333}
 .pp-sec .sv b{color:var(--od);font-weight:700}
-.pp-stat{font-size:max(13px,1.08vw);line-height:1.5;color:#222}
+.pp-stat{font-size:var(--fs-body);line-height:1.5;color:#222}
 .pp-stat b{color:var(--od);font-weight:700;font-size:1.18em}
 /* 分段条 */
-.pp-seg-lbl{display:flex;font-size:max(8.5px,.66vw);color:#888;margin-bottom:.45vh}
+.pp-seg-lbl{display:flex;font-size:var(--fs-xs);color:#888;margin-bottom:.45vh}
 .pp-seg{display:flex;height:14px;border-radius:3px;overflow:hidden}
 .pp-seg i{display:block;height:100%}
 .pp-radar{flex:0 0 auto;height:30vh;width:100%}
-.pp-rleg{display:flex;gap:1.4vw;font-size:max(10px,.76vw);color:#444;margin-bottom:.3vh}
+.pp-rleg{display:flex;gap:1.4vw;font-size:var(--fs-sm);color:#444;margin-bottom:.3vh}
 .pp-rleg span{display:flex;align-items:center;gap:.4em}
 .pp-rleg i{width:14px;height:3px;border-radius:2px;display:inline-block}
 
@@ -577,219 +586,6 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 
 <div id="deck">
 
-  <!-- ===== 页1：研究数据概览（渐变胶囊+大数字）===== -->
-  <section class="slide">
-    <div class="head">
-      <div class="head-l">
-        <div class="brand"><img class="logo" src="reference/CANNlogo.png" alt="CANN"><span class="ttl">文档、调试、环境是三大核心障碍</span></div>
-        <div class="subttl">User Research · 2026 Q1 · 关键指标概览</div>
-      </div>
-      <div class="head-r">01 / 用户研究<br/>2026</div>
-    </div>
-    <div class="body-area">
-      <div class="stat-grid">
-
-        <!-- 指标1：72% 文档覆盖不足 -->
-        <div class="stat-col">
-          <div class="stat-bar-area">
-            <div class="stat-marks">
-              <span>0%</span>
-              <span class="stat-tri" style="left:72%">▼</span>
-              <span>100%</span>
-            </div>
-            <div class="stat-pills">
-              <div class="stat-pill" style="flex:72;background:linear-gradient(90deg,#FF6B9D,#FF9340)"></div>
-              <div class="stat-pill" style="flex:28;background:linear-gradient(90deg,#FF9340,#FFE040)"></div>
-            </div>
-          </div>
-          <div class="stat-num">72<span class="u">%</span></div>
-          <div class="stat-desc">开发者表示文档覆盖不足，找不到连贯的学习路径，上手阶段严重受阻。</div>
-        </div>
-
-        <!-- 指标2：58% 调试黑盒 -->
-        <div class="stat-col">
-          <div class="stat-bar-area">
-            <div class="stat-marks">
-              <span>0%</span>
-              <span class="stat-tri" style="left:58%">▼</span>
-              <span>100%</span>
-            </div>
-            <div class="stat-pills">
-              <div class="stat-pill" style="flex:58;background:linear-gradient(90deg,#56F5A0,#38D4CF)"></div>
-              <div class="stat-pill" style="flex:42;background:linear-gradient(90deg,#38D4CF,#4FACFE)"></div>
-            </div>
-          </div>
-          <div class="stat-num">58<span class="u">%</span></div>
-          <div class="stat-desc">开发者陷入调试黑盒，只能靠 print 排查，定位一个问题平均耗时数天。</div>
-        </div>
-
-        <!-- 指标3：47% 环境配置失败 -->
-        <div class="stat-col">
-          <div class="stat-bar-area">
-            <div class="stat-marks">
-              <span>0%</span>
-              <span class="stat-tri" style="left:47%">▼</span>
-              <span>100%</span>
-            </div>
-            <div class="stat-pills">
-              <div class="stat-pill" style="flex:47;background:linear-gradient(90deg,#667EEA,#B260D8)"></div>
-              <div class="stat-pill" style="flex:53;background:linear-gradient(90deg,#B260D8,#F5576C)"></div>
-            </div>
-          </div>
-          <div class="stat-num">47<span class="u">%</span></div>
-          <div class="stat-desc">受版本依赖矩阵复杂度影响，换机器复现实验时遭遇环境配置失败。</div>
-        </div>
-
-      </div>
-    </div>
-    <div class="ucd">▢ UCD CENTER</div>
-    <div class="foot">Page 01 · Stats</div>
-  </section>
-
-  <!-- ===== 页2：VOC 分析（用户声音墙）===== -->
-  <section class="slide">
-    <div class="head">
-      <div class="head-l">
-        <div class="brand"><img class="logo" src="reference/CANNlogo.png" alt="CANN"><span class="ttl">新设计获好评，调试与环境仍待解</span></div>
-        <div class="subttl">Voice of Customer · 原声情感聚类与主题洞察</div>
-      </div>
-      <div class="head-r">02 / VOC 分析<br/>2026</div>
-    </div>
-    <div class="body-area">
-      <!-- 顶部：情感概览 + 关键指标（深色指标带）-->
-      <div class="voc-top t-dark">
-        <div class="voc-sent">
-          <div class="sh">情感倾向 · Sentiment（N=320）</div>
-          <div class="voc-bar"><i class="pos" style="width:58%"></i><i class="neu" style="width:27%"></i><i class="neg" style="width:15%"></i></div>
-          <div class="voc-legend">
-            <span><i style="background:#3FB37F"></i>正面 58%</span>
-            <span><i style="background:#C2C8D2"></i>中性 27%</span>
-            <span><i style="background:#E0533B"></i>负面 15%</span>
-          </div>
-        </div>
-        <div class="voc-stat"><div class="n">320<span class="u">条</span></div><div class="l">原声样本</div></div>
-        <div class="voc-stat"><div class="n">4.1<span class="u">/5</span></div><div class="l">平均评分</div></div>
-        <div class="voc-stat"><div class="n">6<span class="u">类</span></div><div class="l">主题聚类</div></div>
-      </div>
-      <!-- 声音墙：column-count 瀑布流，卡间距由统一 margin-bottom 决定 -->
-      <div class="voc-wall">
-
-        <!-- 陈 · 普通卡 -->
-        <div class="voc-card">
-          <div class="voc-stars">★★★★★</div>
-          <div class="voc-q">Profiling 看板能直接点到瓶颈算子，框选即缩放，比之前翻日志定位快太多了。</div>
-          <div class="voc-meta"><div class="voc-ava"><img src="reference/av/chen.svg" alt=""></div><div><div class="voc-nm">陈 · 框架开发者</div><div class="voc-rl">AI 平台 · 5 年</div></div></div>
-        </div>
-
-        <!-- 刘 · 大引号卡 -->
-        <div class="voc-card">
-          <div class="qm open">“</div>
-          <div class="voc-stars">★★★★<span class="off">★</span></div>
-          <div class="voc-q">成长地图让我清楚下一步该学什么，照着路线走不再瞎撞。</div>
-          <div class="voc-meta"><div class="voc-ava"><img src="reference/av/liu.svg" alt=""></div><div><div class="voc-nm">刘 · 后端工程师</div><div class="voc-rl">云服务 · 2 年</div></div></div>
-        </div>
-
-        <!-- 林 · 大标题卡 -->
-        <div class="voc-card head">
-          <div class="qm open">“</div>
-          <div class="voc-hd">文档终于连起来了</div>
-          <div class="voc-stars">★★★★★</div>
-          <div class="voc-q boxed">新的交互式文档把端到端示例串起来了，照着 Notebook 跑半天就通，不用再翻七八个页面。</div>
-          <div class="voc-meta"><div class="voc-ava"><img src="reference/av/lin.svg" alt=""></div><div><div class="voc-nm">林 · 算法工程师</div><div class="voc-rl">互联网 · 3 年</div></div></div>
-        </div>
-
-        <!-- 王 · 左右布局卡 -->
-        <div class="voc-card lr">
-          <div class="voc-ava"><img src="reference/av/wang.svg" alt=""></div>
-          <div class="lr-body">
-            <div class="voc-stars">★★★★<span class="off">★</span></div>
-            <div class="voc-q">算子开发向导生成骨架后，我只要填核心计算逻辑，省了大量样板代码。</div>
-            <div class="lr-name"><span class="voc-nm">王 · 算子工程师</span><span class="voc-rl">芯片厂商 · 4 年</span></div>
-          </div>
-        </div>
-
-        <!-- 赵 · 普通卡 -->
-        <div class="voc-card soft">
-          <div class="voc-stars">★★★★<span class="off">★</span></div>
-          <div class="voc-q">如果环境能一键拉起来、版本自动对齐，复现实验就不再是噩梦，能省下大量重装和排错的时间。</div>
-          <div class="voc-meta"><div class="voc-ava"><img src="reference/av/zhao.svg" alt=""></div><div><div class="voc-nm">赵 · 学术研究者</div><div class="voc-rl">高校 · 博士在读</div></div></div>
-        </div>
-
-        <!-- 吴 · 大标题卡 -->
-        <div class="voc-card head">
-          <div class="qm open">“</div>
-          <div class="voc-hd">期待全程可视化</div>
-          <div class="voc-stars">★★★<span class="off">★</span><span class="off">★</span></div>
-          <div class="voc-q">调试偶尔还得回到命令行，希望可视化能覆盖到全流程。</div>
-          <div class="voc-meta"><div class="voc-ava"><img src="reference/av/wu.svg" alt=""></div><div><div class="voc-nm">吴 · 系统工程师</div><div class="voc-rl">通信 · 7 年</div></div></div>
-        </div>
-
-        <!-- 孙 · 大引号卡 -->
-        <div class="voc-card">
-          <div class="qm open">“</div>
-          <div class="voc-stars">★★★★★</div>
-          <div class="voc-q">智能错误诊断给的修复建议挺准，直接点出可疑算子，少跑了好几趟社区。</div>
-          <div class="voc-meta"><div class="voc-ava"><img src="reference/av/sun.svg" alt=""></div><div><div class="voc-nm">孙 · 推理优化工程师</div><div class="voc-rl">自动驾驶 · 6 年</div></div></div>
-        </div>
-
-        <!-- 周 · 左右布局卡 -->
-        <div class="voc-card lr">
-          <div class="voc-ava"><img src="reference/av/zhou.svg" alt=""></div>
-          <div class="lr-body">
-            <div class="voc-stars">★★★<span class="off">★</span><span class="off">★</span></div>
-            <div class="voc-q">希望文档的中英文版本能同步更新，目前英文版常滞后两三个版本。</div>
-            <div class="lr-name"><span class="voc-nm">周 · 海外开发者</span><span class="voc-rl">Startup · 3 年</span></div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-    <div class="ucd">▢ UCD CENTER</div>
-    <div class="foot">Page 02 · VOC</div>
-  </section>
-
-  <!-- ===== 页2：竞品分析 ===== -->
-  <section class="slide">
-    <div class="head">
-      <div class="head-l">
-        <div class="brand"><img class="logo" src="reference/CANNlogo.png" alt="CANN"><span class="ttl">竞品已普及统一时间线，CANN 仍缺位</span></div>
-        <div class="subttl">Competitive Analysis · Nsight / VTune / rocprof 横向对比</div>
-      </div>
-      <div class="head-r">03 / 竞品对照<br/>2026</div>
-    </div>
-    <div class="body-area">
-      <div class="compare">
-        <div class="cmp">
-          <div class="cmp-body">
-            <div class="cmp-h"><span class="hk">Timeline 标杆</span>时间线 + 源码跳转，新手零门槛</div>
-            <div class="cmp-desc">以 <b>CPU/GPU 统一时间线</b> 为核心，开发者框选即可缩放、定位瓶颈算子，并支持 <b>事件 → 源码一键跳转</b>。配合完善的教程体系，新手也能<b>引导式上手</b> Profiling，几乎零学习成本。</div>
-          </div>
-          <div class="cmp-img"><img src="reference/cmp-nsight.jpg" alt="Nsight Systems 界面"><div class="cmp-cap">NVIDIA Nsight Systems</div></div>
-        </div>
-        <div class="cmp">
-          <div class="cmp-body">
-            <div class="cmp-h"><span class="hk">归因深度</span>逐层下钻，瓶颈归因到微架构</div>
-            <div class="cmp-desc">提供多种分析类型，热点可 <b>逐层下钻</b>，并给出 <b>微架构级瓶颈归因</b>，直指问题根因。向导式配置分析任务，让性能调优<b>有据可依、不靠猜测</b>，深受系统级开发者青睐。</div>
-          </div>
-          <div class="cmp-img"><img src="reference/cmp-vtune.jpg" alt="Intel VTune 界面"><div class="cmp-cap">Intel VTune Profiler</div></div>
-        </div>
-        <div class="cmp">
-          <div class="cmp-body">
-            <div class="cmp-h"><span class="hk">开放协作</span>开源 Web 化，trace 浏览器可分享</div>
-            <div class="cmp-desc">走 <b>开源 + Web 化</b> 路线，trace 可导出 <b>Perfetto</b> 在浏览器中查看与 <b>分享</b>。虽以命令行采集为主，但天然适合<b>团队协作与远程复现</b>，可视化门槛低、可扩展性强。</div>
-          </div>
-          <div class="cmp-img"><img src="reference/cmp-rocm-tool.jpg" alt="AMD rocprof 架构"><div class="cmp-cap">AMD rocprof / Omnitrace</div></div>
-        </div>
-      </div>
-      <div class="verdict">
-        <span class="vk">对策</span>
-        <span class="vv">CANN 的 Profiling 看板应对标三家共性——<b>统一时间线 + 一键瓶颈定位 + Web 化可视化</b>，并补齐<b>事件→源码跳转</b>与<b>浏览器端 trace 分享</b>，把命令行门槛降下来。</span>
-      </div>
-    </div>
-    <div class="ucd">▢ UCD CENTER</div>
-    <div class="foot">Page 03 · Competitive</div>
-  </section>
-
   <!-- ===== 页4：用户旅程（CANN 开发者全链路）===== -->
   <section class="slide">
     <div class="head">
@@ -797,7 +593,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
         <div class="brand"><img class="logo" src="reference/CANNlogo.png" alt="CANN"><span class="ttl">情绪低谷集中在算子开发与调试阶段</span></div>
         <div class="subttl">User Journey Map · 环境搭建 → 算子开发 → 调试优化 → 集成发布</div>
       </div>
-      <div class="head-r">04 / 用户旅程<br/>2026</div>
+      <div class="head-r">01 / 用户旅程<br/>2026</div>
     </div>
     <div class="body-area">
       <div class="jrn-wrap">
@@ -963,47 +759,175 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
     <div class="foot">Page 04 · Journey</div>
   </section>
 
-  <!-- ===== 页5：实施路线甘特图（浮动条）===== -->
+  <!-- ===== 页2：VOC 分析（用户声音墙）===== -->
   <section class="slide">
     <div class="head">
       <div class="head-l">
-        <div class="brand"><img class="logo" src="reference/CANNlogo.png" alt="CANN"><span class="ttl">设计与开发并行推进，开发是关键路径</span></div>
-        <div class="subttl">Roadmap · 2026 H1 设计落地时间线</div>
+        <div class="brand"><img class="logo" src="reference/CANNlogo.png" alt="CANN"><span class="ttl">新设计获好评，调试与环境仍待解</span></div>
+        <div class="subttl">Voice of Customer · 原声情感聚类与主题洞察</div>
       </div>
-      <div class="head-r">05 / 实施路线<br/>2026</div>
+      <div class="head-r">02 / VOC 分析<br/>2026</div>
     </div>
     <div class="body-area">
-      <div class="rm">
-        <div class="rm-pad">
-        <!-- 月份刻度 -->
-        <div class="rm-date" style="left:6%">2 月初</div>
-        <div class="rm-date" style="left:25%">3 月初</div>
-        <div class="rm-date" style="left:44%">4 月初</div>
-        <div class="rm-date" style="left:63%">5 月初</div>
-        <div class="rm-date" style="left:82%">6 月初</div>
-        <!-- Now（当前进度：3 月底）-->
-        <div class="rm-now-pill" style="left:40%">Now</div>
-        <div class="rm-now-tri" style="left:40%"></div>
-        <div class="rm-now-line" style="left:40%"></div>
-
-        <!-- 阶段条（错落 · badge 周期）-->
-        <div class="rm-bar dark"  style="left:5%;width:21%;top:13%"><span class="lbl">用户研究 &amp; VOC</span><span class="rm-badge">25 天</span></div>
-        <div class="rm-bar white" style="left:11%;width:14%;top:25%"><span class="lbl">竞品调研</span><span class="rm-badge">10 天</span></div>
-        <div class="rm-bar white" style="left:25%;width:16%;top:37%"><span class="lbl">设计概念定义</span><span class="rm-badge">12 天</span></div>
-        <div class="rm-bar dark"  style="left:39%;width:25%;top:25%"><span class="lbl">交互式文档 &amp; 成长地图</span><span class="rm-badge">20 天</span></div>
-        <div class="rm-bar accent" style="left:50%;width:26%;top:49%"><span class="lbl">可视化 Profiling 看板</span><span class="rm-badge">30 天</span></div>
-        <div class="rm-bar accent" style="left:58%;width:28%;top:37%"><span class="lbl">算子开发向导</span><span class="rm-badge">28 天</span></div>
-        <div class="rm-bar white" style="left:70%;width:16%;top:61%"><span class="lbl">智能错误诊断</span><span class="rm-badge">12 天</span></div>
-        <div class="rm-bar dark"  style="left:83%;width:14%;top:49%"><span class="lbl">联调 &amp; 灰度发布</span><span class="rm-badge">10 天</span></div>
-
-        <!-- 里程碑：设计定稿 -->
-        <div class="rm-diamond" style="left:41%;top:73%"></div>
-        <div class="rm-ms" style="left:44%;top:72.5%">设计定稿 · 转入开发</div>
+      <!-- 顶部：情感概览 + 关键指标（深色指标带）-->
+      <div class="voc-top t-dark">
+        <div class="voc-sent">
+          <div class="sh">情感倾向 · Sentiment（N=320）</div>
+          <div class="voc-bar"><i class="pos" style="width:58%"></i><i class="neu" style="width:27%"></i><i class="neg" style="width:15%"></i></div>
+          <div class="voc-legend">
+            <span><i style="background:#3FB37F"></i>正面 58%</span>
+            <span><i style="background:#C2C8D2"></i>中性 27%</span>
+            <span><i style="background:#E0533B"></i>负面 15%</span>
+          </div>
         </div>
+        <div class="voc-stat"><div class="n">320<span class="u">条</span></div><div class="l">原声样本</div></div>
+        <div class="voc-stat"><div class="n">4.1<span class="u">/5</span></div><div class="l">平均评分</div></div>
+        <div class="voc-stat"><div class="n">6<span class="u">类</span></div><div class="l">主题聚类</div></div>
+      </div>
+      <!-- 声音墙：column-count 瀑布流，卡间距由统一 margin-bottom 决定 -->
+      <div class="voc-wall">
+
+        <!-- 陈 · 普通卡 -->
+        <div class="voc-card">
+          <div class="voc-stars">★★★★★</div>
+          <div class="voc-q">Profiling 看板能直接点到瓶颈算子，框选即缩放，比之前翻日志定位快太多了。</div>
+          <div class="voc-meta"><div class="voc-ava"><img src="reference/av/chen.svg" alt=""></div><div><div class="voc-nm">陈 · 框架开发者</div><div class="voc-rl">AI 平台 · 5 年</div></div></div>
+        </div>
+
+        <!-- 刘 · 大引号卡 -->
+        <div class="voc-card">
+          <div class="qm open">“</div>
+          <div class="voc-stars">★★★★<span class="off">★</span></div>
+          <div class="voc-q">成长地图让我清楚下一步该学什么，照着路线走不再瞎撞。</div>
+          <div class="voc-meta"><div class="voc-ava"><img src="reference/av/liu.svg" alt=""></div><div><div class="voc-nm">刘 · 后端工程师</div><div class="voc-rl">云服务 · 2 年</div></div></div>
+        </div>
+
+        <!-- 林 · 大标题卡 -->
+        <div class="voc-card head">
+          <div class="qm open">“</div>
+          <div class="voc-hd">文档终于连起来了</div>
+          <div class="voc-stars">★★★★★</div>
+          <div class="voc-q boxed">新的交互式文档把端到端示例串起来了，照着 Notebook 跑半天就通，不用再翻七八个页面。</div>
+          <div class="voc-meta"><div class="voc-ava"><img src="reference/av/lin.svg" alt=""></div><div><div class="voc-nm">林 · 算法工程师</div><div class="voc-rl">互联网 · 3 年</div></div></div>
+        </div>
+
+        <!-- 王 · 左右布局卡 -->
+        <div class="voc-card lr">
+          <div class="voc-ava"><img src="reference/av/wang.svg" alt=""></div>
+          <div class="lr-body">
+            <div class="voc-stars">★★★★<span class="off">★</span></div>
+            <div class="voc-q">算子开发向导生成骨架后，我只要填核心计算逻辑，省了大量样板代码。</div>
+            <div class="lr-name"><span class="voc-nm">王 · 算子工程师</span><span class="voc-rl">芯片厂商 · 4 年</span></div>
+          </div>
+        </div>
+
+        <!-- 赵 · 普通卡 -->
+        <div class="voc-card soft">
+          <div class="voc-stars">★★★★<span class="off">★</span></div>
+          <div class="voc-q">如果环境能一键拉起来、版本自动对齐，复现实验就不再是噩梦，能省下大量重装和排错的时间。</div>
+          <div class="voc-meta"><div class="voc-ava"><img src="reference/av/zhao.svg" alt=""></div><div><div class="voc-nm">赵 · 学术研究者</div><div class="voc-rl">高校 · 博士在读</div></div></div>
+        </div>
+
+        <!-- 吴 · 大标题卡 -->
+        <div class="voc-card head">
+          <div class="qm open">“</div>
+          <div class="voc-hd">期待全程可视化</div>
+          <div class="voc-stars">★★★<span class="off">★</span><span class="off">★</span></div>
+          <div class="voc-q">调试偶尔还得回到命令行，希望可视化能覆盖到全流程。</div>
+          <div class="voc-meta"><div class="voc-ava"><img src="reference/av/wu.svg" alt=""></div><div><div class="voc-nm">吴 · 系统工程师</div><div class="voc-rl">通信 · 7 年</div></div></div>
+        </div>
+
+        <!-- 孙 · 大引号卡 -->
+        <div class="voc-card">
+          <div class="qm open">“</div>
+          <div class="voc-stars">★★★★★</div>
+          <div class="voc-q">智能错误诊断给的修复建议挺准，直接点出可疑算子，少跑了好几趟社区。</div>
+          <div class="voc-meta"><div class="voc-ava"><img src="reference/av/sun.svg" alt=""></div><div><div class="voc-nm">孙 · 推理优化工程师</div><div class="voc-rl">自动驾驶 · 6 年</div></div></div>
+        </div>
+
+        <!-- 周 · 左右布局卡 -->
+        <div class="voc-card lr">
+          <div class="voc-ava"><img src="reference/av/zhou.svg" alt=""></div>
+          <div class="lr-body">
+            <div class="voc-stars">★★★<span class="off">★</span><span class="off">★</span></div>
+            <div class="voc-q">希望文档的中英文版本能同步更新，目前英文版常滞后两三个版本。</div>
+            <div class="lr-name"><span class="voc-nm">周 · 海外开发者</span><span class="voc-rl">Startup · 3 年</span></div>
+          </div>
+        </div>
+
       </div>
     </div>
     <div class="ucd">▢ UCD CENTER</div>
-    <div class="foot">Page 05 · Roadmap</div>
+    <div class="foot">Page 02 · VOC</div>
+  </section>
+
+  <!-- ===== 页1：研究数据概览（渐变胶囊+大数字）===== -->
+  <section class="slide">
+    <div class="head">
+      <div class="head-l">
+        <div class="brand"><img class="logo" src="reference/CANNlogo.png" alt="CANN"><span class="ttl">文档、调试、环境是三大核心障碍</span></div>
+        <div class="subttl">User Research · 2026 Q1 · 关键指标概览</div>
+      </div>
+      <div class="head-r">03 / 用户研究<br/>2026</div>
+    </div>
+    <div class="body-area">
+      <div class="stat-grid">
+
+        <!-- 指标1：72% 文档覆盖不足 -->
+        <div class="stat-col">
+          <div class="stat-bar-area">
+            <div class="stat-marks">
+              <span>0%</span>
+              <span class="stat-tri" style="left:72%">▼</span>
+              <span>100%</span>
+            </div>
+            <div class="stat-pills">
+              <div class="stat-pill" style="flex:72;background:linear-gradient(90deg,#FF6B9D,#FF9340)"></div>
+              <div class="stat-pill" style="flex:28;background:linear-gradient(90deg,#FF9340,#FFE040)"></div>
+            </div>
+          </div>
+          <div class="stat-num">72<span class="u">%</span></div>
+          <div class="stat-desc">开发者表示文档覆盖不足，找不到连贯的学习路径，上手阶段严重受阻。</div>
+        </div>
+
+        <!-- 指标2：58% 调试黑盒 -->
+        <div class="stat-col">
+          <div class="stat-bar-area">
+            <div class="stat-marks">
+              <span>0%</span>
+              <span class="stat-tri" style="left:58%">▼</span>
+              <span>100%</span>
+            </div>
+            <div class="stat-pills">
+              <div class="stat-pill" style="flex:58;background:linear-gradient(90deg,#56F5A0,#38D4CF)"></div>
+              <div class="stat-pill" style="flex:42;background:linear-gradient(90deg,#38D4CF,#4FACFE)"></div>
+            </div>
+          </div>
+          <div class="stat-num">58<span class="u">%</span></div>
+          <div class="stat-desc">开发者陷入调试黑盒，只能靠 print 排查，定位一个问题平均耗时数天。</div>
+        </div>
+
+        <!-- 指标3：47% 环境配置失败 -->
+        <div class="stat-col">
+          <div class="stat-bar-area">
+            <div class="stat-marks">
+              <span>0%</span>
+              <span class="stat-tri" style="left:47%">▼</span>
+              <span>100%</span>
+            </div>
+            <div class="stat-pills">
+              <div class="stat-pill" style="flex:47;background:linear-gradient(90deg,#667EEA,#B260D8)"></div>
+              <div class="stat-pill" style="flex:53;background:linear-gradient(90deg,#B260D8,#F5576C)"></div>
+            </div>
+          </div>
+          <div class="stat-num">47<span class="u">%</span></div>
+          <div class="stat-desc">受版本依赖矩阵复杂度影响，换机器复现实验时遭遇环境配置失败。</div>
+        </div>
+
+      </div>
+    </div>
+    <div class="ucd">▢ UCD CENTER</div>
+    <div class="foot">Page 01 · Stats</div>
   </section>
 
   <!-- ===== 页7：用户画像 Persona ===== -->
@@ -1013,7 +937,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
         <div class="brand"><img class="logo" src="reference/CANNlogo.png" alt="CANN"><span class="ttl">资深用户：追求极致性能的内源算子专家</span></div>
         <div class="subttl">User Persona · 内源团队主力</div>
       </div>
-      <div class="head-r">06 / 用户画像 · 形式一<br/>2026</div>
+      <div class="head-r">04 / 用户画像 · 形式一<br/>2026</div>
     </div>
     <div class="body-area">
       <div class="pf">
@@ -1084,7 +1008,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
         <div class="brand"><img class="logo" src="reference/CANNlogo.png" alt="CANN"><span class="ttl">生态用户：从竞赛起步、偏理论的高校算子新人</span></div>
         <div class="subttl">User Persona · 生态侧以高校学生与个人开发者为主</div>
       </div>
-      <div class="head-r">07 / 用户画像 · 形式二<br/>2026</div>
+      <div class="head-r">05 / 用户画像 · 形式二<br/>2026</div>
     </div>
     <div class="body-area">
       <div class="pp">
@@ -1144,7 +1068,92 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
     <div class="foot">Page 07 · 用户画像形式二</div>
   </section>
 
-</div>
+<!-- ===== 页2：竞品分析 ===== -->
+  <section class="slide">
+    <div class="head">
+      <div class="head-l">
+        <div class="brand"><img class="logo" src="reference/CANNlogo.png" alt="CANN"><span class="ttl">竞品已普及统一时间线，CANN 仍缺位</span></div>
+        <div class="subttl">Competitive Analysis · Nsight / VTune / rocprof 横向对比</div>
+      </div>
+      <div class="head-r">06 / 竞品对照<br/>2026</div>
+    </div>
+    <div class="body-area">
+      <div class="compare">
+        <div class="cmp">
+          <div class="cmp-body">
+            <div class="cmp-h"><span class="hk">Timeline 标杆</span>时间线 + 源码跳转，新手零门槛</div>
+            <div class="cmp-desc">以 <b>CPU/GPU 统一时间线</b> 为核心，开发者框选即可缩放、定位瓶颈算子，并支持 <b>事件 → 源码一键跳转</b>。配合完善的教程体系，新手也能<b>引导式上手</b> Profiling，几乎零学习成本。</div>
+          </div>
+          <div class="cmp-img"><img src="reference/cmp-nsight.jpg" alt="Nsight Systems 界面"><div class="cmp-cap">NVIDIA Nsight Systems</div></div>
+        </div>
+        <div class="cmp">
+          <div class="cmp-body">
+            <div class="cmp-h"><span class="hk">归因深度</span>逐层下钻，瓶颈归因到微架构</div>
+            <div class="cmp-desc">提供多种分析类型，热点可 <b>逐层下钻</b>，并给出 <b>微架构级瓶颈归因</b>，直指问题根因。向导式配置分析任务，让性能调优<b>有据可依、不靠猜测</b>，深受系统级开发者青睐。</div>
+          </div>
+          <div class="cmp-img"><img src="reference/cmp-vtune.jpg" alt="Intel VTune 界面"><div class="cmp-cap">Intel VTune Profiler</div></div>
+        </div>
+        <div class="cmp">
+          <div class="cmp-body">
+            <div class="cmp-h"><span class="hk">开放协作</span>开源 Web 化，trace 浏览器可分享</div>
+            <div class="cmp-desc">走 <b>开源 + Web 化</b> 路线，trace 可导出 <b>Perfetto</b> 在浏览器中查看与 <b>分享</b>。虽以命令行采集为主，但天然适合<b>团队协作与远程复现</b>，可视化门槛低、可扩展性强。</div>
+          </div>
+          <div class="cmp-img"><img src="reference/cmp-rocm-tool.jpg" alt="AMD rocprof 架构"><div class="cmp-cap">AMD rocprof / Omnitrace</div></div>
+        </div>
+      </div>
+      <div class="verdict">
+        <span class="vk">对策</span>
+        <span class="vv">CANN 的 Profiling 看板应对标三家共性——<b>统一时间线 + 一键瓶颈定位 + Web 化可视化</b>，并补齐<b>事件→源码跳转</b>与<b>浏览器端 trace 分享</b>，把命令行门槛降下来。</span>
+      </div>
+    </div>
+    <div class="ucd">▢ UCD CENTER</div>
+    <div class="foot">Page 03 · Competitive</div>
+  </section>
+
+  <!-- ===== 页5：实施路线甘特图（浮动条）===== -->
+  <section class="slide">
+    <div class="head">
+      <div class="head-l">
+        <div class="brand"><img class="logo" src="reference/CANNlogo.png" alt="CANN"><span class="ttl">设计与开发并行推进，开发是关键路径</span></div>
+        <div class="subttl">Roadmap · 2026 H1 设计落地时间线</div>
+      </div>
+      <div class="head-r">07 / 实施路线<br/>2026</div>
+    </div>
+    <div class="body-area">
+      <div class="rm">
+        <div class="rm-pad">
+        <!-- 月份刻度 -->
+        <div class="rm-date" style="left:6%">2 月初</div>
+        <div class="rm-date" style="left:25%">3 月初</div>
+        <div class="rm-date" style="left:44%">4 月初</div>
+        <div class="rm-date" style="left:63%">5 月初</div>
+        <div class="rm-date" style="left:82%">6 月初</div>
+        <!-- Now（当前进度：3 月底）-->
+        <div class="rm-now-pill" style="left:40%">Now</div>
+        <div class="rm-now-tri" style="left:40%"></div>
+        <div class="rm-now-line" style="left:40%"></div>
+
+        <!-- 阶段条（错落 · badge 周期）-->
+        <div class="rm-bar dark"  style="left:5%;width:21%;top:13%"><span class="lbl">用户研究 &amp; VOC</span><span class="rm-badge">25 天</span></div>
+        <div class="rm-bar white" style="left:11%;width:14%;top:25%"><span class="lbl">竞品调研</span><span class="rm-badge">10 天</span></div>
+        <div class="rm-bar white" style="left:25%;width:16%;top:37%"><span class="lbl">设计概念定义</span><span class="rm-badge">12 天</span></div>
+        <div class="rm-bar dark"  style="left:39%;width:25%;top:25%"><span class="lbl">交互式文档 &amp; 成长地图</span><span class="rm-badge">20 天</span></div>
+        <div class="rm-bar accent" style="left:50%;width:26%;top:49%"><span class="lbl">可视化 Profiling 看板</span><span class="rm-badge">30 天</span></div>
+        <div class="rm-bar accent" style="left:58%;width:28%;top:37%"><span class="lbl">算子开发向导</span><span class="rm-badge">28 天</span></div>
+        <div class="rm-bar white" style="left:70%;width:16%;top:61%"><span class="lbl">智能错误诊断</span><span class="rm-badge">12 天</span></div>
+        <div class="rm-bar dark"  style="left:83%;width:14%;top:49%"><span class="lbl">联调 &amp; 灰度发布</span><span class="rm-badge">10 天</span></div>
+
+        <!-- 里程碑：设计定稿 -->
+        <div class="rm-diamond" style="left:41%;top:73%"></div>
+        <div class="rm-ms" style="left:44%;top:72.5%">设计定稿 · 转入开发</div>
+        </div>
+      </div>
+    </div>
+    <div class="ucd">▢ UCD CENTER</div>
+    <div class="foot">Page 05 · Roadmap</div>
+  </section>
+
+  </div>
 
 <div id="nav"></div>
 

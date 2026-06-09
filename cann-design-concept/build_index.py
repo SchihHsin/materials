@@ -4,19 +4,29 @@ Extracts verbatim CSS/slide/script blocks, scopes each chapter's .slide rule,
 applies HarmonyOS Sans + a shared type scale. Re-runnable."""
 import re
 
-def lines(p):
+def read(p):
     with open(p, encoding='utf-8') as f:
-        return f.read().split('\n')
+        return f.read()
 
-g = lines('gray.html')
-w = lines('glow.html')
+def style_of(t):
+    return t.split('<style>', 1)[1].split('</style>', 1)[0]
 
-# ---- extract verbatim blocks (file line N => index N-1) ----
-gray_style  = '\n'.join(g[8:573])     # lines 9..573  (inside <style>, excl tags & base? kept; scoped below)
-gray_slides = '\n'.join(g[578:1146])  # lines 579..1146 (deck inner)
-glow_style  = '\n'.join(w[8:175])     # lines 9..175
-glow_slides = '\n'.join(w[180:281])   # lines 181..281 (deck inner)
-glow_panel  = '\n'.join(w[284:306])   # lines 285..306 (#panel ... #toggle)
+gtext = read('gray.html')
+wtext = read('glow.html')
+
+# ---- extract verbatim blocks by markers (robust to line-number shifts) ----
+gray_style = style_of(gtext)
+glow_style = style_of(wtext)
+
+# gray deck inner: between <div id="deck"> and its closing </div> (before #nav)
+_g = gtext.split('<div id="deck">', 1)[1].split('<div id="nav">', 1)[0]
+gray_slides = _g[:_g.rfind('</div>')]
+
+# glow: slides end at deck-close </div> before the colour panel; panel+toggle captured separately
+_w = wtext.split('<div id="deck">', 1)[1].split('<div id="nav">', 1)[0]
+_pstart = _w.index('<div id="panel"')
+glow_slides = _w[:_pstart][:_w[:_pstart].rfind('</div>')]
+glow_panel = _w[_pstart:].rstrip()
 
 # ---- scope each chapter's .slide rule so bg/padding don't collide ----
 # gray: single base rule
