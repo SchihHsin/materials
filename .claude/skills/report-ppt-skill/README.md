@@ -1,0 +1,66 @@
+# report-ppt-skill
+
+一个用于 **Claude Code / Claude Agent** 的 Skill：生成「产品 / 设计 / 研究汇报」风格的**单文件网页 PPT**（横向翻页 deck）。偏企业内部的分析 + 方案型汇报，信息密度高、组件成体系。
+
+> 由「CANN DesignConcept 2026」汇报 deck 提炼而成。
+
+## 三基调
+
+| 基调 | 氛围 | 承载内容 |
+|---|---|---|
+| ① 封面 | 大图作底 + 深色叠加 | 标题页 / 章节封 |
+| ② 灰底分析篇 | 冷灰 + 玻璃折射白卡 + 底部大波浪 + 蓝紫 accent | 数据洞察 / VOC / 竞品 / 用户旅程 / 用户画像 / 甘特 roadmap |
+| ③ 黑底设计点 | 纯黑 + 底部渐变光晕 + 渐变标题字 | 问题 / 方案 / 设计点（可一章一色，带调色面板） |
+
+## 设计规范速览
+
+- **字体**：HarmonyOS Sans SC（鸿蒙黑体，CDN @font-face），等宽标签用 JetBrains Mono。
+- **字号**：6 档 ramp token `--fs-h1/h2/h3/body/sm/xs`，正文/标题分级统一，超大展示数字除外。
+- **颜色**：渐变 token；状态色（红/绿）用同明度·微色相位移；深色大块统一 `--g-ink`。
+- **玻璃折射白卡**：半透明 + `backdrop-filter` + 亮边 + inset 高光。
+- **标题=结论导向**：每页标题直接说出主要发现，不写空泛栏目名。
+- **logo 分深/浅两版按底色选**：深色底用白/反白版，浅色底用深色/彩色版。
+
+详见 `references/`：`type-and-color.md` · `components.md` · `deck-architecture.md` · `chart-selection.md` · `pitfalls.md`。
+
+## 安装
+
+作为 Claude Code Skill 使用——把整个目录放到 skills 目录即可：
+
+```bash
+# 用户级（所有项目可用）
+git clone git@github.com:SchihHsin/report-ppt-skill.git ~/.claude/skills/report-ppt-skill
+
+# 或 项目级（仅该项目）
+git clone git@github.com:SchihHsin/report-ppt-skill.git <项目>/.claude/skills/report-ppt-skill
+```
+
+之后让 Claude「做一份 XX 汇报 / 研究 / 竞品分析 / 数据分析 PPT」即可命中。
+
+## 用法
+
+1. 复制 `assets/deck-template.html` 作为起点（已含字体、token、base、导航 + **7 个精调样例页**覆盖三基调）。
+2. 删改样例页，从 `references/components.md` 取更多组件骨架。
+3. 浏览器打开自检。
+
+样例页：① 封面 ② 关键指标(多彩渐变胶囊) ③ 竞品对照 ④ 用户画像·形式一 ⑤ 甘特 roadmap ⑥ 黑底章节封面(调色面板·localStorage 持久记忆) ⑦ 黑底设计点。
+
+> ⚠️ 用户画像**形式一 / 形式二是两套方案，二选一**，按内容择优（详见 `components.md §5`）。
+
+## 目录结构
+
+```
+SKILL.md                  主文件（三基调 / 工作流 / 铁律 / 索引）
+references/               规范与组件骨架
+assets/
+  deck-template.html      7 页起手模板
+  cover-bg.png · cann-dark-logo.svg · CANNlogo.png · persona.svg · cmp-*.jpg   示例素材
+```
+
+## 关于示例素材
+
+`assets/` 里的封面图、CANN logo、竞品截图等**仅作排版示例**，用于演示组件效果。**套用到你自己的材料时请替换成自己的素材**；其中第三方产品截图、品牌 logo 版权归各自所有，请勿直接商用或再分发。
+
+## License
+
+代码与模板：MIT。示例素材不在此列（见上）。
