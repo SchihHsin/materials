@@ -66,6 +66,16 @@
 - 竞品分析 = 同类工具对比（Nsight/VTune/rocprof，**不含 CANN**）+ 对策结论
 - 偏好：**多步任务一次做完不打断**；**改完 push**
 
+## report-ppt-skill（通用汇报 PPT skill，由本项目提炼）
+内容 = SKILL.md + references/{type-and-color,components,deck-architecture,chart-selection,pitfalls}.md + assets/{deck-template.html, cover-bg.png, cann-dark-logo.svg, CANNlogo.png, persona.svg, cmp-*.jpg}。不绑死 CANN，写别的汇报材料可直接用。
+
+⚠️ **同一份 skill 现存 3 处，必须保持一致（改完同步全部三处）**：
+1. `~/.claude/skills/report-ppt-skill/` — 用户级（跨项目通用，**不在 git**）
+2. `/Users/hsin/Documents/Coding/materials/.claude/skills/report-ppt-skill/` — **项目级 + git 管理（权威源，改动随仓库走）**
+3. `/Users/hsin/Documents/Coding/report-ppt-skill/` — 独立份（不在 git）
+
+**同步规则**：以 ② 项目 git 份为准；任一处改动后用 `cp -R` 同步到另两处再 commit，否则三份会飘（曾出现 ③ 落后于 ①②，缺 竞品/画像/dark-logo 更新）。
+
 ## 待办
 - [x] 整合成完整 deck（封面 + 灰底 gray + 黑底 glow，统一翻页/索引）→ `index.html`（build_index.py 拼装）
-- [x] 提炼成独立 skill 文件（含全局色彩规范 + 三基调）→ **`~/.claude/skills/report-ppt-skill/`**（通用汇报 PPT skill：SKILL.md + references/{type-and-color,components,deck-architecture,chart-selection,pitfalls}.md + assets/deck-template.html；不绑死 CANN，写别的汇报材料可直接用）
+- [x] 提炼成独立 skill 文件（含全局色彩规范 + 三基调）→ 见上「report-ppt-skill」节
