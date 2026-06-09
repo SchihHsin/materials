@@ -69,12 +69,12 @@
 ## report-ppt-skill（通用汇报 PPT skill，由本项目提炼）
 内容 = SKILL.md + references/{type-and-color,components,deck-architecture,chart-selection,pitfalls}.md + assets/{deck-template.html, cover-bg.png, cann-dark-logo.svg, CANNlogo.png, persona.svg, cmp-*.jpg}。不绑死 CANN，写别的汇报材料可直接用。
 
-⚠️ **同一份 skill 现存 3 处，必须保持一致（改完同步全部三处）**：
-1. `~/.claude/skills/report-ppt-skill/` — 用户级（跨项目通用，**不在 git**）
-2. `/Users/hsin/Documents/Coding/materials/.claude/skills/report-ppt-skill/` — **项目级 + git 管理（权威源，改动随仓库走）**
-3. `/Users/hsin/Documents/Coding/report-ppt-skill/` — 独立份（不在 git）
+⚠️ **同一份 skill 现存 3 处，其中 2 处是各自独立的 git 仓库，改完必须同步全部三处**：
+1. `~/.claude/skills/report-ppt-skill/` — 用户级（跨项目通用，**不在 git**，纯本地）
+2. `/Users/hsin/Documents/Coding/materials/.claude/skills/report-ppt-skill/` — 项目级，**随 `SchihHsin/materials` 仓库**（项目内可直接用）
+3. `/Users/hsin/Documents/Coding/report-ppt-skill/` — **独立仓库 `SchihHsin/report-ppt-skill`（git@github.com:SchihHsin/report-ppt-skill.git，main 分支）**，可单独分发/安装
 
-**同步规则**：以 ② 项目 git 份为准；任一处改动后用 `cp -R` 同步到另两处再 commit，否则三份会飘（曾出现 ③ 落后于 ①②，缺 竞品/画像/dark-logo 更新）。
+**同步规则（两个 git 仓库各自独立提交）**：任一处改动后，`cp -R` 同步到另两处；②要在 materials 仓库 commit&push，③要在它自己的仓库 commit&push（`git -C /Users/hsin/Documents/Coding/report-ppt-skill add/commit/push`），①只是本地拷贝。**别只推一个仓库就以为完事**（曾出现 ③ 落后、缺竞品/画像/dark-logo）。权威源建议以 ③ 独立仓库为准（skill 的天然主仓）。
 
 ## 待办
 - [x] 整合成完整 deck（封面 + 灰底 gray + 黑底 glow，统一翻页/索引）→ `index.html`（build_index.py 拼装）
