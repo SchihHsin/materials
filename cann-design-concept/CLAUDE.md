@@ -16,7 +16,7 @@
 - **主字体 = HarmonyOS Sans SC（鸿蒙黑体）**，CDN @font-face `cdn.jsdelivr.net/gh/IKKI2000/harmonyos-fonts@master/css/harmonyos_sans_sc.css`（MIT，权重 100/300/400/500/700/900）；字体栈 `'HarmonyOS Sans SC','Inter','Noto Sans SC'`（Latin 回退 Inter）；**JetBrains Mono 仅保留给英文 kicker/meta/页码等刻意等宽标签**
 - **字号 token（`:root`，响应式 clamp）**：`--fs-h1` 页面主标题 clamp(20,1.7vw,30) / `--fs-h2` 区块标题 clamp(15,1.15vw,21) / `--fs-h3` 卡片小标题 clamp(13,.95vw,16) / `--fs-body` 正文 clamp(12,.82vw,15) / `--fs-sm` 次要正文 clamp(10.5,.72vw,13) / `--fs-xs` 标签/注释/页码 clamp(9,.62vw,11)
 - **落地**：在「统一层」（拼装后置于各册 CSS 之后）用 `!important` 把跨页通用角色绑到 token——`.brand .ttl`→h1、`.subttl`→sm、`.head-r`/`.kicker`/`.chrome`/`.cmp-cap`→xs、`.body`→body、`.point .pt-title`→h3、`.pt-desc`→sm；**超大展示数字（封面 CANN、大百分比、章节序号、glow 渐变章节标题）属 bespoke 不进 ramp**
-- **用户画像两页已全量上 ramp**（`gray.html` 源里 `.pf-*`/`.pp-*` 共 34 处 font-size 已改 `var(--fs-*)`）：人名→h2，区块标题/环形%/统计数字→h3，正文(职责/原声/痛点/场景/期待)→body，角色行/标签/小标题/流程标题→sm，字段标签/KPI标签/分段标签→xs。⚠️ 字号 token **也写进了 `gray.html` 自己的 `:root`**（standalone 也能用），build 时统一层再覆盖一遍
+- **用户画像两页已全量上 ramp**（`gray.html` 源里 `.pf-*`/`.pp-*` 共 34 处 font-size 已改 `var(--fs-*)`）：人名(`.pf-sb.head .nm`)→h2，**角色行(`.pf-sb.head .rl`「Senior Operator Engineer·内源团队」)→body**（规范前人名≈18px·角色≈11.5px，故人名落 h2≈16.6、角色落 body≈12 最贴近原始主次；中间试过 sm 偏小、h2 与人名同大显怪，最终 body），区块标题/环形%/统计数字→h3，正文(职责/原声/痛点/场景/期待)→body，标签/小标题/流程标题→sm，字段标签/KPI标签/分段标签→xs。⚠️ 字号 token **也写进了 `gray.html` 自己的 `:root`**（standalone 也能用），build 时统一层再覆盖一遍
 - ⚠️ **`gray.html` 的字号 token 必须保留**：删了会导致 `.pf-*`/`.pp-*` 的 `var(--fs-*)` 失效
 - `covers.html` 封面三程序化方案备选
 - `reference/` 素材：**CANN logo 图片版 `CANNlogo.png`**（已替代手画文字 logo）、cover-bg、竞品截图（cmp-*.jpg）、`Persona.svg`/`Persona.jpg`（画像模板）、`workflow-plan-gantt(1).html`（甘特参考）、**`av/*.svg`（DiceBear notionists 开源头像，CC0，已替代手画简笔头像）**
