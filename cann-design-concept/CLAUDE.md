@@ -67,5 +67,5 @@
 - 偏好：**多步任务一次做完不打断**；**改完 push**
 
 ## 待办
-- [ ] 整合成完整 deck（封面 + 灰底 gray + 黑底 glow，统一翻页/索引）
-- [ ] 提炼成独立 skill 文件（含上述全局色彩规范 + 三基调）
+- [x] 整合成完整 deck（封面 + 灰底 gray + 黑底 glow，统一翻页/索引）→ `index.html`（build_index.py 拼装）
+- [x] 提炼成独立 skill 文件（含全局色彩规范 + 三基调）→ **`~/.claude/skills/report-ppt-skill/`**（通用汇报 PPT skill：SKILL.md + references/{type-and-color,components,deck-architecture,chart-selection,pitfalls}.md + assets/deck-template.html；不绑死 CANN，写别的汇报材料可直接用）
