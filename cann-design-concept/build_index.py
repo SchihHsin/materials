@@ -79,7 +79,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0c0a0b;color:var(--
 
 /* ----- 封面（cv- 前缀，避免与各分册类名冲突）----- */
 .s-cover{padding:0;background:#0c0a0b}
-.cv-bg{position:absolute;inset:0;background:url("reference/cover-bg.png") center/cover no-repeat;z-index:0}
+.cv-bg{position:absolute;inset:0;background:url("assets/cover-bg.png") center/cover no-repeat;z-index:0}
 .cv-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,rgba(10,8,9,.92) 0%,rgba(10,8,9,.55) 30%,rgba(10,8,9,0) 58%)}
 .cv-content{position:relative;z-index:1;height:100vh;padding:6vh 6vw;display:flex;flex-direction:column;justify-content:space-between}
 .cv-top{display:flex;justify-content:space-between;align-items:flex-start}
@@ -131,7 +131,7 @@ COVER = """  <!-- ===== 封面 ===== -->
       </div>
       <div class="cv-center">
         <div class="cv-kicker">Design Concept · 2026</div>
-        <div class="cv-logo"><img src="reference/cann-dark-logo.svg" alt="CANN"></div>
+        <div class="cv-logo"><img src="assets/cann-dark-logo.svg" alt="CANN"></div>
         <div class="cv-sub">DesignConcept 2026</div>
         <div class="cv-lead">华为昇腾计算架构 · 开发者体验设计概念</div>
       </div>

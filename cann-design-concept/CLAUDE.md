@@ -19,7 +19,8 @@
 - **用户画像两页已全量上 ramp**（`gray.html` 源里 `.pf-*`/`.pp-*` 共 34 处 font-size 已改 `var(--fs-*)`）：人名(`.pf-sb.head .nm`)→h2，**角色行(`.pf-sb.head .rl`「Senior Operator Engineer·内源团队」)→body**（规范前人名≈18px·角色≈11.5px，故人名落 h2≈16.6、角色落 body≈12 最贴近原始主次；中间试过 sm 偏小、h2 与人名同大显怪，最终 body），区块标题/环形%/统计数字→h3，正文(职责/原声/痛点/场景/期待)→body，标签/小标题/流程标题→sm，字段标签/KPI标签/分段标签→xs。⚠️ 字号 token **也写进了 `gray.html` 自己的 `:root`**（standalone 也能用），build 时统一层再覆盖一遍
 - ⚠️ **`gray.html` 的字号 token 必须保留**：删了会导致 `.pf-*`/`.pp-*` 的 `var(--fs-*)` 失效
 - `covers.html` 封面三程序化方案备选
-- `reference/` 素材：**CANN logo 图片版 `CANNlogo.png`**（已替代手画文字 logo）、cover-bg、竞品截图（cmp-*.jpg）、`Persona.svg`/`Persona.jpg`（画像模板）、`workflow-plan-gantt(1).html`（甘特参考）、**`av/*.svg`（DiceBear notionists 开源头像，CC0，已替代手画简笔头像）**
+- **`assets/` deck 实际用到的素材（进 git，Pages 才有图）**：`CANNlogo.png`（浅底 logo）、`cann-dark-logo.svg`（深底/封面白版 logo）、`cover-bg.png`、竞品截图 `cmp-*.jpg`、`av/*.svg`（DiceBear notionists 头像，CC0）。⚠️ **deck 引用一律走 `assets/…`**，不要再写 `reference/…`
+- **`reference/` 源素材（⛔ 不进 git，已 gitignore，只存本地）**：含华为/第三方版权图（`Persona.svg/jpg` 画像模板、`VOC.jpg`、`workflow-plan-gantt(1).html`、`cann-journey-compare.html` 等参考件）。要新用某个素材时，先 `cp reference/X assets/X` 再在 deck 里引用
 - `lib/` 内联图表库：`echarts.min.js`（Apache-2.0）、`apexcharts.min.js`（MIT）
 
 ## 三基调（写 skill 的核心规则）
