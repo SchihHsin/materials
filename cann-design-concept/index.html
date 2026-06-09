@@ -1552,6 +1552,10 @@ const chapters={
   '1':{h:234,gap:57,sat:95,light:40,spread:35,cint:68,wint:58},
   '2':{h:160,gap:57,sat:95,light:40,spread:35,cint:68,wint:58}
 };
+/* 持久记忆：上次调好的光晕色值（localStorage），下次打开自动恢复 */
+const GLOW_KEY='deck-glow-chapters';
+try{const _sv=localStorage.getItem(GLOW_KEY);if(_sv){const o=JSON.parse(_sv);Object.keys(o).forEach(k=>{if(chapters[k])Object.assign(chapters[k],o[k]);});}}catch(e){}
+function saveChapters(){try{localStorage.setItem(GLOW_KEY,JSON.stringify(chapters));}catch(e){}}
 function curChap(){return chapters[slides[idx].dataset.chapter];}
 const S={h:'s-h',gap:'s-gap',sat:'s-sat',light:'s-light',spread:'s-spread',cint:'s-cint',wint:'s-wint'};
 const V={h:'v-h',gap:'v-gap',sat:'v-sat',light:'v-light',spread:'v-spread',cint:'v-cint',wint:'v-wint'};
@@ -1567,6 +1571,7 @@ function paintSlide(s){
 }
 function apply(){
   slides.forEach(paintSlide);
+  saveChapters();
   const c=curChap(); if(!c) return;
   root.style.setProperty('--glow-h',c.h);
   root.style.setProperty('--glow-h2',(c.h+c.gap)%360);
