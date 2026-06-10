@@ -773,7 +773,7 @@ body{overflow:hidden auto;scroll-snap-type:y mandatory;scroll-behavior:smooth}
 .slide{position:relative;width:100vw;height:100vh;overflow:hidden;font-size:var(--fs-body);scroll-snap-align:start;scroll-snap-stop:always}
 /* ===== 总览缩略图网格（内容按真实 100vw×100vh 渲染再 scale 缩小）===== */
 body.overview{scroll-snap-type:none;background:#15151a;padding:30px 30px 64px}
-body.overview #deck{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;width:auto;max-width:1480px;margin:0 auto}
+body.overview #deck{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;width:auto;max-width:1480px;margin:0 auto;align-items:start}
 /* 缩略框：去内边距/flex 做裁剪框（高度由 JS 按 scale 设）*/
 body.overview .slide{position:relative;width:auto;aspect-ratio:16/9;height:auto;padding:0!important;display:block!important;overflow:hidden;border-radius:12px;cursor:pointer;scroll-snap-align:none;box-shadow:0 12px 34px -14px rgba(0,0,0,.6);outline:2px solid transparent;transition:outline-color .18s,transform .18s}
 body.overview .slide:hover{transform:translateY(-4px);outline-color:var(--accent)}
@@ -1707,7 +1707,9 @@ const ICON_MIN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strok
 function syncFsIcon(){const fs=!!document.fullscreenElement;fsBtn.innerHTML=fs?ICON_MIN:ICON_MAX;fsBtn.title=fs?'退出全屏 F':'全屏 F';}
 function toggleFullscreen(){ if(!document.fullscreenElement){document.documentElement.requestFullscreen().catch(()=>{});}else{document.exitFullscreen();} }
 fsBtn.onclick=toggleFullscreen;
-document.addEventListener('fullscreenchange',syncFsIcon);
+/* 视口尺寸变化(进/出全屏)后 scroll-snap 会停在两页之间 → 重新吸附到当前页 */
+function reanchor(){ if(!document.body.classList.contains('overview')) slides[idx].scrollIntoView({block:'start',behavior:'auto'}); }
+document.addEventListener('fullscreenchange',()=>{syncFsIcon();setTimeout(reanchor,90);});
 syncFsIcon();
 
 /* 总览 Overview：每页包进 .slide-inner 缩放成缩略图，排网格 */
@@ -1717,7 +1719,7 @@ function exitOverview(){slides.forEach(s=>{const w=s.querySelector(':scope>.slid
 function toggleOverview(){ if(document.body.classList.contains('overview')){exitOverview();} else enterOverview(); }
 ovBtn.onclick=toggleOverview;
 document.body.addEventListener('click',e=>{if(!document.body.classList.contains('overview'))return;const sl=e.target.closest('.slide');if(sl){const i=slides.indexOf(sl);if(i>=0){idx=i;exitOverview();}}});
-addEventListener('resize',()=>{if(document.body.classList.contains('overview'))applyOverviewScale();});
+addEventListener('resize',()=>{if(document.body.classList.contains('overview'))applyOverviewScale();else reanchor();});
 
 /* 鼠标移动/滚动时显示控制栏+右侧点，2.5s 后淡出 */
 let hideTimer;
