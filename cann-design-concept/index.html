@@ -1540,7 +1540,7 @@ body.on-dark .nav-dot.active{background:#fff}
 </div>
 
 <!-- glow 调色面板（仅 glow 章节封面页挂载显示）-->
-<div id="panel" class="collapsed">
+<div id="panel" style="display:none" class="collapsed">
   <h4><span>底部光晕调色</span><span class="panel-tools">
     <button id="t-undo" title="撤销"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-2"/></svg></button>
     <button id="t-redo" title="重做"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14 20 9l-5-5"/><path d="M20 9H9a5 5 0 0 0 0 10h2"/></svg></button>
@@ -1561,7 +1561,7 @@ body.on-dark .nav-dot.active{background:#fff}
   <div class="ctrl"><label>白色亮度 WHITE <span class="val" id="v-wint">0.58</span></label><input type="range" id="s-wint" min="0" max="100" value="58"></div>
   <div class="tip">在章节封面设置色值 → 整章（封面 + 所有设计点）统一生效，一章一种渐变。</div>
 </div>
-<button id="toggle" title="调色面板"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="7" x2="20" y2="7"/><circle cx="10" cy="7" r="2.4"/><line x1="4" y1="17" x2="20" y2="17"/><circle cx="15" cy="17" r="2.4"/></svg></button>
+<button id="toggle" style="display:none" title="调色面板"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="7" x2="20" y2="7"/><circle cx="10" cy="7" r="2.4"/><line x1="4" y1="17" x2="20" y2="17"/><circle cx="15" cy="17" r="2.4"/></svg></button>
 
 <nav class="nav-dots" id="navDots"></nav>
 <div class="controls" id="controls">

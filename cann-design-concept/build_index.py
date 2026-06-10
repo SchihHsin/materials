@@ -27,6 +27,10 @@ _w = wtext.split('<div id="deck">', 1)[1].split('<div id="nav">', 1)[0]
 _pstart = _w.index('<div id="panel"')
 glow_slides = _w[:_pstart][:_w[:_pstart].rfind('</div>')]
 glow_panel = _w[_pstart:].rstrip()
+# 兜底：面板/开关内联默认隐藏（只有 JS 在黑底章节封面页才显示），防止漏到封面等页
+glow_panel = (glow_panel
+    .replace('<div id="panel"', '<div id="panel" style="display:none"')
+    .replace('<button id="toggle"', '<button id="toggle" style="display:none"'))
 
 # ---- scope each chapter's .slide rule so bg/padding don't collide ----
 # gray: single base rule
