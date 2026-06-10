@@ -74,18 +74,18 @@ HEAD = """<!DOCTYPE html>
 UNIFY = """
 /* ============ 统一层（置后，覆盖各分册 base / nav / 字体）============ */
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-snap-type:y mandatory;scroll-behavior:smooth}
-/* ⚠️ 必须显式盖掉各分册横向用的 overflow:hidden / height:100% / display:flex，否则还是横排 */
-html,body{width:100%;height:auto;overflow-x:hidden;overflow-y:visible;background:#0c0a0b;color:var(--ink);
+/* 必须显式盖掉各分册横向用的 height/overflow/display */
+html,body{width:100%;height:100%;overflow:hidden;background:#0c0a0b;color:var(--ink);
   font-family:'HarmonyOS Sans SC','Inter','Noto Sans SC',sans-serif;-webkit-font-smoothing:antialiased}
-/* 纵向翻页：原生 scroll-snap，每页 100vh、一屏一页（snap-stop:always，静止不停两页之间）*/
-#deck{position:relative;width:100vw;display:block;height:auto;transform:none;transition:none}
-.slide{position:relative;width:100vw;height:100vh;overflow:hidden;font-size:var(--fs-body);scroll-snap-align:start;scroll-snap-stop:always}
-/* ===== 总览缩略图网格（仿 codearts demo：内容按真实 100vw×100vh 渲染再 scale 缩小）===== */
-body.overview{overflow:auto;height:auto;scroll-snap-type:none;background:#15151a;padding:30px 30px 64px}
-body.overview #deck{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;width:auto;max-width:1480px;margin:0 auto}
-/* 缩略框：去掉本页内边距/flex，纯粹做个裁剪框（高度由 JS 按 scale 设）*/
-body.overview .slide{position:relative;width:auto;height:auto;padding:0!important;display:block!important;overflow:hidden;border-radius:12px;cursor:pointer;scroll-snap-align:none;box-shadow:0 12px 34px -14px rgba(0,0,0,.6);outline:2px solid transparent;transition:outline-color .18s,transform .18s}
+/* 整页切换：所有页叠在一起，只显示当前页（划/翻=切换，绝不会两页同时出现）*/
+#deck{position:fixed;inset:0;width:100vw;height:100vh;display:block;transform:none}
+.slide{position:absolute!important;inset:0;width:100vw;height:100vh;overflow:hidden;font-size:var(--fs-body);opacity:0;visibility:hidden;transition:opacity .35s ease}
+.slide.active{opacity:1;visibility:visible;z-index:1}
+/* ===== 总览缩略图网格（内容按真实 100vw×100vh 渲染再 scale 缩小）===== */
+body.overview{position:fixed;inset:0;overflow-y:auto;height:100vh;background:#15151a;padding:30px 30px 64px}
+body.overview #deck{position:static;display:grid;grid-template-columns:repeat(3,1fr);gap:22px;width:auto;max-width:1480px;margin:0 auto;height:auto}
+/* 缩略框：还原成静态网格项、可见，去内边距/flex（高度由 JS 按 scale 设）*/
+body.overview .slide{position:relative!important;inset:auto;opacity:1!important;visibility:visible!important;width:auto;height:auto;padding:0!important;display:block!important;overflow:hidden;border-radius:12px;cursor:pointer;box-shadow:0 12px 34px -14px rgba(0,0,0,.6);outline:2px solid transparent;transition:outline-color .18s,transform .18s;z-index:auto}
 body.overview .slide:hover{transform:translateY(-4px);outline-color:var(--accent)}
 /* inner 占满真实视口尺寸 + 重建该页内部布局，JS 再 transform:scale 缩小 */
 body.overview .slide-inner{position:absolute;top:0;left:0;width:100vw;height:100vh;transform-origin:top left;overflow:hidden;pointer-events:none;box-sizing:border-box}
@@ -132,9 +132,6 @@ body.on-dark .nav-dot.active{background:#fff}
 .controls button svg{width:17px;height:17px}
 .ctrl-counter{font-family:'JetBrains Mono';font-size:var(--fs-xs);letter-spacing:.1em;min-width:58px;text-align:center;opacity:.8;user-select:none}
 .ctrl-sep{width:1px;height:16px;background:rgba(255,255,255,.2)}
-/* ----- 键位提示（右上，载入后淡出）----- */
-.hint{position:fixed;top:18px;right:18px;z-index:1000;background:rgba(22,25,30,.82);color:#fff;padding:7px 13px;border-radius:8px;font-family:'JetBrains Mono';font-size:var(--fs-xs);letter-spacing:.04em;opacity:0;transition:opacity .3s;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
-.hint.show{opacity:.9}
 /* glow 调色面板/开关：默认隐藏，只有 JS 在黑底章节封面页才显示（防止它挡在封面等页上）*/
 #panel,#toggle{display:none}
 
@@ -184,7 +181,6 @@ SCRIPT = r"""
   <button id="ovBtn" title="概览 O"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></button>
   <button id="fsBtn" title="全屏 F"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M16 21h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg></button>
 </div>
-<div class="hint" id="hint">↑ ↓ ← → / 滚轮 翻页 · O 概览 · F 全屏 · Esc 退出</div>
 
 <script src="lib/echarts.min.js"></script>
 <script>
@@ -281,14 +277,16 @@ document.addEventListener('click',e=>{
   if(panel.style.display==='block') setPanelOpen(false);
 });
 
-/* ===== 纵向翻页 + 右侧点 + 控制栏 + 总览 + 全屏 ===== */
-const navDots=document.getElementById('navDots'), controls=document.getElementById('controls'), hint=document.getElementById('hint'), counter=document.getElementById('counter');
+/* ===== 整页叠层切换（只显示当前页，绝不两页同时）+ 右侧点 + 控制栏 + 总览 + 全屏 ===== */
+const navDots=document.getElementById('navDots'), controls=document.getElementById('controls'), counter=document.getElementById('counter');
 const prevBtn=document.getElementById('prevBtn'), nextBtn=document.getElementById('nextBtn'), ovBtn=document.getElementById('ovBtn'), fsBtn=document.getElementById('fsBtn');
 const pad=n=>String(n).padStart(2,'0');
-const dots=slides.map((s,i)=>{const b=document.createElement('button');b.className='nav-dot';b.title=pad(i+1)+' / '+pad(slides.length);b.onclick=()=>goTo(i);navDots.appendChild(b);return b;});
+const dots=slides.map((s,i)=>{const b=document.createElement('button');b.className='nav-dot';b.title=pad(i+1)+' / '+pad(slides.length);b.onclick=()=>go(i);navDots.appendChild(b);return b;});
 
-function updateCurrent(i){
-  idx=i; const s=slides[idx];
+function show(i){
+  i=Math.max(0,Math.min(slides.length-1,i));
+  if(slides[idx]) slides[idx].classList.remove('active');
+  idx=i; const s=slides[idx]; s.classList.add('active');
   dots.forEach((d,k)=>d.classList.toggle('active',k===idx));
   counter.textContent=pad(idx+1)+' / '+pad(slides.length);
   prevBtn.disabled=idx<=0; nextBtn.disabled=idx>=slides.length-1;
@@ -297,48 +295,55 @@ function updateCurrent(i){
   if(s.dataset.chapter && s.classList.contains('chapter-cover')){ if(panel)s.appendChild(panel); if(toggle){s.appendChild(toggle);toggle.style.display='flex';} setPanelOpen(false); apply(); syncPanel(); }
   else if(toggle){ toggle.style.display='none'; setPanelOpen(false); }
 }
-/* 谁滚进视口 ≥50% 谁就是当前页（滚轮翻 / 跳转都覆盖）*/
-const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting&&e.intersectionRatio>=0.5){const i=slides.indexOf(e.target);if(i>=0&&i!==idx)updateCurrent(i);}});},{threshold:[0.5]});
-slides.forEach(s=>io.observe(s));
-
-function goTo(i){i=Math.max(0,Math.min(slides.length-1,i));slides[i].scrollIntoView({behavior:'smooth',block:'start'});}
-function next(){goTo(idx+1);} function prev(){goTo(idx-1);}
+function go(n){ if(document.body.classList.contains('overview'))return; show(n); }
+function next(){go(idx+1);} function prev(){go(idx-1);}
 prevBtn.onclick=prev; nextBtn.onclick=next;
+
+/* 滚轮/触控板翻页（节流，一次一页）*/
+let wlock=false;
+addEventListener('wheel',e=>{
+  if(document.body.classList.contains('overview'))return;
+  if(wlock||Math.abs(e.deltaY)<8)return;
+  wlock=true;setTimeout(()=>wlock=false,500);
+  go(idx+(e.deltaY>0?1:-1));
+},{passive:true});
+/* 触屏上下滑翻页 */
+let ty=null;
+addEventListener('touchstart',e=>{ty=e.touches[0].clientY;},{passive:true});
+addEventListener('touchend',e=>{if(ty==null||document.body.classList.contains('overview')){ty=null;return;}const dy=e.changedTouches[0].clientY-ty;if(Math.abs(dy)>45)go(idx+(dy<0?1:-1));ty=null;},{passive:true});
 
 document.addEventListener('keydown',e=>{
   if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA')return;
   if(['ArrowDown','ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();next();}
   else if(['ArrowUp','ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();prev();}
-  else if(e.key==='Home'){e.preventDefault();goTo(0);}
-  else if(e.key==='End'){e.preventDefault();goTo(slides.length-1);}
+  else if(e.key==='Home'){e.preventDefault();go(0);}
+  else if(e.key==='End'){e.preventDefault();go(slides.length-1);}
   else if(e.key==='o'||e.key==='O'){toggleOverview();}
   else if(e.key==='f'||e.key==='F'){toggleFullscreen();}
-  else if(e.key==='Escape'){ if(document.body.classList.contains('overview')) exitOverview(); }
+  else if(e.key==='Escape'){ if(document.body.classList.contains('overview')) toggleOverview(); }
 });
 
 /* 全屏 */
 function toggleFullscreen(){ if(!document.fullscreenElement){document.documentElement.requestFullscreen().catch(()=>{});}else{document.exitFullscreen();} }
 fsBtn.onclick=toggleFullscreen;
 
-/* 总览 Overview */
+/* 总览 Overview：每页包进 .slide-inner 缩放成缩略图，排网格 */
 function applyOverviewScale(){if(!document.body.classList.contains('overview'))return;const cellW=slides[0].getBoundingClientRect().width,scale=cellW/window.innerWidth;slides.forEach(s=>{const inner=s.querySelector(':scope>.slide-inner');if(inner)inner.style.transform='scale('+scale+')';s.style.height=(window.innerHeight*scale)+'px';});}
 function enterOverview(){slides.forEach(s=>{if(!s.querySelector(':scope>.slide-inner')){const w=document.createElement('div');w.className='slide-inner';while(s.firstChild)w.appendChild(s.firstChild);s.appendChild(w);}});document.body.classList.add('overview');requestAnimationFrame(applyOverviewScale);}
-function exitOverview(){slides.forEach(s=>{const w=s.querySelector(':scope>.slide-inner');if(w){while(w.firstChild)s.insertBefore(w.firstChild,w);w.remove();}s.style.height='';});document.body.classList.remove('overview');setTimeout(()=>slides[idx].scrollIntoView({block:'start',behavior:'auto'}),20);}
-function toggleOverview(){document.body.classList.contains('overview')?exitOverview():enterOverview();}
+function exitOverview(){slides.forEach(s=>{const w=s.querySelector(':scope>.slide-inner');if(w){while(w.firstChild)s.insertBefore(w.firstChild,w);w.remove();}s.style.height='';});document.body.classList.remove('overview');}
+function toggleOverview(){ if(document.body.classList.contains('overview')){exitOverview();show(idx);} else enterOverview(); }
 ovBtn.onclick=toggleOverview;
-document.body.addEventListener('click',e=>{if(!document.body.classList.contains('overview'))return;const sl=e.target.closest('.slide');if(sl){const i=slides.indexOf(sl);if(i>=0){idx=i;exitOverview();}}});
+document.body.addEventListener('click',e=>{if(!document.body.classList.contains('overview'))return;const sl=e.target.closest('.slide');if(sl){const i=slides.indexOf(sl);if(i>=0){exitOverview();show(i);}}});
 addEventListener('resize',()=>{if(document.body.classList.contains('overview'))applyOverviewScale();});
 
-/* 鼠标移动/滚动时显示控制栏+右侧点，2.5s 后淡出 */
+/* 鼠标移动时显示控制栏+右侧点，2.5s 后淡出 */
 let hideTimer;
 function showCtrl(){controls.classList.add('show');navDots.classList.add('show');clearTimeout(hideTimer);hideTimer=setTimeout(()=>{controls.classList.remove('show');navDots.classList.remove('show');},2500);}
 document.addEventListener('mousemove',showCtrl);
-document.addEventListener('scroll',showCtrl,{passive:true});
 showCtrl();
-setTimeout(()=>{hint.classList.add('show');setTimeout(()=>hint.classList.remove('show'),4200);},500);
 
 slides.forEach(paintSlide);
-updateCurrent(0);
+show(0);
 
 /* ===== gray 简笔头像 ===== */
 const AV_SKIN={light:'#F3D2B0',tan:'#E1B188',brown:'#B97F58',pale:'#F7DEC4'};
