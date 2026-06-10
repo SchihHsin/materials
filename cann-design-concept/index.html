@@ -825,6 +825,8 @@ body.on-dark .nav-dot.active{background:#fff}
 /* ----- 键位提示（右上，载入后淡出）----- */
 .hint{position:fixed;top:18px;right:18px;z-index:1000;background:rgba(22,25,30,.82);color:#fff;padding:7px 13px;border-radius:8px;font-family:'JetBrains Mono';font-size:var(--fs-xs);letter-spacing:.04em;opacity:0;transition:opacity .3s;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
 .hint.show{opacity:.9}
+/* glow 调色面板/开关：默认隐藏，只有 JS 在黑底章节封面页才显示（防止它挡在封面等页上）*/
+#panel,#toggle{display:none}
 
 /* ----- 字号规范落地（统一各页标题/正文层级）----- */
 .brand .ttl{font-size:var(--fs-h1)!important;font-weight:800;letter-spacing:-.01em}
