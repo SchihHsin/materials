@@ -1,0 +1,895 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>盘古训练场景用户研究白皮书（融合版）</title>
+  <link rel="stylesheet" href="./shared.css">
+</head>
+<body>
+  <nav class="topnav">
+    <div class="brand">盘古训练用户研究 · 融合版</div>
+    <div class="navlinks">
+      <a href="#cover">封面</a>
+      <a href="#index">目录</a>
+      <a href="#evidence">样本证据</a>
+      <a href="#stakeholders">角色生态</a>
+      <a href="#personas">用户画像</a>
+      <a href="#journey">端到端旅程</a>
+      <a href="#breakpoints">断裂点</a>
+      <a href="#operator">算子开发</a>
+      <a href="#toolchain">工具链</a>
+      <a href="#training">训练侧</a>
+      <a href="#benchmark">生态基准</a>
+      <a href="#root-causes">深层根因</a>
+      <a href="#actions">改进路线</a>
+      <a href="#future">未来范式</a>
+      <a href="#metrics">验证指标</a>
+      <a href="#detail-appendix">细节附录</a>
+      <a href="#terms">术语表</a>
+    </div>
+  </nav>
+
+  <main>
+    <section class="floor cover-floor" id="cover">
+      <div class="cover-content">
+        <div class="cover-brand">
+          <img src="./CANNlogo.png" alt="CANN" class="cover-logo">
+          <span>Whitepaper · 2026</span>
+        </div>
+        <div>
+          <div class="kicker">User Research · Service Design</div>
+          <h1>盘古训练场景用户研究白皮书（融合版）</h1>
+          <p class="lead">基于两轮用户研究样本，面向盘古训练、算子开发、模型迁移、训练运维与推理优化场景，识别开发者资产、调试工具链、训练可观测性、跨团队协作机制和底层抽象模型的共同失配。</p>
+        </div>
+        <div class="grid cols-4 cover-metrics">
+          <div class="card metric"><strong>15</strong><span>份访谈转录，覆盖训练 Infra、推理优化、整网性能、MDE、PyPTO 与高校训练。</span></div>
+          <div class="card metric"><strong>172+</strong><span>用户问题记录，叠加 18 个访谈文档和 20+ 位新增用户。</span></div>
+          <div class="card metric"><strong>800K+</strong><span>逐字稿字符，用于角色、旅程、断裂点和关键数字交叉核对。</span></div>
+          <div class="card metric"><strong>5</strong><span>P0 主线：可观测性、精度定位、增量编译、可执行资产、主动通知。</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="floor" id="index">
+      <div class="kicker">Index · 阅读路径</div>
+      <h2>从研究证据到改进路线</h2>
+      <p class="lead">本页按读者要做的判断组织：先确认样本口径与新增证据，再定位角色、旅程和十大断裂点，最后落到 P0/P1/P2 产品与工程路线。</p>
+      <div class="index-list">
+        <a class="card index-item" href="#evidence">
+          <span class="pill blue index-num">00</span>
+          <div><b>样本与证据口径</b><p>说明两轮研究样本、可信度分级和新增用户覆盖。</p><small>输出：哪些结论可直接使用，哪些需要原访谈校验。</small></div>
+        </a>
+        <a class="card index-item" href="#stakeholders">
+          <span class="pill blue index-num">01</span>
+          <div><b>角色生态</b><p>拆解研发侧、训练侧、推理性能侧、高校侧、平台运维侧和数据语料侧角色。</p><small>输出：谁受影响、谁交付能力、谁承担支撑。</small></div>
+        </a>
+        <a class="card index-item" href="#personas">
+          <span class="pill blue index-num">02</span>
+          <div><b>关键画像</b><p>覆盖 ASC 算子、算子需求、高校训练、训练 Infra、整网性能和 MDE/算子适配。</p><small>输出：不同用户为什么卡在不同触点。</small></div>
+        </a>
+        <a class="card index-item" href="#journey">
+          <span class="pill blue index-num">03</span>
+          <div><b>端到端旅程</b><p>从需求接入到推理部署，标记每个阶段的接触点与痛点。</p><small>输出：体验问题在全链路上的位置。</small></div>
+        </a>
+        <a class="card index-item" href="#breakpoints">
+          <span class="pill blue index-num">04</span>
+          <div><b>关键断裂点</b><p>聚焦需求传递、工具链断裂、跨团队定位和精度对齐。</p><small>输出：优先级最高的治理对象。</small></div>
+        </a>
+        <a class="card index-item" href="#operator">
+          <span class="pill blue index-num">05</span>
+          <div><b>算子开发深描</b><p>细化 ASC 算子开发的需求、设计、开发、编译、调试、发布环节。</p><small>输出：最直接影响开发效率的约束。</small></div>
+        </a>
+        <a class="card index-item" href="#actions">
+          <span class="pill blue index-num">06</span>
+          <div><b>改进路线</b><p>把深层根因转化为 P0/P1/P2 的工具链、可执行资产、训练中控台和全栈契约方案。</p><small>输出：可进入产品和工程规划的行动项。</small></div>
+        </a>
+        <a class="card index-item" href="#detail-appendix">
+          <span class="pill blue index-num">07</span>
+          <div><b>细节附录</b><p>集中呈现阶段标签、触点、原声、待校验证据和 v3 新增矩阵。</p><small>输出：便于核对的细节索引。</small></div>
+        </a>
+      </div>
+    </section>
+
+    <section class="floor" id="evidence">
+      <div class="kicker">Evidence · 样本与可信度</div>
+      <h2>合并后的样本更广，但证据需要分级使用</h2>
+      <p class="lead">融合口径采用深度分析骨架与扩样本证据叠加的方式。稳定结论进入正文，转写噪声明显或数字口径冲突的内容只作为线索，进入待校验清单。</p>
+      <div class="grid cols-3">
+        <div class="card">
+          <h3>基础样本</h3>
+          <p>访谈录音转文字 8 份，叠加问题清单和 155+ 用户样本；逐字稿约 800K 字符。</p>
+          <div class="pill-row"><span class="pill blue">角色画像</span><span class="pill blue">端到端旅程</span><span class="pill blue">BP-01 到 BP-04</span></div>
+        </div>
+        <div class="card">
+          <h3>扩展样本</h3>
+          <p>15 份访谈转录、172+ 用户问题记录、18 个访谈文档，新增 20+ 位用户，覆盖生产训练、性能分析、推理优化、MDE、语料构建和先导实验。</p>
+          <div class="pill-row"><span class="pill good">万卡成本</span><span class="pill good">Triton 旁路</span><span class="pill good">主动通知</span></div>
+        </div>
+        <div class="card">
+          <h3>证据分级</h3>
+          <p>高可信证据可直接进入结论；中可信证据进入正文但标明来源；待校验证据只作为线索，避免把转写噪声或冲突数字写成强结论。</p>
+          <div class="pill-row"><span class="pill good">高</span><span class="pill warn">中</span><span class="pill hot">待校验</span></div>
+        </div>
+      </div>
+      <table class="detail-table">
+        <thead><tr><th>新增用户</th><th>角色</th><th>场景</th><th>融合用途</th></tr></thead>
+        <tbody>
+          <tr><td>董工</td><td>推理优化工程师</td><td>昇腾云推理优化，约 40 分钟</td><td>推理优化、文档缺失、Torch NPU 体验。</td></tr>
+          <tr><td>庞工</td><td>整网性能分析工程师</td><td>整网性能分析，约 40 分钟</td><td>性能分析、Nsight 对比、概率性精度问题。</td></tr>
+          <tr><td>黄工</td><td>训练框架 Infra 工程师</td><td>模型训练体验，约 45 分钟</td><td>万卡成本、实验管理、Triton 快速验证、任务状态。</td></tr>
+          <tr><td>宋工</td><td>推理系统测试工程师</td><td>测试场景体验，约 30 分钟</td><td>测试与质量保障。</td></tr>
+          <tr><td>王工</td><td>数据算法工程师</td><td>文生 UI 场景，约 45 分钟</td><td>语料、训练任务运维、夜间监控经验。</td></tr>
+          <tr><td>周工</td><td>详细设计工程师（MDE）</td><td>ASC 算子 MDE 体验，约 45 分钟</td><td>精度定位、算子设计、帮助入口。</td></tr>
+          <tr><td>张工</td><td>训练优化工程师</td><td>算子易用性体验，约 45 分钟</td><td>性能拆解耗时、分析工具慢。</td></tr>
+          <tr><td>王工</td><td>算子适配工程师</td><td>算子易用性体验，约 15 分钟</td><td>需求澄清、主线/自定义算子库周期。</td></tr>
+          <tr><td>宁工、何工、许工</td><td>框架开发与团队负责人</td><td>框架开发易用性，约 60 分钟</td><td>框架接口、平台视角和团队管理。</td></tr>
+          <tr><td>包工、潘工、赵工、李工</td><td>模型开发与训推需求拆解</td><td>模型脚本、需求拆解，约 30-45 分钟</td><td>模型开发体验、训推需求流转、脚本迁移。</td></tr>
+          <tr><td>黄工、章工、徐工</td><td>先导实验与语料构建</td><td>先导实验、训练语料构建，约 30-45 分钟</td><td>任务调度、语料构建流程和数据质量。</td></tr>
+        </tbody>
+      </table>
+      <table>
+        <thead><tr><th>待校验信息</th><th>当前风险</th><th>网页使用方式</th></tr></thead>
+        <tbody>
+          <tr><td>12 小时故障损失</td><td>摘要有 24 万，原声片段出现 12 万口径。</td><td>使用“十万到数十万元量级”，不固定单值。</td></tr>
+          <tr><td>实验管理原声</td><td>转写噪声明显。</td><td>只呈现“手动刷网页、Python 脚本、状态通知缺失”的结论。</td></tr>
+          <tr><td>概率问题耗时</td><td>存在“2 周”和其他异常表述。</td><td>正文使用 2 周级别，异常原声待回看。</td></tr>
+          <tr><td>数据爬取 800w 代码仓、28T tokens</td><td>缺上下文。</td><td>作为语料构建线索，不作为强结论。</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="floor" id="stakeholders">
+      <div class="kicker">Stakeholders · 角色生态</div>
+      <h2>盘古训练不是单一用户旅程，而是六类角色共同承担的协作系统</h2>
+      <p class="lead">扩样本后，角色生态从算子与训练扩展到推理性能、平台运维、数据语料和先导实验。断裂通常发生在层与层之间：算子需求不透明、训练状态不可见、性能和精度问题无法跨团队闭环。</p>
+      <div class="grid cols-4">
+        <div class="card metric"><strong>6</strong><span>角色群：研发、训练、推理性能、高校研究、平台运维、数据语料。</span></div>
+        <div class="card metric"><strong>20+</strong><span>扩样本新增用户，把生产训练、性能分析和语料构建纳入视野。</span></div>
+        <div class="card metric"><strong>15h+</strong><span>扩展访谈时长，补足训练 Infra、MDE、先导实验等场景。</span></div>
+        <div class="card metric"><strong>10</strong><span>旅程断裂点，从原有四个扩展到 BP-01 到 BP-10。</span></div>
+      </div>
+      <div class="arch">
+        <div class="arch-layer">
+          <div class="arch-label">用户需求层</div>
+          <div class="arch-boxes">
+            <div class="arch-box">算法工程师<br>训练需求</div>
+            <div class="arch-box">产品经理<br>场景规划</div>
+            <div class="arch-box">高校教师<br>科研需求</div>
+          </div>
+        </div>
+        <div class="arch-layer">
+          <div class="arch-label">需求传递层</div>
+          <div class="arch-boxes">
+            <div class="arch-box">算子需求分析师<br>收集、梳理、优先级评估</div>
+          </div>
+        </div>
+        <div class="arch-layer">
+          <div class="arch-label">能力构建层</div>
+          <div class="arch-boxes">
+            <div class="arch-box">ASC 算子开发<br>底层算子</div>
+            <div class="arch-box">PyPTO 算子开发<br>接口封装</div>
+            <div class="arch-box">框架开发<br>框架适配</div>
+          </div>
+        </div>
+        <div class="arch-layer">
+          <div class="arch-label">平台支撑层</div>
+          <div class="arch-boxes">
+            <div class="arch-box">云平台运维<br>资源管理</div>
+            <div class="arch-box">平台开发<br>平台建设</div>
+            <div class="arch-box">测试验证<br>质量保障</div>
+          </div>
+        </div>
+        <div class="arch-note">关键接触点集中在算子开发 IDE、编译工具链、MS debug、配置文件、日志系统和文档站点。</div>
+      </div>
+      <table>
+        <thead><tr><th>角色群</th><th>典型角色</th><th>核心任务</th><th>主要痛点</th><th>融合机会点</th></tr></thead>
+        <tbody>
+          <tr><td>研发侧</td><td>ASC 算子开发、PyPTO 算子开发、框架开发、MDE</td><td>算子实现、接口封装、框架适配、详细设计</td><td>编译慢、调试难、文档弱、测试和发布复杂</td><td>增量编译、IR 调试、可执行样例库、单一帮助入口。</td></tr>
+          <tr><td>训练侧</td><td>GPU 训练、A5 训练、训练 Infra、训练优化、微调工程师</td><td>模型迁移、分布式训练、训练监控、性能调优</td><td>精度对齐难、实验管理弱、状态感知差、日志分散</td><td>训练任务中控台、主动通知、异常回放、checkpoint 自动评估。</td></tr>
+          <tr><td>推理与性能侧</td><td>推理优化、整网性能分析、推理系统测试</td><td>推理优化、profiling、性能拆解、质量验证</td><td>分析工具弱、无法对比 profiling、概率问题难复现</td><td>profiling diff、数据搬运可视化、rank/step/operator 联动分析。</td></tr>
+          <tr><td>高校/研究机构</td><td>高校教师、研究生</td><td>教学科研、模型训练、平台评估</td><td>学习曲线陡、社区支持弱、文档与样例不足</td><td>迁移向导、教学样例、公开基准、自动精度对齐工具。</td></tr>
+          <tr><td>平台与运维侧</td><td>云平台运维、平台开发、先导实验负责人</td><td>资源调度、任务排队、平台能力建设</td><td>缺少统一视图、无主动通知、手动刷状态</td><td>资源 ETA、任务状态推送、异常告警和日志聚合。</td></tr>
+          <tr><td>数据与语料侧</td><td>数据算法工程师、语料构建工程师</td><td>数据爬取、清洗、标注、质量评估</td><td>数据标准不统一、质量验证工具不足、规模处理慢</td><td>数据质量仪表盘、自动去重、抽检辅助和语料版本管理。</td></tr>
+        </tbody>
+      </table>
+      <table>
+        <thead><tr><th>角色分类</th><th>用户数量</th><th>用户占比</th><th>问题数量</th><th>问题密度</th></tr></thead>
+        <tbody>
+          <tr><td>ASC 算子开发工程师</td><td>8</td><td>5.2%</td><td>54</td><td>高，人均 6.75 个问题</td></tr>
+          <tr><td>PyPTO 算子开发工程师</td><td>6</td><td>3.9%</td><td>26</td><td>中</td></tr>
+          <tr><td>算子需求分析师</td><td>4</td><td>2.6%</td><td>11</td><td>中</td></tr>
+          <tr><td>GPU 模型训练工程师</td><td>13</td><td>8.4%</td><td>73</td><td>高</td></tr>
+          <tr><td>A5 模型训练工程师</td><td>4</td><td>2.6%</td><td>12</td><td>低</td></tr>
+          <tr><td>模型训练微调工程师</td><td>1</td><td>0.6%</td><td>10</td><td>低</td></tr>
+          <tr><td>云平台运维工程师</td><td>1</td><td>0.6%</td><td>5</td><td>低</td></tr>
+          <tr><td>高校教师/教授</td><td>13</td><td>8.4%</td><td>73</td><td>高</td></tr>
+          <tr><td>高校学生/研究生</td><td>1</td><td>0.6%</td><td>1</td><td>极低</td></tr>
+          <tr><td>其他/未分类</td><td>104</td><td>67.1%</td><td>-</td><td>-</td></tr>
+        </tbody>
+      </table>
+      <div class="callout"><b>关键发现：</b>核心研发角色（ASC 算子开发、GPU 训练、高校教师）贡献约 30% 的反馈；问题密度最高的是 ASC 算子开发工程师，人均 6.75 个问题。扩样本进一步显示，训练 Infra、整网性能和数据语料角色把问题从“开发工具难用”推进到“生产训练可观测性和成本治理”。</div>
+    </section>
+
+    <section class="floor" id="personas">
+      <div class="kicker">Personas · 用户画像</div>
+      <h2>关键画像把问题从底层算子拉到万卡训练和推理性能</h2>
+      <p class="lead">画像不是角色标签，而是不同任务负担的集合：算子开发者需要可调试和可迭代，高校训练用户需要迁移与验证，训练 Infra 需要可观测和可恢复，性能分析用户需要 profiling 和精度问题的可复现证据。</p>
+      <div class="grid cols-3 persona-grid">
+        <div class="card persona-card">
+          <img src="./av/role-asc.svg" alt="王工头像" class="avatar">
+          <h3>王工 · ASC 算子开发</h3>
+          <p>代号：王工。5 年以上嵌入式/底层开发经验，技术栈包括 C/C++、CUDA 迁移经验和汇编基础，当前职责是昇腾 Ascend C 算子开发与优化。</p>
+          <ul class="detail-list">
+            <li>目标任务：开发高效、可复用的算子实现；性能达到或接近 CUDA 业界水平；快速定位和解决算子功能/性能问题。</li>
+            <li>痛点：调试困难、编译慢、日志难读、文档缺失；关键词是调试 efficiency、编译时间、算子性能、Tiling 切分。</li>
+          </ul>
+          <blockquote>ASC 其实最困难的一点就是没法调试…A5 上说是有 MS debug，但是其实我们这边人很少有人用。改一行代码，它可能要把整个都编一遍…可能 30~1 个小时。</blockquote>
+        </div>
+        <div class="card persona-card">
+          <img src="./av/role-research.svg" alt="陈工头像" class="avatar">
+          <h3>陈工 · 高校训练</h3>
+          <p>代号：陈工。身份是高校副教授/研究员，研究方向是大模型训练优化、数据增强，技术栈包括 PyTorch、CUDA、transformers，团队规模 10+ 研究生。</p>
+          <ul class="detail-list">
+            <li>目标任务：探索昇腾平台训练能力，评估迁移可行性；指导团队训练实践；教学科研结合，培养昇腾生态人才。</li>
+            <li>痛点：算子开发文档与示例不完整、迁移开发时间长、训练优化与故障排查困难、NPU 与 GPU 精度对齐难。</li>
+          </ul>
+          <blockquote>我们目前这一批是 2000 多条数据，需要把图片、特殊符号抹掉，重复数据要去掉，5%-10% 抽检人工验证。框架进步了但有些功能还没支持好，学习率要是调不准，会出现不收敛。</blockquote>
+        </div>
+        <div class="card persona-card">
+          <img src="./av/role-demand.svg" alt="范工头像" class="avatar">
+          <h3>范工 · 算子需求分析</h3>
+          <p>代号：范工。3-5 年 AI 框架相关经验，当前职责是算子需求收集、梳理、优先级评估，对接算法工程师、框架开发和算子开发。</p>
+          <ul class="detail-list">
+            <li>目标任务：清晰梳理各场景算子需求；评估算子实现优先级；建立算子需求管理流程。</li>
+            <li>痛点：无法快速确认算子是否支持，支持信息散落在代码、文档和内部知识库中，缺乏统一视图。</li>
+          </ul>
+          <blockquote>我怎么能就是说快速的去找到这个算子是不是支持的对吧？当前的话我们之前反正我这边是通过这个算子名字就找代码。实际上我觉得不是很好找，就是东西可能散落在各处。</blockquote>
+        </div>
+        <div class="card persona-card">
+          <img src="./av/role-student.svg" alt="陈工头像" class="avatar">
+          <h3>陈工 · 高校学生</h3>
+          <p>代号：陈工。身份是硕士研究生，研究方向为大模型训练，技术基础是熟练使用 PyTorch、CUDA 编程，当前任务是昇腾平台下的模型训练实践。</p>
+          <ul class="detail-list">
+            <li>目标任务：学习大模型训练技术与昇腾平台使用；探索训练优化方法；完成毕业论文/毕业项目。</li>
+            <li>痛点：学习曲线陡峭、社区支持不足、文档可读性差、配置环境耗时且易出错。</li>
+          </ul>
+          <blockquote>对于一个新手来说，我可能是想知道这个 API 的前因后果…我为什么有这个 API，它一般用在什么场景下？</blockquote>
+        </div>
+        <div class="card persona-card">
+          <h3>黄工 · 训练 Infra</h3>
+          <p>训练框架 Infra 工程师，承担任务提交、资源排队、训练监控、故障定位和实验管理。扩样本显示，他的痛点把研究从单点开发体验推进到万卡级生产训练成本。</p>
+          <ul class="detail-list">
+            <li>目标任务：支撑大规模训练稳定运行，降低中断和定位成本；管理一天数十条任务并追踪训练状态。</li>
+            <li>痛点：万卡训练成本高，任务状态不透明，靠手动刷网页，异常无主动通知，实验管理靠脚本和文件。</li>
+            <li>机会点：训练任务中控台、资源 ETA、IM/邮件通知、异常告警、日志聚合和实验结果图形化对比。</li>
+          </ul>
+          <blockquote>一到两个小时刷一次网页；如果万卡训练出现 AN 或 loss 跑飞，定位效率会直接变成十万到数十万元量级的成本问题。</blockquote>
+        </div>
+        <div class="card persona-card">
+          <h3>庞工 · 整网性能分析</h3>
+          <p>整网性能分析工程师，负责 profiling、性能拆解、算子替换验证和底层数据搬运分析。他的反馈补强了昇腾侧与 Nsight/nsys 的工具差距。</p>
+          <ul class="detail-list">
+            <li>目标任务：定位性能瓶颈、分析整网运行效率、评估替换算子是否真正提升性能。</li>
+            <li>痛点：缺少类似 nsys 的底层数据采集，profiling 对比弱，概率性精度问题难复现，替换算子验证可能跑 1-2 天。</li>
+            <li>机会点：profiling diff、数据搬运量可视化、rank/算子/step 联动分析、概率问题复现包。</li>
+          </ul>
+          <blockquote>nsys 能采集到很多信息，比如数据搬运量；我们缺少这种数据。</blockquote>
+        </div>
+        <div class="card persona-card">
+          <h3>周工 / 王工 · MDE 与算子适配</h3>
+          <p>MDE 与算子适配角色把“算子开发难”进一步拆成详细设计、精度定位、需求澄清、主线发布和自定义算子库节奏问题。</p>
+          <ul class="detail-list">
+            <li>目标任务：完成 ASC 算子详细设计、需求澄清、开发验收和生产替换。</li>
+            <li>痛点：普通精度问题仍需半天到一天人工逐层打印；需求澄清 2-4 周；主线算子开发至少 1 个月，发版跟随 3 个月节奏。</li>
+            <li>机会点：单一帮助入口、精度对比工具、自定义算子库规范化、Triton 到 AscendC 下沉路径。</li>
+          </ul>
+          <blockquote>需求澄清最快两周，踩平到开始开发至少三周到一个月；自定义算子库约 15 天发版，节奏明显不同。</blockquote>
+        </div>
+      </div>
+    </section>
+
+    <section class="floor" id="journey">
+      <div class="kicker">Journey · 端到端链路</div>
+      <h2>全场景旅程的痛点从“接入准备”一路延伸到“部署验证”</h2>
+      <p class="lead">盘古训练体验包含十个阶段。早期的问题是技术选型和环境准备，中段集中在算子开发、编译和调试，训练后段则转向监控、精度对齐、测评和部署。</p>
+      <div class="process-grid">
+        <div><b>01 需求调研</b><span>缺少技术选型指南和算子支持查询。</span></div>
+        <div><b>02 环境搭建</b><span>MS debug 配置复杂，缺少一键验证。</span></div>
+        <div><b>03 算子开发</b><span>Tiling、内存和异步调度缺少方法论。</span></div>
+        <div><b>04 编译构建</b><span>增量编译缺失，等待时间长。</span></div>
+        <div><b>05 调试定位</b><span>高优化等级下源码与汇编映射断裂。</span></div>
+        <div><b>06 数据准备</b><span>数据清洗、抽检和基准数据集获取成本高。</span></div>
+        <div><b>07 训练启动</b><span>分布式配置、混合精度和 checkpoint 策略需要手工处理。</span></div>
+        <div><b>08 训练监控</b><span>loss、设备利用率、NPU 系统日志缺少统一视图。</span></div>
+        <div><b>09 验证测试</b><span>缺少自动化基准对比和统一测评工具。</span></div>
+        <div><b>10 推理部署</b><span>模型转换、多端部署和灰度能力不成体系。</span></div>
+      </div>
+      <table class="detail-table">
+        <thead><tr><th>训练工程师阶段</th><th>用户动作</th><th>当前问题</th><th>影响</th><th>融合机会点</th></tr></thead>
+        <tbody>
+          <tr><td>方案确定</td><td>接收算法侧需求，确定训练性能目标。</td><td>性能指标和算子能力缺少量化参考。</td><td>前期判断依赖经验。</td><td>训练方案评估器、算子支持和性能预测。</td></tr>
+          <tr><td>先导实验</td><td>提交云道作业，等待卡资源。</td><td>排队进度不透明，需要手动刷网页。</td><td>人力浪费，实验节奏不可控。</td><td>队列状态推送、资源 ETA。</td></tr>
+          <tr><td>任务监控</td><td>查看训练日志、loss、资源。</td><td>日志格式混乱，无主动通知。</td><td>夜间盯任务，异常发现晚。</td><td>统一监控、异常告警、IM/邮件通知。</td></tr>
+          <tr><td>问题定位</td><td>处理 AN、loss 溢出、精度异常。</td><td>手动导日志、Python 可视化、逐层打印。</td><td>定位周期长，万卡成本放大。</td><td>自动采集、异常切片、rank 联动。</td></tr>
+          <tr><td>算子需求</td><td>提出算子需求或替换方案。</td><td>需求澄清 2-4 周，主线开发慢。</td><td>影响训练优化节奏。</td><td>算子需求平台、Triton 快速验证。</td></tr>
+          <tr><td>生产训练</td><td>万卡训练拉起与恢复。</td><td>成本约万元/小时级，无简单恢复手段。</td><td>故障损失高。</td><td>分布式快照、自动容错、回放调试。</td></tr>
+        </tbody>
+      </table>
+      <table class="detail-table">
+        <thead><tr><th>阶段</th><th>涉及角色与核心任务</th><th>用户行为序列</th><th>接触点</th><th>痛点与期望</th><th>证据</th></tr></thead>
+        <tbody>
+          <tr><td>需求调研与接入准备</td><td>产品经理、算法工程师、架构师；业务需求转化、场景定义、技术选型评估、昇腾生态调研。</td><td>调研硬件规格与 AI 处理器能力；查看 MindSpore 文档；了解 CANN 软件栈；评估 PyTorch/TF 迁移成本；申请测试环境资源。</td><td>昇腾官网文档、技术选型指南、测试环境申请流程。</td><td>生态文档分散、缺少与主流框架直接对比、测试环境难以快速配置；期望快速了解生态架构、技术栈选择指南和迁移风险评估工具。</td><td>范工希望有一个表能快速确认算子是否支持，而不是通过算子名字找代码。</td></tr>
+          <tr><td>环境搭建与工具链安装</td><td>算法工程师、运维工程师；安装 CANN 软件栈、开发工具，配置编译和调试环境。</td><td>下载 CANN 软件包；安装 SDK 和算子开发工具；配置 MS 调试工具；设置 TbeTools 编译环境；验证环境配置。</td><td>CANN 安装包、安装配置文档、环境验证脚本。</td><td>MS 调试工具配置复杂、依赖冲突处理不友好、缺少一键环境验证；期望一键式安装脚本、版本兼容说明、环境验证工具。</td><td>高校用户反馈希望有一键式验证工具，调试工具安装说明不够详细。</td></tr>
+          <tr><td>ASC 算子开发与代码编写</td><td>ASC 算子开发工程师；使用 Ascend Computing Architecture 编写算子，做 Tiling、内存管理和 agent 设计。</td><td>理解算子逻辑；编写 tiling 切分策略；设计 agent 并行方案；处理 HBM/L1 内存分配；编写异步调度策略。</td><td>CodeArts IDE、CANN 文档、算子示例库。</td><td>Tiling 切分思路不清、缺少自动化参数选择、内存别名和冲突难以预见、异步调度正确性验证困难、文档“文字看得懂，但是不懂意思”；期望方法论、自动化 Tiling、内存布局可视化和常见算子参考实现。</td><td>王工反馈 Tiling 切分真的很难；熊工关注 API 前因后果和字节/32 字节对齐单位差异。</td></tr>
+          <tr><td>算子编译与构建</td><td>ASC 算子开发工程师；编译 ASC 算子代码，生成可执行包并管理编译产物。</td><td>配置编译选项；选择优化等级；执行 tbe 编译命令；管理编译产物；处理编译错误。</td><td>tbe 编译工具、编译产物目录、编译日志。</td><td>增量编译不支持，改 Host 代码 Device 也要重编；编译耗时 30 分钟到 1 小时；一个算子可能生成 460+ 个 .o 文件；期望秒级编译、智能去重和友好错误提示。</td><td>用户反馈“编译慢，加载慢，每次 build 一个完整的包的时候，它都要把 460 多个文件全部都重新再编一次”。</td></tr>
+          <tr><td>算子调试与问题定位</td><td>ASC 算子开发工程师；定位性能、功能正确性和精度问题。</td><td>配置调试环境；设置断点；单步调试执行流；查看变量值；分析性能瓶颈；Memory 检查和分析。</td><td>MS debug 工具、仿真日志、print 调试。</td><td>高优化等级下源码与汇编对应关系丢失、无法断点定位、错误堆栈不完整、几十万行 16 进制日志需手动转换；期望源码级断点、完整堆栈和性能热点定位。</td><td>王工反馈复杂算子日志以几 100000 行为单位，调试效率下降 70%+，日志分析耗时增加 3-5 倍。</td></tr>
+          <tr><td>数据准备与构建</td><td>算法工程师、数据科学家；收集、清洗、标注、构建训练数据集。</td><td>调研业界数据集规格；收集原始数据；清洗和过滤；标注和增强；转换为框架支持格式；数据质量评估。</td><td>数据集管理平台、数据清洗工具、标注工具。</td><td>数据集标准不统一、质量验证工具缺失、大规模数据处理效率低、业界基准数据集获取困难；数据准备占训练周期 50% 以上。</td><td>陈工反馈 2000 多条数据需要去图片、特殊符号、重复数据，并做 5%-10% 抽检。</td></tr>
+          <tr><td>模型训练配置与启动</td><td>算法工程师；配置训练参数、分布式策略并启动训练任务。</td><td>选择预训练模型；配置学习率、batch_size、epoch；设置分布式策略；配置混合精度；设置 checkpoint；启动训练。</td><td>训练配置界面、训练脚本模板、训练启动命令。</td><td>分布式训练配置复杂、缺少一键式启动配置、训练状态可视化不足；期望配置模板、一键启动、自动分布式配置和实时监控。</td><td>陈工反馈配置分布式训练比较麻烦，希望一键式启动；陈工反馈分布式训练要手动指定 master rank。</td></tr>
+          <tr><td>训练监控与问题排查</td><td>算法工程师；监控训练进度、分析 loss 收敛和设备利用率，排查 NPU/GPU 精度对齐问题。</td><td>观察 loss 曲线；监控设备利用率；查看日志；分析梯度异常；排查 NaN/Inf；调整超参数；解决精度对齐。</td><td>训练监控界面、TensorBoard 日志、NPU 系统日志。</td><td>缺少统一监控平台、NPU 与 GPU 精度难对齐、训练中断后恢复困难、日志分散；期望可视化监控、异常检测、性能瓶颈识别、详细诊断和精度对齐工具。</td><td>陈工反馈 loss 大概 600-700 step 开始稳定，单次峰值一般是数据问题；陈工反馈 tensorboard 日志不实时，NPU 报错写入系统日志不直观。</td></tr>
+          <tr><td>模型验证与性能测试</td><td>算法工程师、测试工程师；验证准确率、推理延迟和吞吐量。</td><td>准备验证数据集；运行推理测试；测量延迟和吞吐；对比基线精度；压力测试和稳定性验证。</td><td>验证平台、性能测试工具、基准对比工具。</td><td>缺少标准化测试流程、性能工具集成度低、自动化基准报告缺失；期望标准化性能测试、自动化基准对比、详细性能报告、一键式模型评估。</td><td>陈工反馈收敛前 10%-20% 范围选择避免过拟合，Testset 和 evalset 要分开，测试集约 1%，多个 checkpoint 需逐一测评。</td></tr>
+          <tr><td>推理服务部署</td><td>算法工程师、运维工程师；将模型部署到生产环境，处理移动端、Web 端和服务器形态。</td><td>模型导出转换；配置服务参数；部署到 Android、Web、服务器；服务性能调优；监控服务稳定性。</td><td>模型转换工具、部署平台、服务监控。</td><td>模型转换流程复杂、分布式验证成本高、缺少统一部署平台；期望一键式模型部署、多平台部署支持、服务性能自动调优和灰度发布能力。</td><td>用户反馈还需要考虑安卓手机端各种代码，手机端和超大模型表现仍需处理。</td></tr>
+        </tbody>
+      </table>
+      <div class="callout"><b>旅程判断：</b>算子开发链路是全场景的主阻塞点，因为它决定上游需求能否变成可用能力，也决定训练侧问题能否被快速定位。</div>
+    </section>
+
+    <section class="floor" id="breakpoints">
+      <div class="kicker">Break Points · 关键断裂点</div>
+      <h2>十大断裂点决定体验改进优先级</h2>
+      <p class="lead">断裂点不是投诉条目，而是跨角色协作中无法顺畅交接的系统边界。扩样本后，原有需求、工具链、跨团队和精度问题，进一步延伸出实验管理、性能分析、任务状态和多卡日志问题。</p>
+      <table>
+        <thead><tr><th>BP</th><th>断裂点</th><th>涉及角色</th><th>严重度</th><th>关键影响</th></tr></thead>
+        <tbody>
+          <tr><td>BP-01</td><td>算子需求传递效率低下</td><td>算法、算子需求、算子开发</td><td>高</td><td>需求识别靠人工，算子支持状态难查。</td></tr>
+          <tr><td>BP-02</td><td>算子开发工具链断裂</td><td>ASC、PyPTO、MDE</td><td>严重</td><td>编译、调试、日志、测试全面拖慢。</td></tr>
+          <tr><td>BP-03</td><td>跨团队问题定位困难</td><td>算法、框架、算子、驱动、运维</td><td>高</td><td>Loss、精度、性能问题在团队间转译成本高。</td></tr>
+          <tr><td>BP-04</td><td>NPU 与 GPU 精度对齐困难</td><td>训练、验证、性能分析</td><td>高</td><td>迁移验证和问题定位周期长。</td></tr>
+          <tr><td>BP-05</td><td>实验管理工具缺失</td><td>训练 Infra、先导实验、数据算法</td><td>高</td><td>每日几十个任务靠脚本和人工管理。</td></tr>
+          <tr><td>BP-06</td><td>性能分析链路长</td><td>训练优化、整网性能分析、推理优化</td><td>高</td><td>逐层排查，单次性能拆解 2-3 小时。</td></tr>
+          <tr><td>BP-07</td><td>算子开发流程过长</td><td>算法、SE、算子开发</td><td>高</td><td>需求澄清和主线发版慢，催生旁路。</td></tr>
+          <tr><td>BP-08</td><td>任务状态感知弱</td><td>训练 Infra、运维、数据算法</td><td>高</td><td>手动刷网页，无主动通知。</td></tr>
+          <tr><td>BP-09</td><td>精度/概率问题定位工具缺失</td><td>训练、算子、MDE、性能分析</td><td>严重</td><td>概率问题可拖 2 周以上。</td></tr>
+          <tr><td>BP-10</td><td>多卡问题日志分散</td><td>训练 Infra、运维、性能分析</td><td>中</td><td>几百 rank 日志难聚合，定位困难。</td></tr>
+        </tbody>
+      </table>
+      <div class="grid cols-2 bp-grid">
+        <div class="card breakpoint">
+          <span class="pill hot">BP-01 · 高</span>
+          <h3>算子需求传递效率低下</h3>
+          <p>算子需求从算法工程师到算子开发工程师的传递依赖人工沟通，缺乏统一的需求管理平台，导致需求识别全靠人工。</p>
+          <ul class="detail-list">
+            <li>涉及角色：上游是算法工程师、产品经理；下游是算子需求分析师、算子开发工程师。</li>
+            <li>根本原因：缺少算子需求自动化收集渠道；需求识别依赖人工经验；缺少统一的算子需求管理平台。</li>
+            <li>实际影响：需求传递周期长，需求理解偏差导致返工，算子开发滞后于框架迭代。</li>
+          </ul>
+          <div class="metric-bar"><span>影响用户</span><div class="bar-track"><div class="bar-fill hot-fill" style="width:20.1%"></div></div><b>20.1%</b></div>
+          <small>31/155 用户受到影响。范工反馈当前通过算子名字找代码，难以快速判断支持状态。</small>
+        </div>
+        <div class="card breakpoint critical">
+          <span class="pill hot">BP-02 · 严重</span>
+          <h3>算子开发工具链断裂</h3>
+          <p>MS debug 工具在高优化等级下失效，增量编译不支持，调试和编译环节严重制约开发效率。</p>
+          <ul class="detail-list">
+            <li>涉及角色：ASC 算子开发工程师、PyPTO 算子开发工程师。</li>
+            <li>断裂细节：MS debug 优化等级高时代码与汇编对应关系丢失；改 Host 代码 Device 也要重编；日志工具输出几十万行 16 进制。</li>
+            <li>根本原因：调试工具设计缺陷、编译系统缺少增量检测机制、日志输出格式不友好。</li>
+          </ul>
+          <div class="pill-row">
+            <span class="pill hot">调试效率下降 70%+</span>
+            <span class="pill warn">30-60 分钟/次</span>
+            <span class="pill warn">3-5 倍日志分析耗时</span>
+            <span class="pill warn">460+ .o 文件/算子</span>
+          </div>
+        </div>
+        <div class="card breakpoint">
+          <span class="pill warn">BP-03 · 高</span>
+          <h3>跨团队问题定位困难</h3>
+          <p>Loss 不降或性能异常时，算法、框架、算子和底层驱动之间缺少统一的排查契约，问题在团队边界间来回转换。</p>
+          <div class="tension compact">
+            <div><b>算法侧</b><span>怀疑算子精度</span></div>
+            <div><b>框架侧</b><span>怀疑图优化</span></div>
+            <div><b>算子侧</b><span>怀疑底层指令</span></div>
+          </div>
+        </div>
+        <div class="card breakpoint">
+          <span class="pill warn">BP-04 · 高</span>
+          <h3>NPU 与 GPU 精度对齐困难</h3>
+          <p>训练与验证工程师缺少自动化精度对齐工具，公开榜单、测试集、evalset、checkpoint 选择仍需大量人工判断。</p>
+          <div class="callout"><b>证据：</b>用户反馈需要手动按 100-500 step 间隔保存 checkpoint，并逐一测评选择。</div>
+        </div>
+        <div class="card breakpoint">
+          <span class="pill warn">BP-05 · 高</span>
+          <h3>实验管理工具缺失</h3>
+          <p>训练 Infra 和先导实验用户每日可能管理几十条任务，靠 Python 脚本、文件、网页刷新和人工记录维护实验状态。</p>
+          <ul class="detail-list">
+            <li>影响：队列状态不透明，结果展示多为纯文本日志，实验对比和复盘成本高。</li>
+            <li>机会点：任务列表可视化、实验结果图形化、云道与训练平台数据打通。</li>
+          </ul>
+        </div>
+        <div class="card breakpoint">
+          <span class="pill warn">BP-06 · 高</span>
+          <h3>性能分析链路长</h3>
+          <p>训练优化、整网性能和推理优化用户需要逐层拆解性能瓶颈，底层数据搬运、算子耗时、rank 差异和 profiling 对比能力不足。</p>
+          <div class="pill-row"><span class="pill warn">2-3 小时/次</span><span class="pill blue">profiling diff</span><span class="pill blue">数据搬运量</span></div>
+        </div>
+        <div class="card breakpoint">
+          <span class="pill warn">BP-07 · 高</span>
+          <h3>算子开发流程过长</h3>
+          <p>需求澄清可能 2-4 周，CANN 主线算子开发至少 1 个月，发版跟随 3 个月节奏；用户开始用自定义算子库和 Triton 快速验证绕开主线等待。</p>
+          <div class="callout"><b>路径对比：</b>CANN 主线 6-8 周+，Triton 快速方案 1-2 周+。</div>
+        </div>
+        <div class="card breakpoint">
+          <span class="pill warn">BP-08 · 高</span>
+          <h3>任务状态感知弱</h3>
+          <p>训练任务排队、启动、异常、卡顿、完成等状态缺少主动通知，用户依赖一到两小时刷一次网页。</p>
+          <div class="pill-row"><span class="pill blue">资源 ETA</span><span class="pill blue">状态推送</span><span class="pill hot">夜间告警</span></div>
+        </div>
+        <div class="card breakpoint critical">
+          <span class="pill hot">BP-09 · 严重</span>
+          <h3>精度/概率问题定位工具缺失</h3>
+          <p>概率问题需要复现窗口，普通精度问题也依赖逐层打印；当前排查方式是“小概率 → 确定条件 → 复现场景”，可能拖到 2 周以上。</p>
+          <div class="pill-row"><span class="pill hot">2 周级别</span><span class="pill warn">半天到一天</span><span class="pill warn">1-2 天/次验证</span></div>
+        </div>
+        <div class="card breakpoint">
+          <span class="pill">BP-10 · 中</span>
+          <h3>多卡问题日志分散</h3>
+          <p>几百 rank 的日志分散在不同节点和系统中，人工下载、筛选、聚合成本高，跨团队交接时也缺少统一日志包。</p>
+          <div class="pill-row"><span class="pill blue">rank 聚合</span><span class="pill blue">trace id</span><span class="pill blue">日志包导出</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="floor" id="operator">
+      <div class="kicker">ASC Operator · 细粒度算子开发旅程</div>
+      <h2>算子开发的效率损失集中在设计、编译和调试</h2>
+      <p class="lead">ASC 算子开发不是一个孤立编码任务。需求识别、Tiling 设计、编译产物、调试日志和集成发布组成一条连续链路，其中任一环节断裂都会放大后续成本。</p>
+      <div class="screenshot">
+        <div class="shotbar"><span class="dots"></span>算子开发链路 · 当前阻塞</div>
+        <div class="shotbody flush">
+          <svg viewBox="0 0 1160 430" xmlns="http://www.w3.org/2000/svg" class="whitepaper-svg" style="--svg-width: 980px">
+            <defs>
+              <marker id="arrow" markerWidth="10" markerHeight="8" refX="8" refY="4" orient="auto">
+                <path d="M0,0 L10,4 L0,8 Z" fill="#3b82f6"/>
+              </marker>
+            </defs>
+            <rect x="20" y="28" width="1120" height="360" rx="18" fill="#f8fafc" stroke="#d9e1ec"/>
+            <path d="M116 160 H1016" stroke="#3b82f6" stroke-width="5" marker-end="url(#arrow)"/>
+            <g font-family="Inter, sans-serif" font-size="18" fill="#182033" text-anchor="middle">
+              <g>
+                <rect x="56" y="105" width="150" height="110" rx="12" fill="#fff" stroke="#d9e1ec"/>
+                <text x="131" y="147" font-weight="700">需求分析</text>
+                <text x="131" y="178" font-size="14" fill="#677085">1-3 天</text>
+              </g>
+              <g>
+                <rect x="236" y="105" width="150" height="110" rx="12" fill="#fff" stroke="#d9e1ec"/>
+                <text x="311" y="147" font-weight="700">算子设计</text>
+                <text x="311" y="178" font-size="14" fill="#677085">数周到数月</text>
+              </g>
+              <g>
+                <rect x="416" y="105" width="150" height="110" rx="12" fill="#fff" stroke="#d9e1ec"/>
+                <text x="491" y="147" font-weight="700">开发实现</text>
+                <text x="491" y="178" font-size="14" fill="#677085">3-5 天起</text>
+              </g>
+              <g>
+                <rect x="596" y="88" width="150" height="144" rx="12" fill="#fff7ed" stroke="#fed7aa"/>
+                <text x="671" y="137" font-weight="700">编译构建</text>
+                <text x="671" y="169" font-size="14" fill="#92400e">30-60 分钟</text>
+                <text x="671" y="194" font-size="14" fill="#92400e">460+ .o</text>
+              </g>
+              <g>
+                <rect x="776" y="76" width="150" height="168" rx="12" fill="#fff1f2" stroke="#fecdd3"/>
+                <text x="851" y="132" font-weight="700">调试验证</text>
+                <text x="851" y="164" font-size="14" fill="#9f1239">效率下降 70%+</text>
+                <text x="851" y="189" font-size="14" fill="#9f1239">16 进制日志</text>
+              </g>
+              <g>
+                <rect x="956" y="105" width="150" height="110" rx="12" fill="#fff" stroke="#d9e1ec"/>
+                <text x="1031" y="147" font-weight="700">集成发布</text>
+                <text x="1031" y="178" font-size="14" fill="#677085">流程复杂</text>
+              </g>
+            </g>
+            <g font-family="Inter, sans-serif" font-size="15" fill="#475467">
+              <text x="126" y="292">支持状态分散</text>
+              <text x="286" y="292">Tiling 方法不清</text>
+              <text x="454" y="292">API 意图难理解</text>
+              <text x="635" y="292">缺少增量检测</text>
+              <text x="812" y="292">源码映射断裂</text>
+              <text x="984" y="292">版本兼容复杂</text>
+            </g>
+          </svg>
+        </div>
+        <div class="evidence-caption">主线显示从需求到发布的开发路径；橙色和红色节点代表调研中最强的效率损失环节。</div>
+      </div>
+      <table>
+        <thead><tr><th>阶段</th><th>当前耗时或状态</th><th>期望状态</th><th>主要阻塞因素</th></tr></thead>
+        <tbody>
+          <tr><td>需求分析</td><td>1-3 天</td><td>1 天内明确</td><td>信息分散，缺少统一入口</td></tr>
+          <tr><td>算子设计</td><td>数周到数月</td><td>1-2 周</td><td>设计参考和方法论不足</td></tr>
+          <tr><td>编译构建</td><td>30-60 分钟</td><td>秒级</td><td>不支持增量编译</td></tr>
+          <tr><td>调试验证</td><td>效率下降 70%+</td><td>源码级和 IR 级可定位</td><td>MS debug 高优化失效</td></tr>
+          <tr><td>编译效率差距</td><td>30-60 分钟</td><td>秒级</td><td>约 5000x 的反馈差距</td></tr>
+          <tr><td>全流程</td><td>数周到数月</td><td>1-2 周</td><td>工具链断裂</td></tr>
+        </tbody>
+      </table>
+      <table class="detail-table">
+        <thead><tr><th>细分阶段</th><th>使用工具</th><th>体验现状</th><th>痛点细节</th><th>期望体验</th><th>上下游与效率数据</th></tr></thead>
+        <tbody>
+          <tr><td>算子需求分析与设计</td><td>Excel/Word、Onegraph、内部知识库</td><td>需求来源分散，来自用户反馈、竞品分析、自研需求，依赖人工收集和整理。</td><td>无法快速确认算子是否支持；算子支持信息散落在多处，没有统一总表；缺少系统化需求收集渠道。</td><td>统一的算子信息查询中心、算子支持情况一键查询、需求自动化工具。</td><td>上游为算法工程师提出训练需求，下游传递给算子开发工程师；需求识别与确认 1-3 天，期望 1 天内明确。</td></tr>
+          <tr><td>ASC 算子开发与代码编写</td><td>CodeArts IDE、CANN 文档、算子示例库</td><td>学习曲线陡峭，Tiling 切分等底层概念需要大量 trial and error。</td><td>Tiling 切分思路不清；文档看不懂；参数单位不一致（字节 vs 32 字节对齐）；缺乏自动化 Tiling 参数选择；异步调度正确性验证困难。</td><td>清晰的 Tiling 方法论、自动化参数选择、内存布局可视化指导、常见算子参考实现。</td><td>简单算子 3-5 天，中等复杂度 1-2 周，复杂算子（attention、fusion）2-4 周，新人独立开发第一个算子 2-3 个月。</td></tr>
+          <tr><td>算子编译与构建</td><td>tbe 编译工具、make/gn 编译系统</td><td>编译耗时极长，不支持增量编译，产物冗余严重。</td><td>改 Host 代码 Device 也要重编；编译耗时 30 分钟到 1 小时；一个算子编译出 460+ 个 .o 文件；缺少智能去重机制。</td><td>支持增量编译，只对修改部分重新构建；编译时间控制在秒级；智能编译产物去重；友好错误提示。</td><td>上游接收算子开发完成代码，下游交付调试验证；每次改一行代码都要全量重编。</td></tr>
+          <tr><td>算子调试与问题定位</td><td>MS debug、仿真日志、print 调试</td><td>调试效率极低，MS debug 在高优化等级下失效，依赖 print 和二分法。</td><td>源码与汇编对应关系丢失；无法打断点定位；汇编级调试门槛高；几十万行 16 进制仿真日志需手动转换。</td><td>源代码级别断点调试、高效调试体验、完整错误堆栈、性能热点定位。</td><td>调试效率下降 70%+；日志分析耗时增加 3-5 倍。</td></tr>
+          <tr><td>验证与测试</td><td>测试框架、性能分析工具</td><td>调试工具链不完善，问题定位困难。</td><td>测试框架不支持自定义算子包；缺少细粒度性能分析工具；精度问题排查困难；与 GPU 基线对比工具不足。</td><td>测试框架支持自定义算子；细粒度性能分析工具；自动化精度对齐工具。</td><td>测试验证时间增加 1-2 小时/算子，原因是测试框架不支持自定义算子包。</td></tr>
+          <tr><td>算子集成与发布</td><td>集成平台、版本管理系统</td><td>集成流程复杂，版本管理不清晰。</td><td>集成流程分散、版本兼容性管理复杂、发布周期不可控。</td><td>一键式算子发布流程、自动化集成测试、清晰版本管理。</td><td>人工操作多，容易出错，版本兼容性管理复杂。</td></tr>
+        </tbody>
+      </table>
+      <table>
+        <thead><tr><th>工具链环节</th><th>当前工具</th><th>当前体验</th></tr></thead>
+        <tbody>
+          <tr><td>需求分析</td><td>Excel、Word、Onegraph、内部知识库</td><td>信息散，依赖人工收集和整理。</td></tr>
+          <tr><td>代码开发</td><td>CodeArts IDE、CANN 文档、算子示例库</td><td>文档少，参数理解困难，示例不足。</td></tr>
+          <tr><td>编译构建</td><td>tbe 编译、make/gn 编译系统</td><td>编译慢、不支持增量、产物冗余。</td></tr>
+          <tr><td>调试验证</td><td>MS debug、仿真日志、print 调试</td><td>没法用、问题定位困难、日志查看困难。</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="floor" id="toolchain">
+      <div class="kicker">Toolchain · 工具链证据</div>
+      <h2>工具链问题不是“少一个功能”，而是反馈闭环太长</h2>
+      <p class="lead">编译、调试、日志和测试之间没有形成短反馈循环。开发者修改一行代码后可能触发全量重编，遇到错误后还要在汇编和 16 进制日志中人工定位。</p>
+      <div class="grid cols-3">
+        <div class="card">
+          <h3>编译构建</h3>
+          <p>Host 代码修改也可能触发 Device 端重编；一个算子编译出 460+ 个 .o 文件，其中存在重复内容。</p>
+          <div class="metric-bar"><span>期望差距</span><div class="bar-track"><div class="bar-fill" style="width:92%"></div></div><b>高</b></div>
+        </div>
+        <div class="card">
+          <h3>调试定位</h3>
+          <p>高优化等级下函数结构被展开到汇编指令中，源码行号映射丢失，断点调试失效。</p>
+          <div class="metric-bar"><span>效率损失</span><div class="bar-track"><div class="bar-fill hot-fill" style="width:70%"></div></div><b>70%+</b></div>
+        </div>
+        <div class="card">
+          <h3>日志理解</h3>
+          <p>复杂算子仿真日志以几十万行为单位输出，开发者需要手动转换和比对。</p>
+          <div class="metric-bar"><span>额外耗时</span><div class="bar-track"><div class="bar-fill warn-fill" style="width:68%"></div></div><b>3-5 倍</b></div>
+        </div>
+      </div>
+      <div class="mt">
+        <div class="mtbar"><div class="mdt"></div><span class="mtt">用户原声 · 工具链断裂</span></div>
+        <div class="mb">"改一行代码，它可能要把整个都编一遍…可能 30~1 个小时，就这样很耗时"
+"一个算子编译出 460 多个 .o 文件"
+"优化等级开的比较高的话，函数结构都是没有，最后全都是在一大串汇编指令里面"</div>
+      </div>
+    </section>
+
+    <section class="floor" id="training">
+      <div class="kicker">Training · 训练侧体验</div>
+      <h2>训练用户的核心负担从“迁移、监控、验证”升级为生产成本治理</h2>
+      <p class="lead">高校和微调用户关注数据质量、分布式配置、loss 监控、NPU/GPU 精度对齐和 checkpoint 评估；训练 Infra 用户进一步把问题推到万卡成本、任务状态、异常告警和实验管理。</p>
+      <div class="grid cols-3">
+        <div class="card">
+          <h3>数据与配置</h3>
+          <p>陈工团队反馈一批数据约 2000 多条，需要清除图片、特殊符号和重复数据，并进行 5%-10% 抽检，约 100-200 条人工验证。</p>
+          <div class="callout"><b>训练前负担：</b>数据准备占训练周期 50% 以上，且缺少统一数据质量验证工具。</div>
+        </div>
+        <div class="card">
+          <h3>监控与验证</h3>
+          <p>陈工反馈主要看 loss 曲线判断收敛，600-700 step 开始稳定；如果 loss 波动，需要降低学习率。陈工反馈 checkpoint 需按 100-500 step 间隔保存并逐一测评。</p>
+          <div class="callout"><b>训练后负担：</b>Testset 和 evalset 需要分开，测试集约占 1%，但缺少统一测评工具。</div>
+        </div>
+        <div class="card">
+          <h3>生产训练成本</h3>
+          <p>扩样本显示，万卡训练成本约 2 万元/小时；当 AN、loss 跑飞或任务中断时，定位效率直接影响十万到数十万元量级损失。</p>
+          <div class="callout"><b>训练运维负担：</b>用户靠手动刷网页、下载日志、Python 脚本和人工盯任务维持大规模训练。</div>
+        </div>
+      </div>
+      <div class="tension">
+        <div><b>迁移难</b><span>从 PyTorch/CUDA 到昇腾平台需要重新理解环境、算子支持和框架能力。</span></div>
+        <div><b>状态弱</b><span>任务排队、启动、异常和完成缺少主动通知，用户需要一到两小时刷一次网页。</span></div>
+        <div><b>验证贵</b><span>NPU/GPU 精度对齐、概率问题复现和公开榜单评估依赖人工组合工具。</span></div>
+      </div>
+      <table class="detail-table">
+        <thead><tr><th>扩样本训练证据</th><th>当前记录</th><th>使用口径</th><th>产品含义</th></tr></thead>
+        <tbody>
+          <tr><td>万卡集群训练成本</td><td>约 2 万元/小时</td><td>中可信，可作为成本量级引用。</td><td>异常定位效率应进入业务成本指标。</td></tr>
+          <tr><td>12 小时故障损失</td><td>存在 12 万/24 万口径冲突</td><td>写作时使用“十万到数十万元量级”，待原访谈校验。</td><td>需要故障自动预警、全局训练状态和异常回放。</td></tr>
+          <tr><td>每日实验任务</td><td>一天数十条任务</td><td>中可信，作为实验管理压力证据。</td><td>需要任务列表、状态变更通知和实验结果自动对比。</td></tr>
+          <tr><td>夜间监控</td><td>“熬到下半夜盯任务”</td><td>中可信，用于说明当前运维依赖人工。</td><td>需要夜间托管、异常告警和恢复策略。</td></tr>
+          <tr><td>数据与语料</td><td>800w 代码仓、28T tokens</td><td>缺上下文，作为语料构建线索。</td><td>需要数据质量仪表盘、语料版本和抽检辅助。</td></tr>
+        </tbody>
+      </table>
+      <table class="detail-table">
+        <thead><tr><th>训练侧环节</th><th>核心任务</th><th>痛点矩阵</th><th>用户期望</th><th>用户原声与数字</th></tr></thead>
+        <tbody>
+          <tr><td>数据准备与构建</td><td>收集、清洗、标注、构建训练数据集，转换为框架支持格式并做质量评估。</td><td>数据集标准不统一，需要手动适配；数据质量验证工具缺失；大规模数据处理效率低；缺少业界基准数据集的免费获取途径。</td><td>数据集管理、数据清洗、标注和质量验证工具形成闭环。</td><td>2000 多条数据需要去图片、特殊符号、重复数据；5%-10% 抽检，约 100-200 条人工验证；数据准备占训练周期 50% 以上。</td></tr>
+          <tr><td>训练配置与启动</td><td>选择预训练模型，配置学习率、batch_size、epoch、分布式策略、混合精度和 checkpoint。</td><td>分布式训练配置复杂；缺少一键式启动配置；训练状态可视化不足。</td><td>清晰模型配置模板、一键式启动配置、分布式训练自动配置、训练监控实时可见。</td><td>陈工反馈配置分布式训练比较麻烦，希望有一键式启动配置；陈工反馈学习率调不准会不收敛，分布式训练要手动指定 master rank。</td></tr>
+          <tr><td>训练监控与问题排查</td><td>观察 loss 曲线、设备利用率和日志，排查 NaN/Inf、梯度异常和 NPU/GPU 精度对齐问题。</td><td>缺少统一监控平台；NPU 与 GPU 训练精度难以对齐；训练中断后恢复困难；日志信息分散。</td><td>可视化监控、自动异常检测和报警、性能瓶颈自动识别、详细错误诊断、精度对齐工具。</td><td>loss 大概 600-700 step 开始稳定；单次峰值一般是数据问题；loss 波动要降低学习率；tensorboard 日志不实时，NPU 报错写入系统日志不直观。</td></tr>
+          <tr><td>模型验证与性能测试</td><td>准备验证数据集，运行推理测试，测量延迟和吞吐，对比基线模型精度，做压力测试和稳定性验证。</td><td>缺少标准化测试流程；性能测试工具集成度低；缺少自动化基准对比报告。</td><td>标准化性能测试流程、自动化基准对比、详细性能分析报告、一键式模型评估。</td><td>收敛前 10%-20% 范围选择避免过拟合；跑公开榜单选分数最高的；Testset 和 evalset 要分开；测试集占用约 1%；多个 checkpoint 需逐一测评。</td></tr>
+          <tr><td>推理服务部署</td><td>模型导出转换，配置服务参数，部署到 Android、Web、服务器，做服务性能调优和稳定性监控。</td><td>模型转换流程复杂；分布式验证成本高；缺少统一部署平台。</td><td>一键式模型部署、多平台部署支持、服务性能自动调优、灰度发布能力。</td><td>用户反馈需要考虑安卓手机端的各种代码，手机端和超级大模型表现仍需优化。</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="floor" id="benchmark">
+      <div class="kicker">Benchmark · 生态基准</div>
+      <h2>成熟生态把“安装、观察、定位”做成连续工具体验</h2>
+      <p class="lead">竞品证据主要说明一个方向：成熟工具链不是只有性能分析器，而是把教程、安装、采样、可视化和问题定位连接起来。昇腾当前的问题是这些触点分散。</p>
+      <div class="grid cols-3 image-grid">
+        <div class="screenshot evidence-shot">
+          <div class="shotbar"><span class="dots"></span>NVIDIA Nsight</div>
+          <div class="shotbody flush"><img src="./cmp-nsight.jpg" alt="NVIDIA Nsight Systems 教程截图" class="real-shot"></div>
+          <div class="evidence-caption">教程、工具和性能分析形成连贯入口，降低首次定位成本。</div>
+        </div>
+        <div class="screenshot evidence-shot">
+          <div class="shotbar"><span class="dots"></span>Intel VTune</div>
+          <div class="shotbody flush"><img src="./cmp-vtune.jpg" alt="Intel VTune Profiler 下载截图" class="real-shot"></div>
+          <div class="evidence-caption">下载、安装和 profiler 产品定位在同一链路中呈现。</div>
+        </div>
+        <div class="screenshot evidence-shot">
+          <div class="shotbar"><span class="dots"></span>ROCm Profilers</div>
+          <div class="shotbody flush"><img src="./cmp-rocm-tool.jpg" alt="AMD ROCm profiler 背景截图" class="real-shot"></div>
+          <div class="evidence-caption">以问题导向组织采样、roofline、hardware counters 等工具能力。</div>
+        </div>
+      </div>
+      <table class="cmp-table">
+        <thead><tr><th>维度</th><th>昇腾当前反馈</th><th>成熟生态参照</th><th>改进含义</th></tr></thead>
+        <tbody>
+          <tr><td>技术选型</td><td>文档和算子支持信息散落</td><td>教程和工具入口更集中</td><td>建立算子能力与迁移评估入口</td></tr>
+          <tr><td>编译调试</td><td>增量编译缺失，MS debug 高优化失效</td><td>性能分析和源码定位工具链成熟</td><td>缩短修改、编译、验证循环</td></tr>
+          <tr><td>监控验证</td><td>训练日志、NPU 系统日志、测评工具分散</td><td>统一 profiler 和可视化分析流程</td><td>把训练观测从单点工具升级为工作台</td></tr>
+        </tbody>
+      </table>
+      <table class="cmp-table">
+        <thead><tr><th>阶段</th><th>对比维度</th><th>昇腾</th><th>NVIDIA CUDA / 成熟生态</th><th>补充参照</th></tr></thead>
+        <tbody>
+          <tr><td>需求调研</td><td>技术选型文档</td><td>散落在各处</td><td>完整、系统化</td><td>月之暗面、字节跳动作为业务场景参照。</td></tr>
+          <tr><td>需求调研</td><td>算子支持查询</td><td>需手动查代码</td><td>统一查询工具</td><td>应建立算子支持状态总表。</td></tr>
+          <tr><td>环境搭建</td><td>安装复杂度</td><td>配置复杂</td><td>sudo pip install 即可</td><td>依赖管理成熟，一键检查可用性。</td></tr>
+          <tr><td>环境搭建</td><td>环境验证</td><td>缺少</td><td>nvidia-smi 一键检查</td><td>昇腾需要环境验证脚本。</td></tr>
+          <tr><td>算子开发</td><td>学习曲线</td><td>陡峭，新人 3-6 个月</td><td>相对较低</td><td>Triton 等上层 DSL 降低底层细节暴露。</td></tr>
+          <tr><td>算子开发</td><td>文档可读性</td><td>文字看得懂，意思不懂</td><td>完整示例</td><td>应补 API 前因后果、单位约束和场景解释。</td></tr>
+          <tr><td>编译构建</td><td>编译速度</td><td>30-60 分钟</td><td>秒级</td><td>当前差距可达 5000x。</td></tr>
+          <tr><td>编译构建</td><td>产物管理</td><td>460+ .o 文件</td><td>精简</td><td>需要智能去重与缓存。</td></tr>
+          <tr><td>调试定位</td><td>源码级调试</td><td>MS debug 高优化失效</td><td>原生支持</td><td>Nsight 工具链成熟。</td></tr>
+          <tr><td>训练监控</td><td>统一监控平台</td><td>缺少</td><td>成熟</td><td>日志应直接展示在终端或统一工作台。</td></tr>
+        </tbody>
+      </table>
+      <table class="cmp-table">
+        <thead><tr><th>维度</th><th>NVIDIA/CUDA 侧用户认知</th><th>昇腾/CANN 当前体验</th><th>差距</th><th>来源线索</th></tr></thead>
+        <tbody>
+          <tr><td>生态成熟度</td><td>CUDA 生态积累约 20 年，工具和社区成熟。</td><td>昇腾生态起步较晚，文档和工具仍在补齐。</td><td>严重差距</td><td>陈工</td></tr>
+          <tr><td>状态查看</td><td><code>nvidia-smi</code> 可直接查看设备和任务状态。</td><td>部分场景缺少同等直观入口，需要手动刷网页。</td><td>严重差距</td><td>黄工</td></tr>
+          <tr><td>性能分析</td><td>nsys 能采集算子、数据搬运等底层信息。</td><td>底层数据采集、profiling 对比和解释能力不足。</td><td>严重差距</td><td>庞工</td></tr>
+          <tr><td>工具链完整性</td><td>cuda-memcheck、Nsight 等工具链成熟。</td><td>MS debug 在高优化场景下源码映射弱。</td><td>严重差距</td><td>王工</td></tr>
+          <tr><td>编译效率</td><td>秒级与增量编译体验较好。</td><td>30-60 分钟，增量支持弱。</td><td>严重差距</td><td>王工</td></tr>
+          <tr><td>FP8 支持</td><td>H100 等平台较早成熟。</td><td>A5 代刚支持，生态验证仍需追赶。</td><td>严重差距</td><td>黄工</td></tr>
+          <tr><td>任务监控</td><td>命令行和工具链入口成熟。</td><td>任务状态感知弱，无主动通知。</td><td>严重差距</td><td>黄工</td></tr>
+        </tbody>
+      </table>
+      <div class="callout"><b>战略判断：</b>短期补齐增量编译、调试、日志和状态通知；中期建设可执行算子样例库、精度沙箱和训练任务中控台；长期争夺 MLIR/Triton/高层 DSL 到 Ascend 的稳定后端。</div>
+    </section>
+
+    <section class="floor" id="root-causes">
+      <div class="kicker">Root Causes · 深层根因</div>
+      <h2>真正的系统性问题来自抽象、生态和组织三重错位</h2>
+      <p class="lead">真正的断层，不仅仅是工具难用或文档缺失，而是底层的抽象模型、生态路径与组织阵型出现了错位。报告从组织架构与流程以及昇腾与 CUDA 生态对比的宏观视角，系统性输出改进框架与具体建议。</p>
+      <div class="grid cols-3">
+        <div class="card">
+          <h3>架构与抽象错位</h3>
+          <p>从“透明白盒”到“过度暴露硬件细节”的退化。表象痛点是 Tiling 切分难、MS debug 优化后失效、编译耗时 30-60 分钟。</p>
+          <p>CUDA 的成功抽象是 SIMT，开发者可以用写串行代码的思维去写并发；昇腾底层基于达芬奇架构（DSA/张量级指令），追求计算密度的代价是抽象层太薄，系统强迫算子开发者直接面对 L1/L0 缓存、HBM 搬运、异步 DMA 调度等底层硬件细节。</p>
+          <div class="pill-row"><span class="pill hot">Leaky Abstraction</span><span class="pill warn">软硬协同外溢</span></div>
+        </div>
+        <div class="card">
+          <h3>生态演进路径错位</h3>
+          <p>封闭的“大教堂”与开源的“集市”之间存在差异。NVIDIA 生态经历十几年自下而上发展，Nsight 等工具链是在外部开发者持续使用中成熟的。</p>
+          <p>昇腾生态带有内部视角：编译产物冗余（460+ 个 .o 文件）和不支持增量编译说明底层构建系统没有做到 Host 与 Device 逻辑有效解耦，牺牲了第三方开发者重视的模块化插拔和敏捷试错。</p>
+          <div class="pill-row"><span class="pill hot">大教堂模式</span><span class="pill warn">敏捷试错不足</span></div>
+        </div>
+        <div class="card">
+          <h3>组织与流程错位</h3>
+          <p>组织与流程的“康威定律”投影体现为物理学与软件工程的摩擦。系统架构受组织沟通结构影响，而盘古训练是融合数学（算法/Loss）与物理学（硬件/显存/算力）的端到端工程。</p>
+          <p>现有流水线分工容易导致 Loss 不降时相互归因：算法认为算子精度不够，算子认为框架图优化出错，框架认为硬件底层指令异常。缺少跨越全栈的性能与精度契约。</p>
+          <div class="pill-row"><span class="pill hot">康威定律</span><span class="pill warn">全栈契约缺失</span></div>
+        </div>
+      </div>
+      <div class="callout"><b>根因判断：</b>要解决盘古训练体验问题，不能只补文档或修单点工具，必须同时重构工具反馈闭环、开发者资产形态和跨团队交付契约。</div>
+    </section>
+
+    <section class="floor" id="actions">
+      <div class="kicker">Actions · 改进路线</div>
+      <h2>从修补工具转向重构反馈系统</h2>
+      <p class="lead">融合后的优先级判断是：P0 不应只放在算子开发 IDE 或文档补齐上，而应聚焦可观测性、精度定位、增量编译、可执行开发者资产和任务状态主动通知。</p>
+      <div class="rec-grid">
+        <div class="rec-panel">
+          <h3>工具层：从面向过程调试转向 IR 与沙箱验证</h3>
+          <div class="rec-item"><div class="rec-num">01</div><div><b>彻底解耦 Host 与 Device 编译链</b><span>引入真正的增量编译。改动 Host 控制代码时不应触发 Device 端张量运算代码重编；使用基于 Hash 值的智能缓存构建系统，类似 Bazel，消除冗余 .o 文件生成。</span></div></div>
+          <div class="rec-item"><div class="rec-num">02</div><div><b>引入 MLIR 级别的可调试能力</b><span>放弃在最高优化级别汇编代码中寻找对应关系，在 Graph IR 或算子 IR 层开发可视化调试工具，让开发者看到未被极限优化的中间计算流，并验证 Tiling 逻辑。</span></div></div>
+          <div class="rec-item"><div class="rec-num">03</div><div><b>构建数学等价性自动化沙箱</b><span>输入一组 Tensor，同时在 CPU/GPU 黄金基准和昇腾 NPU 上运行，直接输出误差热力图，将黑盒十六进制数据翻译成可视化精度差异。</span></div></div>
+        </div>
+        <div class="rec-panel">
+          <h3>资产与流程层：从死文档转向活资产</h3>
+          <div class="rec-item"><div class="rec-num">04</div><div><b>Executable Truth 基准库</b><span>文档永远会滞后于代码。为 Matmul、FlashAttention、Reduce 等算子提供可直接 git clone && make run 的极简标杆工程，Tiling 参数、内存预取逻辑、异步调度范式必须开箱即运行。</span></div></div>
+          <div class="rec-item"><div class="rec-num">05</div><div><b>Triton to Ascend 编译器前端</b><span>开发者已经习惯 GPU 生态，强行扭转心智成本高。通过编译器后端让 Python 级代码下发到 A5，将 L1/L0 内存管理交还给 Auto-Tuning 工具。</span></div></div>
+          <div class="rec-item"><div class="rec-num">06</div><div><b>全栈系统架构师与性能精度 SLA</b><span>设立跨越 Python 脚本到底层 CANN 驱动的全栈系统架构师；交接不只是需求文档，还必须包含输入分布、FP16/BF16 精度下限、Inf/NaN 极端值处理和可执行 Unit Test。</span></div></div>
+        </div>
+      </div>
+      <table class="priority-table">
+        <thead><tr><th>优先级</th><th>项目</th><th>目标</th><th>关键动作</th><th>成功指标</th></tr></thead>
+        <tbody>
+          <tr><td>P0-1</td><td>增量编译与编译产物治理</td><td>把 ASC 算子开发从 30-60 分钟等待改为可快速迭代。</td><td>Host/Device 编译链解耦；基于 hash 的缓存构建；重复 .o 文件识别和去重；编译错误结构化提示。</td><td>常规 Host 修改不触发 Device 全量重编；典型算子二次构建耗时下降 80% 以上。</td></tr>
+          <tr><td>P0-2</td><td>精度定位与数学等价性沙箱</td><td>降低 NPU/GPU 精度对齐、概率问题和替换算子验证成本。</td><td>同输入在 CPU/GPU/NPU 自动对比；输出误差热力图和异常样本；记录随机种子、tensor、step、rank、算子链路。</td><td>普通精度问题从半天到一天降至小时级；概率性问题可记录、复放和缩小触发条件。</td></tr>
+          <tr><td>P0-3</td><td>训练任务中控台与主动通知</td><td>解决手动刷网页、夜间盯任务和状态不可见问题。</td><td>展示任务列表、排队状态、资源占用、训练进度、异常状态；支持 IM/邮件/平台通知；提供资源 ETA。</td><td>用户不再需要定时刷新任务状态；关键异常分钟级主动发现。</td></tr>
+          <tr><td>P0-4</td><td>结构化日志与多卡异常聚合</td><td>从分散日志中快速定位异常 rank、异常 step 和异常算子。</td><td>统一 trace id、rank id、step id、operator id；自动聚合多节点日志；异常 rank 高亮；一键日志包导出。</td><td>多卡异常初步定位时间下降 50% 以上；问题交接包标准化。</td></tr>
+        </tbody>
+      </table>
+      <table>
+        <thead><tr><th>阶段</th><th>建设项</th><th>说明</th></tr></thead>
+        <tbody>
+          <tr><td>P1-1</td><td>可执行开发者资产库</td><td>为 Matmul、FlashAttention、Reduce 等关键算子提供最小工程，绑定输入输出、Tiling 策略、性能基线、精度基线、版本和 profiling 报告。</td></tr>
+          <tr><td>P1-2</td><td>算子能力索引和需求管理平台</td><td>按框架、芯片、版本、接口、dtype、shape 范围组织能力矩阵，接入需求提交、评审、优先级和开发状态。</td></tr>
+          <tr><td>P1-3</td><td>Profiling Diff 与性能解释</td><td>支持两次 profiling 结果对比，展示数据搬运量、算子耗时、rank 差异和内存访问，自动提示瓶颈类型。</td></tr>
+          <tr><td>P1-4</td><td>自定义算子库规范化</td><td>定义自定义算子包测试、发布、回滚和版本兼容规范，支持从 Triton 快速方案到 AscendC 主线实现的迁移。</td></tr>
+          <tr><td>P2-1</td><td>MLIR/Triton 到 Ascend 的编译器前端</td><td>开发者不再长期直接管理 L1/L0、HBM 和异步 DMA，由编译器和 auto-tuning 寻找最佳 Tiling 和执行流。</td></tr>
+          <tr><td>P2-2</td><td>AI for AI 自动调优</td><td>引入强化学习、遗传算法或搜索式 auto-tuning，在虚拟沙箱中自动尝试 Tiling、内存排布和执行策略。</td></tr>
+          <tr><td>P2-3</td><td>分布式时光机调试</td><td>面向万卡到多数据中心训练，记录训练集群全局状态快照，支持 NaN、loss 跑飞和异常 rank 的隔离回放。</td></tr>
+          <tr><td>P2-4</td><td>确定性执行与自动容错</td><td>硬件拓扑变化、节点重启、任务恢复不应破坏训练可复现性。</td></tr>
+        </tbody>
+      </table>
+      <table>
+        <thead><tr><th>阶段</th><th>优先动作</th><th>对应断裂点</th><th>预期变化</th></tr></thead>
+        <tbody>
+          <tr><td>短期</td><td>算子支持查询、环境验证脚本、日志转换器</td><td>BP-01、BP-02</td><td>减少信息查找与首次定位成本</td></tr>
+          <tr><td>中期</td><td>增量编译、IR 调试、统一测评工具</td><td>BP-02、BP-04</td><td>缩短开发和训练验证反馈循环</td></tr>
+          <tr><td>长期</td><td>Auto-Tuning、Triton 后端、全栈架构师机制</td><td>BP-02、BP-03</td><td>让底层硬件复杂性逐步从开发者视野中退场</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="floor" id="future">
+      <div class="kicker">Future · 面向未来</div>
+      <h2>未来 3-5 年的目标不是更会调试，而是减少手工调试</h2>
+      <p class="lead">如果把目光投向未来 3 到 5 年甚至更远的大模型算力网络，关键问题不是如何把当前工具做得更好用，而是未来的 AI 开发范式还是否需要这些工具。面向万亿参数训练和异构算力池，盘古生态需要从手工微雕式算子开发转向 AI for AI、硬件无关 IR 和分布式可观测性。</p>
+      <div class="grid cols-3">
+        <div class="card">
+          <h3>演进范式：AI 驱动的自我生成</h3>
+          <p>从“手工微雕”走向“AI 驱动的自我生成 (AI for AI)”。当前最大痛点，如 Tiling 切分难、汇编级调试、性能调优耗时长，本质上是前 AI 时代的手工软件工程模式。</p>
+          <p>未来的算子开发应引入基于强化学习或遗传算法的 Auto-Tuning 编译器前端。开发者只描述输入、输出和数学公式，AI Agent 在虚拟沙箱中成千上万次试错 Tiling、内存排布和执行流。面向“支持 128k 上下文的 FlashAttention”这类需求，系统应自动生成框架代码、配置依赖边界，并在孪生 NPU 模拟器中跑通性能数据。</p>
+          <div class="pill-row"><span class="pill good">Auto-Tuning</span><span class="pill good">RL 编译</span></div>
+        </div>
+        <div class="card">
+          <h3>生态战略：决战中间表示层</h3>
+          <p>昇腾如果永远在对标 CUDA，就会长期处于追赶状态。未来算力生态的竞争不再只是底层硬件指令集，而是编译器中间件的定义权。</p>
+          <p>应全面拥抱并主导硬件无关 DSL，投入 MLIR 和 Triton 昇腾后端，让开发者不必为单一芯片编写专有算子。最高级的开发者体验是无感：NPU 和 GPU 只是算力池中的水和电，JIT 在运行时感知当前分配的是 A5 还是其他芯片并自动下发机器码。</p>
+          <div class="pill-row"><span class="pill blue">MLIR</span><span class="pill blue">Triton</span><span class="pill blue">JIT</span></div>
+        </div>
+        <div class="card">
+          <h3>分布式系统：韧性与可观测性</h3>
+          <p>当前痛点多集中在单卡、单算子调试上。随着盘古大模型走向万亿乃至十万亿参数，训练会横跨多个数据中心和混合异构算力，系统级韧性会成为核心能力。</p>
+          <p>调试应从单点断点升级为分布式时光机观测。当几万张卡在跑时，工具需要记录全局状态快照；Loss 跑飞或某台 NPU 出现 NaN 异常时，自动回滚到前 100 个 Step，将局部数据流隔离并慢放回放。框架还需要提供严格数学确定性，无论硬件拓扑变化或机器重启，都保证运算结果可复现。</p>
+          <div class="pill-row"><span class="pill warn">Time-Travel Debugging</span><span class="pill warn">确定性执行</span></div>
+        </div>
+      </div>
+      <div class="callout"><b>前瞻判断：</b>未来的开发者资产不应只是静态文档，而应是可运行、可验证、可回放的数字孪生沙箱。</div>
+    </section>
+
+    <section class="floor" id="metrics">
+      <div class="kicker">Verification · 验证指标</div>
+      <h2>改进是否有效，要用开发反馈循环来验证</h2>
+      <p class="lead">建议把用户研究中的高频痛点转成可量化指标，持续观察工具链和协作流程是否真正缩短了交付路径。</p>
+      <table>
+        <thead><tr><th>指标</th><th>当前证据</th><th>验证方式</th><th>对应改进</th></tr></thead>
+        <tbody>
+          <tr><td>单次编译反馈时间</td><td>30-60 分钟/次</td><td>记录 Host 修改、Device 修改、全量构建三类耗时</td><td>增量编译与缓存</td></tr>
+          <tr><td>调试定位效率</td><td>调试效率下降 70%+</td><td>统计从错误复现到定位根因的时间</td><td>IR 调试与日志可视化</td></tr>
+          <tr><td>算子需求确认周期</td><td>1-3 天</td><td>从需求提出到支持状态确认的时间</td><td>算子支持查询中心</td></tr>
+          <tr><td>训练异常闭环时间</td><td>loss、NPU 日志、checkpoint 评估分散</td><td>统计从异常发现到精度或配置归因的时间</td><td>统一监控与测评工作台</td></tr>
+          <tr><td>新人首个算子交付周期</td><td>2-3 个月</td><td>记录从环境安装到首个可集成算子的时间</td><td>可执行样例库与学习路径</td></tr>
+          <tr><td>概率问题复现效率</td><td>概率问题可能定位 2 周以上</td><td>统计复现场景捕获率、随机种子记录率和触发条件收敛时间</td><td>数学等价性沙箱与复现包</td></tr>
+          <tr><td>训练任务状态感知</td><td>一到两小时刷一次网页</td><td>统计任务状态主动推送覆盖率、异常告警时延和用户手动刷新次数</td><td>训练任务中控台与主动通知</td></tr>
+          <tr><td>多卡异常定位效率</td><td>几百 rank 日志分散</td><td>统计异常 rank 初筛时间、日志包完整率和跨团队交接次数</td><td>结构化日志与多卡异常聚合</td></tr>
+          <tr><td>性能拆解耗时</td><td>2-3 小时/次</td><td>统计 profiling diff 生成时长和瓶颈解释命中率</td><td>Profiling Diff 与性能解释</td></tr>
+          <tr><td>算子旁路转正周期</td><td>CANN 主线 6-8 周+，Triton 1-2 周+</td><td>记录从快速方案验证到 AscendC 主线实现的周期</td><td>自定义算子库规范化与 Triton 前端</td></tr>
+        </tbody>
+      </table>
+      <div class="callout"><b>管理原则：</b>不要只追踪页面点击或文档阅读量；核心指标应围绕“用户是否更快完成开发、定位、验证和交付”。</div>
+    </section>
+
+    <section class="floor" id="detail-appendix">
+      <div class="kicker">Appendix · 细节核对</div>
+      <h2>容易被摘要化的关键细节</h2>
+      <p class="lead">以下内容汇总研究报告中的细粒度证据，便于从结论回溯到用户原声、阶段触点和具体阻塞。</p>
+      <div class="grid cols-2">
+        <div class="card">
+          <h3>研究概况与角色标签</h3>
+          <ul class="detail-list">
+            <li>数据来源: 访谈录音转文字（8 份）+ 问题清单 Excel（155+ 用户）。</li>
+            <li>访谈时长: 累计 8 小时+，逐字稿 800K+ 字符；分析方法: 服务设计四要素：角色→旅程→触点→洞察。</li>
+            <li>研发侧角色包括 ASC 算子开发工程师、PyPTO 算子开发工程师、算子需求分析师、框架开发工程师。</li>
+            <li>训练侧角色包括 GPU 模型训练工程师、A5 模型训练工程师、模型训练微调工程师。</li>
+            <li>高校/研究机构角色包括高校教师/教授、高校学生/研究生；平台侧角色包括云平台运维工程师。</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>旅程总览与触点标签</h3>
+          <ul class="detail-list">
+            <li>盘古训练场景端到端旅程图：阶段 1 需求分析，阶段 2 环境准备，阶段 3 模型开发，阶段 4 模型训练，阶段 5 验证调优。</li>
+            <li>角色横跨产品/算法、算法/运维、算法/算子和算法；痛点包括需求工具缺失、环境搭建复杂、算子开发门槛高、监控不足、精度对齐难。</li>
+            <li>关键旅程断裂点：BP-01 算子需求传递效率低下，算法↔算子开发，高；BP-02 算子开发工具链断裂，算子开发全流程，严重；BP-03 跨团队问题定位困难，跨角色协作，高；BP-04 NPU 与 GPU 精度对齐困难，训练/验证工程师，高。</li>
+            <li>关键接触点及问题聚集：算子开发 IDE 问题是文档分散，编译工具链问题是编译慢，调试工具 MS 问题是高优化失效；配置文件问题是缺乏模板，日志系统问题是 16 进制，文档站点问题是信息散。</li>
+          </ul>
+        </div>
+      </div>
+      <table class="detail-table">
+        <thead><tr><th>证据类别</th><th>补充细节</th></tr></thead>
+        <tbody>
+          <tr><td>用户画像字段</td><td>王工画像包含 Goals & Tasks、Pain Points、Keywords；技术栈是 C/C++、CUDA（有迁移经验）、汇编基础。陈工关键词是昇腾框架、算子迁移、模型训练、ACL 开发、科研教学。范工关键词是算子支持、需求梳理、算子识别、信息查找。</td></tr>
+          <tr><td>算子需求原声</td><td>“我也不知道，反正我特别想有一个这种表，我能快速的确认是吧…实际上我觉得不是很好找，就是东西可能散落在各处。” “我怎么能快速找到这个算子是不是支持。”</td></tr>
+          <tr><td>算子开发原声</td><td>“希望有一个工具能帮我分析如何切分更优。” “异步调度的正确性验证很困难。” “CUDA 的核心就是 control + data + memory + sync 四个部分，但昇腾的算子开发方式完全不同。”</td></tr>
+          <tr><td>文档理解细节</td><td>“它在肩上，它的这个单位是字节放到 UB 上呢，它的单位又变成了 32 字节对齐的一个一个这么单位…第一看的时候很容易，就是可能就是每个人习惯不一样。很容易漏掉这种细节。”</td></tr>
+          <tr><td>编译与调试原声</td><td>“我们 ASC 这边它是有问题的，Device 侧的代码，就是我就算我没改过 Device 代码，我只把 Host 的代码改了，它 Device 代码它也重编了一份。” “调试效率低，看汇编代码。” “函数的结构都是没有，最后全都是在一个一大串的汇编指令里面，你是很难找到对应的行数对应关系的。”</td></tr>
+          <tr><td>数据准备原声</td><td>“找业界标准数据集来作为参考。” “证明这个数据质量是没问题的。” “证明这批数据的价值它能用来干什么。”</td></tr>
+          <tr><td>训练监控原声</td><td>杜工 - 精度对齐：NPU 与 GPU 训练精度对齐是难点，缺少统一的监控平台。用户期望训练过程的可视化监控、详细的错误诊断信息和 NPU 与 GPU 精度对齐工具。</td></tr>
+          <tr><td>验证与部署原声</td><td>“缺少自动化的基准对比。” “大模型评估成本高。” “就是手机端的，还有一个超级大模型表现不太好。” 部署流程复杂度高，模型转换时间长。</td></tr>
+          <tr><td>工具链全景</td><td>需求分析使用 Excel/Word，代码开发使用 CodeArts IDE，编译构建使用 tbe 编译，调试验证使用 MS debug；对应问题是信息散、文档少、编译慢、没法用。</td></tr>
+          <tr><td>算子旅程阻塞</td><td>算子需求分析→算子设计→算子开发实现→编译构建→调试验证→算子集成发布。阻塞包括需求来源分散、设计参考有限、开发工具门槛高、编译效率低、调试工具不全、集成流程复杂；进一步表现为依赖人工收集、文档散乱、不支持增量、问题定位困难、版本管理复杂。</td></tr>
+          <tr><td>未来路线补充</td><td>从“单点调试”升级为“分布式时光机观测”；确定性执行与自动化容错要求无论硬件拓扑如何变化或机器宕机重启，都像分布式数据库一样保证事务级数据一致性和运算结果可复现。</td></tr>
+        </tbody>
+      </table>
+      <table class="detail-table">
+        <thead><tr><th>v3 核心洞察</th><th>定量证据</th><th>用户线索</th><th>网页处理方式</th></tr></thead>
+        <tbody>
+          <tr><td>生产训练成本压力巨大，工具链可靠性直接影响业务损失。</td><td>万卡集群约 2 万元/小时；12 小时故障损失存在 12 万/24 万口径冲突；每次性能拆解约 2-3 小时。</td><td>黄工、张工、王工。</td><td>固定使用成本量级，不固定冲突单值；突出自动预警和异常回放。</td></tr>
+          <tr><td>精度问题成为算子开发和训练的最大阻塞点。</td><td>概率问题定位 2 周；普通精度问题半天到一天；替换算子验证 1-2 天/次。</td><td>庞工、周工。</td><td>进入 BP-09 与 P0-2，不直接引用噪声原声。</td></tr>
+          <tr><td>AscendC 算子开发周期过长，催生自建算子库生态。</td><td>CANN 主线至少 1 个月、3 个月发版；自定义算子库 1 个月开发、15 天发版；Triton 1-2 周验证。</td><td>黄工、王工。</td><td>进入 BP-07、P1-4 和 P2-1。</td></tr>
+          <tr><td>实验管理工具链空白，人力成本显著。</td><td>每日几十条任务；一到两小时刷一次网页；实验管理工具靠 Python 自写脚本。</td><td>黄工。</td><td>进入 BP-05、BP-08 和 P0-3。</td></tr>
+        </tbody>
+      </table>
+      <table>
+        <thead><tr><th>全局效率矩阵</th><th>当前状态</th><th>期望状态</th><th>影响</th></tr></thead>
+        <tbody>
+          <tr><td>编译耗时</td><td>30-60 分钟/次</td><td>秒级或分钟内</td><td>严重拖慢迭代。</td></tr>
+          <tr><td>编译产物</td><td>460+ .o 文件/算子</td><td>去重、缓存、最小构建</td><td>降低构建和加载成本。</td></tr>
+          <tr><td>日志分析</td><td>增加 3-5 倍耗时</td><td>结构化、可筛选、可回放</td><td>降低定位成本。</td></tr>
+          <tr><td>复杂算子开发</td><td>数周到数月</td><td>1-2 周形成可验证版本</td><td>支撑模型快速迭代。</td></tr>
+          <tr><td>概率问题</td><td>2 周级别</td><td>可记录、可重放、可缩小条件</td><td>提高可复现性。</td></tr>
+          <tr><td>性能拆解</td><td>2-3 小时/次</td><td>自动 profiling diff</td><td>提升优化效率。</td></tr>
+          <tr><td>实验并发</td><td>一天数十条任务</td><td>统一任务中控台</td><td>降低人工管理成本。</td></tr>
+        </tbody>
+      </table>
+      <table class="detail-table">
+        <thead><tr><th>角色痛点补充</th><th>痛点</th><th>严重度</th><th>说明</th></tr></thead>
+        <tbody>
+          <tr><td>训练 Infra（黄工/王工）</td><td>实验管理工具缺失、任务状态感知弱、算子需求流程长、精度对齐困难。</td><td>高</td><td>脚本、网页刷新和人工盯任务支撑生产训练。</td></tr>
+          <tr><td>算子开发/MDE（周工/王工）</td><td>算子开发周期长、精度定位耗时、文档体验差、无单一帮助入口。</td><td>高到严重</td><td>普通精度问题半天到一天，需求澄清和主线周期拖慢交付。</td></tr>
+          <tr><td>推理优化/整网性能（董工/庞工）</td><td>算子文档缺失、MindStudio Insight 缺乏、概率性问题难定位、性能分析工具不足。</td><td>高到严重</td><td>Torch NPU 新算子文档少，profiling 无法直接对比，缺少数据搬运量信息。</td></tr>
+          <tr><td>训练优化（张工）</td><td>性能分析工具慢，算子文档滞后。</td><td>中到高</td><td>analyze 分析慢，最新算子开发动态难获取。</td></tr>
+        </tbody>
+      </table>
+      <div class="callout"><b>一句话结论：</b>盘古训练体验的核心矛盾，是万卡级生产训练、复杂算子开发和跨团队精度/性能定位，仍在依赖面向单点开发的工具、文档和人工流程；下一阶段必须从“补工具”升级为“建设可观测、可验证、可执行、可自动调优的全栈开发与训练系统”。</div>
+    </section>
+
+    <section class="floor" id="terms">
+      <div class="kicker">Glossary · 术语表</div>
+      <h2>术语表</h2>
+      <p class="lead">术语解释用于对齐用户研究、工具链和工程改进讨论中的边界。</p>
+      <table>
+        <thead><tr><th>术语</th><th>说明</th><th>在本报告中的位置</th></tr></thead>
+        <tbody>
+          <tr><td>CANN</td><td>昇腾 AI 软件栈，承载算子开发、编译、运行和工具链能力。</td><td>工具链与生态基准</td></tr>
+          <tr><td>Ascend C / ASC</td><td>用于开发昇腾底层算子的编程方式，开发者需要处理 Tiling、内存和调度细节。</td><td>算子开发旅程</td></tr>
+          <tr><td>PyPTO</td><td>面向算子封装和 Python 接口开发的框架角色。</td><td>角色生态</td></tr>
+          <tr><td>Tiling</td><td>把算子计算拆分为适合硬件缓存和并行执行的块，是 ASC 算子开发中的核心难点。</td><td>算子设计与开发</td></tr>
+          <tr><td>MS debug</td><td>调研中被提到的调试工具，在高优化等级场景下有效性不足。</td><td>断裂点 BP-02</td></tr>
+          <tr><td>TBE</td><td>算子编译相关工具链，用户反馈存在编译慢和产物冗余问题。</td><td>工具链证据</td></tr>
+          <tr><td>HBM / L1 / L0 / UB</td><td>昇腾算子开发中会直接面对的内存层级和 buffer 概念。</td><td>深层根因</td></tr>
+          <tr><td>IR / MLIR</td><td>编译器中间表示层，可用于承载可视化调试、图重写和硬件无关优化。</td><td>改进路线与未来范式</td></tr>
+          <tr><td>Triton</td><td>上层 DSL 生态参照，报告建议加强 Triton to Ascend 编译器前端。</td><td>资产层改进</td></tr>
+          <tr><td>性能与精度 SLA</td><td>跨团队交接契约，包含输入分布、精度下限、极端值处理和可执行测试脚本。</td><td>组织流程层改进</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+</body>
+</html>
