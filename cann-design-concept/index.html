@@ -770,12 +770,17 @@ html,body{width:100%;overflow-x:hidden;background:#0c0a0b;color:var(--ink);
 /* 纵向翻页：原生 scroll-snap，每页 100vh、一屏一页（snap-stop:always，静止不停两页之间）*/
 #deck{position:relative;width:100vw}
 .slide{position:relative;width:100vw;height:100vh;overflow:hidden;font-size:var(--fs-body);scroll-snap-align:start;scroll-snap-stop:always}
-/* 总览缩略图网格 */
+/* ===== 总览缩略图网格（仿 codearts demo：内容按真实 100vw×100vh 渲染再 scale 缩小）===== */
 body.overview{overflow:auto;height:auto;scroll-snap-type:none;background:#15151a;padding:30px 30px 64px}
 body.overview #deck{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;width:auto;max-width:1480px;margin:0 auto}
-body.overview .slide{height:auto;cursor:pointer;scroll-snap-align:none;border-radius:12px;box-shadow:0 12px 34px -14px rgba(0,0,0,.6);outline:2px solid transparent;transition:outline-color .18s,transform .18s}
+/* 缩略框：去掉本页内边距/flex，纯粹做个裁剪框（高度由 JS 按 scale 设）*/
+body.overview .slide{position:relative;width:auto;height:auto;padding:0!important;display:block!important;overflow:hidden;border-radius:12px;cursor:pointer;scroll-snap-align:none;box-shadow:0 12px 34px -14px rgba(0,0,0,.6);outline:2px solid transparent;transition:outline-color .18s,transform .18s}
 body.overview .slide:hover{transform:translateY(-4px);outline-color:var(--accent)}
-body.overview .slide-inner{position:relative;width:100vw;height:100vh;transform-origin:top left;overflow:hidden}
+/* inner 占满真实视口尺寸 + 重建该页内部布局，JS 再 transform:scale 缩小 */
+body.overview .slide-inner{position:absolute;top:0;left:0;width:100vw;height:100vh;transform-origin:top left;overflow:hidden;pointer-events:none;box-sizing:border-box}
+body.overview .s-gray .slide-inner{display:flex;flex-direction:column;padding:5vh 4vw}
+body.overview .s-glow .slide-inner{padding:7vh 6vw}
+body.overview .s-cover .slide-inner{padding:0}
 .s-gray{color:var(--ink)}
 .s-glow,.s-cover{color:#fff}
 
