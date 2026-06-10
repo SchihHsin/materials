@@ -134,6 +134,8 @@ body.on-dark .nav-dot.active{background:#fff}
 .ctrl-sep{width:1px;height:13px;background:rgba(255,255,255,.18)}
 /* glow 调色面板/开关：默认隐藏，只有 JS 在黑底章节封面页才显示（防止它挡在封面等页上）*/
 #panel,#toggle{display:none}
+/* 总览态强制隐藏调色面板/开关（即使 JS 之前把它设成显示）*/
+body.overview #panel,body.overview #toggle{display:none!important}
 
 /* ----- 字号规范落地（统一各页标题/正文层级）----- */
 .brand .ttl{font-size:var(--fs-h1)!important;font-weight:800;letter-spacing:-.01em}
