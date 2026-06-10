@@ -61,6 +61,20 @@ assets/
 
 `assets/` 里的封面图、CANN logo、竞品截图等**仅作排版示例**，用于演示组件效果。**套用到你自己的材料时请替换成自己的素材**；其中第三方产品截图、品牌 logo 版权归各自所有，请勿直接商用或再分发。
 
+## 更新日志
+
+### 2026-06-10 — 翻页与交互大改（对齐参考 demo）
+
+deck 从「横向 `translateX` 受控翻页」改为 **纵向原生 `scroll-snap` 整页翻页**，并补齐概览/全屏交互。`assets/deck-template.html` 与 `build_index.py`（合并版）已同步。
+
+- **纵向 scroll-snap 翻页**：`body` 作滚动容器（`overflow:hidden auto` + `scroll-snap-type:y mandatory`），`.slide` 满屏 + `scroll-snap-align:start;scroll-snap-stop:always`——划动过程短暂见两页、松手自动吸附到整页（不再拦截滚轮做瞬切/淡入）。当前页改由 **`IntersectionObserver`（≥55%）** 判定，`go()`/键盘/导航点统一走 `scrollIntoView`。
+- **键盘**：`↑↓←→` / 空格 / PageUp-Down / Home / End 全支持翻页；`O` 概览、`F` 全屏、`Esc` 退概览。
+- **右侧竖排 `.nav-dots`** + **底部居中控制栏 `#controls`**：控制栏**小而透**、**默认隐藏**，鼠标移到屏幕底部才出现、2.5s 淡出；亮/暗随当前页 `body.on-dark` 自适应。**移除顶部进度条**。
+- **概览 Overview**：缩略图网格按 **当前视窗比例** 缩放（不强制 16:9——窗口非 16:9 时强制 16:9 必然裁边或留缝），每页完整缩小、不裁不留缝；点缩略图跳页。
+- **全屏**：Fullscreen API（`F`），**进入后按钮图标切换为「退出全屏」**；监听 `fullscreenchange`/`resize` 重新吸附当前页（修复改窗口后停在两页之间）。
+- 黑底设计点章节封面的**调色面板**保留，默认 `display:none`、仅在章节封面页出现，`localStorage` 持久记忆；概览中隐藏。
+- 踩坑记录见 `references/deck-architecture.md`（scroll-snap 两个坑、`aspect-ratio` 在带 `height:100vh` 元素上失效等）。
+
 ## License
 
 代码与模板：MIT。示例素材不在此列（见上）。

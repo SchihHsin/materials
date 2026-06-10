@@ -1,16 +1,30 @@
 # Deck 架构与多分册合并
 
-## 单文件 deck 机制
+## 单文件 deck 机制（纵向 scroll-snap）
 
 ```
-#deck   position:fixed; display:flex; width:max-content; transition:transform .8s
-.slide  width:100vw; height:100vh; flex:0 0 100vw
-#nav    底部圆点；go(n) 改 translateX + 切 active；键盘 ← →
+html     scroll-snap-type:y mandatory; scroll-behavior:smooth
+body     滚动容器：height:100%; overflow:hidden auto; scroll-snap-type:y mandatory
+#deck    position:relative; display:block   （各页竖向自然堆叠）
+.slide   width:100vw; height:100vh; overflow:hidden; scroll-snap-align:start; scroll-snap-stop:always
 ```
 
-`go(n)` 三件事：①`deck.style.transform=translateX(-idx*100vw)`；②切 `.dot.active`；③按当前页基调切 `#nav.on-dark`（封面/黑底 = on-dark）。模板 `assets/deck-template.html` 已实现。
+- **翻页 = 原生纵向滚动 + scroll-snap**：每页满屏、强制吸附——划的过程会短暂见两页，松手自动吸附到整页。**不要自己拦截滚轮做「瞬切/淡入」**——淡入会两页叠显、瞬切手感差，原生 snap 最稳，也是参考 demo 的做法。
+- **当前页用 `IntersectionObserver` 判**（谁进视口 ≥55% 谁就是当前页）。别依赖「翻页函数被调用」——原生滚动不经过任何函数。`go(n)`/键盘/点导航点都走 `slides[n].scrollIntoView({behavior:'smooth',block:'start'})`。
+- **底部居中控制栏 `#controls`**：`上一页 / 页码 / 下一页 ｜ 概览 / 全屏`；**要小、要透**（背景 ~`rgba(22,25,30,.42)`、按钮 26px、别抢眼），鼠标移动显隐、2.5s 淡出。右侧竖排 `.nav-dots` 同步显隐。亮/暗随当前页用 **`body.on-dark`** 切换（封面/黑底 = on-dark）。
+- **全屏**：Fullscreen API（`requestFullscreen`/`exitFullscreen`，`F` 键）；监听 `fullscreenchange` 切换按钮图标（全屏 ⛶ ↔ 退出全屏）。
+- 键盘：`↑↓←→` / 空格 / PageUp-Down / Home / End / `O` 概览 / `F` 全屏 / `Esc` 退总览。
+- 页面顺序随时可调：reorder 时记得**同步页码 head-r 的 01/02…**。
 
-页面顺序随时可调：reorder 时记得**同步页码 head-r 的 01/02…**。
+### ⚠️ scroll-snap 的两个坑（都踩过）
+1. **`html,body{overflow:hidden;height:100%}`（各分册横向版自带）会让 snap 失效** → 必须让滚动容器（body）`overflow-y:auto` 且带 `scroll-snap-type:y`，否则停在两页之间。统一层用 `body{overflow:hidden auto;scroll-snap-type:y mandatory}` 盖掉。
+2. **进/出全屏、改窗口后不会自动重新吸附**，会停在两页之间 → 监听 `fullscreenchange`/`resize`，之后 `slides[idx].scrollIntoView({block:'start'})` 重新吸附当前页（`scrollRestoration='manual'` + 进场 `scrollTo(0,0)` 防刷新落在半页）。
+
+### 总览 Overview（缩略图网格）
+- 进入：把每页 children 包进 `.slide-inner`（`position:absolute; width:100vw;height:100vh`，并按基调重建内部布局 `display:flex/padding`，否则 `flex:1` 失父→内容塌成一团）；`body.overview` 把 `#deck` 变 `display:grid`（3 列），`.slide` 变缩略框（`overflow:hidden`）；JS 给 `.slide-inner` 加 `transform:scale(缩略框宽/视口宽)`。
+- **缩略框比例 = 当前视窗比例**（不强制 16:9）：框高 JS 设为 `缩略框宽 × 视口高/视口宽`，inner 左上对齐按宽缩放 → 每页完整缩小、不裁不留缝（精确预览）。
+  - ⚠️ **别强制 16:9**：页面用 `vw/vh`=窗口比例，窗口非 16:9 时强制 16:9 必然「裁边」或「留黑缝」二选一。且 `aspect-ratio:16/9` 在带 `height:100vh` 的 `.slide` 上会被忽略（失效）→ 想要固定比例只能用 `padding-top:%` 写法。
+- 点缩略图跳到该页并退出；`body.overview #panel,#toggle{display:none!important}` 隐藏调色入口（否则它会浮在概览上）。
 
 ## 多分册 → 单 index.html（推荐工作流）
 
@@ -28,8 +42,8 @@
 2. **作用域化每册的 `.slide` 规则**，避免各册底色/内边距互相覆盖：
    - A 册：把 `.slide{...}` 改成 `.slide.s-gray{...}`，section 加 `class="slide s-gray"`。
    - B 册：把该册 CSS 里**所有** `.slide` 替换成 `.slide.s-glow`（连 `.slide .x` 后代选择器一起），section 加 `s-glow`。
-   - 然后提供一个**统一层**（拼在所有分册 CSS 之后，靠"置后 + 必要时 !important"取胜）：统一的 `*` / `html,body`（设鸿蒙字体）/ `#deck` / `.slide` 基础几何 / `#nav`（含 on-dark 变体）/ 字号 ramp 落地。
-3. **脚本合一**：各册都有 `deck/slides/idx/go/nav` 会重复声明 → 只保留**一份** `go()`/nav/keydown；各册的专属逻辑（如图表 init、黑底调色面板）保留但**对不属于它的页面惰性**（用 `data-chapter` 之类判空跳过）。
+   - 然后提供一个**统一层**（拼在所有分册 CSS 之后，靠"置后 + 必要时 !important"取胜）：统一的 `*` / `html,body`（鸿蒙字体 + body 作 scroll-snap 滚动容器）/ `#deck`（竖向块流）/ `.slide`（snap 几何）/ `#controls`·`.nav-dots`（含 `body.on-dark` 变体）/ 总览 CSS / 字号 ramp 落地。⚠️ 各分册自带的横向 `#deck{display:flex}` 和 `html,body{overflow:hidden;height:100%}` 必须被统一层显式盖掉（`#deck{display:block}` + `body{overflow:hidden auto}`），否则会横排/snap 失效。
+3. **脚本合一**：各册都有 `deck/slides/idx` 等会重复声明 → 只保留**一份**当前页机制（IntersectionObserver）+ `go()`(scrollIntoView) + 控制栏/键盘/总览/全屏；各册专属逻辑（图表 init、黑底调色面板）保留但**对不属于它的页面惰性**（用 `data-chapter` 判空跳过）。
 
 ### 字号 token 的坑
 

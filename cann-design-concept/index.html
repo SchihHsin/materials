@@ -1723,12 +1723,10 @@ ovBtn.onclick=toggleOverview;
 document.body.addEventListener('click',e=>{if(!document.body.classList.contains('overview'))return;const sl=e.target.closest('.slide');if(sl){const i=slides.indexOf(sl);if(i>=0){idx=i;exitOverview();}}});
 addEventListener('resize',()=>{if(document.body.classList.contains('overview'))applyOverviewScale();else reanchor();});
 
-/* 鼠标移动/滚动时显示控制栏+右侧点，2.5s 后淡出 */
+/* 默认隐藏控制栏+右侧点；只有鼠标移到屏幕底部区域才出现，离开 2.5s 后淡出 */
 let hideTimer;
 function showCtrl(){controls.classList.add('show');navDots.classList.add('show');clearTimeout(hideTimer);hideTimer=setTimeout(()=>{controls.classList.remove('show');navDots.classList.remove('show');},2500);}
-document.addEventListener('mousemove',showCtrl);
-document.addEventListener('scroll',showCtrl,{passive:true,capture:true});
-showCtrl();
+document.addEventListener('mousemove',e=>{ if(e.clientY>window.innerHeight-130) showCtrl(); });
 
 window.scrollTo(0,0);
 slides.forEach(paintSlide);

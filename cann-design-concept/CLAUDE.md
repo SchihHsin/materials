@@ -3,11 +3,19 @@
 > Claude 自动加载本文件。**详细迭代过程见 `DESIGN-LOG.md`**（人读 / 提炼 skill 用，Claude 不自动读，需要时主动 Read）。
 
 ## 是什么
-华为 **CANN 2026 设计概念汇报 PPT**，单/多文件 HTML 横向翻页 deck，由 UCD CENTER 出品。独立于 `cann-research-ppt`（不进总览聚合页）。仓库 `SchihHsin/materials`，Pages 路径 `…/materials/cann-design-concept/<file>.html`。
+华为 **CANN 2026 设计概念汇报 PPT**，单/多文件 HTML **纵向 scroll-snap 整页翻页** deck（带概览/全屏交互），由 UCD CENTER 出品。独立于 `cann-research-ppt`（不进总览聚合页）。仓库 `SchihHsin/materials`，Pages 路径 `…/materials/cann-design-concept/<file>.html`。
 
 ## 文件
 - **`index.html` 合并版完整 deck（14 页）= 封面 + gray 7 页 + glow 6 页**，统一翻页/导航/字体/字号。⚠️ **由 `build_index.py` 从三个分册自动拼装，不要手改 index.html**——改内容改分册再 `python3 build_index.py` 重生成
-- `build_index.py` 拼装脚本：逐块 verbatim 抽取三分册的 CSS/slide/script → 把各册 `.slide` 作用域化（`.slide.s-gray` / `.slide.s-glow`，避免黑/灰底互相覆盖）→ 全局换 HarmonyOS Sans + 套字号 token → 合成单文件单 `#deck`/单 `go()`/单 nav；glow 调色面板逻辑保留但对非 glow 页惰性（`curChap()` 判 `data-chapter`）
+- `build_index.py` 拼装脚本：逐块 verbatim 抽取三分册的 CSS/slide/script → 把各册 `.slide` 作用域化（`.slide.s-gray` / `.slide.s-glow`，避免黑/灰底互相覆盖）→ 全局换 HarmonyOS Sans + 套字号 token → 合成单文件单 `#deck`/单当前页机制/单 nav；glow 调色面板逻辑保留但对非 glow 页惰性（`curChap()` 判 `data-chapter`）
+
+## 翻页机制（2026-06）：纵向 scroll-snap（对齐参考 demo）
+**已从横向 `translateX` 受控翻页改为纵向原生 `scroll-snap`**，`index.html`（build_index.py 统一层）与 skill 模板 `assets/deck-template.html` 同步。
+- `body` 作滚动容器（`overflow:hidden auto`+`scroll-snap-type:y mandatory`），`#deck{display:block}`，`.slide{height:100vh;scroll-snap-align:start;scroll-snap-stop:always}`——划时短暂两页、松手吸附整页（不再拦截滚轮）。⚠️ 各分册自带的横向 `#deck{display:flex}` 和 `html,body{overflow:hidden;height:100%}` **必须被统一层显式盖掉**，否则横排/snap 失效。
+- 当前页由 **`IntersectionObserver`（≥55%）** 判；`go()`/键盘/导航点走 `scrollIntoView`。键盘 `↑↓←→`/空格/PageUp-Down/Home/End + `O` 概览 / `F` 全屏 / `Esc` 退概览。
+- 右侧竖排 `.nav-dots` + 底部居中 `#controls`（**小/透/默认隐藏**，鼠标移到屏幕底部才现、2.5s 淡出，`body.on-dark` 自适应）。**无顶部进度条**。
+- **概览**：每页 children 包进 `.slide-inner`（按基调重建内部 flex/padding，否则 `flex:1` 失父塌成一团）→ `#deck` 变 grid 3 列；缩略框**按当前视窗比例**缩放（**不强制 16:9**——窗口非 16:9 时强制 16:9 必然裁边或留缝；且 `aspect-ratio:16/9` 在带 `height:100vh` 的 `.slide` 上失效）。`body.overview #panel,#toggle{display:none!important}` 藏调色入口。
+- **全屏**：Fullscreen API，进入后图标切「退出全屏」；监听 `fullscreenchange`/`resize` → `scrollIntoView` 重新吸附当前页（修复改窗口后停两页之间）；`scrollRestoration='manual'`+进场 `scrollTo(0,0)`。
 - `cover.html` 封面（分册源）：2.5D 芯片背景图 `reference/cover-bg.png` + logo/标题
 - `glow.html` 黑底光晕设计点（分册源，章节调色面板）
 - `gray.html` 灰底分析篇 **7 页**（分册源，**当前顺序**：① 用户旅程 ② VOC 墙 ③ 关键指标概览(胶囊) ④ 用户画像·形式一 ⑤ 用户画像·形式二 ⑥ 竞品对照 ⑦ 甘特 roadmap）；页码 head-r 01–07 跟随此顺序
