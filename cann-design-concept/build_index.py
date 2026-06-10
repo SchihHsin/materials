@@ -71,10 +71,11 @@ UNIFY = """
 /* ============ 统一层（置后，覆盖各分册 base / nav / 字体）============ */
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-snap-type:y mandatory;scroll-behavior:smooth}
-html,body{width:100%;overflow-x:hidden;background:#0c0a0b;color:var(--ink);
+/* ⚠️ 必须显式盖掉各分册横向用的 overflow:hidden / height:100% / display:flex，否则还是横排 */
+html,body{width:100%;height:auto;overflow-x:hidden;overflow-y:visible;background:#0c0a0b;color:var(--ink);
   font-family:'HarmonyOS Sans SC','Inter','Noto Sans SC',sans-serif;-webkit-font-smoothing:antialiased}
 /* 纵向翻页：原生 scroll-snap，每页 100vh、一屏一页（snap-stop:always，静止不停两页之间）*/
-#deck{position:relative;width:100vw}
+#deck{position:relative;width:100vw;display:block;height:auto;transform:none;transition:none}
 .slide{position:relative;width:100vw;height:100vh;overflow:hidden;font-size:var(--fs-body);scroll-snap-align:start;scroll-snap-stop:always}
 /* ===== 总览缩略图网格（仿 codearts demo：内容按真实 100vw×100vh 渲染再 scale 缩小）===== */
 body.overview{overflow:auto;height:auto;scroll-snap-type:none;background:#15151a;padding:30px 30px 64px}
