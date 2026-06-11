@@ -6,18 +6,19 @@
 
 > **复用本 skill 时最容易翻车的一步：识别不出用户的大白话对应哪个精调件，于是手搓一个更丑的版本。** 看到下面任一类内容/说法，**别自造排版**——直接翻到对应小节照抄骨架。用户很少说出组件的「学名」（VOC 墙 / 用户旅程…），要靠**意图**命中。
 
-| 用户可能这么说（同义触发词） | 命中的件 | 一句话判据 |
+| 用户可能这么说（中英文均算） | 命中的件 | 一句话判据 |
 |---|---|---|
-| 核心数据 / 关键指标 / 转化率·占比·达成率 / 几个大百分比 / 数据概览 / KPI 概览 | **§1 渐变胶囊指标** | 3 个左右**带进度感的百分比**唱主角 → 多彩胶囊条 |
-| 用户反馈 / 用户声音 / 访谈摘录 / 原声 / 吐槽·评论·语录 / 客户怎么说 / 调研摘要 / 痛点引用 | **§3 VOC 声音墙** | 一堆**长短不一的引用/评论**要陈列 → 瀑布流声音墙 |
-| 全流程 / 端到端体验 / 用户一步步怎么做 / 各阶段 / 触点 / 情绪曲线 / journey / 全链路 / 操作流程的痛点 | **§4 用户旅程** | 内容**按阶段推进**、想看每阶段情绪/痛点 → 6 行旅程网格 |
-| 竞品 / 对手 / 友商 / 同类工具 / 横向对比 / 市面方案 / A vs B vs C / 选型对比 | **§5 竞品对照** | **2~3 个同类产品**摆开比 + 给结论 → 三卡 + 对策条 |
-| persona / 典型用户 / 目标用户长什么样 / 角色画像 / 用户分层 / 用户是谁 | **§6 用户画像**（⚠️二选一） | 刻画**某一类人**（职责/场景/痛点 或 能力维度） |
-| 计划 / 排期 / 时间线 / 路线图 / 里程碑 / Q1Q2 / 阶段规划 / 什么时候上线 / roadmap | **§2 甘特 roadmap** | **带时间轴的条**（谁在哪个区间做） → 浮动甘特条 |
-| 卡片里再附几个小数字 / 补充指标 / 标签+数值 | **§7 KPI 小数字组** | 嵌在别的卡**底部**的紧凑小指标，不独占一页 |
-| 设计理念 / 方案亮点 / 我们的解法 / 核心设计点 / 问题→方案 | **§8 黑底设计点**（基调③） | 讲**方案/主张**，要氛围感 → 黑底光晕 + 渐变标题 |
+| 几个大数字/百分比/转化率/达成率/KPI overview/metrics/数据概览/关键指标/核心数据 | **§1 渐变胶囊指标** | 3 个左右**带进度感的百分比**唱主角 → 多彩胶囊条 |
+| 计划/排期/里程碑/时间线/roadmap/甘特/泳道/sprint/Q1Q2/阶段规划/什么时候上线/路线图 | **§2 甘特 roadmap** | **带时间轴的条**（谁在哪个区间做） → 浮动甘特条 |
+| 用户反馈/原声/吐槽/访谈摘录/语录/VOC/voice of customer/调研摘要/客户怎么说/痛点引用/把这些话整理一下 | **§3 VOC 声音墙** | 一堆**长短不一的引用/评论**要陈列 → 瀑布流声音墙 |
+| 全流程/端到端/各阶段/触点/情绪曲线/journey/journey map/全链路/操作步骤的痛点/用户怎么一步步做/流程断裂点 | **§4 用户旅程** | 内容**按阶段推进**、想看每阶段情绪/痛点 → 行旅程网格 |
+| 竞品/友商/对手/同类工具/横向对比/benchmark/competitive analysis/A vs B/选型/市面方案/竞品矩阵 | **§5 竞品对照** | **2~3 个同类产品**摆开比 + 给结论 → 三卡 + 对策条 |
+| 介绍某个用户/他是谁/他的日常/角色特征/职责场景痛点/persona/用户画像/用户是谁（**单人深描**） | **§6a 用户画像·形式一** | 讲清楚**一个人**的全貌 → 左栏人物 + 右侧多区 |
+| 几类用户有什么不同/角色对比/各角色的敏感程度/能力维度对比/radar/雷达图/多角色对照（**多人对比**） | **§6b 用户画像·形式二** | 展示**多人在若干维度的差异** → 顶栏 + 雷达图 |
+| 卡片底部补几个小数字/附加指标/标签+数值/secondary KPI | **§7 KPI 小数字组** | 嵌在别的卡**底部**，不独占一页 |
+| 设计理念/方案亮点/解法/核心设计点/问题→方案/design concept/我们的答案是 | **§8 黑底设计点** | 讲**方案/主张**，要氛围感 → 黑底光晕 + 渐变标题 |
 
-判不准时，按「这页主体是什么」选：**数字**→§1，**引用堆**→§3，**分阶段**→§4，**多产品比**→§5，**讲人**→§6，**时间轴**→§2，**讲方案主张**→§8。命中后照抄该节骨架，只改文案/配色，别另起炉灶。
+判不准时，按主体：**数字进度**→§1，**时间轴**→§2，**引用堆**→§3，**分阶段流程**→§4，**多产品比**→§5，**讲一个人**→§6a，**多人维度对比**→§6b，**讲方案**→§8。命中后翻到该节，照抄骨架 + 参考填充示例，只改文案/配色。
 
 ## 0. 封面 + logo（默认件）· ⛔ 标题前不放图标
 
@@ -48,6 +49,49 @@
 - `.stat-pills{display:flex;gap:5px;height:6vh}` `.stat-pill{border-radius:999px;flex-shrink:0}`
 - `.stat-num` 是 **Inter 200（极细）超大数字**（`min(8.4vw,13.8vh)`），属 bespoke 展示数字，不进 ramp。
 - 三列分别用不同色谱（粉→橙→黄 / 绿→青→蓝 / 蓝→紫→红），别用同一种色。⚠️ 这是用户精调过的件，直接抄别另造单色填充条。
+
+### 填充示例（三列真实内容参照）
+
+```html
+<div class="stat-grid">
+  <!-- 列1：粉→橙→黄色谱，指标=编译效率差距 -->
+  <div class="stat-col">
+    <div class="stat-bar-area">
+      <div class="stat-marks"><span>秒级</span><span class="stat-tri" style="left:92%">▼</span><span>30-60 min</span></div>
+      <div class="stat-pills">
+        <div class="stat-pill" style="flex:92;background:linear-gradient(90deg,#FF6B9D,#FF9340)"></div>
+        <div class="stat-pill" style="flex:8;background:linear-gradient(90deg,#FF9340,#FFE040)"></div>
+      </div>
+    </div>
+    <div class="stat-num">5000<span class="u">×</span></div>
+    <div class="stat-desc">编译耗时与 CUDA 秒级编译的差距。改一行代码要全量重编，不支持增量。</div>
+  </div>
+  <!-- 列2：绿→青→蓝色谱，指标=调试效率损失 -->
+  <div class="stat-col">
+    <div class="stat-bar-area">
+      <div class="stat-marks"><span>正常</span><span class="stat-tri" style="left:70%">▼</span><span>-70%</span></div>
+      <div class="stat-pills">
+        <div class="stat-pill" style="flex:70;background:linear-gradient(90deg,#23CFA0,#45D65A)"></div>
+        <div class="stat-pill" style="flex:30;background:linear-gradient(90deg,#45D65A,#667EEA)"></div>
+      </div>
+    </div>
+    <div class="stat-num">-70<span class="u">%</span></div>
+    <div class="stat-desc">高优化模式下断点失效，调试效率损失约 70%，只能靠日志。</div>
+  </div>
+  <!-- 列3：蓝→紫→红色谱，指标=日志膨胀倍数 -->
+  <div class="stat-col">
+    <div class="stat-bar-area">
+      <div class="stat-marks"><span>1×</span><span class="stat-tri" style="left:80%">▼</span><span>5×</span></div>
+      <div class="stat-pills">
+        <div class="stat-pill" style="flex:80;background:linear-gradient(90deg,#667EEA,#A78BFA)"></div>
+        <div class="stat-pill" style="flex:20;background:linear-gradient(90deg,#A78BFA,#FF5A6E)"></div>
+      </div>
+    </div>
+    <div class="stat-num">3-5<span class="u">×</span></div>
+    <div class="stat-desc">错误日志体积比 CUDA 膨胀 3-5 倍，十几万行 16 进制难以定位。</div>
+  </div>
+</div>
+```
 
 ## 2. 甘特 roadmap（精调模板之一）
 
@@ -115,6 +159,34 @@
 
 - **泳道靠 `top` 错开**（每条约 12% 间距），**时间轴靠 `left/width`**，全用 `%` — 改窗口自适应。
 - 条型语义：`dark`=已完成/主线，`white`=支撑/并行，`accent`=关键路径/重点交付。
+
+### 填充示例（设计工作 roadmap 参照）
+
+```html
+<div class="rm-pad">
+  <div class="rm-date" style="left:6%">2月</div>
+  <div class="rm-date" style="left:25%">3月</div>
+  <div class="rm-date" style="left:44%">4月</div>
+  <div class="rm-date" style="left:63%">5月</div>
+  <div class="rm-date" style="left:82%">6月</div>
+
+  <div class="rm-now-pill" style="left:40%">Now</div>
+  <div class="rm-now-tri"  style="left:40%"></div>
+  <div class="rm-now-line" style="left:40%"></div>
+
+  <div class="rm-bar dark"   style="left:5%;width:21%;top:13%"><span class="lbl">用户研究 &amp; VOC</span><span class="rm-badge">25 天</span></div>
+  <div class="rm-bar white"  style="left:11%;width:14%;top:26%"><span class="lbl">竞品调研</span><span class="rm-badge">10 天</span></div>
+  <div class="rm-bar white"  style="left:25%;width:16%;top:38%"><span class="lbl">设计概念定义</span><span class="rm-badge">12 天</span></div>
+  <div class="rm-bar dark"   style="left:39%;width:25%;top:26%"><span class="lbl">交互式文档 &amp; 成长地图</span><span class="rm-badge">20 天</span></div>
+  <div class="rm-bar accent" style="left:50%;width:26%;top:50%"><span class="lbl">Profiling 看板（关键路径）</span><span class="rm-badge">30 天</span></div>
+  <div class="rm-bar accent" style="left:58%;width:28%;top:38%"><span class="lbl">算子开发向导</span><span class="rm-badge">28 天</span></div>
+  <div class="rm-bar white"  style="left:70%;width:16%;top:62%"><span class="lbl">智能错误诊断</span><span class="rm-badge">12 天</span></div>
+  <div class="rm-bar dark"   style="left:83%;width:14%;top:50%"><span class="lbl">联调 &amp; 灰度发布</span><span class="rm-badge">10 天</span></div>
+
+  <div class="rm-diamond" style="left:41%;top:74%"></div>
+  <div class="rm-ms"      style="left:44%;top:73.5%">设计定稿 · 转入开发</div>
+</div>
+```
 
 ## 3. VOC / 用户声音墙
 
@@ -206,6 +278,56 @@
 
 - **卡型多样化**是 VOC 墙的精髓：同一页混用普通/大引号/深色/左右布局，避免视觉单调。
 - 头像用 **DiceBear notionists** 生成 SVG（CC0）存本地 `av/`，`beardProbability=0`，`backgroundColor` 跟页面底色。
+
+### 填充示例（4 种卡型混排参照）
+
+```html
+<div class="voc-wall">
+  <!-- 普通卡 -->
+  <div class="voc-card">
+    <div class="voc-q">Profiling 看板能直接点到瓶颈算子，比翻日志定位快太多了。</div>
+    <div class="voc-meta">
+      <div class="voc-ava"><img src="av/role-asc.svg" alt=""></div>
+      <div><div class="voc-nm">陈工 · 框架开发</div><div class="voc-rl">AI 平台 · 5 年</div></div>
+    </div>
+  </div>
+  <!-- 深色高亮卡（最核心原声）-->
+  <div class="voc-card hl">
+    <div class="qm open">"</div>
+    <div class="voc-q">ASC 最困难的一点就是没法调试，高优化下断点全失效。</div>
+    <div class="voc-meta">
+      <div class="voc-ava"><img src="av/role-asc.svg" alt=""></div>
+      <div><div class="voc-nm">王工 · ASC 算子开发</div><div class="voc-rl">芯片厂商 · 4 年</div></div>
+    </div>
+  </div>
+  <!-- 左头像右文字卡 -->
+  <div class="voc-card lr">
+    <div class="voc-ava"><img src="av/role-research.svg" alt=""></div>
+    <div>
+      <div class="voc-q">学习率调不准会出现不收敛，NPU/GPU 精度对齐比想象中难。</div>
+      <div style="display:flex;gap:.5vw;align-items:center;margin-top:.8vh">
+        <span class="voc-nm">陈工 · 高校训练</span><span class="voc-rl">研究机构</span>
+      </div>
+    </div>
+  </div>
+  <!-- 灰块衬底卡 -->
+  <div class="voc-card soft">
+    <div class="voc-q boxed">如果环境能一键拉起、版本自动对齐，复现实验就不再是噩梦。</div>
+    <div class="voc-meta">
+      <div class="voc-ava"><img src="av/role-student.svg" alt=""></div>
+      <div><div class="voc-nm">熊工 · 高校学生</div><div class="voc-rl">硕士在读</div></div>
+    </div>
+  </div>
+  <!-- accent 强调卡（次核心，用于第二重要结论）-->
+  <div class="voc-card accent">
+    <div class="voc-q">很多内容只能口口相传，新人完全靠问老人。</div>
+    <div class="voc-meta">
+      <div class="voc-ava"><img src="av/dongguyin.svg" alt=""></div>
+      <div><div class="voc-nm">董工 · 推理优化</div><div class="voc-rl">云推理 · 3 年</div></div>
+    </div>
+  </div>
+</div>
+```
 
 ## 4. 用户旅程（全链路）
 
@@ -299,6 +421,56 @@
 - 痛点用**红色**（`#C0344A`），机会点用**绿色**（`#1E9E6A`）——色义固定，别乱换。
 - 底部 `.journey-voc` 是**跨列全宽**的原声引用，选用（有代表性原声时才加）。
 
+### 填充示例（5 阶段算子开发旅程参照）
+
+```html
+<div class="body-area">
+  <div style="display:flex;flex-direction:column;gap:.7vh;flex:1;min-height:0">
+    <!-- 阶段行 -->
+    <div class="jn-r jn-cols">
+      <div class="jn-stage"><div class="s">准备接入</div><div class="e">PREPARE</div></div>
+      <div class="jn-stage"><div class="s">环境搭建</div><div class="e">SETUP</div></div>
+      <div class="jn-stage"><div class="s">算子开发·编译</div><div class="e">DEVELOP</div></div>
+      <div class="jn-stage"><div class="s">调试定位</div><div class="e">DEBUG</div></div>
+      <div class="jn-stage"><div class="s">训练·验证调优</div><div class="e">TUNE</div></div>
+    </div>
+    <!-- 触点行 -->
+    <div class="jn-rl">触点</div>
+    <div class="jn-r jn-cols">
+      <div class="jn-touch">昇腾官网文档 · 选型指南（缺）</div>
+      <div class="jn-touch">CANN 安装包 · MS 调试工具</div>
+      <div class="jn-touch">CodeArts IDE · tbe 编译</div>
+      <div class="jn-touch">MS debug · 仿真日志</div>
+      <div class="jn-touch">训练监控 · TensorBoard · NPU 日志</div>
+    </div>
+    <!-- 情绪曲线（ECharts，可选）-->
+    <div class="jn-emo"><div id="emochart"></div></div>
+    <!-- 痛点行 -->
+    <div class="jn-rl">痛点</div>
+    <div class="jn-r jn-cols">
+      <div class="jn-pain">文档分散，<b>无法快速确认算子是否支持</b></div>
+      <div class="jn-pain">MS 调试配置复杂，<b>缺一键环境验证</b></div>
+      <div class="jn-pain"><b>编译 30-60 分钟</b>，不支持增量</div>
+      <div class="jn-pain"><b>高优化下无法打断点</b>，十几万行 16 进制日志</div>
+      <div class="jn-pain"><b>NPU/GPU 精度对齐难</b>，监控分散</div>
+    </div>
+    <!-- 机会点行 -->
+    <div class="jn-r jn-cols">
+      <div class="jn-opp"><b>机会：</b>统一算子查询总表</div>
+      <div class="jn-opp"><b>机会：</b>一键安装与验证脚本</div>
+      <div class="jn-opp"><b>机会：</b>增量编译 + 智能去重</div>
+      <div class="jn-opp"><b>机会：</b>IR 级可视化调试</div>
+      <div class="jn-opp"><b>机会：</b>自动精度对齐与误差热力图</div>
+    </div>
+    <!-- 底部原声（可选）-->
+    <div class="journey-voc">
+      <div class="q">「<b>ASC 最困难的一点就是没法调试</b>」——问题集中在编译与调试两段，且互相放大</div>
+      <div class="who">王工 · ASC 算子开发</div>
+    </div>
+  </div>
+</div>
+```
+
 ## 5. 竞品对照
 
 ### CSS 骨架
@@ -356,10 +528,43 @@
 - `.cmp.focus` 给「我方产品」或「最值得关注的对标」加蓝色高亮边框。
 - 竞品 = **同类工具横比 + 对策结论**，通常不把自家产品列进对比卡，而是放在对策条里给结论。
 
-## 6. 用户画像（两种排版 · ⚠️【二选一】）
+### 填充示例（性能分析工具三家对比参照）
 
-> - **形式一**（左栏人物 + 右侧多区）：单一画像深描、信息量大、无外部依赖 → **优先选**。
-> - **形式二**（顶栏 + 三栏 + 雷达）：偏能力维度对比、需要雷达图 → **需 ECharts**。
+```html
+<div class="body-area" style="flex-direction:column">
+  <div class="compare">
+    <div class="cmp">
+      <div class="cmp-body">
+        <div class="cmp-h"><span class="hk">Timeline 标杆</span>时间线 + 源码跳转，新手零门槛</div>
+        <div class="cmp-desc">以 <b>CPU/GPU 统一时间线</b>为核心，框选即缩放、定位瓶颈算子，<b>事件→源码一键跳转</b>，配合完善教程体系，几乎零学习成本。</div>
+      </div>
+      <div class="cmp-img"><img src="cmp-nsight.jpg" alt="Nsight"><div class="cmp-cap">NVIDIA Nsight Systems</div></div>
+    </div>
+    <div class="cmp">
+      <div class="cmp-body">
+        <div class="cmp-h"><span class="hk">归因深度</span>逐层下钻，瓶颈归因到微架构</div>
+        <div class="cmp-desc">多种分析类型，热点可<b>逐层下钻</b>，<b>微架构级瓶颈归因</b>直指根因，向导式配置让调优<b>有据可依、不靠猜测</b>。</div>
+      </div>
+      <div class="cmp-img"><img src="cmp-vtune.jpg" alt="VTune"><div class="cmp-cap">Intel VTune Profiler</div></div>
+    </div>
+    <div class="cmp">
+      <div class="cmp-body">
+        <div class="cmp-h"><span class="hk">开放协作</span>开源 Web 化，trace 浏览器可分享</div>
+        <div class="cmp-desc">走<b>开源 + Web 化</b>路线，trace 导出 Perfetto 在浏览器查看与<b>分享</b>，天然适合<b>团队协作与远程复现</b>。</div>
+      </div>
+      <div class="cmp-img"><img src="cmp-rocm-tool.jpg" alt="rocprof"><div class="cmp-cap">AMD rocprof / Omnitrace</div></div>
+    </div>
+  </div>
+  <div class="verdict">
+    <span class="vk">对策</span>
+    <span class="vv">CANN Profiling 看板应对标三家共性——<b>统一时间线 + 一键瓶颈定位 + Web 化可视化</b>，并补齐<b>事件→源码跳转</b>与浏览器端 trace 分享，把命令行门槛降下来。</span>
+  </div>
+</div>
+```
+
+## 6a. 用户画像·形式一（左栏人物 + 右侧多区）
+
+> **触发**：「介绍某个用户」「他是谁/他的日常/职责场景痛点」「persona」—— **单人深描**，优先选此形式，无外部依赖。
 
 ### 形式一 CSS 骨架
 
@@ -433,12 +638,61 @@
 </div>
 ```
 
-### 形式二（顶栏 + 三栏 + ECharts 雷达）
+### 填充示例（算子工程师画像参照）
 
-文字描述为主，需 ECharts。结构：
-- **顶栏**：人物卡（头像+姓名+角色）/ conic 环形大图 / 期待/目标文字块 — 三等分 grid。
+```html
+<div class="body-area">
+  <div class="pf-row">
+    <!-- 左栏 -->
+    <div class="pf-side">
+      <div class="pf-portrait"><img src="av/role-asc.svg" alt="王工"></div>
+      <div class="pf-sb head"><div class="nm">王工</div><div class="rl">资深 ASC 算子工程师</div></div>
+      <div class="pf-chips"><span>5年+</span><span>C/C++</span><span>CUDA 迁移</span><span>汇编基础</span></div>
+      <div class="pf-sb white">
+        <div class="sbh">核心职责</div>
+        <div class="sbt">负责底层算子开发与优化，承接算法侧需求，保障算子可复用性与性能。</div>
+      </div>
+      <div class="pf-quote">「ASC 最困难的一点就是没法调试。」</div>
+    </div>
+    <!-- 右侧 -->
+    <div class="pf-r">
+      <div class="pf-block">
+        <div class="pf-h2">
+          <span class="ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="8" r="6"/></svg></span>岗位特征
+        </div>
+        <!-- conic 环形 + 标签列表 -->
+        <div style="display:flex;gap:1.2vw;align-items:center">
+          <div class="pf-ring" style="background:conic-gradient(var(--accent) 0 75%,#D6DAE4 0);--card-bg:#EFEFF1"></div>
+          <div style="font-size:var(--fs-sm);color:#333;line-height:1.6">编译调试占用 <b>75%</b> 工作时间<br/>其余为需求评审与代码 Review</div>
+        </div>
+      </div>
+      <div class="pf-block">
+        <div class="pf-h2"><span class="ico"><!-- icon --></span>典型痛点</div>
+        <div style="display:flex;flex-direction:column;gap:.6vh;font-size:var(--fs-sm);color:#333;line-height:1.5">
+          <div>🔴 编译 30-60 分钟，改一行全量重编</div>
+          <div>🔴 高优化模式断点失效，靠日志定位</div>
+          <div>🔴 算子支持状态散落各处，手动查代码</div>
+        </div>
+      </div>
+      <div class="pf-block">
+        <div class="pf-h2"><span class="ico"><!-- icon --></span>核心期望</div>
+        <div style="font-size:var(--fs-sm);color:#333;line-height:1.6">秒级增量编译、源码级断点调试、统一算子查询入口。</div>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+---
+
+## 6b. 用户画像·形式二（顶栏 + 三栏 + ECharts 雷达）
+
+> **触发**：「几类用户有什么不同」「各角色对 X 的敏感程度」「能力维度对比」「雷达图」—— **多人对比**，需 ECharts。
+
+结构：
+- **顶栏**：人物卡（头像+姓名+角色）/ conic 环形大图 / 期待文字块 — 三等分 grid。
 - **三栏**：左=技术背景，中=ECharts 雷达（两组对比色：内源蓝 `#5B5BD6` / 生态红 `#FF5A6E`），右=痛点 & 机会。
-- **选择判据**：有多人对比、需雷达图时选形式二；单人深描选形式一。
+- 雷达维度通常 5-8 个，代表用户在关键能力/需求上的强弱分布。
 
 ## 7. KPI 小数字组
 
@@ -515,3 +769,53 @@
 - **一章一色**：每章首页（`chapter-cover`）带调色面板，其他同章页用 `data-chapter="N"` + 相同 `--glow-h` inline 变量继承颜色。
 - `cann-dark-logo.svg` = 白色版 logo，专用于深色底；别用深色 logo。
 - `.shot` 的 `box-shadow` 用 `hsla(var(--glow-h),...)` 让阴影颜色随光晕同步变化。
+
+### 填充示例（「增量编译」设计点参照）
+
+```html
+<section class="slide s-glow" data-chapter="1"
+  style="--glow-h:234;--glow-h2:291;--glow-sat:95%;--glow-light:40%;--glow-spread:35;--glow-color-int:.68;--glow-white-int:.58">
+  <div class="glow"></div>
+  <div class="head">
+    <div class="head-l">
+      <div class="brand"><img class="logo" src="cann-dark-logo.svg" alt="CANN">
+        <span class="ttl h-title">增量编译：把 30 分钟压缩到 3 秒</span>
+      </div>
+      <div class="subttl" style="color:rgba(255,255,255,.6)">Design Point 01 · Incremental Build</div>
+    </div>
+    <div class="head-r" style="color:rgba(255,255,255,.45)">01 / 编译体验<br/>2026</div>
+  </div>
+  <div class="glow-inner">
+    <div>
+      <p style="font-size:var(--fs-body);color:rgba(255,255,255,.8);line-height:1.7;margin-bottom:2vh">
+        现有 tbe 编译每次全量重编 460+ .o 文件，改一行代码等 30-60 分钟。<br>
+        增量编译 + 智能依赖分析可将 <b style="color:#fff">95% 的日常改动</b>压缩到秒级响应。
+      </p>
+      <div class="glow-points">
+        <div class="point">
+          <div class="point-dot"></div>
+          <div class="point-body">
+            <div class="pt">依赖图感知</div>
+            <div class="pd">静态分析算子依赖树，只重编真正受影响的子图，其余复用缓存。</div>
+          </div>
+        </div>
+        <div class="point">
+          <div class="point-dot"></div>
+          <div class="point-body">
+            <div class="pt">智能去重</div>
+            <div class="pd">内容 hash 识别重复 .o，跨项目共享编译产物，节省磁盘与时间。</div>
+          </div>
+        </div>
+        <div class="point">
+          <div class="point-dot"></div>
+          <div class="point-body">
+            <div class="pt">IDE 实时反馈</div>
+            <div class="pd">保存即触发后台编译，错误在编辑器内实时标红，无需等待完整构建。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="shot"><!-- 截图或示意图 --></div>
+  </div>
+</section>
+```
