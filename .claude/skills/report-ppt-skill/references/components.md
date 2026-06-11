@@ -68,9 +68,95 @@
 
 ## 4. 用户旅程（全链路）
 
-6 行网格，列 = 各阶段（如：环境搭建/文档/开发/调试/发布）：
-1 阶段名 · 2 触点(中性色) · 3 行为(mini UI 线框截图) · 4 **情绪曲线** · 5 痛点(每列可多条) · 6 机会点。
-- 情绪曲线：每阶段一个独立格子，格内一段曲线 + 渐变填充(下方上深下浅) + 虚线横纹背景；行用 `flex-shrink:0` + 显式 `height` 锁高（否则被压扁）。
+> **适用范围比"旅程图"更广**：任何**按阶段推进的流程**都能套这个模板——用户研究旅程、产品开发流程、运维流程、算子开发六阶段、训练工程师工作流……只要内容有"阶段列 × 信息行"的结构，就命中本件。
+
+### CSS 骨架（直接抄）
+
+```css
+/* 旅程网格容器 */
+.jn-r{display:grid;gap:.5vw}
+.jn-cols{grid-template-columns:repeat(5,1fr)}   /* 5 阶段 */
+/* 8 阶段紧凑版 */
+.jn-cols8{grid-template-columns:repeat(8,minmax(0,1fr));gap:.46vw}
+.jn-cols8 .jn-stage{border-radius:9px;padding:.58vh .35vw}
+.jn-cols8 .jn-stage .s{font-size:var(--fs-sm);line-height:1.15}
+.jn-cols8 .jn-stage .e{font-size:12px;line-height:1.15}
+.jn-cols8 .jn-touch,.jn-cols8 .jn-pain,.jn-cols8 .jn-opp{font-size:var(--fs-xs);line-height:1.24;padding:.46vh .45vw;border-radius:8px}
+
+/* 行标（触点 / 痛点 / 机会点 等）*/
+.jn-rl{display:flex;align-items:center;gap:.5em;font-family:'JetBrains Mono';font-size:var(--fs-xs);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin-top:.4vh}
+.jn-rl::after{content:'';flex:1;height:1px;background:var(--line)}
+
+/* 阶段名（深色背景）*/
+.jn-stage{background:var(--g-ink);color:#fff;border-radius:10px;padding:.8vh .7vw;text-align:center}
+.jn-stage .s{font-weight:700;font-size:var(--fs-body)}
+.jn-stage .e{font-family:'JetBrains Mono';font-size:var(--fs-xs);opacity:.6;letter-spacing:.08em}
+
+/* 触点（中性白卡）*/
+.jn-touch{background:#fff;border:1px solid var(--line);border-radius:9px;padding:.6vh .7vw;font-size:var(--fs-sm);color:var(--ink-2);text-align:center;line-height:1.35}
+
+/* 痛点（红）/ 机会点（绿）*/
+.jn-pain,.jn-opp{background:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.7);border-radius:9px;padding:.6vh .7vw;font-size:var(--fs-sm);line-height:1.4}
+.jn-pain{color:#C0344A} .jn-pain b{color:#C0344A;font-weight:700}
+.jn-opp{color:var(--ink-2)} .jn-opp b{color:#1E9E6A;font-weight:700}
+
+/* 底部引用原声（跨列全宽）*/
+.journey-voc{display:grid;grid-template-columns:1fr auto;gap:1vw;align-items:center;background:rgba(255,255,255,.62);border:1px solid rgba(255,255,255,.78);border-radius:10px;padding:.75vh .95vw}
+.journey-voc .q{font-size:var(--fs-sm);line-height:1.45;color:var(--ink-2)} .journey-voc .q b{color:#C0344A}
+.journey-voc .who{font-size:var(--fs-xs);color:var(--ink-3);white-space:nowrap}
+
+/* 情绪曲线格子（ECharts line chart，跨全列）*/
+.jn-emo{min-height:13vh;background:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.7);border-radius:12px;overflow:hidden;position:relative}
+.jn-emo #emochart{position:absolute;inset:0}
+```
+
+### HTML 骨架（5 阶段标准版）
+
+```html
+<div class="body-area">
+  <div class="jn">   <!-- 或直接 display:flex;flex-direction:column;gap:.7vh -->
+    <!-- 1. 阶段行（深色）-->
+    <div class="jn-r jn-cols">
+      <div class="jn-stage"><div class="s">阶段名</div><div class="e">PHASE</div></div>
+      <!-- × N 列 -->
+    </div>
+    <!-- 2. 行标 + 触点行 -->
+    <div class="jn-rl">触点</div>
+    <div class="jn-r jn-cols">
+      <div class="jn-touch">触点描述</div><!-- × N -->
+    </div>
+    <!-- 3. 情绪曲线（可选，需 ECharts）-->
+    <div class="jn-emo"><div id="emochart"></div></div>
+    <!-- 4. 行标 + 痛点行 -->
+    <div class="jn-rl">痛点</div>
+    <div class="jn-r jn-cols">
+      <div class="jn-pain"><b>关键词：</b>描述</div><!-- × N -->
+    </div>
+    <!-- 5. 机会点行 -->
+    <div class="jn-r jn-cols">
+      <div class="jn-opp"><b>机会：</b>描述</div><!-- × N -->
+    </div>
+    <!-- 6. 底部原声（可选）-->
+    <div class="journey-voc">
+      <div class="q">「引用原声」<b>关键词</b></div>
+      <div class="who">姓名 · 角色</div>
+    </div>
+  </div>
+</div>
+```
+
+### 变体说明
+
+| 变体 | 怎么改 |
+|---|---|
+| **8 阶段**（训练工程师旅程） | `jn-r jn-cols8` 替换 `jn-cols`；顶部加 `.train-kpis` 指标带（4列 grid） |
+| **6 阶段**（算子开发旅程） | `grid-template-columns:repeat(6,1fr)` 内联 style 即可，不另建 class |
+| **无情绪曲线** | 直接删 `.jn-emo` 行，其余不变 |
+| **行内附耗时** | `.jn-touch` 里加 `<b>30-60 分钟</b> → 秒级` 格式，不影响布局 |
+
+- 每列**阶段数可以自由调**（3-10 列），只改 `grid-template-columns`。
+- 痛点用**红色**（`#C0344A`），机会点用**绿色**（`#1E9E6A`）——色义固定，别乱换。
+- 底部 `.journey-voc` 是**跨列全宽**的原声引用，选用（有代表性原声时才加）。
 
 ## 5. 竞品对照
 
