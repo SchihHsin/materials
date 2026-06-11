@@ -1,0 +1,1975 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>盘古训练场景用户研究报告 merged v1.2</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&family=Noto+Sans+SC:wght@200;300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/IKKI2000/harmonyos-fonts@master/css/harmonyos_sans_sc.css">
+<script src="lib/echarts.min.js"></script>
+<style>
+/* ===== 设计 token ===== */
+:root{
+  /* 最小字号 16px（用户硬性要求）；行距正文 ≥1.2x */
+  --fs-h1:clamp(24px,1.9vw,34px); --fs-h2:clamp(19px,1.4vw,25px); --fs-h3:clamp(17px,1.1vw,20px);
+  --fs-body:clamp(16px,1vw,18px); --fs-sm:clamp(16px,.9vw,17px); --fs-xs:clamp(16px,.82vw,16px);
+  --paper:#E9EBEE; --card:#fff; --card-2:#F1F3F6;
+  --ink:#16191e; --ink-2:#5e646e; --ink-3:#929aa6; --line:#d4d8df;
+  --accent:#5B5BD6; --accent-soft:#ECECFB; --red:#E60012;
+  --g-red:linear-gradient(120deg,#FF5A6E,#FF6F55); --g-green:linear-gradient(120deg,#23CFA0,#45D65A);
+  --g-blue:linear-gradient(120deg,#667EEA,#764BA2); --g-amber:linear-gradient(120deg,#FBBF60,#F59E0B);
+  --g-purple:linear-gradient(120deg,#A78BFA,#7C3AED); --g-neutral:#C4CAD4;
+  --dark:#16191E; --g-ink:linear-gradient(140deg,#22262F,#14171C); --g-accent:linear-gradient(135deg,#5B5BD6,#7C3AED);
+  --glow-h:234; --glow-h2:291; --glow-sat:95%; --glow-light:40%; --glow-spread:35; --glow-color-int:.68; --glow-white-int:.58;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-snap-type:y mandatory;scroll-behavior:smooth}
+html,body{width:100%;background:#0c0a0b;color:var(--ink);
+  font-family:'HarmonyOS Sans SC','Inter','Noto Sans SC',sans-serif;-webkit-font-smoothing:antialiased}
+body{height:100%;overflow:hidden auto;scroll-snap-type:y mandatory;scroll-behavior:smooth}
+#deck{position:relative;width:100vw;display:block}
+.slide{position:relative;width:100vw;height:100vh;overflow:hidden;font-size:var(--fs-body);scroll-snap-align:start;scroll-snap-stop:always}
+
+/* ===== 总览 Overview ===== */
+body.overview{scroll-snap-type:none;background:#15151a;padding:30px 30px 64px;overflow:auto}
+body.overview #deck{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;width:auto;max-width:1480px;margin:0 auto;align-items:start}
+body.overview .slide{position:relative!important;width:auto!important;min-height:0!important;padding:0!important;margin:0!important;display:block!important;overflow:hidden!important;border-radius:12px;cursor:pointer;scroll-snap-align:none;box-shadow:0 12px 34px -14px rgba(0,0,0,.6);outline:2px solid transparent;transition:outline-color .18s,transform .18s}
+body.overview .slide:hover{outline-color:var(--accent);transform:translateY(-2px)}
+body.overview .slide-inner{position:absolute;top:0;left:0;width:100vw;height:100vh;transform-origin:top left;overflow:hidden;pointer-events:none;box-sizing:border-box}
+body.overview .s-gray .slide-inner{display:flex;flex-direction:column;padding:5vh 4vw}
+body.overview .s-glow .slide-inner{padding:7vh 6vw}
+body.overview .s-cover .slide-inner{padding:0}
+body.overview #panel,body.overview #toggle{display:none!important}
+
+/* ===== 右侧竖排导航点 ===== */
+.nav-dots{position:fixed;right:16px;top:50%;transform:translateY(-50%);z-index:300;display:flex;flex-direction:column;gap:7px;padding:10px 7px;border-radius:999px;background:rgba(150,150,170,.16);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);opacity:0;transition:opacity .25s}
+.nav-dots.show{opacity:1}
+.nav-dot{width:7px;height:7px;border-radius:50%;background:rgba(40,45,60,.28);cursor:pointer;border:0;padding:0;transition:all .25s cubic-bezier(.4,0,.2,1)}
+.nav-dot:hover{background:rgba(40,45,60,.5);transform:scale(1.25)}
+.nav-dot.active{background:var(--accent);height:18px;border-radius:4px}
+body.on-dark .nav-dots{background:rgba(255,255,255,.1)}
+body.on-dark .nav-dot{background:rgba(255,255,255,.3)}
+body.on-dark .nav-dot.active{background:#fff}
+
+/* ===== 底部控制栏（默认隐藏，移到底部才出现）===== */
+#controls{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:1000;display:flex;align-items:center;gap:3px;padding:3px 7px;border-radius:999px;background:rgba(22,25,30,.42);backdrop-filter:blur(10px) saturate(1.2);-webkit-backdrop-filter:blur(10px) saturate(1.2);color:#fff;box-shadow:0 6px 18px -10px rgba(0,0,0,.4);opacity:0;transition:opacity .25s}
+#controls.show{opacity:.92}
+#controls button{background:transparent;color:#fff;border:0;cursor:pointer;width:26px;height:26px;border-radius:999px;display:flex;align-items:center;justify-content:center;opacity:.7;transition:opacity .15s,background .15s}
+#controls button:hover:not(:disabled){opacity:1;background:rgba(255,255,255,.12)}
+#controls button:disabled{opacity:.28;cursor:default}
+#controls button svg{width:14px;height:14px}
+.ctrl-counter{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;opacity:.85;padding:0 5px;min-width:62px;text-align:center}
+.ctrl-sep{width:1px;height:15px;background:rgba(255,255,255,.22);margin:0 3px}
+
+/* ============ 基调②：灰底分析篇 ============ */
+.s-gray{color:var(--ink);padding:5vh 4vw;display:flex;flex-direction:column;background:var(--paper);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 480' preserveAspectRatio='none'%3E%3Cpath d='M0 320 C 380 250 760 330 1080 195 C 1280 140 1380 185 1440 130 L1440 480 L0 480 Z' fill='%237e8696' fill-opacity='0.07'/%3E%3Cpath d='M0 372 C 430 305 820 405 1180 245 C 1340 198 1402 240 1440 190 L1440 480 L0 480 Z' fill='%23949bab' fill-opacity='0.08'/%3E%3C/svg%3E"),linear-gradient(125deg,rgba(120,128,145,.05),transparent 50%);
+  background-position:bottom center,0 0;background-size:100% 50%,100% 100%;background-repeat:no-repeat,no-repeat}
+.head{display:flex;align-items:flex-start;justify-content:space-between;flex:0 0 auto;margin-bottom:2.6vh}
+.head-l{display:flex;flex-direction:column;gap:.7vh}
+.brand{display:flex;align-items:center;gap:.5em}
+.brand .logo{height:clamp(19px,1.7vw,25px);width:auto;display:block;flex-shrink:0}
+.brand .ttl{font-weight:800;font-size:var(--fs-h1);letter-spacing:-.01em}
+.subttl{font-weight:300;font-size:var(--fs-sm);color:var(--ink-2)}
+.head-r{font-family:'JetBrains Mono';font-size:var(--fs-xs);letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);text-align:right;line-height:1.8}
+.body-area{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center}
+.card{background:rgba(255,255,255,.55);-webkit-backdrop-filter:blur(15px) saturate(1.4);backdrop-filter:blur(15px) saturate(1.4);
+  border:1px solid rgba(255,255,255,.7);border-radius:16px;box-shadow:0 10px 30px -16px rgba(30,40,70,.2),inset 0 1px 0 rgba(255,255,255,.85);padding:2.2vh 1.6vw}
+
+/* 关键指标：多彩渐变胶囊 + 极细超大数字 */
+.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3.4vw;flex:1;min-height:0;align-items:center}
+.stat-col{display:flex;flex-direction:column;gap:2vh}
+.stat-bar-area{position:relative}
+.stat-marks{display:flex;justify-content:space-between;font-family:'JetBrains Mono';font-size:var(--fs-xs);color:var(--ink-3);margin-bottom:.7vh;position:relative;height:20px;align-items:flex-end}
+.stat-tri{position:absolute;font-size:var(--fs-xs);transform:translateX(-50%);color:var(--ink-2);bottom:0;line-height:1.2}
+.stat-pills{display:flex;gap:5px;height:6vh} .stat-pill{border-radius:999px;flex-shrink:0}
+.stat-num{font-family:'Inter';font-weight:200;font-size:min(8.4vw,13.8vh);line-height:.88;letter-spacing:-.04em;color:var(--ink);margin-top:.4vh}
+.stat-num .u{font-size:.35em;font-weight:300;color:var(--ink-2);margin-left:.05em}
+.stat-desc{font-size:var(--fs-body);color:var(--ink-2);line-height:1.58;max-width:26ch}
+
+/* 竞品对照 */
+.compare{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4vw;flex:0 0 auto}
+.cmp{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+.cmp-img{order:2;flex:0 0 auto;padding:0 .9vw .9vw;margin-top:auto}
+.cmp-img img{width:100%;height:auto;display:block;border-radius:9px;border:1px solid var(--line)}
+.cmp-cap{font-family:'JetBrains Mono';font-size:var(--fs-xs);color:var(--ink-3);text-align:center;letter-spacing:.02em;margin-top:.7vh}
+.cmp-body{order:1;padding:2vh 1.4vw .8vh;flex:0 0 auto;display:flex;flex-direction:column;gap:1.5vh}
+.cmp-h{font-weight:700;font-size:var(--fs-h2);letter-spacing:-.01em;line-height:1.3;color:var(--ink)}
+.cmp-h .hk{display:block;font-family:'JetBrains Mono';font-size:var(--fs-xs);font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:.5vh}
+.cmp-desc{font-size:var(--fs-body);line-height:1.7;color:var(--ink-2)}
+.cmp-desc b{color:var(--ink);font-weight:600;background:linear-gradient(transparent 60%,rgba(91,91,214,.16) 0)}
+.verdict{flex:0 0 auto;margin-top:1.4vh;display:grid;grid-template-columns:auto 1fr;gap:1.2vw;align-items:center;background:var(--g-ink);color:#fff;border-radius:12px;padding:1.7vh 1.6vw}
+.verdict .vk{font-size:var(--fs-h3);font-weight:700;color:var(--ink);background:#fff;border-radius:12px;padding:6px 15px;white-space:nowrap}
+.verdict .vv{font-size:var(--fs-body);line-height:1.55} .verdict .vv b{font-weight:700;background:linear-gradient(transparent 60%,rgba(255,255,255,.22) 0)}
+
+/* ====== 自定义：通用区块网格 ====== */
+.grid2{display:grid;grid-template-columns:1.05fr .95fr;gap:2vw;flex:1;min-height:0;align-items:center}
+.grid2.rev{grid-template-columns:.95fr 1.05fr}
+.figcard{height:100%;display:flex;align-items:center;justify-content:center;padding:1.4vh 1vw}
+.figcard svg{width:100%;height:auto;max-height:74vh;display:block}
+.lead-kicker{font-family:'JetBrains Mono';font-size:var(--fs-xs);letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:1.2vh}
+.lead-p{font-size:var(--fs-body);color:var(--ink-2);line-height:1.72;max-width:40ch;margin-bottom:1.6vh}
+
+/* ====== 干系人四层 ====== */
+.stk{display:flex;flex-direction:column;gap:1.1vh;flex:1;min-height:0;justify-content:center}
+.stk-layer{background:rgba(255,255,255,.55);-webkit-backdrop-filter:blur(12px) saturate(1.3);backdrop-filter:blur(12px) saturate(1.3);border:1px solid rgba(255,255,255,.7);border-radius:13px;box-shadow:0 8px 22px -14px rgba(30,40,70,.25);padding:1.2vh 1.2vw;display:grid;grid-template-columns:128px 1fr;gap:1vw;align-items:center}
+.stk-tag{font-size:var(--fs-sm);font-weight:700;color:var(--accent)}
+.stk-tag .en{display:block;font-family:'JetBrains Mono';font-size:var(--fs-xs);font-weight:500;color:var(--ink-3);letter-spacing:.08em;margin-top:.2vh}
+.stk-roles{display:flex;flex-wrap:wrap;gap:.5vw}
+.stk-role{font-size:var(--fs-sm);color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:8px;padding:.45vh .75vw;line-height:1.3}
+.stk-role b{color:var(--accent);font-weight:700}
+.stake-system{display:grid;grid-template-columns:1.38fr .62fr;gap:1.7vw;flex:1;min-height:0;align-items:stretch}
+.stake-map{position:relative;min-height:0;background:rgba(255,255,255,.54);border:1px solid rgba(255,255,255,.76);border-radius:16px;box-shadow:0 12px 34px -18px rgba(30,40,70,.28);padding:1.6vh 1.25vw;display:grid;grid-template-rows:1fr auto;gap:1vh;overflow:hidden}
+.stake-map::before{content:"";position:absolute;left:48%;top:8%;bottom:19%;width:2px;background:linear-gradient(to bottom,rgba(91,91,214,.1),rgba(91,91,214,.8),rgba(91,91,214,.1));z-index:0}
+.stake-flow{position:relative;z-index:1;display:grid;grid-template-rows:repeat(4,1fr);gap:.85vh;min-height:0}
+.stake-layer2{display:grid;grid-template-columns:132px 1fr;gap:1vw;align-items:center;background:rgba(255,255,255,.68);border:1px solid rgba(255,255,255,.86);border-radius:13px;padding:.9vh .95vw;box-shadow:0 8px 22px -18px rgba(30,40,70,.26)}
+.stake-layer2.demand{background:linear-gradient(110deg,rgba(91,91,214,.11),rgba(255,255,255,.72))}
+.stake-layer2.relay{background:linear-gradient(110deg,rgba(124,58,237,.12),rgba(255,255,255,.72))}
+.stake-layer2.build{background:linear-gradient(110deg,rgba(35,207,160,.12),rgba(255,255,255,.72))}
+.stake-layer2.platform{background:linear-gradient(110deg,rgba(251,191,96,.18),rgba(255,255,255,.72))}
+.stake-label{font-weight:800;font-size:var(--fs-sm);color:var(--ink);line-height:1.25}
+.stake-label span{display:block;font-family:'JetBrains Mono';font-size:var(--fs-xs);font-weight:500;letter-spacing:.1em;color:var(--ink-3);margin-top:.2vh}
+.stake-nodes{display:flex;flex-wrap:wrap;gap:.45vw}
+.stake-node{background:#fff;border:1px solid var(--line);border-radius:8px;padding:.43vh .62vw;font-size:var(--fs-xs);line-height:1.3;color:var(--ink);box-shadow:0 3px 10px -8px rgba(30,40,70,.28)}
+.stake-node b{display:block;color:var(--accent);font-weight:700}
+.touch-strip{position:relative;z-index:1;display:grid;grid-template-columns:auto 1fr;gap:.9vw;align-items:center;border-top:1px dashed var(--line);padding-top:1vh}
+.touch-title{font-family:'JetBrains Mono';font-size:var(--fs-xs);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);white-space:nowrap}
+.touch-chips{display:flex;flex-wrap:wrap;gap:.45vw}
+.touch-chip{font-size:var(--fs-xs);line-height:1.3;color:#C0344A;background:rgba(255,90,110,.08);border:1px solid rgba(255,90,110,.2);border-radius:999px;padding:.34vh .58vw}
+.stake-side{display:flex;flex-direction:column;gap:1vh;min-height:0;justify-content:center}
+.stake-metric{background:rgba(255,255,255,.58);border:1px solid rgba(255,255,255,.76);border-radius:14px;box-shadow:0 9px 24px -16px rgba(30,40,70,.24);padding:1.25vh 1.1vw}
+.stake-metric .n{font-family:'Inter';font-weight:200;font-size:min(3.9vw,6.3vh);line-height:.95;color:var(--ink);letter-spacing:-.04em}
+.stake-metric .n .u{font-size:.34em;color:var(--ink-2);font-weight:400;margin-left:.08em}
+.stake-metric .t{font-size:var(--fs-sm);line-height:1.48;color:var(--ink-2);margin-top:.55vh}
+.stake-metric .t b{color:var(--accent);font-weight:700}
+.stake-metric.primary{background:linear-gradient(135deg,rgba(91,91,214,.13),rgba(255,255,255,.62))}
+
+/* ====== 用户画像 形式二 ====== */
+.pb{display:grid;grid-template-columns:1.02fr 1fr;gap:1.6vw;flex:1;min-height:0;align-items:stretch}
+.pb-radar{background:rgba(255,255,255,.5);-webkit-backdrop-filter:blur(14px) saturate(1.4);backdrop-filter:blur(14px) saturate(1.4);border:1px solid rgba(255,255,255,.7);border-radius:16px;box-shadow:0 10px 30px -16px rgba(30,40,70,.2);position:relative;min-height:0}
+.pb-radar #radar{position:absolute;inset:1vh .6vw 4.8vh}
+.pb-note{position:absolute;left:1vw;right:1vw;bottom:1.1vh;font-size:var(--fs-xs);color:var(--ink-3);text-align:center;line-height:1.45}
+.pb-list{display:flex;flex-direction:column;gap:1vh;min-height:0}
+.pb-row{flex:1;display:grid;grid-template-columns:auto 1fr;gap:.9vw;align-items:center;background:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.7);border-radius:13px;box-shadow:0 8px 22px -14px rgba(30,40,70,.22);padding:1vh 1.1vw}
+.pb-av{width:clamp(56px,4.6vw,72px);height:clamp(56px,4.6vw,72px);border-radius:50%;overflow:hidden;flex-shrink:0;border:2px solid #fff;box-shadow:0 4px 12px rgba(30,40,70,.18)}
+.pb-av img{width:100%;height:100%;object-fit:cover;display:block}
+.pb-meta .nm{font-weight:800;font-size:var(--fs-h3);color:var(--ink);line-height:1.2}
+.pb-meta .nm i{font-style:normal;font-weight:700;font-size:var(--fs-sm);color:var(--accent);margin-left:.5em}
+.pb-meta .dz{font-size:var(--fs-sm);color:var(--ink-2);line-height:1.5;margin-top:.25vh}
+.pb-meta .dz b{color:var(--ink);font-weight:600}
+.pb-meta .qq{font-size:var(--fs-sm);color:var(--accent);font-weight:600;margin-top:.3vh;line-height:1.4}
+.pb-meta .src{font-size:var(--fs-xs);color:var(--ink-3);line-height:1.4;margin-top:.35vh}
+
+/* ====== 用户卡片 ====== */
+.pcards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr));gap:1vw;flex:1;min-height:0}
+.pcard{min-height:0;display:grid;grid-template-rows:auto auto 1fr auto;gap:.58vh;background:rgba(255,255,255,.62);border:1px solid rgba(255,255,255,.78);border-radius:13px;box-shadow:0 10px 24px -18px rgba(30,40,70,.26),inset 0 1px 0 rgba(255,255,255,.9);padding:1.05vh 1vw;overflow:hidden}
+.pcard-top{display:flex;align-items:center;gap:.72vw;min-width:0}
+.pcard-av{width:clamp(48px,3.6vw,60px);height:clamp(48px,3.6vw,60px);border-radius:10px;overflow:hidden;background:#F3F5FA;border:1px solid var(--line);flex-shrink:0}
+.pcard-av img{width:100%;height:100%;object-fit:cover;display:block}
+.pcard-title{min-width:0}
+.pcard-name{font-weight:800;font-size:var(--fs-h3);color:var(--ink);line-height:1.18;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pcard-role{font-size:var(--fs-xs);color:var(--accent);font-weight:700;line-height:1.25;margin-top:.2vh}
+.pcard-desc{font-size:var(--fs-xs);line-height:1.35;color:var(--ink-2);min-height:0}
+.pcard-desc b{color:var(--ink);font-weight:700}
+.pcard-list{display:flex;flex-direction:column;gap:.25vh;min-height:0}
+.pcard-list div{font-size:var(--fs-xs);line-height:1.31;color:var(--ink-2);display:grid;grid-template-columns:auto 1fr;gap:.42vw;align-items:start}
+.pcard-list div::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--accent);margin-top:.52em}
+.pcard-list b{color:var(--ink);font-weight:700}
+.pcard-q{border-left:3px solid var(--accent);background:rgba(91,91,214,.07);border-radius:8px;padding:.55vh .62vw;font-size:var(--fs-xs);line-height:1.35;color:var(--ink-2);max-height:4.6em;overflow:hidden}
+
+/* ====== 24 人样本墙 ====== */
+.sample-wall{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:repeat(6,minmax(0,1fr));gap:.64vh .68vw;flex:1;min-height:0}
+.sample-card{min-width:0;min-height:0;background:#fff;border:1px solid var(--line);border-radius:8px;box-shadow:0 14px 28px -24px rgba(16,24,40,.26);padding:.58vh .66vw;overflow:hidden;display:grid;grid-template-rows:auto auto auto auto;gap:.25vh}
+.sample-top{display:grid;grid-template-columns:auto 1fr;gap:.52vw;align-items:center;min-width:0}
+.sample-av{width:clamp(30px,2.2vw,38px);height:clamp(30px,2.2vw,38px);border-radius:7px;overflow:hidden;background:#f2f4f8;border:1px solid var(--line);flex-shrink:0}
+.sample-av img{width:100%;height:100%;object-fit:cover;display:block}
+.sample-title{min-width:0}
+.sample-name{font-size:var(--fs-xs);font-weight:800;color:var(--ink);line-height:1.12;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sample-group{font-size:13px;font-weight:800;color:var(--accent);line-height:1.08;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:.08vh}
+.sample-desc{font-size:13px;color:var(--ink-2);line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sample-lines{display:flex;flex-direction:column;gap:.08vh;min-height:0}
+.sample-lines div{font-size:13px;line-height:1.16;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sample-lines b{color:var(--ink);font-weight:800}
+.sample-q{border-left:3px solid var(--accent);background:rgba(59,130,246,.08);border-radius:6px;padding:.26vh .42vw;font-size:13px;line-height:1.18;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sample-card.dev .sample-group{color:#5B5BD6}.sample-card.train .sample-group{color:#047857}.sample-card.perf .sample-group{color:#b45309}
+.sample-card.ai .sample-group{color:#c0344a}.sample-card.edu .sample-group{color:#6d28d9}.sample-card.platform .sample-group{color:#475467}.sample-card.data .sample-group{color:#047857}
+
+/* ====== 角色统计 ====== */
+.statwrap{display:grid;grid-template-columns:1.25fr 1fr;gap:2vw;flex:1;min-height:0;align-items:center}
+.kfind{display:flex;flex-direction:column;gap:1.3vh}
+.kfind-it{background:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.7);border-radius:13px;box-shadow:0 8px 22px -14px rgba(30,40,70,.22);padding:1.5vh 1.3vw}
+.kfind-it .n{font-family:'Inter';font-weight:200;font-size:min(3.6vw,6vh);line-height:.95;letter-spacing:-.03em;color:var(--ink)}
+.kfind-it .n .u{font-size:.32em;font-weight:400;color:var(--ink-2);margin-left:.1em}
+.kfind-it .t{font-size:var(--fs-body);color:var(--ink-2);line-height:1.5;margin-top:.5vh}
+.kfind-it .t b{color:var(--accent);font-weight:700}
+
+/* ====== 旅程地图 ====== */
+.jn{display:grid;grid-template-rows:auto auto auto 1fr auto auto;gap:.7vh;flex:1;min-height:0}
+.jn-r{display:grid;gap:.5vw}
+.jn-cols{grid-template-columns:repeat(5,1fr)}
+.jn-rl{display:flex;align-items:center;gap:.5em;font-family:'JetBrains Mono';font-size:var(--fs-xs);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin-top:.4vh}
+.jn-rl::after{content:'';flex:1;height:1px;background:var(--line)}
+.jn-stage{background:var(--g-ink);color:#fff;border-radius:10px;padding:.8vh .7vw;text-align:center}
+.jn-stage .s{font-weight:700;font-size:var(--fs-body)} .jn-stage .e{font-family:'JetBrains Mono';font-size:var(--fs-xs);opacity:.6;letter-spacing:.08em}
+.jn-touch{background:#fff;border:1px solid var(--line);border-radius:9px;padding:.6vh .7vw;font-size:var(--fs-sm);color:var(--ink-2);text-align:center;line-height:1.35}
+.jn-emo{min-height:13vh;background:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.7);border-radius:12px;overflow:hidden;position:relative}
+.jn-emo #emochart{position:absolute;inset:0}
+.jn-pain,.jn-opp{background:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.7);border-radius:9px;padding:.6vh .7vw;font-size:var(--fs-sm);line-height:1.4}
+.jn-pain{color:#C0344A} .jn-pain b{color:#C0344A;font-weight:700}
+.jn-opp{color:var(--ink-2)} .jn-opp b{color:#1E9E6A;font-weight:700}
+.train-slide{display:grid;grid-template-rows:auto auto auto auto auto;gap:.62vh;flex:1;min-height:0;justify-content:stretch}
+.train-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.7vw}
+.train-kpi{background:rgba(255,255,255,.58);border:1px solid rgba(255,255,255,.74);border-radius:11px;padding:.82vh .85vw;display:grid;grid-template-columns:auto 1fr;gap:.7vw;align-items:center;box-shadow:0 8px 20px -17px rgba(30,40,70,.24)}
+.train-kpi .n{font-family:'Inter';font-weight:300;font-size:min(2.35vw,4.2vh);line-height:.95;color:var(--ink);letter-spacing:-.03em}
+.train-kpi .t{font-size:var(--fs-xs);line-height:1.28;color:var(--ink-2)} .train-kpi .t b{color:var(--accent);font-weight:800}
+.jn-cols8{grid-template-columns:repeat(8,minmax(0,1fr));gap:.46vw}
+.jn-cols8 .jn-stage{border-radius:9px;padding:.58vh .35vw}
+.jn-cols8 .jn-stage .s{font-size:var(--fs-sm);line-height:1.15}.jn-cols8 .jn-stage .e{font-size:12px;line-height:1.15}
+.jn-cols8 .jn-touch,.jn-cols8 .jn-pain,.jn-cols8 .jn-opp{font-size:var(--fs-xs);line-height:1.24;padding:.46vh .45vw;text-align:left;border-radius:8px}
+.jn-cols8 .jn-touch{text-align:center}
+.journey-voc{display:grid;grid-template-columns:1fr auto;gap:1vw;align-items:center;background:rgba(255,255,255,.62);border:1px solid rgba(255,255,255,.78);border-radius:10px;padding:.75vh .95vw;min-height:0}
+.journey-voc .q{font-size:var(--fs-sm);line-height:1.45;color:var(--ink-2)}.journey-voc .q b{color:#C0344A}
+.journey-voc .who{font-size:var(--fs-xs);color:var(--ink-3);white-space:nowrap}
+
+/* ====== 0610 性能分析专家补充 ====== */
+.perf-insight{display:grid;grid-template-columns:.92fr 1.08fr;gap:1.4vw;flex:1;min-height:0;align-items:stretch}
+.perf-panel{background:rgba(255,255,255,.58);border:1px solid rgba(255,255,255,.76);border-radius:14px;box-shadow:0 10px 28px -18px rgba(30,40,70,.24);padding:1.4vh 1.2vw;display:flex;flex-direction:column;gap:1vh;min-height:0}
+.perf-cap{font-family:'JetBrains Mono';font-size:var(--fs-xs);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+.perf-flow{display:grid;grid-template-columns:1fr;gap:.72vh;min-height:0}
+.perf-step{display:grid;grid-template-columns:auto 1fr;gap:.8vw;align-items:start;background:#fff;border:1px solid var(--line);border-radius:10px;padding:.85vh .9vw}
+.perf-step .no{font-family:'Inter';font-weight:300;font-size:min(2vw,3.2vh);line-height:1;color:var(--accent);letter-spacing:-.04em}
+.perf-step .h{font-weight:800;font-size:var(--fs-sm);line-height:1.25;color:var(--ink)}
+.perf-step .d{font-size:var(--fs-xs);line-height:1.38;color:var(--ink-2);margin-top:.18vh}
+.perf-metrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.8vw .8vw}
+.perf-metric{background:#fff;border:1px solid var(--line);border-radius:12px;padding:1vh .95vw;min-height:0}
+.perf-metric .n{font-family:'Inter';font-weight:200;font-size:min(3.4vw,5.8vh);line-height:.95;letter-spacing:-.04em;color:var(--ink)}
+.perf-metric .n .u{font-size:.34em;font-weight:400;color:var(--ink-2);margin-left:.08em}
+.perf-metric .t{font-size:var(--fs-xs);line-height:1.42;color:var(--ink-2);margin-top:.45vh}
+.perf-metric .t b{color:#C0344A;font-weight:800}
+.perf-gap{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.7vw;margin-top:.2vh}
+.perf-gap .g{background:rgba(255,90,110,.07);border:1px solid rgba(255,90,110,.18);border-radius:10px;padding:.85vh .75vw;font-size:var(--fs-xs);line-height:1.38;color:var(--ink-2)}
+.perf-gap .g b{display:block;color:#C0344A;font-weight:800;margin-bottom:.2vh}
+
+/* ====== VOC 墙 ====== */
+.voc-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:1vw;flex:0 0 auto;margin-bottom:1.4vh}
+.voc-kpi{background:var(--g-ink);color:#fff;border-radius:12px;padding:1.2vh 1.1vw}
+.voc-kpi .n{font-family:'Inter';font-weight:200;font-size:min(3vw,5vh);line-height:1;letter-spacing:-.02em}
+.voc-kpi .n .u{font-size:.34em;font-weight:400;opacity:.7;margin-left:.1em}
+.voc-kpi .t{font-size:var(--fs-sm);opacity:.72;margin-top:.4vh;line-height:1.4}
+.voc-wall{column-count:3;column-gap:1vw;flex:1;min-height:0}
+.voc-card{break-inside:avoid;margin-bottom:1vw;background:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.75);border-radius:13px;box-shadow:0 8px 22px -16px rgba(30,40,70,.22);padding:1.3vh 1.1vw;display:flex;flex-direction:column;gap:.8vh}
+.voc-card.tint{background:var(--accent-soft);border-color:#dcdcfa}
+.voc-q{font-size:var(--fs-body);line-height:1.62;color:var(--ink)}
+.voc-q .big{font-weight:700}
+.voc-card.tint .voc-q{color:#3a2d8a}
+.voc-by{display:flex;align-items:center;gap:.6vw}
+.voc-by img{width:30px;height:30px;border-radius:50%;flex-shrink:0;background:#fff;border:1px solid var(--line)}
+.voc-by .who{font-size:var(--fs-sm);font-weight:700;color:var(--ink)} .voc-by .role{font-size:var(--fs-xs);color:var(--ink-3)}
+
+/* ====== 断裂点 ====== */
+.bp{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:1.1vw;flex:1;min-height:0}
+.bp-c{background:rgba(255,255,255,.58);border:1px solid rgba(255,255,255,.72);border-radius:14px;box-shadow:0 9px 26px -16px rgba(30,40,70,.24);padding:1.5vh 1.4vw;display:flex;flex-direction:column;gap:.7vh;position:relative;overflow:hidden}
+.bp-c.crit{background:linear-gradient(150deg,rgba(255,90,110,.1),rgba(255,255,255,.6))}
+.bp-top{display:flex;align-items:center;justify-content:space-between}
+.bp-id{font-family:'JetBrains Mono';font-weight:600;font-size:var(--fs-sm);letter-spacing:.1em;color:var(--accent)}
+.bp-sev{font-size:var(--fs-xs);font-weight:700;color:#fff;border-radius:7px;padding:.3vh .7vw}
+.bp-sev.high{background:var(--g-amber)} .bp-sev.crit{background:var(--g-red)}
+.bp-h{font-weight:700;font-size:var(--fs-h3);color:var(--ink);line-height:1.25}
+.bp-d{font-size:var(--fs-sm);color:var(--ink-2);line-height:1.5}
+.bp-d b{color:#C0344A;font-weight:700}
+.bp-foot{margin-top:auto;display:flex;flex-wrap:wrap;gap:.4vw;padding-top:.6vh;border-top:1px dashed var(--line)}
+.bp-foot span{font-size:var(--fs-xs);color:var(--ink-2);background:#fff;border:1px solid var(--line);border-radius:6px;padding:.25vh .55vw}
+.bp-foot span b{color:var(--accent)}
+.bp-ten{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(5,minmax(0,1fr));gap:.65vh .7vw}
+.bp-ten .bp-c{border-radius:10px;padding:.72vh .75vw;gap:.28vh}
+.bp-ten .bp-c.crit{background:linear-gradient(150deg,rgba(255,90,110,.12),rgba(255,255,255,.62))}
+.bp-ten .bp-id{font-size:var(--fs-xs)}
+.bp-ten .bp-h{font-size:var(--fs-sm);line-height:1.22}
+.bp-ten .bp-d{font-size:var(--fs-xs);line-height:1.32}
+.bp-ten .bp-foot{gap:.25vw;padding-top:.28vh}
+.bp-ten .bp-foot span{font-size:12px;padding:.12vh .38vw}
+
+/* ====== 竞品矩阵 ====== */
+.cmpmx{display:grid;grid-template-columns:1.15fr 1fr;gap:2vw;flex:1;min-height:0;align-items:center}
+.mx{width:100%;border-collapse:separate;border-spacing:0;background:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.7);border-radius:14px;overflow:hidden;box-shadow:0 10px 30px -18px rgba(30,40,70,.25)}
+.mx th,.mx td{padding:1.05vh .9vw;text-align:left;font-size:var(--fs-sm);border-bottom:1px solid var(--line)}
+.mx thead th{font-family:'JetBrains Mono';font-size:var(--fs-xs);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);background:rgba(255,255,255,.4);font-weight:600}
+.mx tbody tr:last-child td{border-bottom:0}
+.mx td:first-child{font-weight:600;color:var(--ink)}
+.mx .asc{color:#C0344A;font-weight:600} .mx .riv{color:#1E9E6A}
+.mx .col-asc{background:rgba(255,90,110,.07)}
+.cmpmx .mx th,.cmpmx .mx td{padding:.78vh .75vw}
+
+/* ====== 机会矩阵 ====== */
+.oppwrap{display:grid;grid-template-columns:1.1fr .9fr;gap:2.2vw;flex:1;min-height:0;align-items:center}
+.oppleg{display:flex;flex-direction:column;gap:1vh}
+.oppleg .lg{display:grid;grid-template-columns:auto 1fr;gap:.8vw;align-items:start;background:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.7);border-radius:12px;padding:1.1vh 1.1vw}
+.oppleg .dotc{width:14px;height:14px;border-radius:50%;margin-top:.3vh}
+.oppleg .lt{font-weight:700;font-size:var(--fs-body);color:var(--ink)} .oppleg .ld{font-size:var(--fs-sm);color:var(--ink-2);line-height:1.45;margin-top:.2vh}
+
+/* ============ 基调①：封面 ============ */
+.s-cover{color:#fff;background:#0c0a0b;padding:0}
+.cv-bg{position:absolute;inset:0;background:url("cover-bg.png") center/cover no-repeat;z-index:0}
+.cv-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,rgba(10,8,9,.94),rgba(10,8,9,.6) 32%,rgba(10,8,9,.05) 62%)}
+.cv-content{position:relative;z-index:1;height:100vh;padding:6vh 6vw;display:flex;flex-direction:column;justify-content:space-between}
+.cv-top,.cv-bot{display:flex;justify-content:space-between;align-items:flex-end}
+.cv-huawei{display:flex;align-items:center;gap:.7em;font-weight:600;font-size:16px;letter-spacing:.04em;align-self:flex-start}
+.cv-huawei .petal{width:19px;height:19px;flex-shrink:0}
+.cv-meta{font-family:'JetBrains Mono';font-size:var(--fs-xs);letter-spacing:.2em;text-transform:uppercase;opacity:.55}
+.cv-center{display:flex;flex-direction:column;gap:1.4vh;max-width:64vw}
+.cv-kicker{font-family:'JetBrains Mono';font-size:16px;letter-spacing:.34em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:.6vh}
+.cv-logo{display:flex}
+.cv-logo img{height:min(12vh,9vw);width:auto;display:block}
+.cv-title{font-weight:800;font-size:min(5.4vw,9vh);line-height:1.2;letter-spacing:-.01em;color:#fff}
+.cv-sub{font-weight:300;font-size:min(2vw,3.4vh);line-height:1.25;color:rgba(255,255,255,.9)}
+.cv-lead{font-weight:300;font-size:max(16px,1.1vw);line-height:1.6;color:rgba(255,255,255,.62);max-width:42ch;margin-top:1vh}
+.cv-ucd{font-family:'JetBrains Mono';font-size:var(--fs-xs);letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.55);display:flex;align-items:center;gap:.6em}
+.cv-ucd .sq{width:12px;height:12px;border:1.5px solid currentColor;display:inline-block}
+
+/* ============ 基调③：黑底设计点 ============ */
+.s-glow{background:#06060a;color:#fff;padding:7vh 6vw}
+.s-glow .glow{position:absolute;left:0;right:0;bottom:0;height:calc(var(--glow-spread)*1vh);z-index:0;pointer-events:none}
+.s-glow .glow::before,.s-glow .glow::after{content:"";position:absolute;inset:0;mix-blend-mode:screen}
+.s-glow .glow::before{background:radial-gradient(ellipse 78% 96% at 22% 112%,hsla(var(--glow-h),var(--glow-sat),calc(var(--glow-light) + 12%),var(--glow-color-int)) 0%,hsla(var(--glow-h),var(--glow-sat),var(--glow-light),0) 92%)}
+.s-glow .glow::after{background:radial-gradient(ellipse 78% 96% at 78% 112%,hsla(var(--glow-h2),var(--glow-sat),calc(var(--glow-light) + 12%),calc(var(--glow-color-int)*.9)) 0%,hsla(var(--glow-h2),var(--glow-sat),var(--glow-light),0) 90%)}
+.s-glow .glow-white{position:absolute;left:0;right:0;bottom:0;height:calc(var(--glow-spread)*1vh);z-index:0;pointer-events:none;mix-blend-mode:screen;background:linear-gradient(to top,hsla(var(--glow-h),22%,90%,var(--glow-white-int)) 0%,hsla(var(--glow-h),30%,80%,0) 84%)}
+.s-glow .chrome{position:absolute;top:5vh;left:6vw;right:6vw;z-index:1;display:flex;justify-content:space-between;font-family:'JetBrains Mono';font-size:var(--fs-xs);letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.4)}
+.s-glow .inner{position:relative;z-index:1;height:100%;display:grid;grid-template-columns:1fr 1fr;gap:4vw;align-items:center}
+.kicker{font-family:'JetBrains Mono';font-size:var(--fs-xs);letter-spacing:.24em;text-transform:uppercase;color:hsl(var(--glow-h),var(--glow-sat),72%);margin-bottom:2.4vh;display:flex;align-items:center;gap:.8em}
+.kicker::before{content:"";width:28px;height:1px;background:currentColor;opacity:.7}
+.h-title{font-weight:700;font-size:min(3.7vw,6.4vh);line-height:1.2;letter-spacing:-.01em;margin-bottom:1.4vh;background:linear-gradient(100deg,hsl(var(--glow-h),var(--glow-sat),80%),hsl(var(--glow-h2),var(--glow-sat),74%));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.h-title .light{font-weight:200}
+.body{font-weight:300;font-size:var(--fs-body);line-height:1.75;color:rgba(255,255,255,.64);max-width:42ch;margin-bottom:3vh}
+.body b{color:#fff;font-weight:600}
+.points{display:flex;flex-direction:column;gap:1.8vh}
+.point{display:grid;grid-template-columns:auto 1fr;gap:1.1em;align-items:start}
+.point .dot{width:9px;height:9px;margin-top:.55em;border-radius:50%;background:hsl(var(--glow-h),var(--glow-sat),62%);box-shadow:0 0 12px 2px hsla(var(--glow-h),var(--glow-sat),60%,.7);flex-shrink:0}
+.point .pt-title{font-weight:500;font-size:var(--fs-h3);color:#fff;margin-bottom:.3vh}
+.point .pt-desc{font-weight:300;font-size:var(--fs-sm);line-height:1.55;color:rgba(255,255,255,.52)}
+.point .pt-desc b{color:hsl(var(--glow-h),var(--glow-sat),74%);font-weight:600}
+.fig{position:relative;border-radius:14px;overflow:hidden;aspect-ratio:16/11;background:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.12);box-shadow:0 30px 80px -20px hsla(var(--glow-h),var(--glow-sat),30%,.5);display:flex;align-items:center;justify-content:center;padding:2.4vh 2vw}
+.fig svg{width:100%;height:100%;display:block;overflow:visible}
+.voc-cite{position:absolute;left:6vw;right:6vw;bottom:3.2vh;z-index:1;display:flex;align-items:center;gap:.9vw;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:1.1vh 1.2vw;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.voc-cite img{width:36px;height:36px;border-radius:50%;border:1.5px solid rgba(255,255,255,.35);background:#fff;flex-shrink:0}
+.voc-cite .q{font-weight:300;font-size:var(--fs-sm);line-height:1.5;color:rgba(255,255,255,.78);flex:1}
+.voc-cite .q b{color:#fff;font-weight:600}
+.voc-cite .who{font-family:'JetBrains Mono';font-size:var(--fs-xs);color:rgba(255,255,255,.45);white-space:nowrap}
+
+/* ====== 灰底页原声条 / 效率四表 / 痛点清单 ====== */
+.voc-line{display:flex;align-items:center;gap:.9vw;background:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.75);border-radius:12px;box-shadow:0 8px 22px -16px rgba(30,40,70,.2);padding:1vh 1.2vw;flex:0 0 auto}
+.voc-line img{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:#fff;flex-shrink:0}
+.voc-line .q{font-size:var(--fs-sm);line-height:1.5;color:var(--ink-2);flex:1}
+.voc-line .q b{color:#C0344A;font-weight:700}
+.voc-line .who{font-family:'JetBrains Mono';font-size:var(--fs-xs);color:var(--ink-3);white-space:nowrap}
+.eff4{display:grid;grid-template-columns:1fr 1fr;gap:1.8vh 1.4vw;flex:1;min-height:0;align-content:center}
+.mx-cap{font-family:'JetBrains Mono';font-size:var(--fs-xs);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin-bottom:.6vh}
+.bp-sev.mid{background:#C4CAD4;color:#3c4250}
+.pl{display:flex;flex-direction:column;gap:.55vh;margin-top:.2vh}
+.pl .it{display:flex;gap:.6vw;align-items:baseline;font-size:var(--fs-sm);color:var(--ink-2);line-height:1.45}
+.pl .it .bp-sev{flex-shrink:0;align-self:center}
+.bp-avs{display:flex;gap:4px}
+.bp-avs img{width:30px;height:30px;border-radius:50%;border:1.5px solid #fff;background:#fff;box-shadow:0 2px 8px rgba(30,40,70,.18)}
+.rolepain{display:grid;grid-template-columns:150px repeat(7,minmax(0,1fr));gap:.55vh .45vw;flex:1;min-height:0;align-content:center}
+.rp-cell{background:rgba(255,255,255,.56);border:1px solid rgba(255,255,255,.74);border-radius:10px;padding:.8vh .65vw;font-size:var(--fs-xs);line-height:1.35;color:var(--ink-2);min-height:0}
+.rp-cell b{color:var(--ink);font-weight:700}
+.rp-head{font-family:'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase;color:var(--ink);font-weight:700;text-align:center;background:#fff}
+.rp-role{font-weight:800;color:var(--accent);background:rgba(91,91,214,.08)}
+.rp-hit{display:flex;align-items:center;justify-content:center;text-align:center;font-weight:700;color:#fff}
+.rp-hit.severe{background:var(--g-red)}
+.rp-hit.high{background:var(--g-amber);color:#fff}
+.rp-hit.mid{background:#7C8796;color:#fff}
+.rp-hit.low{background:#fff;color:var(--ink-3);border-style:dashed}
+.p0grid{display:grid;grid-template-columns:repeat(2,1fr);grid-template-rows:repeat(2,1fr);gap:1.3vw;flex:1;min-height:0;align-content:center}
+.p0-card{background:rgba(255,255,255,.58);border:1px solid rgba(255,255,255,.75);border-radius:14px;box-shadow:0 9px 26px -16px rgba(30,40,70,.24);padding:1.7vh 1.4vw;display:grid;grid-template-columns:auto 1fr;gap:1vw;align-items:start}
+.p0-id{font-family:'Inter';font-weight:200;font-size:min(3.4vw,6vh);line-height:1;color:#C0344A;letter-spacing:-.04em}
+.p0-title{font-weight:800;font-size:var(--fs-h3);color:var(--ink);line-height:1.25;margin-bottom:.55vh}
+.p0-desc{font-size:var(--fs-sm);line-height:1.5;color:var(--ink-2)}
+.p0-desc b{color:#C0344A;font-weight:700}
+.chapter-cover .inner{grid-template-columns:1fr;align-content:center}
+.cover-block{max-width:66vw}
+.ch-no{font-family:'Inter';font-weight:200;font-size:min(11vw,17vh);line-height:.9;letter-spacing:-.04em;opacity:.5;background:linear-gradient(120deg,hsl(var(--glow-h),var(--glow-sat),82%),hsl(var(--glow-h2),var(--glow-sat),70%));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:1vh}
+.ch-cover-title{font-weight:700;font-size:min(5.4vw,9vh);line-height:1.2;letter-spacing:-.01em;margin-bottom:2.2vh;background:linear-gradient(100deg,hsl(var(--glow-h),var(--glow-sat),85%),hsl(var(--glow-h2),var(--glow-sat),74%));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.ch-cover-sub{font-weight:300;font-size:max(16px,1.2vw);line-height:1.65;color:rgba(255,255,255,.64);max-width:50ch}
+.ch-cover-sub b{color:hsl(var(--glow-h),var(--glow-sat),78%);font-weight:600}
+
+/* 收尾页 */
+.closing .inner{grid-template-columns:1fr;align-content:center}
+.close-list{display:flex;flex-direction:column;gap:2.4vh;max-width:64vw;margin-top:1vh}
+.close-it{display:grid;grid-template-columns:auto 1fr;gap:1.4vw;align-items:baseline}
+.close-it .no{font-family:'Inter';font-weight:200;font-size:min(3.2vw,5.4vh);line-height:1;background:linear-gradient(120deg,hsl(var(--glow-h),var(--glow-sat),82%),hsl(var(--glow-h2),var(--glow-sat),70%));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.close-it .tx{font-weight:300;font-size:min(1.9vw,3.2vh);line-height:1.4;color:rgba(255,255,255,.86)} .close-it .tx b{font-weight:700;color:#fff}
+
+/* 调色面板 */
+#panel{display:none;position:absolute;top:3.8vh;right:calc(6vw + 58px);z-index:60;width:320px;background:linear-gradient(155deg,rgba(58,58,80,.30),rgba(14,14,22,.40));backdrop-filter:blur(34px) saturate(1.7);-webkit-backdrop-filter:blur(34px) saturate(1.7);border:1px solid rgba(255,255,255,.16);border-radius:20px;padding:18px 20px;color:#fff;box-shadow:0 24px 64px -16px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.28)}
+#panel h4{font-size:16px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.62);margin-bottom:14px}
+.preset-row{display:flex;gap:6px;margin-bottom:16px}
+.preset{flex:1;height:30px;border-radius:7px;border:1px solid rgba(255,255,255,.18);cursor:pointer;transition:transform .15s}
+.preset:hover{transform:scale(1.08)}
+.ctrl{margin-bottom:13px}
+.ctrl label{display:flex;justify-content:space-between;font-size:16px;color:rgba(255,255,255,.62);margin-bottom:6px;font-family:'JetBrains Mono'}
+.ctrl label .val{color:#fff}
+.ctrl input[type=range]{width:100%;height:6px;-webkit-appearance:none;border-radius:4px;outline:none;cursor:pointer;background:rgba(255,255,255,.14)}
+.ctrl input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 1px 5px rgba(0,0,0,.5)}
+#toggle{position:absolute;top:3.8vh;right:6vw;z-index:61;width:46px;height:46px;border-radius:14px;background:linear-gradient(155deg,rgba(58,58,80,.4),rgba(14,14,22,.5));backdrop-filter:blur(30px) saturate(1.6);-webkit-backdrop-filter:blur(30px) saturate(1.6);border:1px solid rgba(255,255,255,.18);color:rgba(255,255,255,.82);cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 12px 32px -8px rgba(0,0,0,.5)}
+#toggle:hover{color:#fff}#toggle svg{width:22px;height:22px}
+
+/* SVG 通用前置（顺序占位，原导航已移除）*/
+
+/* SVG 通用类 */
+.sv-lbl{font-family:'HarmonyOS Sans SC','Inter',sans-serif}
+</style>
+</head>
+<body>
+<div id="deck">
+
+<!-- ========== 1. 封面 ========== -->
+<section class="slide s-cover">
+  <div class="cv-bg"></div>
+  <div class="cv-content">
+    <div class="cv-top">
+      <div class="cv-huawei"><svg class="petal" viewBox="0 0 24 24" fill="#E60012"><path d="M12 2c-1 4-3 6-6 7 3 1 5 3 6 7 1-4 3-6 6-7-3-1-5-3-6-7z"/></svg>HUAWEI · 昇腾</div>
+      <div class="cv-meta">Service Design Research · merged v1.1</div>
+    </div>
+    <div class="cv-center">
+      <div class="cv-kicker">User Research Report · 2026</div>
+      <div class="cv-logo"><img src="cann-dark-logo.svg" alt="CANN"></div>
+      <div class="cv-title">盘古训练场景<br/>用户研究报告</div>
+      <div class="cv-sub">基于服务设计方法论 · 角色 → 旅程 → 触点 → 洞察</div>
+      <div class="cv-lead">完整样本池覆盖算子研发、训练 Infra、推理性能、框架测试、数据语料、高校科研、AI 基础设施与性能工具链专家等角色（27 位显式样本、15 份转录 + 18 个 docx、月之暗面与 0610 专家访谈），并与 155 位用户问题清单（172+ 记录）三角验证，识别盘古训练与算子开发场景的核心体验断点与改进框架。</div>
+    </div>
+    <div class="cv-bot">
+      <div class="cv-ucd"><span class="sq"></span>用户研究团队 · USER RESEARCH</div>
+      <div class="cv-meta">2026 · 06 · 10</div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 2. 研究概览 ========== -->
+<section class="slide s-gray">
+  <div class="head">
+    <div class="head-l">
+      <div class="brand"><img class="logo" src="CANNlogo.png" alt="CANN"><span class="ttl">完整样本池 27 位显式样本 × 155 位用户 × 172 个问题的三角验证</span></div>
+      <div class="subttl">Research Overview · merged v1.2 · 角色 → 旅程 → 触点 → 洞察 · 含月之暗面与 0610 性能工具链专家参照</div>
+    </div>
+    <div class="head-r">00 / 研究概览<br/>2026</div>
+  </div>
+  <div class="body-area">
+    <div class="grid2">
+      <div class="figcard card">
+        <svg viewBox="0 0 460 360" class="sv-lbl">
+          <defs>
+            <linearGradient id="mg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5B5BD6"/><stop offset="1" stop-color="#7C3AED"/></linearGradient>
+            <marker id="ah" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#7C3AED"/></marker>
+          </defs>
+          <circle cx="230" cy="180" r="120" fill="none" stroke="url(#mg)" stroke-width="2" stroke-dasharray="4 8" opacity="0.5"/>
+          <circle cx="230" cy="180" r="58" fill="rgba(91,91,214,.08)" stroke="#5B5BD6" stroke-width="1.4"/>
+          <text x="230" y="174" text-anchor="middle" font-size="16" font-weight="800" fill="#16191e">服务设计</text>
+          <text x="230" y="196" text-anchor="middle" font-size="12" fill="#5e646e">Service Design</text>
+          <!-- 四节点 -->
+          <g font-size="14" font-weight="700" fill="#fff">
+            <g><circle cx="230" cy="48" r="34" fill="url(#mg)"/><text x="230" y="46" text-anchor="middle">角色</text><text x="230" y="62" text-anchor="middle" font-size="12" font-weight="400" opacity=".8">Persona</text></g>
+            <g><circle cx="362" cy="180" r="34" fill="url(#mg)"/><text x="362" y="178" text-anchor="middle">旅程</text><text x="362" y="194" text-anchor="middle" font-size="12" font-weight="400" opacity=".8">Journey</text></g>
+            <g><circle cx="230" cy="312" r="34" fill="url(#mg)"/><text x="230" y="310" text-anchor="middle">触点</text><text x="230" y="326" text-anchor="middle" font-size="12" font-weight="400" opacity=".8">Touchpoint</text></g>
+            <g><circle cx="98" cy="180" r="34" fill="url(#mg)"/><text x="98" y="178" text-anchor="middle">洞察</text><text x="98" y="194" text-anchor="middle" font-size="12" font-weight="400" opacity=".8">Insight</text></g>
+          </g>
+          <g fill="none" stroke="#7C3AED" stroke-width="2" marker-end="url(#ah)" opacity="0.7">
+            <path d="M262 70 A120 120 0 0 1 338 152"/>
+            <path d="M338 208 A120 120 0 0 1 262 290"/>
+            <path d="M198 290 A120 120 0 0 1 122 208"/>
+            <path d="M122 152 A120 120 0 0 1 198 70"/>
+          </g>
+        </svg>
+      </div>
+      <div class="stat-grid" style="grid-template-columns:1fr;gap:1.3vh">
+        <div class="kfind-it"><div class="n">27<span class="u">位显式样本</span></div><div class="t">覆盖 ASC / PyPTO / 高校训练 / 训练 Infra / 推理优化 / 性能分析 / 框架测试 / AI 基础设施 / 性能工具链专家等角色</div></div>
+        <div class="kfind-it"><div class="n">7<span class="u">类角色群</span></div><div class="t"><b>研发侧、训练侧、AI 基础设施侧、推理与性能侧、高校/研究机构、平台与运维侧、数据与语料侧</b>统一映射</div></div>
+        <div class="kfind-it"><div class="n">155<span class="u">位用户</span></div><div class="t">问题清单 Excel 覆盖 <b>172+ 条记录</b>、25+ 用户反馈，与访谈交叉验证</div></div>
+        <div class="kfind-it"><div class="n">11<span class="u">个断裂点</span></div><div class="t">v1.2 补强 <b>BP-06 性能分析链路</b>，并新增 5-15% 采样开销、通信阻塞和跨工具联动证据</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ========== 3. 第一章 章节封面 ========== -->
+<section class="slide s-glow chapter-cover" data-chapter="1">
+  <div class="glow-white"></div><div class="glow"></div>
+  <div class="chrome"><div>第一章 · CHAPTER ONE</div><div>真实的训练现场 · 2026</div></div>
+  <div class="inner">
+    <div class="cover-block">
+      <div class="ch-no">01</div>
+      <h1 class="ch-cover-title">真实的训练现场</h1>
+      <p class="ch-cover-sub">问题不在某个单点工具，而在<b>层层断裂的链路</b>——从需求传递、算子开发到训练调优，每一次交接都在损耗效率。这一章用角色、旅程、原声与竞品对照，还原盘古训练用户的真实处境。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 4. 统一角色系统 ========== -->
+<section class="slide s-gray">
+  <div class="head">
+    <div class="head-l">
+      <div class="brand"><img class="logo" src="CANNlogo.png" alt="CANN"><span class="ttl">统一角色系统：四层协作承载七类角色群</span></div>
+      <div class="subttl">Stakeholder System · 用户需求层 → 需求传递层 → 能力构建层 → 平台支撑层 · v1.2 纳入性能工具链专家视角</div>
+    </div>
+    <div class="head-r">01 / 关系人地图<br/>2026</div>
+  </div>
+  <div class="body-area">
+    <div class="stake-system">
+      <div class="stake-map">
+        <div class="stake-flow">
+          <div class="stake-layer2 demand">
+            <div class="stake-label">用户需求层<span>DEMAND</span></div>
+            <div class="stake-nodes">
+              <div class="stake-node">算法 / 产品<b>场景与性能目标</b></div>
+              <div class="stake-node">高校教师 / 学生<b>科研评估</b></div>
+              <div class="stake-node">模型开发<b>迁移与脚本</b></div>
+              <div class="stake-node">训推需求<b>RL / 部署一致性</b></div>
+            </div>
+          </div>
+          <div class="stake-layer2 relay">
+            <div class="stake-label">需求传递层<span>RELAY</span></div>
+            <div class="stake-nodes">
+              <div class="stake-node">算子需求分析<b>支持查询 · 优先级</b></div>
+              <div class="stake-node">架构 / SE<b>需求澄清</b></div>
+              <div class="stake-node">MDE<b>详细设计 · 精度契约</b></div>
+              <div class="stake-node">训推契约<b>权重拓扑 · 算子映射</b></div>
+            </div>
+          </div>
+          <div class="stake-layer2 build">
+            <div class="stake-label">能力构建层<span>BUILD</span></div>
+            <div class="stake-nodes">
+              <div class="stake-node">ASC 算子开发<b>底层算子</b></div>
+              <div class="stake-node">PyPTO 开发<b>接口封装</b></div>
+              <div class="stake-node">框架开发<b>框架适配</b></div>
+              <div class="stake-node">推理优化<b>训推链路</b></div>
+              <div class="stake-node">性能分析<b>Profiling diff</b></div>
+              <div class="stake-node">性能工具链<b>低扰动 Trace</b></div>
+            </div>
+          </div>
+          <div class="stake-layer2 platform">
+            <div class="stake-label">平台支撑层<span>PLATFORM</span></div>
+            <div class="stake-nodes">
+              <div class="stake-node">训练 Infra<b>任务中控台</b></div>
+              <div class="stake-node">AI 基础设施<b>MFU · 自动恢复</b></div>
+              <div class="stake-node">云平台 / SRE<b>资源与告警</b></div>
+              <div class="stake-node">测试验证<b>质量保障</b></div>
+              <div class="stake-node">数据语料<b>质量与抽检</b></div>
+            </div>
+          </div>
+        </div>
+        <div class="touch-strip">
+          <div class="touch-title">System Breaks</div>
+          <div class="touch-chips">
+            <span class="touch-chip">BP-02 工具链断裂</span>
+            <span class="touch-chip">BP-06 性能分析链路</span>
+            <span class="touch-chip">BP-05 实验管理空白</span>
+            <span class="touch-chip">BP-09 精度/概率定位</span>
+            <span class="touch-chip">BP-11 训推一致性断层</span>
+            <span class="touch-chip">P0-5 统一信号流 + 自动恢复</span>
+          </div>
+        </div>
+      </div>
+      <div class="stake-side">
+        <div class="stake-metric primary"><div class="n">7<span class="u">类角色群</span></div><div class="t">新增 <b>AI 基础设施侧</b>，把 MFU、有效算力、自动恢复、训推一致性纳入体验系统。</div></div>
+        <div class="stake-metric"><div class="n">4<span class="u">层关系</span></div><div class="t"><b>需求 → 传递 → 构建 → 平台</b> 不再按组织切割，而按问题流转路径梳理。</div></div>
+        <div class="stake-metric"><div class="n">11<span class="u">个断裂点</span></div><div class="t">从算子需求、工具链、状态感知，扩展到 <b>BP-11 训推转换与一致性</b>。</div></div>
+        <div class="stake-metric"><div class="n">5-15<span class="u">%</span></div><div class="t">0610 专家补充性能分析取舍：全量采样会拖慢训练，单卡采样又可能误判通信瓶颈。</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 5. 24 人用户画像宫格 ========== -->
+<section class="slide s-gray">
+  <div class="head">
+    <div class="head-l">
+      <div class="brand"><img class="logo" src="CANNlogo.png" alt="CANN"><span class="ttl">24 人用户画像宫格：从底层算子到 AI 基础设施生产侧</span></div>
+      <div class="subttl">Persona Grid · 按白皮书用户卡片样式压缩呈现 · 27 位样本去重后取 24 位展示</div>
+    </div>
+    <div class="head-r">01 / 用户画像<br/>2026</div>
+  </div>
+  <div class="body-area">
+    <div class="sample-wall">
+      <div class="sample-card dev"><div class="sample-top"><div class="sample-av"><img src="av/role-asc.svg" alt=""></div><div class="sample-title"><div class="sample-name">王工 · ASC 算子开发</div><div class="sample-group">研发侧 · 底层算子</div></div></div><div class="sample-desc">5 年+ 底层开发经验，C/C++、CUDA 迁移和汇编基础。</div><div class="sample-lines"><div><b>目标</b>：高效可复用算子。</div><div><b>痛点</b>：编译慢、没法调试。</div></div><div class="sample-q">“ASC 最困难的一点就是没法调试。”</div></div>
+      <div class="sample-card edu"><div class="sample-top"><div class="sample-av"><img src="av/role-research.svg" alt=""></div><div class="sample-title"><div class="sample-name">陈工 · 高校训练</div><div class="sample-group">高校/研究机构 · 科研训练</div></div></div><div class="sample-desc">高校研究者，带 10+ 研究生评估昇腾迁移可行性。</div><div class="sample-lines"><div><b>目标</b>：训练迁移与教学科研。</div><div><b>痛点</b>：NPU/GPU 精度对齐难。</div></div><div class="sample-q">“学习率调不准，会出现不收敛。”</div></div>
+      <div class="sample-card dev"><div class="sample-top"><div class="sample-av"><img src="av/role-demand.svg" alt=""></div><div class="sample-title"><div class="sample-name">范工 · 算子需求分析</div><div class="sample-group">研发侧 · 需求传递</div></div></div><div class="sample-desc">对接算法、框架和算子开发，梳理需求与优先级。</div><div class="sample-lines"><div><b>目标</b>：确认算子支持状态。</div><div><b>痛点</b>：信息散落，缺统一视图。</div></div><div class="sample-q">“东西可能散落在各处。”</div></div>
+      <div class="sample-card edu"><div class="sample-top"><div class="sample-av"><img src="av/role-student.svg" alt=""></div><div class="sample-title"><div class="sample-name">熊工 · 高校学生</div><div class="sample-group">高校/研究机构 · 新人学习</div></div></div><div class="sample-desc">硕士研究生，熟悉 PyTorch/CUDA，进入昇腾训练实践。</div><div class="sample-lines"><div><b>目标</b>：完成模型训练项目。</div><div><b>痛点</b>：文档看懂但不懂意思。</div></div><div class="sample-q">“想知道 API 的前因后果。”</div></div>
+
+      <div class="sample-card perf"><div class="sample-top"><div class="sample-av"><img src="av/dongguyin.svg" alt=""></div><div class="sample-title"><div class="sample-name">董工 · 推理优化</div><div class="sample-group">推理与性能侧 · 云推理</div></div></div><div class="sample-desc">负责昇腾云推理优化，关注 Torch NPU 和新算子体验。</div><div class="sample-lines"><div><b>目标</b>：提升推理链路效率。</div><div><b>痛点</b>：新算子文档少。</div></div><div class="sample-q">“很多内容只能口口相传。”</div></div>
+      <div class="sample-card perf"><div class="sample-top"><div class="sample-av"><img src="av/pangxibao.svg" alt=""></div><div class="sample-title"><div class="sample-name">庞工 · 整网性能分析</div><div class="sample-group">推理与性能侧 · Profiling</div></div></div><div class="sample-desc">负责整网 profiling、性能拆解和算子替换验证。</div><div class="sample-lines"><div><b>目标</b>：定位性能瓶颈。</div><div><b>痛点</b>：缺数据搬运量采集。</div></div><div class="sample-q">“nsys 能采集很多信息，我们缺少这种数据。”</div></div>
+      <div class="sample-card train"><div class="sample-top"><div class="sample-av"><img src="av/huangxing.svg" alt=""></div><div class="sample-title"><div class="sample-name">黄工 · 训练 Infra</div><div class="sample-group">训练侧 · 实验管理</div></div></div><div class="sample-desc">承担任务提交、资源排队、训练监控和故障定位。</div><div class="sample-lines"><div><b>目标</b>：支撑大规模训练。</div><div><b>痛点</b>：手动刷网页，无通知。</div></div><div class="sample-q">“一到两个小时刷一次网页。”</div></div>
+      <div class="sample-card perf"><div class="sample-top"><div class="sample-av"><img src="av/role-precision.svg" alt=""></div><div class="sample-title"><div class="sample-name">宋工 · 推理系统测试</div><div class="sample-group">推理与性能侧 · 测试</div></div></div><div class="sample-desc">关注推理系统测试、回归验证和质量保障。</div><div class="sample-lines"><div><b>目标</b>：稳定验证推理系统。</div><div><b>痛点</b>：测试链路分散。</div></div><div class="sample-q">“质量保障需要更完整的回归闭环。”</div></div>
+
+      <div class="sample-card data"><div class="sample-top"><div class="sample-av"><img src="av/wanggang.svg" alt=""></div><div class="sample-title"><div class="sample-name">王工 · 数据算法</div><div class="sample-group">数据与语料侧 · 训练语料</div></div></div><div class="sample-desc">负责文生 UI 场景、语料构建和训练任务运维。</div><div class="sample-lines"><div><b>目标</b>：保障语料质量。</div><div><b>痛点</b>：夜间人工盯任务。</div></div><div class="sample-q">“熬到下半夜，盯着这个东西崩不崩。”</div></div>
+      <div class="sample-card dev"><div class="sample-top"><div class="sample-av"><img src="av/zhoulisa.svg" alt=""></div><div class="sample-title"><div class="sample-name">周工 · MDE</div><div class="sample-group">研发侧 · 详细设计</div></div></div><div class="sample-desc">负责 ASC 算子详细设计、精度定位和帮助入口问题。</div><div class="sample-lines"><div><b>目标</b>：完成设计与验收。</div><div><b>痛点</b>：逐层打印定位精度。</div></div><div class="sample-q">“普通精度问题要定位半天到一天。”</div></div>
+      <div class="sample-card train"><div class="sample-top"><div class="sample-av"><img src="av/zhangnaifu.svg" alt=""></div><div class="sample-title"><div class="sample-name">张工 · 训练优化</div><div class="sample-group">训练侧 · 性能拆解</div></div></div><div class="sample-desc">负责训练优化和性能拆解，关注分析工具效率。</div><div class="sample-lines"><div><b>目标</b>：快速拆解瓶颈。</div><div><b>痛点</b>：单次分析 2-3 小时。</div></div><div class="sample-q">“analyze 分析太慢。”</div></div>
+      <div class="sample-card dev"><div class="sample-top"><div class="sample-av"><img src="av/wangyao.svg" alt=""></div><div class="sample-title"><div class="sample-name">王工 · 算子适配</div><div class="sample-group">研发侧 · 算子适配</div></div></div><div class="sample-desc">关注需求澄清、主线发布和自定义算子库节奏。</div><div class="sample-lines"><div><b>目标</b>：完成生产替换。</div><div><b>痛点</b>：需求澄清 2-4 周。</div></div><div class="sample-q">“踩平到开发至少三周到一个月。”</div></div>
+
+      <div class="sample-card dev"><div class="sample-top"><div class="sample-av"><img src="av/role-operator.svg" alt=""></div><div class="sample-title"><div class="sample-name">宁工 · 框架开发</div><div class="sample-group">研发侧 · 框架适配</div></div></div><div class="sample-desc">负责框架开发与接口易用性，承接上层训练需求。</div><div class="sample-lines"><div><b>目标</b>：提升框架可用性。</div><div><b>痛点</b>：接口设计不直观。</div></div><div class="sample-q">“框架接口需要更清晰的使用路径。”</div></div>
+      <div class="sample-card perf"><div class="sample-top"><div class="sample-av"><img src="av/role-performance.svg" alt=""></div><div class="sample-title"><div class="sample-name">专工 · 性能工具链专家</div><div class="sample-group">推理与性能侧 · 工具链</div></div></div><div class="sample-desc">熟悉 Insight/NCC/Profiler、千卡采样和国产卡适配边界。</div><div class="sample-lines"><div><b>目标</b>：低扰动采到全局证据。</div><div><b>痛点</b>：工具数据不互通。</div></div><div class="sample-q">“全量采样会拖慢训练，单卡又会误判。”</div></div>
+      <div class="sample-card dev"><div class="sample-top"><div class="sample-av"><img src="av/role-mde.svg" alt=""></div><div class="sample-title"><div class="sample-name">许工 · 框架负责人</div><div class="sample-group">研发侧 · 平台视角</div></div></div><div class="sample-desc">框架开发团队负责人，关注团队管理和平台能力建设。</div><div class="sample-lines"><div><b>目标</b>：统一框架标准。</div><div><b>痛点</b>：能力分散难沉淀。</div></div><div class="sample-q">“需要把经验变成平台能力。”</div></div>
+      <div class="sample-card train"><div class="sample-top"><div class="sample-av"><img src="av/role-research.svg" alt=""></div><div class="sample-title"><div class="sample-name">包工 · 模型开发</div><div class="sample-group">训练侧 · 模型开发</div></div></div><div class="sample-desc">模型开发体验调研，关注开发链路和模型工作流。</div><div class="sample-lines"><div><b>目标</b>：完成模型开发流程。</div><div><b>痛点</b>：配置和脚本链路复杂。</div></div><div class="sample-q">“模型开发体验需要贯通工具链。”</div></div>
+
+      <div class="sample-card ai"><div class="sample-top"><div class="sample-av"><img src="av/role-precision.svg" alt=""></div><div class="sample-title"><div class="sample-name">赵工 · 训推需求拆解</div><div class="sample-group">AI 基础设施侧 · 训推流转</div></div></div><div class="sample-desc">拆解训推需求，关注训练到推理的转换与契约。</div><div class="sample-lines"><div><b>目标</b>：明确训推一致性。</div><div><b>痛点</b>：权重拓扑与算子映射断层。</div></div><div class="sample-q">“训推一体需要显式契约。”</div></div>
+      <div class="sample-card dev"><div class="sample-top"><div class="sample-av"><img src="av/role-operator.svg" alt=""></div><div class="sample-title"><div class="sample-name">冯工 · PyPTO 开发</div><div class="sample-group">研发侧 · Python 封装</div></div></div><div class="sample-desc">负责 PyPTO 开发体验，关注 Python 接口和算子封装。</div><div class="sample-lines"><div><b>目标</b>：简化算子封装。</div><div><b>痛点</b>：流程复杂、样例不足。</div></div><div class="sample-q">“需要更直接的开发样例。”</div></div>
+      <div class="sample-card dev"><div class="sample-top"><div class="sample-av"><img src="av/role-operator.svg" alt=""></div><div class="sample-title"><div class="sample-name">张工 · PyPTO 算子</div><div class="sample-group">研发侧 · PyPTO 算子</div></div></div><div class="sample-desc">PyPTO 算子开发，关注调试验证和接口封装。</div><div class="sample-lines"><div><b>目标</b>：完成算子封装。</div><div><b>痛点</b>：验证链路不顺畅。</div></div><div class="sample-q">“封装后还需要稳定验证。”</div></div>
+      <div class="sample-card dev"><div class="sample-top"><div class="sample-av"><img src="av/role-operator.svg" alt=""></div><div class="sample-title"><div class="sample-name">刘工 · PyPTO 算子</div><div class="sample-group">研发侧 · PyPTO 算子</div></div></div><div class="sample-desc">PyPTO 算子开发，关注开发流程、示例和接口一致性。</div><div class="sample-lines"><div><b>目标</b>：提升接口可用性。</div><div><b>痛点</b>：文档与流程割裂。</div></div><div class="sample-q">“样例需要能直接跑起来。”</div></div>
+
+      <div class="sample-card train"><div class="sample-top"><div class="sample-av"><img src="av/role-train.svg" alt=""></div><div class="sample-title"><div class="sample-name">李工 · 模型脚本拆解</div><div class="sample-group">训练侧 · 脚本迁移</div></div></div><div class="sample-desc">负责模型脚本拆解与迁移流程，关注配置理解成本。</div><div class="sample-lines"><div><b>目标</b>：打通脚本迁移。</div><div><b>痛点</b>：配置项语义不清。</div></div><div class="sample-q">“迁移流程需要更清楚的步骤。”</div></div>
+      <div class="sample-card platform"><div class="sample-top"><div class="sample-av"><img src="av/role-train.svg" alt=""></div><div class="sample-title"><div class="sample-name">黄工 · 先导实验</div><div class="sample-group">平台与运维侧 · 试运行</div></div></div><div class="sample-desc">先导实验负责人，关注任务调度、排队和试运行反馈。</div><div class="sample-lines"><div><b>目标</b>：保障实验节奏。</div><div><b>痛点</b>：排队状态不透明。</div></div><div class="sample-q">“实验节奏被状态不可见拖慢。”</div></div>
+      <div class="sample-card data"><div class="sample-top"><div class="sample-av"><img src="av/role-data.svg" alt=""></div><div class="sample-title"><div class="sample-name">徐工 · 语料构建</div><div class="sample-group">数据与语料侧 · 质量评估</div></div></div><div class="sample-desc">训练语料构建工程师，负责清洗、标注和质量验证。</div><div class="sample-lines"><div><b>目标</b>：稳定产出高质量语料。</div><div><b>痛点</b>：大规模处理和抽检慢。</div></div><div class="sample-q">“数据质量需要更系统的验证。”</div></div>
+      <div class="sample-card ai"><div class="sample-top"><div class="sample-av"><img src="av/role-precision.svg" alt=""></div><div class="sample-title"><div class="sample-name">月工 · AI 基础设施</div><div class="sample-group">AI 基础设施侧 · 万卡生产</div></div></div><div class="sample-desc">14 年经验，覆盖万卡训练、训推一体和国产卡适配。</div><div class="sample-lines"><div><b>目标</b>：MFU 54%+、有效算力 85%+。</div><div><b>痛点</b>：监控信号流与自动恢复。</div></div><div class="sample-q">“故障恢复目标控制在 14 分钟内。”</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 6. 角色统计 ========== -->
+<section class="slide s-gray">
+  <div class="head">
+    <div class="head-l">
+      <div class="brand"><img class="logo" src="CANNlogo.png" alt="CANN"><span class="ttl">30% 核心研发角色贡献主要反馈，ASC 人均 6.75 个问题</span></div>
+      <div class="subttl">Role Statistics · 基于 155 用户问题清单的密度分析</div>
+    </div>
+    <div class="head-r">01 / 角色统计<br/>2026</div>
+  </div>
+  <div class="body-area">
+    <div class="statwrap">
+      <div class="figcard card" style="aspect-ratio:auto">
+        <svg viewBox="0 0 480 320" class="sv-lbl">
+          <!-- 横向问题数量柱 -->
+          <g font-size="13" fill="#5e646e">
+            <text x="0" y="14" font-size="13" font-weight="700" fill="#16191e">各角色问题数量（条）</text>
+          </g>
+          <g>
+            <!-- 行: label, value, width scaled (max 73 -> 320px) -->
+            <g transform="translate(0,38)"><text x="0" y="13" font-size="13" fill="#16191e">GPU 模型训练</text><rect x="150" y="2" width="320" height="16" rx="4" fill="url(#mg)"/><text x="462" y="14" text-anchor="end" font-size="13" font-weight="700" fill="#fff">73</text></g>
+            <g transform="translate(0,66)"><text x="0" y="13" font-size="13" fill="#16191e">高校教师/教授</text><rect x="150" y="2" width="320" height="16" rx="4" fill="url(#mg)"/><text x="462" y="14" text-anchor="end" font-size="13" font-weight="700" fill="#fff">73</text></g>
+            <g transform="translate(0,94)"><text x="0" y="13" font-size="13" fill="#16191e">ASC 算子开发</text><rect x="150" y="2" width="237" height="16" rx="4" fill="#FF5A6E"/><text x="379" y="14" text-anchor="end" font-size="13" font-weight="700" fill="#fff">54</text><text x="396" y="14" font-size="12" font-weight="700" fill="#C0344A">密度最高</text></g>
+            <g transform="translate(0,122)"><text x="0" y="13" font-size="13" fill="#16191e">PyPTO 算子开发</text><rect x="150" y="2" width="114" height="16" rx="4" fill="#7C3AED"/><text x="256" y="14" text-anchor="end" font-size="13" font-weight="700" fill="#fff">26</text></g>
+            <g transform="translate(0,150)"><text x="0" y="13" font-size="13" fill="#16191e">A5 模型训练</text><rect x="150" y="2" width="53" height="16" rx="4" fill="#A78BFA"/><text x="208" y="14" font-size="13" font-weight="700" fill="#5e646e">12</text></g>
+            <g transform="translate(0,178)"><text x="0" y="13" font-size="13" fill="#16191e">算子需求分析</text><rect x="150" y="2" width="48" height="16" rx="4" fill="#A78BFA"/><text x="203" y="14" font-size="13" font-weight="700" fill="#5e646e">11</text></g>
+            <g transform="translate(0,206)"><text x="0" y="13" font-size="13" fill="#16191e">微调 / 运维 / 学生</text><rect x="150" y="2" width="70" height="16" rx="4" fill="#C4CAD4"/><text x="225" y="14" font-size="13" font-weight="700" fill="#5e646e">16</text></g>
+          </g>
+          <!-- 占比环 -->
+          <g transform="translate(110,278)">
+            <text x="-110" y="-6" font-size="13" font-weight="700" fill="#16191e">样本构成</text>
+            <circle cx="0" cy="6" r="26" fill="none" stroke="#E1E4EA" stroke-width="9"/>
+            <circle cx="0" cy="6" r="26" fill="none" stroke="url(#mg)" stroke-width="9" stroke-dasharray="49 114" stroke-dashoffset="0" transform="rotate(-90 0 6)" stroke-linecap="round"/>
+            <text x="0" y="3" text-anchor="middle" font-size="13" font-weight="800" fill="#16191e">30%</text>
+            <text x="0" y="15" text-anchor="middle" font-size="7" fill="#5e646e">核心研发</text>
+            <text x="42" y="2" font-size="13" fill="#5e646e">核心研发角色 30%</text>
+            <text x="42" y="18" font-size="13" fill="#929aa6">其他/未分类 104 人 (67.1%)</text>
+          </g>
+        </svg>
+      </div>
+      <div class="kfind">
+        <div class="kfind-it"><div class="n">6.75<span class="u">问题/人</span></div><div class="t"><b>ASC 算子开发工程师</b>问题密度最高——8 人贡献 54 条问题，是体验最差的角色</div></div>
+        <div class="kfind-it"><div class="n">70<span class="u">%+</span></div><div class="t">问题集中在<b>开发者资产</b>（文档、工具、样例），而非算法本身</div></div>
+        <div class="kfind-it"><div class="n">30<span class="u">%</span></div><div class="t">ASC 开发、GPU 训练、高校教师三类<b>核心研发角色</b>贡献了主要反馈</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 7. 旅程地图 ========== -->
+<section class="slide s-gray">
+  <div class="head">
+    <div class="head-l">
+      <div class="brand"><img class="logo" src="CANNlogo.png" alt="CANN"><span class="ttl">十阶段旅程：情绪在算子编译与调试环节跌至谷底</span></div>
+      <div class="subttl">End-to-End Journey · 需求 → 环境 → 开发 → 训练 → 验证调优（10 阶段归并 5 段）</div>
+    </div>
+    <div class="head-r">01 / 用户旅程<br/>2026</div>
+  </div>
+  <div class="body-area">
+    <div class="jn">
+      <div class="jn-r jn-cols">
+        <div class="jn-stage"><div class="s">准备接入</div><div class="e">PREPARE</div></div>
+        <div class="jn-stage"><div class="s">环境搭建</div><div class="e">SETUP</div></div>
+        <div class="jn-stage"><div class="s">算子开发·编译</div><div class="e">DEVELOP</div></div>
+        <div class="jn-stage"><div class="s">调试定位</div><div class="e">DEBUG</div></div>
+        <div class="jn-stage"><div class="s">训练·验证调优</div><div class="e">TUNE</div></div>
+      </div>
+      <div class="jn-rl">触点</div>
+      <div class="jn-r jn-cols">
+        <div class="jn-touch">昇腾官网文档 · 选型指南（缺）</div>
+        <div class="jn-touch">CANN 安装包 · MS 调试工具</div>
+        <div class="jn-touch">CodeArts IDE · tbe 编译</div>
+        <div class="jn-touch">MS debug · 仿真日志</div>
+        <div class="jn-touch">训练监控 · TensorBoard · NPU 日志</div>
+      </div>
+      <div class="jn-emo"><div id="emochart"></div></div>
+      <div class="jn-r jn-cols">
+        <div class="jn-pain">生态文档分散，<b>无法快速确认算子是否支持</b></div>
+        <div class="jn-pain">MS 调试配置复杂，<b>缺一键环境验证</b></div>
+        <div class="jn-pain"><b>编译 30-60 分钟</b>，460+ .o 文件，不支持增量</div>
+        <div class="jn-pain"><b>高优化下无法打断点</b>，十几万行 16 进制日志</div>
+        <div class="jn-pain"><b>NPU/GPU 精度对齐难</b>，监控分散</div>
+      </div>
+      <div class="jn-r jn-cols">
+        <div class="jn-opp"><b>机会：</b>统一算子查询总表</div>
+        <div class="jn-opp"><b>机会：</b>一键安装与验证脚本</div>
+        <div class="jn-opp"><b>机会：</b>增量编译 + 智能去重</div>
+        <div class="jn-opp"><b>机会：</b>IR 级可视化调试</div>
+        <div class="jn-opp"><b>机会：</b>自动精度对齐与误差热力图</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ========== N2. 训练工程师旅程 ========== -->
+<section class="slide s-gray">
+  <div class="head">
+    <div class="head-l">
+      <div class="brand"><img class="logo" src="CANNlogo.png" alt="CANN"><span class="ttl">训练工程师旅程：从方案到生产，缺的是信号流与恢复闭环</span></div>
+      <div class="subttl">Training Engineer Journey · v1.1 补强 · 方案 → 环境镜像 → 先导实验 → 任务监控 → 问题定位 → 训推对齐 → 算子需求 → 生产训练</div>
+    </div>
+    <div class="head-r">01 / 训练旅程<br/>2026</div>
+  </div>
+  <div class="body-area" style="justify-content:flex-start">
+    <div class="train-slide">
+      <div class="train-kpis">
+        <div class="train-kpi"><div class="n">54%+</div><div class="t"><b>MFU 目标</b><br/>从“任务跑起来”转向训练效率验收</div></div>
+        <div class="train-kpi"><div class="n">85%+</div><div class="t"><b>有效算力</b><br/>Goodput 类指标持续追踪</div></div>
+        <div class="train-kpi"><div class="n">14min</div><div class="t"><b>恢复 SLA</b><br/>备用节点 3 分钟内启用</div></div>
+        <div class="train-kpi"><div class="n">1-2h</div><div class="t"><b>训推对齐</b><br/>Tensor Hook 小时级定位</div></div>
+      </div>
+      <div class="jn-r jn-cols8">
+        <div class="jn-stage"><div class="s">方案确定</div><div class="e">PLAN</div></div>
+        <div class="jn-stage"><div class="s">环境镜像</div><div class="e">IMAGE</div></div>
+        <div class="jn-stage"><div class="s">先导实验</div><div class="e">PILOT</div></div>
+        <div class="jn-stage"><div class="s">任务监控</div><div class="e">MONITOR</div></div>
+        <div class="jn-stage"><div class="s">问题定位</div><div class="e">LOCATE</div></div>
+        <div class="jn-stage"><div class="s">训推对齐</div><div class="e">ALIGN</div></div>
+        <div class="jn-stage"><div class="s">算子需求</div><div class="e">OPERATOR</div></div>
+        <div class="jn-stage"><div class="s">生产训练</div><div class="e">PRODUCTION</div></div>
+      </div>
+      <div class="jn-rl">触点与现状</div>
+      <div class="jn-r jn-cols8">
+        <div class="jn-touch">算法侧需求 · 性能指标 · 算子能力</div>
+        <div class="jn-touch">优化镜像 · 驱动/库 · 国产卡软件栈</div>
+        <div class="jn-touch">云道提交 · 等卡 · 看排队状态</div>
+        <div class="jn-touch">loss · rank · 资源 · 日志 · MFU</div>
+        <div class="jn-touch">导日志 · Python 图 · 逐层打印</div>
+        <div class="jn-touch">推理引擎 · 动态路由 · Tensor Hook</div>
+        <div class="jn-touch">提需求 · 等开发 · 验收替换</div>
+        <div class="jn-touch">万卡拉起 · 熔断 · checkpoint 恢复</div>
+      </div>
+      <div class="jn-rl">痛点</div>
+      <div class="jn-r jn-cols8">
+        <div class="jn-pain">性能指标和算子能力<b>缺量化参考</b></div>
+        <div class="jn-pain">国产卡环境适配前置消耗大量 Infra 时间</div>
+        <div class="jn-pain"><b>排队不透明</b>，手动刷网页，实验节奏不可控</div>
+        <div class="jn-pain">日志混乱，无主动通知，异常发现晚</div>
+        <div class="jn-pain">NaN/loss 溢出需人工介入，定位周期长</div>
+        <div class="jn-pain">推理算子差异、动态路由造成输出漂移</div>
+        <div class="jn-pain">澄清 <b>2-4 周</b>，主线开发慢，替换验证 1-2 天</div>
+        <div class="jn-pain">万元/小时级成本，国产卡恢复闭环仍需补齐</div>
+      </div>
+      <div class="jn-r jn-cols8">
+        <div class="jn-opp"><b>机会：</b>训练方案评估器 + 算子支持/性能预测</div>
+        <div class="jn-opp"><b>机会：</b>镜像版本矩阵、依赖自检、迁移清单</div>
+        <div class="jn-opp"><b>机会：</b>队列状态推送、资源 ETA、排队原因</div>
+        <div class="jn-opp"><b>机会：</b>统一监控信号流：loss/MFU/吞吐/有效算力</div>
+        <div class="jn-opp"><b>机会：</b>异常 step 捕获，rank/step/operator 联动</div>
+        <div class="jn-opp"><b>机会：</b>Tensor Hook、相似度/绝对误差、自动熔断</div>
+        <div class="jn-opp"><b>机会：</b>算子需求平台 + Triton 快速验证通道</div>
+        <div class="jn-opp"><b>机会：</b>备用节点切换、异步 checkpoint、恢复后验证</div>
+      </div>
+      <div class="journey-voc"><div class="q">「以前真的是每天晚上要熬到下半夜，盯着这个东西崩不崩」说明问题不只是提醒缺失，而是需要把<b>异常发现、日志链接、责任定位、备用节点切换和 checkpoint 恢复</b>串成闭环。</div><div class="who">王工 · 数据算法工程师（转述） / 月工 · AI 基础设施参照</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== N3. 算子开发六阶段旅程 ========== -->
+<section class="slide s-gray">
+  <div class="head">
+    <div class="head-l">
+      <div class="brand"><img class="logo" src="CANNlogo.png" alt="CANN"><span class="ttl">细粒度算子旅程：六阶段全流程「数周到数月」，期望 1-2 周</span></div>
+      <div class="subttl">Operator Development Journey · 需求分析 → 设计 → 实现 → 编译 → 调试 → 集成发布</div>
+    </div>
+    <div class="head-r">01 / 算子旅程<br/>2026</div>
+  </div>
+  <div class="body-area">
+    <div style="display:flex;flex-direction:column;gap:.7vh;flex:1;min-height:0;justify-content:center">
+      <div class="jn-r" style="grid-template-columns:repeat(6,1fr)">
+        <div class="jn-stage"><div class="s">需求分析</div><div class="e">ANALYZE</div></div>
+        <div class="jn-stage"><div class="s">算子设计</div><div class="e">DESIGN</div></div>
+        <div class="jn-stage"><div class="s">开发实现</div><div class="e">CODE</div></div>
+        <div class="jn-stage"><div class="s">编译构建</div><div class="e">BUILD</div></div>
+        <div class="jn-stage"><div class="s">调试验证</div><div class="e">DEBUG</div></div>
+        <div class="jn-stage"><div class="s">集成发布</div><div class="e">RELEASE</div></div>
+      </div>
+      <div class="jn-rl">耗时 · 现状 → 期望</div>
+      <div class="jn-r" style="grid-template-columns:repeat(6,1fr)">
+        <div class="jn-touch"><b>1-3 天</b> → 1 天内</div>
+        <div class="jn-touch"><b>数周-数月</b> → 1-2 周</div>
+        <div class="jn-touch">简单 <b>3-5 天</b> · 复杂 2-4 周 · 新人首算子 2-3 个月</div>
+        <div class="jn-touch"><b>30-60 分钟</b> → 秒级（差 5000×）</div>
+        <div class="jn-touch">效率 <b>-70%</b> · 测试 +1-2 小时/算子</div>
+        <div class="jn-touch">人工流程 → 自动化</div>
+      </div>
+      <div class="jn-rl">痛点</div>
+      <div class="jn-r" style="grid-template-columns:repeat(6,1fr)">
+        <div class="jn-pain">信息散落各处，<b>手动查代码确认支持</b></div>
+        <div class="jn-pain">文档散乱，<b>参数理解困难</b></div>
+        <div class="jn-pain"><b>Tiling 靠 trial &amp; error</b>，单位不一致易漏</div>
+        <div class="jn-pain"><b>增量编译缺失</b>，460+ .o 冗余</div>
+        <div class="jn-pain"><b>MS debug 高优化失效</b>，测试框架不支持自定义算子包</div>
+        <div class="jn-pain">集成流程分散，<b>发布周期不可控</b></div>
+      </div>
+      <div class="jn-r" style="grid-template-columns:repeat(6,1fr)">
+        <div class="jn-opp"><b>期望：</b>统一查询中心</div>
+        <div class="jn-opp"><b>期望：</b>Tiling 方法论 + 参考实现</div>
+        <div class="jn-opp"><b>期望：</b>自动化 Tiling 辅助 · 内存可视化</div>
+        <div class="jn-opp"><b>期望：</b>增量编译 · 智能去重</div>
+        <div class="jn-opp"><b>期望：</b>源码级断点 · 自动精度对齐</div>
+        <div class="jn-opp"><b>期望：</b>一键发布 · 自动集成测试</div>
+      </div>
+      <div class="voc-line"><img src="av/role-asc.svg" alt=""><div class="q">「<b>Tiling 切分真的很难，没有一个清晰的指导思路</b>……希望有一个工具能帮我分析如何切分更优」——全流程主要阻塞因素：工具链断裂</div><div class="who">王工 · ASC 算子开发</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 8. 量化痛点 ========== -->
+<section class="slide s-gray">
+  <div class="head">
+    <div class="head-l">
+      <div class="brand"><img class="logo" src="CANNlogo.png" alt="CANN"><span class="ttl">编译 5000×、调试 -70%、日志 3-5×：效率鸿沟触目惊心</span></div>
+      <div class="subttl">Quantified Pain · 算子开发关键环节的效率差距</div>
+    </div>
+    <div class="head-r">01 / 量化痛点<br/>2026</div>
+  </div>
+  <div class="body-area">
+    <div class="stat-grid">
+      <div class="stat-col">
+        <div class="stat-bar-area"><div class="stat-marks"><span>秒级</span><span class="stat-tri" style="left:92%">▼</span><span>30-60 分钟</span></div><div class="stat-pills"><div class="stat-pill" style="flex:92;background:linear-gradient(90deg,#FF6B9D,#FF6F55)"></div><div class="stat-pill" style="flex:8;background:linear-gradient(90deg,#FF6F55,#FBBF60)"></div></div></div>
+        <div class="stat-num">5000<span class="u">×</span></div>
+        <div class="stat-desc">编译耗时与 CUDA 秒级编译的差距。改一行代码要全量重编 30-60 分钟，不支持增量编译。</div>
+      </div>
+      <div class="stat-col">
+        <div class="stat-bar-area"><div class="stat-marks"><span>0</span><span class="stat-tri" style="left:70%">▼</span><span>100%</span></div><div class="stat-pills"><div class="stat-pill" style="flex:70;background:linear-gradient(90deg,#667EEA,#B260D8)"></div><div class="stat-pill" style="flex:30;background:linear-gradient(90deg,#B260D8,#F5576C)"></div></div></div>
+        <div class="stat-num">70<span class="u">%↓</span></div>
+        <div class="stat-desc">调试效率下降幅度。MS debug 在高优化等级下失效，只能读汇编、靠 print 二分法定位。</div>
+      </div>
+      <div class="stat-col">
+        <div class="stat-bar-area"><div class="stat-marks"><span>1×</span><span class="stat-tri" style="left:60%">▼</span><span>5×</span></div><div class="stat-pills"><div class="stat-pill" style="flex:60;background:linear-gradient(90deg,#23CFA0,#38C9D7)"></div><div class="stat-pill" style="flex:40;background:linear-gradient(90deg,#38C9D7,#4FACFE)"></div></div></div>
+        <div class="stat-num">3-5<span class="u">×</span></div>
+        <div class="stat-desc">日志分析耗时增幅。仿真日志以「几十万行 16 进制」为单位，需手动转换才能读。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== N4. 全局效率矩阵 ========== -->
+<section class="slide s-gray">
+  <div class="head">
+    <div class="head-l">
+      <div class="brand"><img class="logo" src="CANNlogo.png" alt="CANN"><span class="ttl">全局效率矩阵：从编译到生产成本的完整量化清单</span></div>
+      <div class="subttl">Efficiency Matrix · 编译开发 / 开发路径周期 / 问题定位 / 容量与成本 四视角</div>
+    </div>
+    <div class="head-r">01 / 效率矩阵<br/>2026</div>
+  </div>
+  <div class="body-area">
+    <div class="eff4">
+      <div>
+        <div class="mx-cap">① 编译与开发效率</div>
+        <table class="mx">
+          <thead><tr><th>环节</th><th class="col-asc">现状</th><th>期望</th><th>差距</th></tr></thead>
+          <tbody>
+            <tr><td>编译耗时</td><td class="col-asc asc">30-60 分钟</td><td class="riv">秒级</td><td>5000×</td></tr>
+            <tr><td>增量编译</td><td class="col-asc asc">不支持</td><td class="riv">支持</td><td>—</td></tr>
+            <tr><td>编译产物</td><td class="col-asc asc">460+ .o /算子</td><td class="riv">精简</td><td>—</td></tr>
+            <tr><td>MS debug 效率</td><td class="col-asc asc">下降 70%+</td><td class="riv">正常</td><td>—</td></tr>
+            <tr><td>日志分析</td><td class="col-asc asc">耗时 +3-5 倍</td><td class="riv">自动化</td><td>—</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <div class="mx-cap">② 算子开发周期 · 按路径</div>
+        <table class="mx">
+          <thead><tr><th>类型 / 路径</th><th>开发周期</th><th>发布周期</th></tr></thead>
+          <tbody>
+            <tr><td>简单算子</td><td>3-5 天 + 验证数天</td><td>—</td></tr>
+            <tr><td>复杂算子</td><td>数周-数月 + 验证数周</td><td>—</td></tr>
+            <tr><td>CANN 主线</td><td class="asc">至少 1 个月</td><td class="asc">3 个月发版</td></tr>
+            <tr><td>自定义算子库</td><td>1 个月</td><td class="riv">15 天发版</td></tr>
+            <tr><td>Triton 快速方案</td><td class="riv">1-2 周</td><td class="riv">验证后决策</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <div class="mx-cap">③ 问题定位效率</div>
+        <table class="mx">
+          <thead><tr><th>问题类型</th><th class="col-asc">定位耗时</th><th>工具支持</th><th>来源</th></tr></thead>
+          <tbody>
+            <tr><td>概率问题</td><td class="col-asc asc">2 周</td><td>缺失</td><td>庞工</td></tr>
+            <tr><td>精度问题</td><td class="col-asc asc">半天到一天</td><td>人工逐层打印</td><td>周工</td></tr>
+            <tr><td>性能拆解</td><td class="col-asc asc">2-3 小时/次</td><td>能力不足</td><td>张工</td></tr>
+            <tr><td>多卡崩溃</td><td class="col-asc asc">数天</td><td>缺失</td><td>庞工</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <div class="mx-cap">④ 容量与成本</div>
+        <table class="mx">
+          <thead><tr><th>指标</th><th>数值</th><th>来源</th></tr></thead>
+          <tbody>
+            <tr><td>1 万卡训练成本</td><td class="asc">~2 万元/小时</td><td>黄工</td></tr>
+            <tr><td>12 小时故障潜在损失</td><td class="asc">~24 万元</td><td>黄工</td></tr>
+            <tr><td>数据爬取规模</td><td>800w 代码仓</td><td>王工</td></tr>
+            <tr><td>预训练数据量</td><td>28T tokens</td><td>王工</td></tr>
+            <tr><td>实验任务并发</td><td>一天数十条</td><td>黄工</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 9. 用户原声墙 ========== -->
+<section class="slide s-gray">
+  <div class="head">
+    <div class="head-l">
+      <div class="brand"><img class="logo" src="CANNlogo.png" alt="CANN"><span class="ttl">用户原声：「最困难的一点，就是没法调试」</span></div>
+      <div class="subttl">Voice of Customer · 来自 26 位显式样本与 155 位用户问题清单的真实表达</div>
+    </div>
+    <div class="head-r">01 / 用户原声<br/>2026</div>
+  </div>
+  <div class="body-area" style="justify-content:flex-start">
+    <div class="voc-strip">
+      <div class="voc-kpi"><div class="n">460<span class="u">+ .o</span></div><div class="t">一个算子编译出 460 多个 .o 文件，内容大量重复</div></div>
+      <div class="voc-kpi"><div class="n">30-60<span class="u">分钟</span></div><div class="t">改一行代码要把整个都编一遍</div></div>
+      <div class="voc-kpi"><div class="n">几十万<span class="u">行</span></div><div class="t">仿真日志以「几 100000 行」为单位的 16 进制</div></div>
+      <div class="voc-kpi"><div class="n">2000<span class="u">+ 条</span></div><div class="t">高校数据清洗，5%-10% 抽检人工验证</div></div>
+    </div>
+    <div class="voc-wall">
+      <div class="voc-card tint"><div class="voc-q"><span class="big">「ASC 其实最困难的一点就是没法调试，A5 上说是有 MS debug，但是其实我们这边人很少有人用。」</span></div><div class="voc-by"><img src="av/role-asc.svg" alt=""><div><div class="who">王工</div><div class="role">ASC 算子开发</div></div></div></div>
+      <div class="voc-card"><div class="voc-q">「改一行代码，它可能要把整个都编一遍……可能 30 分钟到 1 个小时，就这样很耗时。」</div><div class="voc-by"><img src="av/role-asc.svg" alt=""><div><div class="who">王工</div><div class="role">ASC 算子开发</div></div></div></div>
+      <div class="voc-card"><div class="voc-q">「优化等级开的比较高的话，函数结构都没有了，最后全是一大串汇编指令，很难找到对应的行数关系。」</div><div class="voc-by"><img src="av/role-asc.svg" alt=""><div><div class="who">王工</div><div class="role">ASC 算子开发</div></div></div></div>
+      <div class="voc-card tint"><div class="voc-q"><span class="big">「我特别想有一个这种表，我能快速的确认……实际上不是很好找，东西可能散落在各处。」</span></div><div class="voc-by"><img src="av/role-demand.svg" alt=""><div><div class="who">范工</div><div class="role">算子需求分析</div></div></div></div>
+      <div class="voc-card"><div class="voc-q">「对于一个新手来说，我想知道这个 API 的前因后果——我为什么有这个 API，它一般用在什么场景下？」</div><div class="voc-by"><img src="av/role-student.svg" alt=""><div><div class="who">熊工</div><div class="role">ASC 算子开发</div></div></div></div>
+      <div class="voc-card"><div class="voc-q">「同样的单位，在肩上是字节，放到 UB 上又变成 32 字节对齐……很容易漏掉这种细节。」</div><div class="voc-by"><img src="av/role-student.svg" alt=""><div><div class="who">熊工</div><div class="role">ASC 算子开发</div></div></div></div>
+      <div class="voc-card"><div class="voc-q">「框架进步了但有些功能还没支持好，学习率要是调不准，会出现不收敛。」</div><div class="voc-by"><img src="av/role-research.svg" alt=""><div><div class="who">陈工</div><div class="role">高校训练</div></div></div></div>
+      <div class="voc-card"><div class="voc-q">「这一批 2000 多条数据，要把图片、特殊符号抹掉，重复数据去掉，5%-10% 抽检人工验证。」</div><div class="voc-by"><img src="av/role-research.svg" alt=""><div><div class="who">陈工</div><div class="role">高校训练</div></div></div></div>
+      <div class="voc-card tint"><div class="voc-q"><span class="big">「NPU 与 GPU 训练精度对齐是难点，还缺少统一的监控平台。」</span></div><div class="voc-by"><img src="av/role-precision.svg" alt=""><div><div class="who">杜工</div><div class="role">精度对齐</div></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== N5. 洞察 I 成本压力 ========== -->
+<section class="slide s-gray">
+  <div class="head">
+    <div class="head-l">
+      <div class="brand"><img class="logo" src="CANNlogo.png" alt="CANN"><span class="ttl">生产训练成本压力巨大：工具链可靠性直接换算成业务损失</span></div>
+      <div class="subttl">New Insight Ⅰ · 万亿参数 × 万卡集群，故障定位每多一小时都在烧钱</div>
+    </div>
+    <div class="head-r">01 / 洞察 · 成本<br/>2026</div>
+  </div>
+  <div class="body-area">
+    <div class="stat-grid" style="flex:1">
+      <div class="stat-col">
+        <div class="stat-num">2<span class="u">万元/小时</span></div>
+        <div class="stat-desc">万卡集群训练成本。按 2 元/卡·小时计，接近 1 万亿参数、1 万卡规模的训练每小时烧掉约 2 万元。</div>
+      </div>
+      <div class="stat-col">
+        <div class="stat-num">24<span class="u">万元</span></div>
+        <div class="stat-desc">12 小时故障的潜在损失（报告测算）。NaN / loss 跑飞若半天搞不定，损失即六位数。</div>
+      </div>
+      <div class="stat-col">
+        <div class="stat-num">2-3<span class="u">小时/次</span></div>
+        <div class="stat-desc">每次性能拆解耗时（张工）。问题定位必须更高效、监控必须更可靠，从「人工熬夜监控」转向「自动化预警」。</div>
+      </div>
+    </div>
+    <div class="voc-line" style="margin-bottom:1vh"><img src="av/role-train.svg" alt=""><div class="q">「突然出现 NaN 或者 loss 跑飞掉了……简单按两块钱一小时一卡去算，就是 <b>2 万块钱一小时</b>。如果你中途 12 个小时搞不定的话……」</div><div class="who">黄工 · 训练框架 Infra</div></div>
+    <div class="voc-line"><img src="av/role-data.svg" alt=""><div class="q">「每天晚上熬到下半夜，<b>盯着这个东西崩不崩</b>——人扛肩拉的方式来盯着它不崩」</div><div class="who">王工 · 数据算法工程师（转述）</div></div>
+  </div>
+</section>
+
+<!-- ========== N6. 洞察 II 精度阻塞 ========== -->
+<section class="slide s-gray">
+  <div class="head">
+    <div class="head-l">
+      <div class="brand"><img class="logo" src="CANNlogo.png" alt="CANN"><span class="ttl">精度与概率性问题成为最大阻塞点：一次定位可耗 2 周</span></div>
+      <div class="subttl">New Insight Ⅱ · 小概率精度问题只能「等复现 + 靠运气」异步排查</div>
+    </div>
+    <div class="head-r">01 / 洞察 · 精度<br/>2026</div>
+  </div>
+  <div class="body-area">
+    <div class="stat-grid" style="flex:1">
+      <div class="stat-col">
+        <div class="stat-num">2<span class="u">周</span></div>
+        <div class="stat-desc">概率性精度问题定位耗时。只能按「小概率 → 确定条件 → 复现场景」异步排查，依赖运气找到稳定复现。</div>
+      </div>
+      <div class="stat-col">
+        <div class="stat-num">0.5-1<span class="u">天</span></div>
+        <div class="stat-desc">普通精度问题定位耗时——卡上定位手段有限，只能人工逐层打印对比（周工）。</div>
+      </div>
+      <div class="stat-col">
+        <div class="stat-num">1-2<span class="u">天/次</span></div>
+        <div class="stat-desc">替换算子后的验证时间。每验证一版算子都要再等 1-2 天，问题周期被持续拉长（庞工）。</div>
+      </div>
+    </div>
+    <div class="voc-line" style="margin-bottom:1vh"><img src="av/role-performance.svg" alt=""><div class="q">「卷积 + dispatch 的融合算子，会有<b>概率性的精度问题</b>……跑了一两天发现问题好像没了，最后只能确定跟算子有关系，<b>花了两个星期</b>」</div><div class="who">庞工 · 整网性能分析</div></div>
+    <div class="voc-line"><img src="av/role-mde.svg" alt=""><div class="q">「就是这种<b>小概率问题</b>……需要更多的样本」——缺乏系统化工具支持，概率问题是隐含的精度短板</div><div class="who">周工 · ASC 详细设计 MDE</div></div>
+  </div>
+</section>
+
+<!-- ========== N7. 洞察 III 旁路生态 ========== -->
+<section class="slide s-gray">
+  <div class="head">
+    <div class="head-l">
+      <div class="brand"><img class="logo" src="CANNlogo.png" alt="CANN"><span class="ttl">AscendC 周期过长，催生「自己上」的旁路生态</span></div>
+      <div class="subttl">New Insight Ⅲ · CANN 主线 vs 自定义算子库 vs Triton 三条路径的真实周期</div>
+    </div>
+    <div class="head-r">01 / 洞察 · 旁路<br/>2026</div>
+  </div>
+  <div class="body-area">
+    <div class="stat-grid" style="flex:0 0 auto;align-items:stretch;gap:1.4vw;margin-bottom:1.4vh">
+      <div class="kfind-it"><div class="n" style="color:#C0344A">6-8<span class="u">周+</span></div><div class="t"><b>CANN 主线</b>：需求评审 2 周 + 澄清 2-4 周 + AscendC 开发 1-1.5 个月，再<b>跟随 3 个月发版节奏</b>上线</div></div>
+      <div class="kfind-it"><div class="n">45<span class="u">天</span></div><div class="t"><b>自定义算子库</b>：开发 1 个月 + <b>15 天发版</b>——用户自主发布、自担维护成本（王工）</div></div>
+      <div class="kfind-it"><div class="n" style="color:#1E9E6A">1-2<span class="u">周</span></div><div class="t"><b>Triton 快速方案</b>：Python 级构建先行验证，接受不了再向下提需求（黄工）</div></div>
+    </div>
+    <div class="jn-rl">王工视角 · 算子开发四步与耗时</div>
+    <div class="jn-r" style="grid-template-columns:repeat(4,1fr);margin-bottom:1.2vh">
+      <div class="jn-touch"><b>① 需求评审</b><br/>对需求 2 周 · 澄清 2-4 周</div>
+      <div class="jn-touch"><b>② 开发实现</b><br/>AscendC 1-1.5 个月 / Triton 1-2 周</div>
+      <div class="jn-touch"><b>③ 测试验收</b><br/>精度 + 性能 · Bug 修复延长周期</div>
+      <div class="jn-touch"><b>④ 集成上线</b><br/>主线随 3 个月发版 / 自定义 15 天</div>
+    </div>
+    <div class="voc-line" style="margin-bottom:1vh"><img src="av/role-operator.svg" alt=""><div class="q">「在<b>需求的澄清上我们花费了大量时间</b>……最快两周，但整个踩平完能开始开发，至少三周到一个月过去了」</div><div class="who">王工 · 算子适配</div></div>
+    <div class="voc-line"><img src="av/role-train.svg" alt=""><div class="q">「跟下面开发一个 AscendC 算子，周期可能至少一个月。<b>如果用 Triton 去构建，可能 1-2 周就能搞定</b>」——工具栈拖累已催生旁路生态，主线流程需要反思</div><div class="who">黄工 · 训练框架 Infra</div></div>
+  </div>
+</section>
+
+<!-- ========== N8. 洞察 IV 实验管理空白 ========== -->
+<section class="slide s-gray">
+  <div class="head">
+    <div class="head-l">
+      <div class="brand"><img class="logo" src="CANNlogo.png" alt="CANN"><span class="ttl">实验管理处于「石器时代」：几十条任务靠手动刷网页</span></div>
+      <div class="subttl">New Insight Ⅳ · 工具链空白，人力成本显著 · 对应断裂点 BP-05 / BP-08</div>
+    </div>
+    <div class="head-r">01 / 洞察 · 实验管理<br/>2026</div>
+  </div>
+  <div class="body-area">
+    <div class="stat-grid" style="flex:1">
+      <div class="stat-col">
+        <div class="stat-num">几十<span class="u">条/天</span></div>
+        <div class="stat-desc">每日并发的实验任务数量。无统一实验管理系统，队列靠查看排队后手动登记到文件。</div>
+      </div>
+      <div class="stat-col">
+        <div class="stat-num">1-2<span class="u">小时/刷</span></div>
+        <div class="stat-desc">状态监控方式是刷网页：一到两个小时刷一次，看任务是否排上、有没有崩，无任何主动通知。</div>
+      </div>
+      <div class="stat-col">
+        <div class="stat-num">0<span class="u">套工具</span></div>
+        <div class="stat-desc">实验管理工具数。结果展示靠纯文本日志，用户用 Python 自写脚本再可视化绘图，无图形化分析。</div>
+      </div>
+    </div>
+    <div class="voc-line" style="margin-bottom:1vh"><img src="av/role-train.svg" alt=""><div class="q">「<b>手动去刷网页</b>……过个一到两个小时，发现又排上去了」</div><div class="who">黄工 · 训练框架 Infra</div></div>
+    <div class="voc-line"><img src="av/role-train.svg" alt=""><div class="q">「用 <b>Python 自己写的一套代码脚本</b>，然后再可视化、绘图」——队列管理、状态监控、结果展示三件事全靠低位手段自救</div><div class="who">黄工 · 训练框架 Infra</div></div>
+  </div>
+</section>
+
+<!-- ========== 10. 旅程断裂点 ========== -->
+<section class="slide s-gray">
+  <div class="head">
+    <div class="head-l">
+      <div class="brand"><img class="logo" src="CANNlogo.png" alt="CANN"><span class="ttl">十个旅程断裂点：BP-02 与 BP-09 是双严重阻塞</span></div>
+      <div class="subttl">Journey Break Points · v3 扩展：实验管理 / 性能分析 / 流程周期 / 状态感知 / 精度工具 / 多卡日志</div>
+    </div>
+    <div class="head-r">01 / 旅程断裂点<br/>2026</div>
+  </div>
+  <div class="body-area">
+    <div class="grid2 rev" style="grid-template-columns:.78fr 1.22fr">
+      <div class="figcard card" style="aspect-ratio:auto">
+        <svg viewBox="0 0 340 356" class="sv-lbl" style="max-width:min(100%,60vh)">
+          <defs><marker id="ah3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#FF5A6E"/></marker></defs>
+          <text x="170" y="18" text-anchor="middle" font-size="14" font-weight="700" fill="#16191e">BP-02 / BP-09 双死循环</text>
+          <g fill="none" stroke="#FF5A6E" stroke-width="2" marker-end="url(#ah3)">
+            <path d="M215 102 A110 110 0 0 1 270 157"/>
+            <path d="M270 247 A110 110 0 0 1 215 302"/>
+            <path d="M125 302 A110 110 0 0 1 70 247"/>
+            <path d="M70 157 A110 110 0 0 1 125 102"/>
+          </g>
+          <g font-size="13" fill="#fff" text-anchor="middle">
+            <g><circle cx="170" cy="92" r="36" fill="#FF5A6E"/><text x="170" y="89">改一行</text><text x="170" y="105">代码</text></g>
+            <g><circle cx="280" cy="202" r="36" fill="#FF6F55"/><text x="280" y="199">全量重编</text><text x="280" y="215">30min</text></g>
+            <g><circle cx="170" cy="312" r="36" fill="#FBBF60"/><text x="170" y="309" fill="#16191e">运行</text><text x="170" y="325" fill="#16191e">出错</text></g>
+            <g><circle cx="60" cy="202" r="36" fill="#7C3AED"/><text x="60" y="199">读 16 进制</text><text x="60" y="215">日志</text></g>
+          </g>
+          <text x="170" y="198" text-anchor="middle" font-size="14" font-weight="800" fill="#C0344A">无法打断点</text>
+          <text x="170" y="216" text-anchor="middle" font-size="13" fill="#5e646e">精度问题又难复现</text>
+        </svg>
+      </div>
+      <div class="bp bp-ten">
+        <div class="bp-c"><div class="bp-top"><span class="bp-id">BP-01</span><span class="bp-sev high">高</span></div><div class="bp-h">算子需求传递低效</div><div class="bp-d">需求识别靠人工，支持情况散落在代码、文档和口头经验里。</div><div class="bp-foot"><span>影响 20.1% (31/155)</span><span>算法 ↔ 算子</span></div></div>
+        <div class="bp-c crit"><div class="bp-top"><span class="bp-id">BP-02</span><span class="bp-sev crit">严重</span></div><div class="bp-h">算子工具链断裂</div><div class="bp-d">高优化无法断点、无增量编译、日志 16 进制；调试 -70%，编译 30-60 分钟。</div><div class="bp-foot"><span>算子开发全流程</span></div></div>
+        <div class="bp-c"><div class="bp-top"><span class="bp-id">BP-03</span><span class="bp-sev high">高</span></div><div class="bp-h">跨团队归因困难</div><div class="bp-d">Loss 不降时算法、框架、算子、硬件互相归因，缺少统一排查路径。</div><div class="bp-foot"><span>协作链路</span></div></div>
+        <div class="bp-c"><div class="bp-top"><span class="bp-id">BP-04</span><span class="bp-sev high">高</span></div><div class="bp-h">NPU/GPU 精度对齐难</div><div class="bp-d">验证成本高，监控分散，精度差异仍依赖人工逐层打印对比。</div><div class="bp-foot"><span>训练 / 验证</span></div></div>
+        <div class="bp-c"><div class="bp-top"><span class="bp-id">BP-05</span><span class="bp-sev high">高</span></div><div class="bp-h">实验管理工具缺失</div><div class="bp-d">每日几十条任务靠网页、文件和自写 Python 脚本维护。</div><div class="bp-foot"><span>训练 Infra</span></div></div>
+        <div class="bp-c"><div class="bp-top"><span class="bp-id">BP-06</span><span class="bp-sev high">高</span></div><div class="bp-h">性能分析链路长</div><div class="bp-d">缺少类似 nsys 的搬运量和算子级采集，单次拆解可耗 2-3 小时。</div><div class="bp-foot"><span>性能分析</span></div></div>
+        <div class="bp-c"><div class="bp-top"><span class="bp-id">BP-07</span><span class="bp-sev high">高</span></div><div class="bp-h">开发流程过长</div><div class="bp-d">需求澄清 2-4 周、AscendC 1 月+、主线 3 月发版，催生旁路生态。</div><div class="bp-foot"><span>算法 / SE / 算子</span></div></div>
+        <div class="bp-c"><div class="bp-top"><span class="bp-id">BP-08</span><span class="bp-sev high">高</span></div><div class="bp-h">任务状态感知弱</div><div class="bp-d">排队、运行、失败状态靠手动刷网页，无主动通知和异常告警。</div><div class="bp-foot"><span>训练 / 运维</span></div></div>
+        <div class="bp-c crit"><div class="bp-top"><span class="bp-id">BP-09</span><span class="bp-sev crit">严重</span></div><div class="bp-h">精度定位工具缺失</div><div class="bp-d">概率性问题难稳定复现，一次定位可耗 2 周，替换验证 1-2 天/次。</div><div class="bp-foot"><span>训练 / MDE / 性能</span></div></div>
+        <div class="bp-c"><div class="bp-top"><span class="bp-id">BP-10</span><span class="bp-sev mid">中</span></div><div class="bp-h">多卡日志分散</div><div class="bp-d">几百 rank 日志难聚合，崩溃后缺统一时间线与根因链。</div><div class="bp-foot"><span>多卡训练</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ========== N9. 角色×痛点矩阵 ========== -->
+<section class="slide s-gray">
+  <div class="head">
+    <div class="head-l">
+      <div class="brand"><img class="logo" src="CANNlogo.png" alt="CANN"><span class="ttl">角色×痛点矩阵：生产侧问题不再只落在算子开发者身上</span></div>
+      <div class="subttl">Role × Pain Matrix · 统一角色生态下，训练 Infra、性能分析、数据算法、框架测试共同进入高影响区</div>
+    </div>
+    <div class="head-r">01 / 角色痛点<br/>2026</div>
+  </div>
+  <div class="body-area">
+    <div class="rolepain">
+      <div class="rp-cell rp-head">角色</div>
+      <div class="rp-cell rp-head">BP-02<br/>工具链</div>
+      <div class="rp-cell rp-head">BP-05<br/>实验管理</div>
+      <div class="rp-cell rp-head">BP-06<br/>性能分析</div>
+      <div class="rp-cell rp-head">BP-07<br/>流程周期</div>
+      <div class="rp-cell rp-head">BP-08<br/>状态感知</div>
+      <div class="rp-cell rp-head">BP-09<br/>精度定位</div>
+      <div class="rp-cell rp-head">BP-10<br/>多卡日志</div>
+
+      <div class="rp-cell rp-role">训练 Infra<br/><b>黄工 / 王工</b></div>
+      <div class="rp-cell rp-hit mid">间接</div>
+      <div class="rp-cell rp-hit severe">每天数十任务</div>
+      <div class="rp-cell rp-hit high">2-3h/次拆解</div>
+      <div class="rp-cell rp-hit high">等算子周期长</div>
+      <div class="rp-cell rp-hit severe">手动刷网页</div>
+      <div class="rp-cell rp-hit severe">NaN / loss 跑飞</div>
+      <div class="rp-cell rp-hit high">几百 rank</div>
+
+      <div class="rp-cell rp-role">性能分析<br/><b>庞工 / 张工</b></div>
+      <div class="rp-cell rp-hit mid">受工具限制</div>
+      <div class="rp-cell rp-hit low">低</div>
+      <div class="rp-cell rp-hit severe">缺 nsys 级采集</div>
+      <div class="rp-cell rp-hit high">替换验证 1-2 天</div>
+      <div class="rp-cell rp-hit mid">状态碎片化</div>
+      <div class="rp-cell rp-hit severe">概率问题 2 周</div>
+      <div class="rp-cell rp-hit high">崩溃定位难</div>
+
+      <div class="rp-cell rp-role">算子开发 / MDE<br/><b>王工 / 周工</b></div>
+      <div class="rp-cell rp-hit severe">调试 -70%</div>
+      <div class="rp-cell rp-hit low">低</div>
+      <div class="rp-cell rp-hit mid">性能数据不足</div>
+      <div class="rp-cell rp-hit severe">澄清 2-4 周</div>
+      <div class="rp-cell rp-hit mid">交付状态不清</div>
+      <div class="rp-cell rp-hit high">半天到一天</div>
+      <div class="rp-cell rp-hit mid">联调日志散</div>
+
+      <div class="rp-cell rp-role">数据算法 / 先导实验<br/><b>王工 / 黄工</b></div>
+      <div class="rp-cell rp-hit low">低</div>
+      <div class="rp-cell rp-hit high">脚本自救</div>
+      <div class="rp-cell rp-hit high">结果对比弱</div>
+      <div class="rp-cell rp-hit mid">需求反复</div>
+      <div class="rp-cell rp-hit high">排队不可见</div>
+      <div class="rp-cell rp-hit high">精度对齐难</div>
+      <div class="rp-cell rp-hit mid">训练日志散</div>
+
+      <div class="rp-cell rp-role">框架 / 推理 / 测试<br/><b>宁工 / 董工 / 宋工</b></div>
+      <div class="rp-cell rp-hit mid">接口联调</div>
+      <div class="rp-cell rp-hit mid">用例管理弱</div>
+      <div class="rp-cell rp-hit high">链路排查长</div>
+      <div class="rp-cell rp-hit high">版本节奏慢</div>
+      <div class="rp-cell rp-hit mid">状态回传弱</div>
+      <div class="rp-cell rp-hit high">问题边界不清</div>
+      <div class="rp-cell rp-hit high">多组件日志</div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ========== 11. 竞品矩阵 ========== -->
+<section class="slide s-gray">
+  <div class="head">
+    <div class="head-l">
+      <div class="brand"><img class="logo" src="CANNlogo.png" alt="CANN"><span class="ttl">全维对标：差距已从编译调试扩展到生产可观测性</span></div>
+      <div class="subttl">Competitive Analysis · 新增 nvidia-smi / nsys 数据搬运量 / 任务监控 / FP8 / 精度定位等生产侧维度</div>
+    </div>
+    <div class="head-r">01 / 竞品对照 ①<br/>2026</div>
+  </div>
+  <div class="body-area">
+    <div class="cmpmx">
+      <table class="mx">
+        <thead><tr><th>维度</th><th class="col-asc">昇腾 CANN</th><th>NVIDIA CUDA</th><th>对照生态</th></tr></thead>
+        <tbody>
+          <tr><td>设备/环境状态</td><td class="col-asc asc">入口分散，任务侧仍需刷网页</td><td class="riv">nvidia-smi 直观查看</td><td>状态中控台</td></tr>
+          <tr><td>性能数据采集</td><td class="col-asc asc">缺搬运量等底层数据</td><td class="riv">nsys 可采集数据搬运量</td><td>VTune / rocprof 时间线</td></tr>
+          <tr><td>任务监控通知</td><td class="col-asc asc">手动刷新，无主动通知</td><td class="riv">平台级状态与告警</td><td>MLOps / 调度器</td></tr>
+          <tr><td>编译速度</td><td class="col-asc asc">30-60 分钟</td><td class="riv">秒级</td><td>增量构建</td></tr>
+          <tr><td>源码级调试</td><td class="col-asc asc">高优化失效</td><td class="riv">cuda-gdb / 源码跳转</td><td>VTune 下钻</td></tr>
+          <tr><td>精度定位回放</td><td class="col-asc asc">逐层打印，概率问题 2 周</td><td class="riv">Profiler + 可复现链路</td><td>误差对齐工具</td></tr>
+          <tr><td>算子支持查询</td><td class="col-asc asc">手动查代码</td><td class="riv">统一查询与样例</td><td>文档索引</td></tr>
+          <tr><td>文档可读性</td><td class="col-asc asc">文字懂，语境不懂</td><td class="riv">完整教程与示例</td><td>社区沉淀</td></tr>
+          <tr><td>自动化/DSL</td><td class="col-asc asc">主线慢，旁路自救</td><td class="riv">Triton / Python 级构建</td><td>Triton 跨硬件</td></tr>
+          <tr><td>FP8 等新能力</td><td class="col-asc asc">A5 代刚支持</td><td class="riv">H100 生态已成熟</td><td>路线图 / 兼容层</td></tr>
+        </tbody>
+      </table>
+      <div class="figcard card" style="aspect-ratio:auto"><div id="cmpradar" style="width:100%;height:42vh"></div></div>
+    </div>
+    <div class="voc-line" style="margin-top:1.1vh"><img src="av/role-performance.svg" alt=""><div class="q">「英伟达的 <b>nsys</b> 能采集到很多信息，比如算子实际运行时搬了多少数据；<b>我们缺少这种数据</b>。」</div><div class="who">庞工 · 整网性能分析</div></div>
+  </div>
+</section>
+
+<!-- ========== 12. 竞品截图 ========== -->
+<section class="slide s-gray">
+  <div class="head">
+    <div class="head-l">
+      <div class="brand"><img class="logo" src="CANNlogo.png" alt="CANN"><span class="ttl">Profiling 工具：三家共性是统一时间线 + 源码跳转</span></div>
+      <div class="subttl">Competitive Analysis · Nsight / VTune / rocprof 界面横评</div>
+    </div>
+    <div class="head-r">01 / 竞品对照 ②<br/>2026</div>
+  </div>
+  <div class="body-area" style="justify-content:flex-start">
+    <div class="compare">
+      <div class="cmp">
+        <div class="cmp-body">
+          <div class="cmp-h"><span class="hk">Timeline 标杆</span>时间线 + 源码跳转，新手零门槛</div>
+          <div class="cmp-desc">以 <b>CPU/GPU 统一时间线</b> 为核心，框选即可缩放定位瓶颈算子，并支持 <b>事件 → 源码一键跳转</b>。配合完善教程，新手也能引导式上手 Profiling。</div>
+        </div>
+        <div class="cmp-img"><img src="cmp-nsight.jpg" alt="NVIDIA Nsight Systems 界面"><div class="cmp-cap">NVIDIA Nsight Systems</div></div>
+      </div>
+      <div class="cmp">
+        <div class="cmp-body">
+          <div class="cmp-h"><span class="hk">归因深度</span>逐层下钻，瓶颈归因到微架构</div>
+          <div class="cmp-desc">热点可 <b>逐层下钻</b>，给出 <b>微架构级瓶颈归因</b>直指根因。向导式配置分析任务，让调优<b>有据可依、不靠猜测</b>。</div>
+        </div>
+        <div class="cmp-img"><img src="cmp-vtune.jpg" alt="Intel VTune 界面"><div class="cmp-cap">Intel VTune Profiler</div></div>
+      </div>
+      <div class="cmp">
+        <div class="cmp-body">
+          <div class="cmp-h"><span class="hk">开放协作</span>开源 Web 化，trace 浏览器可分享</div>
+          <div class="cmp-desc">走 <b>开源 + Web 化</b> 路线，trace 可导出 <b>Perfetto</b> 在浏览器查看与分享，天然适合<b>团队协作与远程复现</b>。</div>
+        </div>
+        <div class="cmp-img"><img src="cmp-rocm-tool.jpg" alt="AMD rocprof / Omnitrace"><div class="cmp-cap">AMD rocprof / Omnitrace</div></div>
+      </div>
+    </div>
+    <div class="verdict">
+      <span class="vk">对策</span>
+      <span class="vv">CANN 的调试与 Profiling 体系应对标三家共性——<b>统一时间线 + 一键瓶颈定位 + Web 化可视化</b>，并补齐<b>事件 → 源码跳转</b>与<b>浏览器端 trace 分享</b>，把命令行与 16 进制日志的门槛降下来。</span>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 13. 第二章 章节封面 ========== -->
+<section class="slide s-glow chapter-cover" data-chapter="2">
+  <div class="glow-white"></div><div class="glow"></div>
+  <div class="chrome"><div>第二章 · CHAPTER TWO</div><div>三个结构性错位 · 2026</div></div>
+  <div class="inner">
+    <div class="cover-block">
+      <div class="ch-no">02</div>
+      <h1 class="ch-cover-title">三个结构性错位</h1>
+      <p class="ch-cover-sub">真正的断层不仅是「工具难用」或「文档缺失」，而是底层的<b>抽象模型、生态路径与组织阵型</b>同时出现了错位。透过表象看清盘古训练场景的系统性顽疾。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 14. 根因一 漏洞抽象 ========== -->
+<section class="slide s-glow" data-chapter="2">
+  <div class="glow-white"></div><div class="glow"></div>
+  <div class="chrome"><div>根因 2.1 · ROOT CAUSE</div><div>第二章</div></div>
+  <div class="inner">
+    <div>
+      <div class="kicker">The Leaky Abstraction</div>
+      <h1 class="h-title">架构与抽象错位<br/><span class="light">从透明白盒<br/>到过度暴露硬件</span></h1>
+      <p class="body">CUDA 的伟大在于 <b>SIMT</b> 抽象——用写串行的思维写并发，显存调度与线程束对开发者相对透明。昇腾基于<b>达芬奇架构（DSA / 张量级指令）</b>追求极致计算密度，代价是<b>抽象层太薄</b>。</p>
+      <div class="points">
+        <div class="point"><div class="dot"></div><div><div class="pt-title">硬件细节直接暴露</div><div class="pt-desc">系统强迫开发者直面 <b>L1/L0 缓存、HBM 搬运、异步 DMA 调度</b>——本该由编译器完成的软硬协同，转嫁给了人力。</div></div></div>
+        <div class="point"><div class="dot"></div><div><div class="pt-title">Tiling 切分成为人的负担</div><div class="pt-desc">这正是 Tiling 切分如此困难的原因：高端编译器（LLVM/MLIR）该做的事被推给了算子工程师。</div></div></div>
+        <div class="point"><div class="dot"></div><div><div class="pt-title">MS debug 高优化失效</div><div class="pt-desc">底层编译器进行剧烈的<b>图重写与循环展开</b>，源码与机器码的映射完全断裂。</div></div></div>
+      </div>
+    </div>
+    <div class="fig">
+      <svg viewBox="0 0 440 320" class="sv-lbl">
+        <text x="110" y="22" text-anchor="middle" font-size="13" font-weight="700" fill="rgba(255,255,255,.85)">CUDA · SIMT</text>
+        <text x="330" y="22" text-anchor="middle" font-size="13" font-weight="700" fill="rgba(255,255,255,.85)">昇腾 · 达芬奇</text>
+        <!-- 左：厚抽象 -->
+        <g>
+          <rect x="20" y="40" width="180" height="40" rx="8" fill="rgba(91,180,255,.22)" stroke="rgba(120,180,255,.6)"/><text x="110" y="65" text-anchor="middle" font-size="13" fill="#fff">开发者：串行思维</text>
+          <rect x="20" y="92" width="180" height="92" rx="8" fill="rgba(91,180,255,.16)" stroke="rgba(120,180,255,.45)"/><text x="110" y="130" text-anchor="middle" font-size="13" fill="rgba(255,255,255,.85)">厚抽象层</text><text x="110" y="150" text-anchor="middle" font-size="12" fill="rgba(255,255,255,.6)">编译器隐藏显存/线程束</text>
+          <rect x="20" y="196" width="180" height="34" rx="8" fill="rgba(120,180,255,.3)" stroke="rgba(120,180,255,.6)"/><text x="110" y="217" text-anchor="middle" font-size="13" fill="#fff">硬件</text>
+        </g>
+        <!-- 右：薄抽象 -->
+        <g>
+          <rect x="240" y="40" width="180" height="40" rx="8" fill="rgba(255,120,140,.22)" stroke="rgba(255,140,150,.6)"/><text x="330" y="65" text-anchor="middle" font-size="13" fill="#fff">开发者：手管内存</text>
+          <rect x="240" y="92" width="180" height="20" rx="6" fill="rgba(255,120,140,.16)" stroke="rgba(255,140,150,.4)"/><text x="330" y="106" text-anchor="middle" font-size="12" fill="rgba(255,255,255,.7)">极薄抽象层</text>
+          <rect x="240" y="120" width="180" height="110" rx="8" fill="rgba(255,120,140,.28)" stroke="rgba(255,140,150,.6)"/>
+          <text x="330" y="150" text-anchor="middle" font-size="13" fill="#fff">L1 / L0 缓存</text>
+          <text x="330" y="172" text-anchor="middle" font-size="13" fill="#fff">HBM 搬运</text>
+          <text x="330" y="194" text-anchor="middle" font-size="13" fill="#fff">异步 DMA 调度</text>
+          <text x="330" y="218" text-anchor="middle" font-size="12" fill="rgba(255,255,255,.7)">全部暴露给人</text>
+        </g>
+        <text x="110" y="258" text-anchor="middle" font-size="13" fill="rgba(120,200,255,.9)">↑ 调试容易 · 编译快</text>
+        <text x="330" y="258" text-anchor="middle" font-size="13" fill="rgba(255,140,150,.9)">↑ Tiling 难 · 调试断裂</text>
+      </svg>
+    </div>
+  </div>
+  <div class="voc-cite"><img src="av/role-asc.svg" alt=""><div class="q">「ASC 其实最困难的一点就是<b>没法调试</b>……说是有 MS debug，但是其实我们这边很少有人用」</div><div class="who">王工 · ASC 算子开发</div></div>
+</section>
+
+<!-- ========== 15. 根因二 大教堂 vs 集市 ========== -->
+<section class="slide s-glow" data-chapter="2">
+  <div class="glow-white"></div><div class="glow"></div>
+  <div class="chrome"><div>根因 2.2 · ROOT CAUSE</div><div>第二章</div></div>
+  <div class="inner">
+    <div>
+      <div class="kicker">Cathedral vs Bazaar</div>
+      <h1 class="h-title">生态演进路径<br/><span class="light">封闭大教堂 vs 开源集市</span></h1>
+      <p class="body">NVIDIA 是典型的<b>集市模式</b>，十几年自下而上发展，工具链在无数外部开发者捶打下成熟。昇腾生态带有强烈的<b>大教堂色彩</b>——自上而下为打赢盘古大模型战役而催熟。</p>
+      <div class="points">
+        <div class="point"><div class="dot"></div><div><div class="pt-title">充满「内部视角」</div><div class="pt-desc">工具链设计服务于内部定点版本交付，而非第三方开发者。</div></div></div>
+        <div class="point"><div class="dot"></div><div><div class="pt-title">Host / Device 未解耦</div><div class="pt-desc"><b>460+ .o 文件冗余、不支持增量编译</b>，说明构建系统没做到宿主机与设备端逻辑的有效解耦。</div></div></div>
+        <div class="point"><div class="dot"></div><div><div class="pt-title">牺牲了模块化与敏捷</div><div class="pt-desc">为满足内部交付，牺牲了对第三方极其重要的<b>「模块化插拔」与「敏捷试错」</b>能力。</div></div></div>
+      </div>
+    </div>
+    <div class="fig">
+      <svg viewBox="0 0 440 320" class="sv-lbl">
+        <!-- 大教堂 -->
+        <g transform="translate(110,0)">
+          <text x="0" y="22" text-anchor="middle" font-size="12" font-weight="700" fill="rgba(255,255,255,.85)">大教堂 · 昇腾</text>
+          <path d="M0 50 L-46 92 L-46 200 L46 200 L46 92 Z" fill="rgba(255,140,90,.18)" stroke="rgba(255,160,110,.6)" stroke-width="1.5"/>
+          <path d="M0 38 L0 60" stroke="rgba(255,160,110,.8)" stroke-width="2"/>
+          <rect x="-10" y="150" width="20" height="50" fill="rgba(255,160,110,.4)"/>
+          <g fill="none" stroke="rgba(255,160,110,.7)" stroke-width="1.5" marker-end="url(#ahd)"><path d="M0 100 L0 60"/></g>
+          <text x="0" y="230" text-anchor="middle" font-size="12" fill="rgba(255,255,255,.6)">自上而下 · 集中催熟</text>
+          <text x="0" y="246" text-anchor="middle" font-size="12" fill="rgba(255,255,255,.6)">内部定点交付</text>
+        </g>
+        <!-- 集市 -->
+        <g transform="translate(330,0)">
+          <text x="0" y="22" text-anchor="middle" font-size="12" font-weight="700" fill="rgba(255,255,255,.85)">集市 · NVIDIA</text>
+          <g fill="rgba(120,200,180,.22)" stroke="rgba(140,220,200,.6)" stroke-width="1.2">
+            <rect x="-50" y="70" width="34" height="34" rx="5"/><rect x="-10" y="55" width="34" height="34" rx="5"/><rect x="30" y="78" width="30" height="30" rx="5"/>
+            <rect x="-44" y="120" width="30" height="30" rx="5"/><rect x="-6" y="110" width="34" height="34" rx="5"/><rect x="34" y="125" width="28" height="28" rx="5"/>
+            <rect x="-40" y="168" width="32" height="28" rx="5"/><rect x="2" y="160" width="30" height="30" rx="5"/>
+          </g>
+          <g fill="none" stroke="rgba(140,220,200,.5)" stroke-width="1" stroke-dasharray="2 3"><path d="M-30 88 L8 72"/><path d="M8 72 L45 92"/><path d="M-28 134 L10 124"/><path d="M-24 180 L18 174"/></g>
+          <text x="0" y="230" text-anchor="middle" font-size="12" fill="rgba(255,255,255,.6)">自下而上 · 外部捶打</text>
+          <text x="0" y="246" text-anchor="middle" font-size="12" fill="rgba(255,255,255,.6)">模块化 · 敏捷迭代</text>
+        </g>
+        <line x1="220" y1="50" x2="220" y2="260" stroke="rgba(255,255,255,.12)" stroke-dasharray="3 5"/>
+        <defs><marker id="ahd" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="rgba(255,160,110,.8)"/></marker></defs>
+        <text x="220" y="290" text-anchor="middle" font-size="13" fill="rgba(255,255,255,.5)">编译产物冗余 460+ .o ← 解耦缺失</text>
+      </svg>
+    </div>
+  </div>
+  <div class="voc-cite"><img src="av/role-demand.svg" alt=""><div class="q">「实际上我觉得不是很好找，就是<b>东西可能散落在各处</b>」——内部视角下，资产从未为第三方开发者组织过</div><div class="who">范工 · 算子需求分析师</div></div>
+</section>
+
+<!-- ========== 16. 根因三 康威定律 ========== -->
+<section class="slide s-glow" data-chapter="2">
+  <div class="glow-white"></div><div class="glow"></div>
+  <div class="chrome"><div>根因 2.3 · ROOT CAUSE</div><div>第二章</div></div>
+  <div class="inner">
+    <div>
+      <div class="kicker">Conway's Law</div>
+      <h1 class="h-title">组织与流程的<br/><span class="light">康威定律投影</span></h1>
+      <p class="body">系统的架构受制于产生它的组织沟通结构。大模型训练本质是<b>「数学（算法/Loss）」与「物理学（硬件/显存/算力）」</b>融合的端到端工程，但组织依然是传统的<b>流水线分工</b>。</p>
+      <div class="points">
+        <div class="point"><div class="dot"></div><div><div class="pt-title">归因链层层甩锅</div><div class="pt-desc">Loss 不降时——算法怪算子精度、算子怪框架图优化、框架怪硬件指令异常。</div></div></div>
+        <div class="point"><div class="dot"></div><div><div class="pt-title">缺乏全栈「性能与精度契约」</div><div class="pt-desc">没有跨越全栈的 Contract，问题在不同 Team 之间的<b>信息转换成本极高</b>。</div></div></div>
+      </div>
+    </div>
+    <div class="fig">
+      <svg viewBox="0 0 440 320" class="sv-lbl">
+        <defs><marker id="ahc" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="rgba(255,140,150,.85)"/></marker></defs>
+        <text x="220" y="24" text-anchor="middle" font-size="12" font-weight="700" fill="rgba(255,255,255,.85)">流水线分工 → 归因甩锅环</text>
+        <g font-size="13" fill="#fff" text-anchor="middle">
+          <g><rect x="150" y="44" width="140" height="40" rx="9" fill="rgba(124,58,237,.3)" stroke="rgba(160,120,255,.6)"/><text x="220" y="69">算法团队 · Loss</text></g>
+          <g><rect x="300" y="138" width="120" height="40" rx="9" fill="rgba(124,58,237,.3)" stroke="rgba(160,120,255,.6)"/><text x="360" y="163">框架团队</text></g>
+          <g><rect x="160" y="232" width="120" height="40" rx="9" fill="rgba(124,58,237,.3)" stroke="rgba(160,120,255,.6)"/><text x="220" y="257">算子团队</text></g>
+          <g><rect x="20" y="138" width="120" height="40" rx="9" fill="rgba(124,58,237,.3)" stroke="rgba(160,120,255,.6)"/><text x="80" y="163">驱动 / 硬件</text></g>
+        </g>
+        <g fill="none" stroke="rgba(255,140,150,.7)" stroke-width="1.8" marker-end="url(#ahc)">
+          <path d="M285 78 C 340 95, 360 115, 362 134"/>
+          <path d="M335 178 C 320 215, 290 230, 272 240"/>
+          <path d="M168 252 C 120 235, 95 215, 86 182"/>
+          <path d="M88 134 C 105 100, 150 80, 175 70"/>
+        </g>
+        <g font-size="12" fill="rgba(255,160,160,.85)" text-anchor="middle">
+          <text x="350" y="108">「是算子精度」</text>
+          <text x="330" y="222">「是框架图优化」</text>
+          <text x="105" y="222">「是硬件指令」</text>
+          <text x="110" y="108">「是算法问题」</text>
+        </g>
+      </svg>
+    </div>
+  </div>
+  <div class="voc-cite"><img src="av/role-research.svg" alt=""><div class="q">「框架进步了但有些功能还没支持好，<b>学习率要是调不准，会出现不收敛</b>」——问题落在算法与框架的边界上，无人认领</div><div class="who">陈工 · 高校 GPU 训练</div></div>
+</section>
+
+
+
+<!-- ========== 17. 第三章 章节封面 ========== -->
+<section class="slide s-glow chapter-cover" data-chapter="3">
+  <div class="glow-white"></div><div class="glow"></div>
+  <div class="chrome"><div>第三章 · CHAPTER THREE</div><div>降维打击的三层重构 · 2026</div></div>
+  <div class="inner">
+    <div class="cover-block">
+      <div class="ch-no">03</div>
+      <h1 class="ch-cover-title">三层重构方案</h1>
+      <p class="ch-cover-sub">不能再用「修修补补」的战术，必须在<b>工具、资产、流程</b>三层进行降维打击：从面向过程调试转向 IR 与沙箱、从死文档转向可执行活资产、从流水线甩锅转向全栈性能契约。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 18. 工具层 ========== -->
+<section class="slide s-glow" data-chapter="3">
+  <div class="glow-white"></div><div class="glow"></div>
+  <div class="chrome"><div>方案 3.1 · TOOLCHAIN</div><div>第三章</div></div>
+  <div class="inner">
+    <div>
+      <div class="kicker">From Process Debug → IR & Sandbox</div>
+      <h1 class="h-title">工具层<br/><span class="light">基于中间表示与沙箱验证</span></h1>
+      <p class="body">这是解决 30 分钟编译和无法调试的核心：彻底解耦 Host 与 Device，把调试上移到编译器中间层。</p>
+      <div class="points">
+        <div class="point"><div class="dot"></div><div><div class="pt-title">解耦 Host / Device 编译链</div><div class="pt-desc">引入真正的<b>增量编译</b>；改 Host 代码绝不触发 Device 重编。基于 Hash 的智能缓存（类 Bazel）<b>消除冗余 .o 文件</b>。</div></div></div>
+        <div class="point"><div class="dot"></div><div><div class="pt-title">MLIR 级可调试能力</div><div class="pt-desc">放弃在最高优化汇编里找对应关系，在 <b>Graph IR / 算子 IR 层</b>做可视化调试，验证 Tiling 逻辑正确性。</div></div></div>
+        <div class="point"><div class="dot"></div><div><div class="pt-title">数学等价性自动化沙箱</div><div class="pt-desc">同一组 Tensor 在 CPU/GPU 黄金基准与 NPU 上自动运行，直接输出<b>误差热力图</b>，而非十几万行 16 进制。</div></div></div>
+      </div>
+    </div>
+    <div class="fig">
+      <svg viewBox="0 0 440 320" class="sv-lbl">
+        <defs><marker id="aht" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="rgba(120,230,180,.85)"/></marker></defs>
+        <!-- 解耦 -->
+        <text x="220" y="20" text-anchor="middle" font-size="12" font-weight="700" fill="rgba(255,255,255,.85)">Host / Device 解耦 + IR 调试 + 沙箱</text>
+        <g font-size="13" fill="#fff" text-anchor="middle">
+          <rect x="20" y="40" width="170" height="40" rx="9" fill="rgba(91,160,255,.25)" stroke="rgba(120,180,255,.6)"/><text x="105" y="65">Host 控制代码</text>
+          <rect x="250" y="40" width="170" height="40" rx="9" fill="rgba(124,58,237,.28)" stroke="rgba(160,120,255,.6)"/><text x="335" y="65">Device 张量代码</text>
+          <text x="220" y="64" font-size="16" fill="rgba(120,230,180,.9)">✂</text>
+          <rect x="60" y="110" width="320" height="44" rx="9" fill="rgba(120,230,180,.18)" stroke="rgba(120,230,180,.55)"/><text x="220" y="130" fill="rgba(255,255,255,.9)">增量编译 · Hash 智能缓存（类 Bazel）</text><text x="220" y="146" font-size="12" fill="rgba(255,255,255,.6)">消除 460+ .o 冗余 · 秒级重建</text>
+          <rect x="60" y="172" width="320" height="44" rx="9" fill="rgba(120,230,180,.18)" stroke="rgba(120,230,180,.55)"/><text x="220" y="192" fill="rgba(255,255,255,.9)">Graph IR 可视化调试层</text><text x="220" y="208" font-size="12" fill="rgba(255,255,255,.6)">看未优化中间计算流 · 验证 Tiling</text>
+        </g>
+        <g fill="none" stroke="rgba(120,230,180,.7)" stroke-width="1.6" marker-end="url(#aht)"><path d="M105 80 L160 108"/><path d="M335 80 L280 108"/><path d="M220 154 L220 170"/></g>
+        <!-- 沙箱热力图 -->
+        <g transform="translate(0,234)">
+          <text x="220" y="12" text-anchor="middle" font-size="12" fill="rgba(255,255,255,.7)">沙箱：CPU/GPU 黄金基准 ⇄ NPU → 误差热力图</text>
+          <g transform="translate(150,20)">
+            <rect width="14" height="14" x="0" fill="#23CFA0"/><rect width="14" height="14" x="16" fill="#23CFA0"/><rect width="14" height="14" x="32" fill="#7CE0B4"/><rect width="14" height="14" x="48" fill="#FBBF60"/><rect width="14" height="14" x="64" fill="#23CFA0"/>
+            <rect width="14" height="14" x="0" y="16" fill="#7CE0B4"/><rect width="14" height="14" x="16" y="16" fill="#FF6F55"/><rect width="14" height="14" x="32" y="16" fill="#FF5A6E"/><rect width="14" height="14" x="48" y="16" fill="#FBBF60"/><rect width="14" height="14" x="64" y="16" fill="#23CFA0"/>
+            <rect width="14" height="14" x="0" y="32" fill="#23CFA0"/><rect width="14" height="14" x="16" y="32" fill="#7CE0B4"/><rect width="14" height="14" x="32" y="32" fill="#FBBF60"/><rect width="14" height="14" x="48" y="32" fill="#23CFA0"/><rect width="14" height="14" x="64" y="32" fill="#23CFA0"/>
+            <text x="92" y="26" font-size="12" fill="rgba(255,255,255,.6)">红 = 精度偏差点</text>
+          </g>
+        </g>
+      </svg>
+    </div>
+  </div>
+  <div class="voc-cite"><img src="av/role-asc.svg" alt=""><div class="q">「<b>改一行代码，它可能要把整个都编一遍</b>……可能 30 分钟到 1 个小时，就这样很耗时」</div><div class="who">王工 · ASC 算子开发</div></div>
+</section>
+
+<!-- ========== 19. 资产层 ========== -->
+<section class="slide s-glow" data-chapter="3">
+  <div class="glow-white"></div><div class="glow"></div>
+  <div class="chrome"><div>方案 3.2 · ASSETS</div><div>第三章</div></div>
+  <div class="inner">
+    <div>
+      <div class="kicker">From Dead Docs → Executable Assets</div>
+      <h1 class="h-title">开发者资产层<br/><span class="light">从死文档到可执行活资产</span></h1>
+      <p class="body">文档永远滞后于代码，大教堂模式下更甚。要把「资产」从模棱两可的说明，变成开箱即跑的真相。</p>
+      <div class="points">
+        <div class="point"><div class="dot"></div><div><div class="pt-title">Executable Truth 基准库</div><div class="pt-desc">为每类算子（Matmul、FlashAttention、Reduce）提供可 <b>git clone &amp;&amp; make run</b> 的极简标杆工程，Tiling 参数、内存预取、异步调度<b>开箱即运行</b>。</div></div></div>
+        <div class="point"><div class="dot"></div><div><div class="pt-title">封装 Triton-to-Ascend 前端</div><div class="pt-desc">开发者已习惯 GPU 生态，强行扭转心智成本极高。加大对 <b>OpenAI Triton</b> 等上层 DSL 的对接，写 Python 级代码即可下发到 A5。</div></div></div>
+        <div class="point"><div class="dot"></div><div><div class="pt-title">把内存管理交还系统</div><div class="pt-desc">L1/L0 内存管理交给系统级 <b>Auto-Tuning</b>，而非依靠人工经验。</div></div></div>
+      </div>
+    </div>
+    <div class="fig">
+      <svg viewBox="0 0 440 320" class="sv-lbl">
+        <defs><marker id="aha" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="rgba(160,120,255,.85)"/></marker></defs>
+        <!-- 代码窗口 -->
+        <g transform="translate(40,40)">
+          <rect width="360" height="120" rx="10" fill="rgba(20,22,30,.7)" stroke="rgba(255,255,255,.16)"/>
+          <g fill="#FF6F55"><circle cx="16" cy="16" r="4"/></g><circle cx="30" cy="16" r="4" fill="#FBBF60"/><circle cx="44" cy="16" r="4" fill="#23CFA0"/>
+          <text x="16" y="44" font-family="JetBrains Mono" font-size="13" fill="rgba(120,230,180,.9)">$ git clone flashattn-ref</text>
+          <text x="16" y="64" font-family="JetBrains Mono" font-size="13" fill="rgba(255,255,255,.7)">$ make run</text>
+          <text x="16" y="84" font-family="JetBrains Mono" font-size="13" fill="rgba(160,200,255,.85)">› tiling / prefetch / async ✓</text>
+          <text x="16" y="104" font-family="JetBrains Mono" font-size="13" fill="rgba(120,230,180,.9)">› PASS · 开箱即运行</text>
+        </g>
+        <text x="220" y="186" text-anchor="middle" font-size="13" fill="rgba(255,255,255,.6)">「代码即文档」基准库</text>
+        <!-- Triton 桥 -->
+        <g transform="translate(0,210)" font-size="13" fill="#fff" text-anchor="middle">
+          <rect x="30" y="0" width="120" height="44" rx="9" fill="rgba(160,120,255,.25)" stroke="rgba(160,120,255,.6)"/><text x="90" y="20">Python / Triton</text><text x="90" y="35" font-size="12" fill="rgba(255,255,255,.6)">高层语义</text>
+          <rect x="160" y="0" width="120" height="44" rx="9" fill="rgba(124,58,237,.3)" stroke="rgba(160,120,255,.6)"/><text x="220" y="20">编译器后端</text><text x="220" y="35" font-size="12" fill="rgba(255,255,255,.6)">Auto-Tuning</text>
+          <rect x="290" y="0" width="120" height="44" rx="9" fill="rgba(91,160,255,.25)" stroke="rgba(120,180,255,.6)"/><text x="350" y="20">A5 / NPU</text><text x="350" y="35" font-size="12" fill="rgba(255,255,255,.6)">L1/L0 自动管理</text>
+          <g fill="none" stroke="rgba(160,120,255,.7)" stroke-width="1.6" marker-end="url(#aha)"><path d="M150 22 L158 22"/><path d="M280 22 L288 22"/></g>
+        </g>
+      </svg>
+    </div>
+  </div>
+  <div class="voc-cite"><img src="av/role-student.svg" alt=""><div class="q">「对于一个新手来说，我想知道这个 API 的<b>前因后果</b>——我为什么有这个 API，它一般用在什么场景下？」</div><div class="who">熊工 · 高校学生</div></div>
+</section>
+
+<!-- ========== 20. 流程层 ========== -->
+<section class="slide s-glow" data-chapter="3">
+  <div class="glow-white"></div><div class="glow"></div>
+  <div class="chrome"><div>方案 3.3 · PROCESS</div><div>第三章</div></div>
+  <div class="inner">
+    <div>
+      <div class="kicker">Full-Stack Performance Contract</div>
+      <h1 class="h-title">流程层<br/><span class="light">建立全栈性能契约机制</span></h1>
+      <p class="body">打破部门墙必须依靠强有力的工程机制，把跨团队甩锅从源头掐断。</p>
+      <div class="points">
+        <div class="point"><div class="dot"></div><div><div class="pt-title">设立「全栈系统架构师」</div><div class="pt-desc">在盘古等重点场景，需要跨越从 <b>Python 脚本到 CANN 驱动</b>的系统架构师，不负责具体特性，只负责端到端的「排查路径」设计。</div></div></div>
+        <div class="point"><div class="dot"></div><div><div class="pt-title">性能与精度 SLA 交接制</div><div class="pt-desc">算法与算子交接的不仅是需求文档，而是含<b>输入分布、FP16/BF16 精度下限、Inf/NaN 处理</b>的可执行测试脚本。</div></div></div>
+        <div class="point"><div class="dot"></div><div><div class="pt-title">脚本跑通才允许合入</div><div class="pt-desc">单测在本地跑通，算子代码才允许合入主干，<b>从源头掐断后期跨团队扯皮</b>。</div></div></div>
+      </div>
+    </div>
+    <div class="fig">
+      <svg viewBox="0 0 440 320" class="sv-lbl">
+        <defs><marker id="ahs" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="rgba(120,230,180,.85)"/></marker></defs>
+        <g font-size="13" fill="#fff" text-anchor="middle">
+          <rect x="30" y="120" width="120" height="60" rx="11" fill="rgba(91,160,255,.25)" stroke="rgba(120,180,255,.6)"/><text x="90" y="148">算法团队</text><text x="90" y="166" font-size="12" fill="rgba(255,255,255,.6)">输入分布 · 精度下限</text>
+          <rect x="290" y="120" width="120" height="60" rx="11" fill="rgba(124,58,237,.3)" stroke="rgba(160,120,255,.6)"/><text x="350" y="148">算子团队</text><text x="350" y="166" font-size="12" fill="rgba(255,255,255,.6)">实现 · 合入主干</text>
+        </g>
+        <!-- 中间契约 -->
+        <g transform="translate(160,108)">
+          <rect width="120" height="84" rx="11" fill="rgba(120,230,180,.18)" stroke="rgba(120,230,180,.6)"/>
+          <text x="60" y="26" text-anchor="middle" font-size="13" font-weight="700" fill="rgba(255,255,255,.92)">SLA 契约</text>
+          <text x="60" y="44" text-anchor="middle" font-size="12" fill="rgba(255,255,255,.7)">可执行单测脚本</text>
+          <text x="60" y="60" text-anchor="middle" font-size="12" fill="rgba(255,255,255,.7)">FP16 / BF16 下限</text>
+          <text x="60" y="76" text-anchor="middle" font-size="12" fill="rgba(255,255,255,.7)">Inf / NaN 处理</text>
+        </g>
+        <g fill="none" stroke="rgba(120,230,180,.7)" stroke-width="1.8" marker-end="url(#ahs)"><path d="M150 150 L158 150"/><path d="M282 150 L288 150"/></g>
+        <g transform="translate(160,210)">
+          <rect width="120" height="36" rx="9" fill="rgba(255,90,110,.16)" stroke="rgba(255,140,150,.5)"/>
+          <text x="60" y="22" text-anchor="middle" font-size="12" fill="rgba(255,180,180,.9)">脚本未跑通 ✕ 禁止合入</text>
+        </g>
+        <text x="220" y="40" text-anchor="middle" font-size="13" font-weight="700" fill="rgba(255,255,255,.85)">全栈系统架构师 · 端到端排查路径</text>
+        <path d="M90 120 C 90 70, 350 70, 350 120" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="1.4" stroke-dasharray="4 5"/>
+      </svg>
+    </div>
+  </div>
+  <div class="voc-cite"><img src="av/role-demand.svg" alt=""><div class="q">「我怎么能<b>快速地确认这个算子是不是支持的</b>？之前我这边是通过算子名字去找代码」——需求与实现的交接今天仍靠人工</div><div class="who">范工 · 算子需求分析师</div></div>
+</section>
+
+
+<!-- ========== N10. P0 改进建议 ========== -->
+<section class="slide s-gray">
+  <div class="head">
+    <div class="head-l">
+      <div class="brand"><img class="logo" src="CANNlogo.png" alt="CANN"><span class="ttl">P0 建议：优先把“可观测、可定位、可恢复”补齐</span></div>
+      <div class="subttl">P0 Recommendations · 先解决成本最高、阻塞最强、跨角色重复出现的问题</div>
+    </div>
+    <div class="head-r">03 / P0 建议<br/>2026</div>
+  </div>
+  <div class="body-area">
+    <div class="p0grid">
+      <div class="p0-card">
+        <div class="p0-id">01</div>
+        <div><div class="p0-title">增量编译与编译产物治理</div><div class="p0-desc">把 Host / Device 编译链解耦，治理 <b>460+ .o 冗余</b>，让“改一行重编 30-60 分钟”先降下来。</div></div>
+      </div>
+      <div class="p0-card">
+        <div class="p0-id">02</div>
+        <div><div class="p0-title">精度定位与数学等价性沙箱</div><div class="p0-desc">用 CPU/GPU 黄金基准、误差热力图、确定性复现替代逐层打印，优先覆盖 <b>2 周级概率问题</b>。</div></div>
+      </div>
+      <div class="p0-card">
+        <div class="p0-id">03</div>
+        <div><div class="p0-title">训练任务中控台与主动通知</div><div class="p0-desc">统一排队、运行、失败、重试和资源状态，把“手动刷网页 + 自写脚本”升级为 <b>状态推送与告警</b>。</div></div>
+      </div>
+      <div class="p0-card">
+        <div class="p0-id">04</div>
+        <div><div class="p0-title">结构化日志与多卡异常聚合</div><div class="p0-desc">把 rank、step、算子、设备、错误码串成统一时间线，支持 <b>几百 rank 日志聚合</b>与异常根因回放。</div></div>
+      </div>
+    </div>
+    <div class="voc-line" style="margin-top:1.1vh"><img src="av/role-train.svg" alt=""><div class="q">「手动去刷网页……过个一到两个小时，发现又排上去了」——P0 的本质不是多做一个页面，而是让训练状态自动找人。</div><div class="who">黄工 · 训练框架 Infra</div></div>
+  </div>
+</section>
+
+
+
+<!-- ========== 21. 机会矩阵 ========== -->
+<section class="slide s-gray">
+  <div class="head">
+    <div class="head-l">
+      <div class="brand"><img class="logo" src="CANNlogo.png" alt="CANN"><span class="ttl">机会矩阵：速赢不止在算子 IDE，也在训练状态与精度工具链</span></div>
+      <div class="subttl">Opportunity Matrix · v3 合并后按价值 × 难度 × 跨角色影响排序</div>
+    </div>
+    <div class="head-r">03 / 机会矩阵<br/>2026</div>
+  </div>
+  <div class="body-area">
+    <div class="oppwrap">
+      <div class="figcard card" style="aspect-ratio:auto">
+        <svg viewBox="0 0 420 360" class="sv-lbl">
+          <!-- 坐标轴 -->
+          <line x1="50" y1="20" x2="50" y2="320" stroke="#c4cad4" stroke-width="1.5"/>
+          <line x1="50" y1="320" x2="400" y2="320" stroke="#c4cad4" stroke-width="1.5"/>
+          <text x="40" y="24" text-anchor="end" font-size="13" fill="#5e646e">高</text>
+          <text x="40" y="318" text-anchor="end" font-size="13" fill="#5e646e">低</text>
+          <text x="20" y="175" text-anchor="middle" font-size="13" font-weight="700" fill="#16191e" transform="rotate(-90 20 175)">用户价值</text>
+          <text x="225" y="345" text-anchor="middle" font-size="13" font-weight="700" fill="#16191e">实施难度 →</text>
+          <!-- 象限分隔 -->
+          <line x1="225" y1="20" x2="225" y2="320" stroke="#d4d8df" stroke-dasharray="3 5"/>
+          <line x1="50" y1="170" x2="400" y2="170" stroke="#d4d8df" stroke-dasharray="3 5"/>
+          <text x="135" y="40" text-anchor="middle" font-size="12" fill="#1E9E6A" font-weight="700">速赢区</text>
+          <text x="320" y="40" text-anchor="middle" font-size="12" fill="#5B5BD6" font-weight="700">战略区</text>
+          <!-- 气泡 -->
+          <g font-size="12" fill="#fff" text-anchor="middle">
+            <circle cx="112" cy="70" r="23" fill="url(#mg)" opacity=".92"/><text x="112" y="68">增量</text><text x="112" y="80">编译</text>
+            <circle cx="158" cy="108" r="21" fill="url(#mg)" opacity=".92"/><text x="158" y="106">IR 级</text><text x="158" y="118">调试</text>
+            <circle cx="178" cy="62" r="20" fill="#23CFA0" opacity=".9"/><text x="178" y="60" fill="#16191e">任务</text><text x="178" y="72" fill="#16191e">通知</text>
+            <circle cx="126" cy="196" r="18" fill="#23CFA0" opacity=".9"/><text x="126" y="200" fill="#16191e">算子文档</text>
+            <circle cx="198" cy="214" r="18" fill="#23CFA0" opacity=".9"/><text x="198" y="218" fill="#16191e">算子总表</text>
+            <circle cx="284" cy="82" r="24" fill="#7C3AED" opacity=".9"/><text x="284" y="80">精度</text><text x="284" y="92">沙箱</text>
+            <circle cx="340" cy="132" r="23" fill="#7C3AED" opacity=".9"/><text x="340" y="130">实验</text><text x="340" y="142">中控台</text>
+            <circle cx="302" cy="190" r="22" fill="#7C3AED" opacity=".9"/><text x="302" y="188">Triton</text><text x="302" y="200">后端</text>
+            <circle cx="300" cy="260" r="20" fill="#A78BFA" opacity=".9"/><text x="300" y="264">SLA 契约</text>
+            <circle cx="184" cy="274" r="16" fill="#23CFA0" opacity=".9"/><text x="184" y="278" fill="#16191e">一键验证</text>
+          </g>
+        </svg>
+      </div>
+      <div class="oppleg">
+        <div class="lg"><span class="dotc" style="background:#5B5BD6"></span><div><div class="lt">速赢 · 高价值低难度</div><div class="ld"><b>增量编译、IR 级调试、任务通知、算子支持总表/文档、一键环境验证</b>——直击 BP-02、BP-01、BP-08。</div></div></div>
+        <div class="lg"><span class="dotc" style="background:#7C3AED"></span><div><div class="lt">战略 · 高价值高难度</div><div class="ld"><b>精度定位沙箱、实验管理中控台、Triton-to-Ascend 后端、结构化日志聚合</b>——覆盖 BP-05、BP-09、BP-10。</div></div></div>
+        <div class="lg"><span class="dotc" style="background:#A78BFA"></span><div><div class="lt">机制 · 组织保障</div><div class="ld"><b>性能精度 SLA 契约、全栈系统架构师</b>——把跨团队归因从口头扯皮改成可执行交接。</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 22. 第四章 章节封面 ========== -->
+<section class="slide s-glow chapter-cover" data-chapter="4">
+  <div class="glow-white"></div><div class="glow"></div>
+  <div class="chrome"><div>第四章 · CHAPTER FOUR</div><div>面向未来 3-5 年 · 2026</div></div>
+  <div class="inner">
+    <div class="cover-block">
+      <div class="ch-no">04</div>
+      <h1 class="ch-cover-title">面向未来 3–5 年</h1>
+      <p class="ch-cover-sub">不能只问「如何把当前工具做得更好用」，而要问<b>「未来的 AI 开发范式还需要这些工具吗？」</b>——从算力经济、AI 演进范式与泛在计算三个视角，做前瞻洞察。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 23. 未来一 AI for AI ========== -->
+<section class="slide s-glow" data-chapter="4">
+  <div class="glow-white"></div><div class="glow"></div>
+  <div class="chrome"><div>前瞻 4.1 · AI FOR AI</div><div>第四章</div></div>
+  <div class="inner">
+    <div>
+      <div class="kicker">From Handcraft → Self-Generation</div>
+      <h1 class="h-title">演进范式<br/><span class="light">AI 驱动的自我生成</span></h1>
+      <p class="body">让顶尖工程师去计算 L1/L0 缓存的字节对齐，本质是<b>「前 AI 时代」的手工软件工程</b>，未来将是极大的算力与脑力浪费。</p>
+      <div class="points">
+        <div class="point"><div class="dot"></div><div><div class="pt-title">RL / 遗传算法 Auto-Tuning 编译</div><div class="pt-desc">开发者只描述<b>「输入、输出、数学公式」</b>，编译器自带的 AI Agent 在虚拟沙箱中自动试错成千上万次 Tiling，寻找最优内存排布。</div></div></div>
+        <div class="point"><div class="dot"></div><div><div class="pt-title">「活的数字孪生体」资产</div><div class="pt-desc">文档变成<b>孪生沙箱环境</b>：提需求「128k 上下文 FlashAttention」，AI 自动生成代码、配好依赖、在孪生 NPU 跑通，直接交付结果。</div></div></div>
+      </div>
+    </div>
+    <div class="fig">
+      <svg viewBox="0 0 440 320" class="sv-lbl">
+        <defs><marker id="ahf" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="rgba(180,150,255,.9)"/></marker></defs>
+        <g font-size="13" fill="#fff" text-anchor="middle">
+          <rect x="140" y="24" width="160" height="40" rx="20" fill="rgba(180,150,255,.22)" stroke="rgba(180,150,255,.6)"/><text x="220" y="42">高层数学描述</text><text x="220" y="56" font-size="12" fill="rgba(255,255,255,.6)">输入 / 输出 / 公式</text>
+          <!-- AI Agent 循环 -->
+          <circle cx="220" cy="180" r="58" fill="none" stroke="rgba(180,150,255,.5)" stroke-width="2" stroke-dasharray="5 7"/>
+          <circle cx="220" cy="180" r="36" fill="rgba(124,58,237,.3)" stroke="rgba(180,150,255,.6)"/>
+          <text x="220" y="176">AI Agent</text><text x="220" y="190" font-size="12" fill="rgba(255,255,255,.7)">沙箱试错</text>
+          <text x="220" y="130" font-size="12" fill="rgba(255,255,255,.6)">千万次 Tiling 探索</text>
+        </g>
+        <g fill="rgba(180,150,255,.85)" font-size="12" text-anchor="middle">
+          <circle cx="278" cy="180" r="4"/><circle cx="162" cy="180" r="4"/><circle cx="220" cy="122" r="4"/><circle cx="220" cy="238" r="4"/>
+        </g>
+        <g fill="none" stroke="rgba(180,150,255,.7)" stroke-width="1.6" marker-end="url(#ahf)"><path d="M220 64 L220 120"/><path d="M220 240 L220 268"/></g>
+        <g font-size="13" fill="#fff" text-anchor="middle">
+          <rect x="140" y="272" width="160" height="40" rx="11" fill="rgba(120,230,180,.18)" stroke="rgba(120,230,180,.55)"/><text x="220" y="290">最优执行流</text><text x="220" y="304" font-size="12" fill="rgba(255,255,255,.6)">交付结果，而非源码</text>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 24. 未来二 决战 IR 层 ========== -->
+<section class="slide s-glow" data-chapter="4">
+  <div class="glow-white"></div><div class="glow"></div>
+  <div class="chrome"><div>前瞻 4.2 · BEYOND CUDA</div><div>第四章</div></div>
+  <div class="inner">
+    <div>
+      <div class="kicker">Win at the IR Layer</div>
+      <h1 class="h-title">生态战略<br/><span class="light">跨越 CUDA 阴影<br/>决战中间表示</span></h1>
+      <p class="body">永远「对标 CUDA」就永远是追赶者。未来竞争不再是硬件指令集之争，而是<b>「编译器中间件的定义权」</b>之争。</p>
+      <div class="points">
+        <div class="point"><div class="dot"></div><div><div class="pt-title">主导硬件无关 DSL</div><div class="pt-desc">硬件去中心化下，开发者拒绝为单一芯片写专有算子。战略性投入 <b>MLIR 与 Triton 的昇腾后端</b>，而非让人学 CANN 底层 API。</div></div></div>
+        <div class="point"><div class="dot"></div><div><div class="pt-title">让底层硬件彻底「隐身」</div><div class="pt-desc">最高级的体验是「无感」：NPU 与 GPU 只是<b>算力池中的水和电</b>。</div></div></div>
+        <div class="point"><div class="dot"></div><div><div class="pt-title">强大的 JIT 运行时分发</div><div class="pt-desc">代码运行时动态感知分配的是 <b>A5 还是其他芯片</b>，自动下发对应机器码。</div></div></div>
+      </div>
+    </div>
+    <div class="fig">
+      <svg viewBox="0 0 440 320" class="sv-lbl">
+        <defs><marker id="ahj" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="rgba(120,200,255,.9)"/></marker></defs>
+        <g font-size="13" fill="#fff" text-anchor="middle">
+          <rect x="150" y="24" width="140" height="38" rx="10" fill="rgba(180,150,255,.22)" stroke="rgba(180,150,255,.6)"/><text x="220" y="48">硬件无关 DSL / Triton</text>
+          <rect x="150" y="92" width="140" height="38" rx="10" fill="rgba(120,200,255,.22)" stroke="rgba(120,200,255,.6)"/><text x="220" y="110">MLIR 中间表示</text><text x="220" y="124" font-size="12" fill="rgba(255,255,255,.6)">定义权所在</text>
+          <rect x="150" y="158" width="140" height="38" rx="10" fill="rgba(120,230,180,.2)" stroke="rgba(120,230,180,.6)"/><text x="220" y="182">JIT 运行时</text>
+          <!-- 分发到多芯片 -->
+          <rect x="40" y="244" width="100" height="44" rx="10" fill="rgba(255,140,90,.2)" stroke="rgba(255,160,110,.6)"/><text x="90" y="266">昇腾 A5</text><text x="90" y="280" font-size="12" fill="rgba(255,255,255,.6)">NPU</text>
+          <rect x="170" y="244" width="100" height="44" rx="10" fill="rgba(120,200,255,.2)" stroke="rgba(120,200,255,.6)"/><text x="220" y="266">GPU</text><text x="220" y="280" font-size="12" fill="rgba(255,255,255,.6)">水和电</text>
+          <rect x="300" y="244" width="100" height="44" rx="10" fill="rgba(180,150,255,.2)" stroke="rgba(180,150,255,.6)"/><text x="350" y="266">其他芯片</text><text x="350" y="280" font-size="12" fill="rgba(255,255,255,.6)">自动适配</text>
+        </g>
+        <g fill="none" stroke="rgba(120,200,255,.7)" stroke-width="1.6" marker-end="url(#ahj)"><path d="M220 62 L220 90"/><path d="M220 130 L220 156"/><path d="M200 196 L120 242"/><path d="M220 196 L220 242"/><path d="M240 196 L320 242"/></g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 25. 未来三 分布式时光机 ========== -->
+<section class="slide s-glow" data-chapter="4">
+  <div class="glow-white"></div><div class="glow"></div>
+  <div class="chrome"><div>前瞻 4.3 · RESILIENCE</div><div>第四章</div></div>
+  <div class="inner">
+    <div>
+      <div class="kicker">Distributed Time-Travel</div>
+      <h1 class="h-title">分布式系统<br/><span class="light">万亿参数时代的<br/>韧性与可观测</span></h1>
+      <p class="body">当几万张卡在跑，任何单卡断点调试都不现实。未来训练是横跨多个数据中心的混合异构超级集群，要求极强的<b>系统级韧性</b>。</p>
+      <div class="points">
+        <div class="point"><div class="dot"></div><div><div class="pt-title">分布式时光机观测</div><div class="pt-desc">记录集群全局状态快照。当 Loss 跑飞或某卡出现 NaN，系统像时光机一样<b>自动回滚前 100 个 Step</b>，隔离局部数据流慢放回放。</div></div></div>
+        <div class="point"><div class="dot"></div><div><div class="pt-title">确定性执行与自动容错</div><div class="pt-desc">框架提供严格的<b>数学确定性保证</b>：无论硬件拓扑如何变化、机器宕机重启，都像分布式数据库（Spanner）一样保证事务级一致与<b>结果绝对可复现</b>。</div></div></div>
+      </div>
+    </div>
+    <div class="fig">
+      <svg viewBox="0 0 440 320" class="sv-lbl">
+        <defs><marker id="ahr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="rgba(255,140,150,.9)"/></marker></defs>
+        <!-- 卡阵列 -->
+        <g>
+          <text x="220" y="20" text-anchor="middle" font-size="13" font-weight="700" fill="rgba(255,255,255,.85)">全局状态快照 · 回滚 100 Step</text>
+        </g>
+        <g fill="rgba(120,200,255,.25)" stroke="rgba(120,200,255,.5)">
+          <rect x="40" y="40" width="20" height="20" rx="3"/><rect x="66" y="40" width="20" height="20" rx="3"/><rect x="92" y="40" width="20" height="20" rx="3"/><rect x="118" y="40" width="20" height="20" rx="3"/>
+          <rect x="40" y="66" width="20" height="20" rx="3"/><rect x="66" y="66" width="20" height="20" rx="3" fill="rgba(255,90,110,.45)" stroke="rgba(255,140,150,.8)"/><rect x="92" y="66" width="20" height="20" rx="3"/><rect x="118" y="66" width="20" height="20" rx="3"/>
+          <rect x="40" y="92" width="20" height="20" rx="3"/><rect x="66" y="92" width="20" height="20" rx="3"/><rect x="92" y="92" width="20" height="20" rx="3"/><rect x="118" y="92" width="20" height="20" rx="3"/>
+        </g>
+        <text x="76" y="80" text-anchor="middle" font-size="13" fill="#fff" font-weight="700">!</text>
+        <text x="89" y="128" text-anchor="middle" font-size="12" fill="rgba(255,160,160,.85)">NaN 异常卡</text>
+        <!-- 时间轴 -->
+        <line x1="40" y1="180" x2="400" y2="180" stroke="rgba(255,255,255,.3)" stroke-width="1.5"/>
+        <g fill="rgba(255,255,255,.6)" font-size="12" text-anchor="middle">
+          <circle cx="80" cy="180" r="4" fill="rgba(120,230,180,.8)"/><text x="80" y="200">Step N-100</text>
+          <circle cx="200" cy="180" r="4" fill="rgba(255,255,255,.5)"/><text x="200" y="200">…</text>
+          <circle cx="360" cy="180" r="5" fill="rgba(255,90,110,.8)"/><text x="360" y="200">Step N · 跑飞</text>
+        </g>
+        <path d="M360 168 C 280 130, 160 130, 80 168" fill="none" stroke="rgba(255,140,150,.8)" stroke-width="1.8" stroke-dasharray="4 5" marker-end="url(#ahr)"/>
+        <text x="220" y="128" text-anchor="middle" font-size="12" fill="rgba(255,160,160,.85)">自动回滚 · 慢放回放</text>
+        <!-- 确定性 -->
+        <g transform="translate(0,232)" text-anchor="middle">
+          <rect x="120" y="0" width="200" height="56" rx="11" fill="rgba(120,230,180,.16)" stroke="rgba(120,230,180,.55)"/>
+          <text x="220" y="24" font-size="13" fill="rgba(255,255,255,.9)" font-weight="700">确定性执行</text>
+          <text x="220" y="42" font-size="12" fill="rgba(255,255,255,.65)">宕机重启 → 结果绝对可复现（类 Spanner）</text>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ========== 26. 收尾 ========== -->
+<section class="slide s-glow closing" data-chapter="4">
+  <div class="glow-white"></div><div class="glow"></div>
+  <div class="chrome"><div>结语 · CONCLUSION</div><div>盘古训练场景用户研究 · 2026</div></div>
+  <div class="inner">
+    <div class="cover-block">
+      <div class="kicker">Three Conclusions</div>
+      <h1 class="h-title" style="margin-bottom:2.4vh">三句核心判断</h1>
+      <div class="close-list">
+        <div class="close-it"><div class="no">01</div><div class="tx">断点不在单点工具，而在<b>断裂的链路</b>——v1.1 已扩展为 11 个断裂点，BP-02 工具链、BP-09 精度定位与 BP-11 训推一致性最致命。</div></div>
+        <div class="close-it"><div class="no">02</div><div class="tx">表象之下是<b>抽象、生态、组织三重错位</b>——漏洞抽象、大教堂模式、康威定律，决定了「修修补补」无效。</div></div>
+        <div class="close-it"><div class="no">03</div><div class="tx">破局靠<b>工具 / 资产 / 流程三层降维打击</b>，并面向 AI for AI、决战 IR 层与分布式韧性的未来下注。</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+</div>
+
+<!-- 调色面板 -->
+<div id="panel" style="display:none">
+  <h4>底部光晕调色</h4>
+  <div class="preset-row">
+    <div class="preset" data-p="255,85,58" style="background:linear-gradient(90deg,hsl(255,85%,58%),hsl(300,85%,58%))"></div>
+    <div class="preset" data-p="160,80,56" style="background:linear-gradient(90deg,hsl(160,80%,56%),hsl(205,80%,56%))"></div>
+    <div class="preset" data-p="8,88,58" style="background:linear-gradient(90deg,hsl(8,88%,58%),hsl(40,88%,58%))"></div>
+    <div class="preset" data-p="265,82,60" style="background:linear-gradient(90deg,hsl(265,82%,60%),hsl(300,82%,60%))"></div>
+  </div>
+  <div class="ctrl"><label>色相 HUE <span class="val" id="v-h">234</span></label><input type="range" id="s-h" min="0" max="360" value="234"></div>
+  <div class="ctrl"><label>色相跨度 GAP <span class="val" id="v-gap">57°</span></label><input type="range" id="s-gap" min="0" max="180" value="57"></div>
+  <div class="ctrl"><label>饱和度 SAT <span class="val" id="v-sat">95%</span></label><input type="range" id="s-sat" min="0" max="100" value="95"></div>
+  <div class="ctrl"><label>亮度 LIGHT <span class="val" id="v-light">40%</span></label><input type="range" id="s-light" min="20" max="80" value="40"></div>
+  <div class="ctrl"><label>扩散 SPREAD <span class="val" id="v-spread">35vh</span></label><input type="range" id="s-spread" min="20" max="90" value="35"></div>
+  <div class="ctrl"><label>彩色亮度 COLOR <span class="val" id="v-cint">0.68</span></label><input type="range" id="s-cint" min="0" max="100" value="68"></div>
+  <div class="ctrl"><label>白色亮度 WHITE <span class="val" id="v-wint">0.58</span></label><input type="range" id="s-wint" min="0" max="100" value="58"></div>
+</div>
+<button id="toggle" style="display:none" title="调色面板"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="7" x2="20" y2="7"/><circle cx="10" cy="7" r="2.4"/><line x1="4" y1="17" x2="20" y2="17"/><circle cx="15" cy="17" r="2.4"/></svg></button>
+
+<nav class="nav-dots" id="navDots"></nav>
+<div id="controls">
+  <button id="prevBtn" title="上一页 ↑/←"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 15 12 9 18 15"/></svg></button>
+  <span class="ctrl-counter" id="counter">01 / 01</span>
+  <button id="nextBtn" title="下一页 ↓/→"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+  <span class="ctrl-sep"></span>
+  <button id="ovBtn" title="概览 O"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></button>
+  <button id="fsBtn" title="全屏 F"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M16 21h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg></button>
+</div>
+
+<script>
+if('scrollRestoration' in history) history.scrollRestoration='manual';
+const root=document.documentElement;
+const deck=document.getElementById('deck');
+const slides=[...document.querySelectorAll('.slide')];
+let idx=0;
+
+/* ===== 黑底光晕：每章一色 + localStorage 持久 ===== */
+const chapters={
+  '1':{h:234,gap:57,sat:95,light:40,spread:35,cint:68,wint:58},
+  '2':{h:8,gap:34,sat:88,light:42,spread:38,cint:70,wint:50},
+  '3':{h:160,gap:46,sat:80,light:40,spread:36,cint:66,wint:56},
+  '4':{h:265,gap:46,sat:85,light:44,spread:38,cint:70,wint:58}
+};
+const GLOW_KEY='deck-glow-chapters-cann';
+try{const sv=localStorage.getItem(GLOW_KEY);if(sv){const o=JSON.parse(sv);Object.keys(o).forEach(k=>{if(chapters[k])Object.assign(chapters[k],o[k]);});}}catch(e){}
+function saveChapters(){try{localStorage.setItem(GLOW_KEY,JSON.stringify(chapters));}catch(e){}}
+function curChap(){return chapters[slides[idx].dataset.chapter];}
+const S={h:'s-h',gap:'s-gap',sat:'s-sat',light:'s-light',spread:'s-spread',cint:'s-cint',wint:'s-wint'};
+const V={h:'v-h',gap:'v-gap',sat:'v-sat',light:'v-light',spread:'v-spread',cint:'v-cint',wint:'v-wint'};
+function paintSlide(s){const c=chapters[s.dataset.chapter];if(!c)return;
+  s.style.setProperty('--glow-h',c.h);s.style.setProperty('--glow-h2',(c.h+c.gap)%360);
+  s.style.setProperty('--glow-sat',c.sat+'%');s.style.setProperty('--glow-light',c.light+'%');
+  s.style.setProperty('--glow-spread',c.spread);s.style.setProperty('--glow-color-int',(c.cint/100).toFixed(2));
+  s.style.setProperty('--glow-white-int',(c.wint/100).toFixed(2));}
+function apply(){slides.forEach(paintSlide);saveChapters();const c=curChap();if(!c)return;
+  root.style.setProperty('--glow-h',c.h);root.style.setProperty('--glow-h2',(c.h+c.gap)%360);}
+function syncPanel(){const c=curChap();if(!c)return;
+  for(const k in S){const el=document.getElementById(S[k]),v=document.getElementById(V[k]);if(!el)continue;el.value=c[k];
+    v.textContent=(k==='sat'||k==='light')?c[k]+'%':k==='spread'?c[k]+'vh':k==='gap'?c[k]+'°':(k==='cint'||k==='wint')?(c[k]/100).toFixed(2):c[k];}}
+for(const k in S){const el=document.getElementById(S[k]);if(el)el.addEventListener('input',()=>{const c=curChap();if(!c)return;c[k]=+el.value;
+  const v=document.getElementById(V[k]);v.textContent=(k==='sat'||k==='light')?el.value+'%':k==='spread'?el.value+'vh':k==='gap'?el.value+'°':(k==='cint'||k==='wint')?(el.value/100).toFixed(2):el.value;apply();});}
+document.querySelectorAll('.preset').forEach(p=>p.onclick=()=>{const c=curChap();if(!c)return;const[h,sat,light]=p.dataset.p.split(',').map(Number);Object.assign(c,{h,sat,light});apply();syncPanel();});
+function setPanelOpen(open){const p=document.getElementById('panel');if(p)p.style.display=open?'block':'none';}
+document.addEventListener('click',e=>{const panel=document.getElementById('panel'),toggle=document.getElementById('toggle');if(!panel||!toggle)return;
+  if(toggle.contains(e.target)){setPanelOpen(panel.style.display!=='block');syncPanel();return;}
+  if(panel.contains(e.target))return; setPanelOpen(false);});
+
+/* ===== 纵向 scroll-snap 翻页 + 右侧点 + 控制栏 + 总览 + 全屏 ===== */
+const navDots=document.getElementById('navDots'), controls=document.getElementById('controls'), counter=document.getElementById('counter');
+const prevBtn=document.getElementById('prevBtn'), nextBtn=document.getElementById('nextBtn'), ovBtn=document.getElementById('ovBtn'), fsBtn=document.getElementById('fsBtn');
+const pad=n=>String(n).padStart(2,'0');
+const dots=slides.map((s,i)=>{const b=document.createElement('button');b.className='nav-dot';b.title=pad(i+1)+' / '+pad(slides.length);b.onclick=()=>go(i);navDots.appendChild(b);return b;});
+
+function updateCurrent(i){
+  idx=i; const s=slides[idx];
+  dots.forEach((d,k)=>d.classList.toggle('active',k===idx));
+  counter.textContent=pad(idx+1)+' / '+pad(slides.length);
+  prevBtn.disabled=idx<=0; nextBtn.disabled=idx>=slides.length-1;
+  const dark=s.classList.contains('s-cover')||s.classList.contains('s-glow');
+  document.body.classList.toggle('on-dark',dark);
+  const panel=document.getElementById('panel'),toggle=document.getElementById('toggle');
+  if(s.dataset.chapter && s.classList.contains('chapter-cover')){if(panel)s.appendChild(panel);if(toggle){s.appendChild(toggle);toggle.style.display='flex';}setPanelOpen(false);apply();syncPanel();}
+  else if(toggle){toggle.style.display='none';setPanelOpen(false);}
+  if(window._charts)window._charts.forEach(c=>{try{c.resize();}catch(e){}});
+}
+
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting&&e.intersectionRatio>=0.55){const i=slides.indexOf(e.target);if(i>=0&&i!==idx)updateCurrent(i);}});},{threshold:[0.55]});
+slides.forEach(s=>io.observe(s));
+
+function go(n){if(document.body.classList.contains('overview'))return;const i=Math.max(0,Math.min(slides.length-1,n));slides[i].scrollIntoView({behavior:'smooth',block:'start'});}
+prevBtn.onclick=()=>go(idx-1);
+nextBtn.onclick=()=>go(idx+1);
+
+document.addEventListener('keydown',e=>{
+  if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA')return;
+  if(['ArrowDown','ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();go(idx+1);}
+  else if(['ArrowUp','ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();go(idx-1);}
+  else if(e.key==='Home'){e.preventDefault();go(0);}
+  else if(e.key==='End'){e.preventDefault();go(slides.length-1);}
+  else if(e.key==='o'||e.key==='O'){toggleOverview();}
+  else if(e.key==='f'||e.key==='F'){toggleFullscreen();}
+  else if(e.key==='Escape'){if(document.body.classList.contains('overview'))exitOverview();}
+});
+
+/* 全屏 */
+const ICON_MAX='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M16 21h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>';
+const ICON_MIN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v3a2 2 0 0 1-2 2H3M21 8h-3a2 2 0 0 1-2-2V3M16 21v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"/></svg>';
+function syncFsIcon(){const fs=!!document.fullscreenElement;fsBtn.innerHTML=fs?ICON_MIN:ICON_MAX;fsBtn.title=fs?'退出全屏 F':'全屏 F';}
+function toggleFullscreen(){if(!document.fullscreenElement){document.documentElement.requestFullscreen().catch(()=>{});}else{document.exitFullscreen();}}
+fsBtn.onclick=toggleFullscreen;
+function reanchor(){if(!document.body.classList.contains('overview'))slides[idx].scrollIntoView({block:'start',behavior:'auto'});}
+document.addEventListener('fullscreenchange',()=>{syncFsIcon();setTimeout(reanchor,90);});
+syncFsIcon();
+addEventListener('resize',()=>{if(document.body.classList.contains('overview'))applyOverviewScale();else reanchor();if(window._charts)window._charts.forEach(c=>{try{c.resize();}catch(e){}});});
+
+/* 总览 */
+function applyOverviewScale(){if(!document.body.classList.contains('overview'))return;const cellW=slides[0].getBoundingClientRect().width,scale=cellW/window.innerWidth;slides.forEach(s=>{s.style.height=(window.innerHeight*scale)+'px';const inner=s.querySelector(':scope>.slide-inner');if(inner)inner.style.transform='scale('+scale+')';});}
+function enterOverview(){slides.forEach(s=>{if(!s.querySelector(':scope>.slide-inner')){const w=document.createElement('div');w.className='slide-inner';while(s.firstChild)w.appendChild(s.firstChild);s.appendChild(w);}});document.body.classList.add('overview');requestAnimationFrame(applyOverviewScale);}
+function exitOverview(){slides.forEach(s=>{const w=s.querySelector(':scope>.slide-inner');if(w){while(w.firstChild)s.insertBefore(w.firstChild,w);w.remove();}s.style.height='';});document.body.classList.remove('overview');setTimeout(()=>slides[idx].scrollIntoView({block:'start',behavior:'auto'}),20);}
+function toggleOverview(){document.body.classList.contains('overview')?exitOverview():enterOverview();}
+ovBtn.onclick=toggleOverview;
+document.body.addEventListener('click',e=>{if(!document.body.classList.contains('overview'))return;const sl=e.target.closest('.slide');if(sl){const i=slides.indexOf(sl);if(i>=0){idx=i;exitOverview();}}});
+
+/* 默认隐藏控制栏+导航点，移到底部才出现 */
+let hideTimer;
+function showCtrl(){controls.classList.add('show');navDots.classList.add('show');clearTimeout(hideTimer);hideTimer=setTimeout(()=>{controls.classList.remove('show');navDots.classList.remove('show');},2500);}
+document.addEventListener('mousemove',e=>{if(e.clientY>window.innerHeight-130)showCtrl();});
+
+slides.forEach(paintSlide);
+window.scrollTo(0,0);
+updateCurrent(0);
+
+/* ===== ECharts：用户画像雷达 + 竞品雷达 ===== */
+const FF='HarmonyOS Sans SC, Inter, "Noto Sans SC", sans-serif';
+window._charts=[];
+function initCharts(){
+  if(typeof echarts==='undefined'){console.warn('echarts 未加载');return;}
+  if(window._chartsDone)return; window._chartsDone=true;
+  const r=document.getElementById('radar');
+  if(r){const ch=echarts.init(r);window._charts.push(ch);ch.setOption({
+    textStyle:{fontFamily:FF},
+    color:['#FF5A6E','#5B5BD6','#23CFA0','#F59E0B'],
+    legend:{bottom:2,itemWidth:10,itemHeight:10,textStyle:{color:"#5e646e",fontSize:16},data:['王工·ASC','陈工·训练','范工·需求','熊工·学生']},
+    radar:{radius:'62%',center:['50%','46%'],
+      indicator:[{name:'文档完备诉求',max:100},{name:'调试能力诉求',max:100},{name:'编译效率诉求',max:100},{name:'精度对齐诉求',max:100},{name:'学习曲线敏感',max:100}],
+      axisName:{color:"#5e646e",fontSize:16},splitLine:{lineStyle:{color:'#d4d8df'}},splitArea:{areaStyle:{color:['rgba(255,255,255,.3)','rgba(233,235,238,.3)']}},axisLine:{lineStyle:{color:'#d4d8df'}}},
+    series:[{type:'radar',symbol:'circle',symbolSize:3,data:[
+      {value:[70,100,95,60,40],name:'王工·ASC',areaStyle:{color:'rgba(255,90,110,.12)'}},
+      {value:[85,50,30,95,60],name:'陈工·训练',areaStyle:{color:'rgba(91,91,214,.12)'}},
+      {value:[90,20,20,30,50],name:'范工·需求',areaStyle:{color:'rgba(35,207,160,.1)'}},
+      {value:[95,60,40,50,100],name:'熊工·学生',areaStyle:{color:'rgba(245,158,11,.1)'}}
+    ]}]
+  });}
+  const e1=document.getElementById('emochart');
+  if(e1){const ch=echarts.init(e1);window._charts.push(ch);ch.setOption({
+    textStyle:{fontFamily:FF},
+    grid:{left:'10%',right:'10%',top:'16%',bottom:'12%'},
+    xAxis:{type:'category',boundaryGap:true,data:['准备接入','环境搭建','算子开发·编译','调试定位','训练·验证调优'],axisLine:{show:false},axisTick:{show:false},axisLabel:{show:false}},
+    yAxis:{type:'value',min:0,max:100,splitNumber:3,axisLabel:{show:false},splitLine:{lineStyle:{color:'#d4d8df',type:[3,6]}}},
+    series:[{type:'line',smooth:.55,symbol:'circle',symbolSize:11,
+      lineStyle:{color:'#5B5BD6',width:2.5},itemStyle:{color:'#5B5BD6'},
+      areaStyle:{color:new echarts.graphic.LinearGradient(0,0,0,1,[{offset:0,color:'rgba(91,91,214,.28)'},{offset:1,color:'rgba(91,91,214,0)'}])},
+      data:[92,50,{value:14,symbolSize:16,itemStyle:{color:'#FF5A6E'},label:{show:true,position:'top',distance:10,formatter:'谷底',color:'#C0344A',fontWeight:700,fontSize:17,fontFamily:FF}},24,76]}]
+  });}
+  const c=document.getElementById('cmpradar');
+  if(c){const ch=echarts.init(c);window._charts.push(ch);ch.setOption({
+    textStyle:{fontFamily:FF},
+    color:['#FF5A6E','#23CFA0'],
+    legend:{bottom:0,itemWidth:10,itemHeight:10,textStyle:{color:"#5e646e",fontSize:16},data:['昇腾 CANN','NVIDIA CUDA']},
+    radar:{radius:'64%',center:['50%','46%'],
+      indicator:[{name:'调试友好',max:100},{name:'编译速度',max:100},{name:'文档资产',max:100},{name:'环境状态',max:100},{name:'性能采集',max:100},{name:'任务监控',max:100},{name:'精度定位',max:100},{name:'DSL 生态',max:100}],
+      axisName:{color:"#5e646e",fontSize:16},splitLine:{lineStyle:{color:'#d4d8df'}},splitArea:{areaStyle:{color:['rgba(255,255,255,.3)','rgba(233,235,238,.3)']}},axisLine:{lineStyle:{color:'#d4d8df'}}},
+    series:[{type:'radar',symbol:'circle',symbolSize:3,data:[
+      {value:[20,15,40,35,30,20,20,25],name:'昇腾 CANN',areaStyle:{color:'rgba(255,90,110,.14)'}},
+      {value:[92,98,88,90,92,85,82,85],name:'NVIDIA CUDA',areaStyle:{color:'rgba(35,207,160,.12)'}}
+    ]}]
+  });}
+}
+/* ECharts 是 head 里的阻塞脚本，此处一定已加载 → 直接同步初始化，不依赖 load 事件 */
+initCharts();
+addEventListener('resize',()=>{if(window._charts)window._charts.forEach(c=>{try{c.resize();}catch(e){}});});
+</script>
+</body>
+</html>
