@@ -242,7 +242,7 @@
     <div class="voc-card">
       <div class="voc-q">引用原声……</div>
       <div class="voc-meta">
-        <div class="voc-ava"><img src="av/role-xxx.svg" alt=""></div>
+        <div class="voc-ava"><img src="assets/av/chen.svg" alt=""></div>
         <div><div class="voc-nm">姓名 · 角色</div><div class="voc-rl">公司 · N 年</div></div>
       </div>
     </div>
@@ -259,7 +259,7 @@
     </div>
     <!-- 左头像右文字卡 -->
     <div class="voc-card lr">
-      <div class="voc-ava"><img src="av/role-xxx.svg" alt=""></div>
+      <div class="voc-ava"><img src="assets/av/chen.svg" alt=""></div>
       <div>
         <div class="voc-q">引用原声……</div>
         <div style="display:flex;gap:.5vw;align-items:center;margin-top:.8vh">
@@ -276,200 +276,200 @@
 </div>
 ```
 
-- **卡型多样化**是 VOC 墙的精髓：同一页混用普通/大引号/深色/左右布局，避免视觉单调。
-- 头像用 **DiceBear notionists** 生成 SVG（CC0）存本地 `av/`，`beardProbability=0`，`backgroundColor` 跟页面底色。
+- **卡型多样化**是 VOC 墙的精髓：同一页混用普通/大引号/大标题/左右布局，避免视觉单调。
+- 样板每卡还带**星评 `.voc-stars`**（满星 `★★★★★`，缺的用 `<span class="off">★</span>`），大标题卡用 `.voc-hd`。补充 CSS：
+  ```css
+  .voc-stars{display:flex;gap:2px;color:#E8A93C;font-size:13px;letter-spacing:1px} .voc-stars .off{color:var(--line)}
+  .voc-hd{font-family:'Inter','Noto Sans SC';font-weight:700;font-size:max(15px,1.18vw);letter-spacing:-.01em;line-height:1.2;color:var(--ink)}
+  ```
+- 头像用 **DiceBear notionists** 生成 SVG（CC0）存本地 `assets/av/`，`beardProbability=0`，`backgroundColor` 跟页面底色。
 
-### 填充示例（4 种卡型混排参照）
+### 填充示例（抄自样板 VOC 页：普通/大引号/大标题/左右/soft 混排）
 
 ```html
 <div class="voc-wall">
   <!-- 普通卡 -->
   <div class="voc-card">
-    <div class="voc-q">Profiling 看板能直接点到瓶颈算子，比翻日志定位快太多了。</div>
-    <div class="voc-meta">
-      <div class="voc-ava"><img src="av/role-asc.svg" alt=""></div>
-      <div><div class="voc-nm">陈工 · 框架开发</div><div class="voc-rl">AI 平台 · 5 年</div></div>
-    </div>
+    <div class="voc-stars">★★★★★</div>
+    <div class="voc-q">Profiling 看板能直接点到瓶颈算子，框选即缩放，比之前翻日志定位快太多了。</div>
+    <div class="voc-meta"><div class="voc-ava"><img src="assets/av/chen.svg" alt=""></div><div><div class="voc-nm">陈 · 框架开发者</div><div class="voc-rl">AI 平台 · 5 年</div></div></div>
   </div>
-  <!-- 深色高亮卡（最核心原声）-->
-  <div class="voc-card hl">
+  <!-- 大引号卡 -->
+  <div class="voc-card">
     <div class="qm open">"</div>
-    <div class="voc-q">ASC 最困难的一点就是没法调试，高优化下断点全失效。</div>
-    <div class="voc-meta">
-      <div class="voc-ava"><img src="av/role-asc.svg" alt=""></div>
-      <div><div class="voc-nm">王工 · ASC 算子开发</div><div class="voc-rl">芯片厂商 · 4 年</div></div>
-    </div>
+    <div class="voc-stars">★★★★<span class="off">★</span></div>
+    <div class="voc-q">成长地图让我清楚下一步该学什么，照着路线走不再瞎撞。</div>
+    <div class="voc-meta"><div class="voc-ava"><img src="assets/av/liu.svg" alt=""></div><div><div class="voc-nm">刘 · 后端工程师</div><div class="voc-rl">云服务 · 2 年</div></div></div>
+  </div>
+  <!-- 大标题卡（灰块衬正文）-->
+  <div class="voc-card head">
+    <div class="qm open">"</div>
+    <div class="voc-hd">文档终于连起来了</div>
+    <div class="voc-stars">★★★★★</div>
+    <div class="voc-q boxed">新的交互式文档把端到端示例串起来了，照着 Notebook 跑半天就通，不用再翻七八个页面。</div>
+    <div class="voc-meta"><div class="voc-ava"><img src="assets/av/lin.svg" alt=""></div><div><div class="voc-nm">林 · 算法工程师</div><div class="voc-rl">互联网 · 3 年</div></div></div>
   </div>
   <!-- 左头像右文字卡 -->
   <div class="voc-card lr">
-    <div class="voc-ava"><img src="av/role-research.svg" alt=""></div>
-    <div>
-      <div class="voc-q">学习率调不准会出现不收敛，NPU/GPU 精度对齐比想象中难。</div>
-      <div style="display:flex;gap:.5vw;align-items:center;margin-top:.8vh">
-        <span class="voc-nm">陈工 · 高校训练</span><span class="voc-rl">研究机构</span>
-      </div>
+    <div class="voc-ava"><img src="assets/av/wang.svg" alt=""></div>
+    <div class="lr-body">
+      <div class="voc-stars">★★★★<span class="off">★</span></div>
+      <div class="voc-q">算子开发向导生成骨架后，我只要填核心计算逻辑，省了大量样板代码。</div>
+      <div class="lr-name"><span class="voc-nm">王 · 算子工程师</span><span class="voc-rl">芯片厂商 · 4 年</span></div>
     </div>
   </div>
-  <!-- 灰块衬底卡 -->
+  <!-- soft 浅灰卡 -->
   <div class="voc-card soft">
-    <div class="voc-q boxed">如果环境能一键拉起、版本自动对齐，复现实验就不再是噩梦。</div>
-    <div class="voc-meta">
-      <div class="voc-ava"><img src="av/role-student.svg" alt=""></div>
-      <div><div class="voc-nm">熊工 · 高校学生</div><div class="voc-rl">硕士在读</div></div>
-    </div>
-  </div>
-  <!-- accent 强调卡（次核心，用于第二重要结论）-->
-  <div class="voc-card accent">
-    <div class="voc-q">很多内容只能口口相传，新人完全靠问老人。</div>
-    <div class="voc-meta">
-      <div class="voc-ava"><img src="av/dongguyin.svg" alt=""></div>
-      <div><div class="voc-nm">董工 · 推理优化</div><div class="voc-rl">云推理 · 3 年</div></div>
-    </div>
+    <div class="voc-stars">★★★★<span class="off">★</span></div>
+    <div class="voc-q">如果环境能一键拉起来、版本自动对齐，复现实验就不再是噩梦，能省下大量重装和排错的时间。</div>
+    <div class="voc-meta"><div class="voc-ava"><img src="assets/av/zhao.svg" alt=""></div><div><div class="voc-nm">赵 · 学术研究者</div><div class="voc-rl">高校 · 博士在读</div></div></div>
   </div>
 </div>
 ```
 
 ## 4. 用户旅程（全链路）
 
-> **适用范围比"旅程图"更广**：任何**按阶段推进的流程**都能套这个模板——用户研究旅程、产品开发流程、运维流程、算子开发六阶段、训练工程师工作流……只要内容有"阶段列 × 信息行"的结构，就命中本件。
+> 来自样板 `cann-design-concept`（`.jrn-*`，参照 cann-journey-compare 风格）。**适用范围比"旅程图"更广**：任何**按阶段推进的流程**都能套——用户研究旅程、产品开发流程、运维流程……只要有"阶段列 × 信息行"结构就命中。
+> 结构 = `56px 行标列 + N 个阶段列` 的多行网格，逐行：① 阶段头 ② 触点 ③ 行为(手画 mini 线框) ④ 情绪曲线(逐格 SVG) ⑤ 痛点 ⑥ 机会点。行与行靠各 cell 的 `border-left/right/bottom` 拼成连续竖列。
 
-### CSS 骨架（直接抄）
+### CSS 骨架（抄自样板）
 
 ```css
-/* 旅程网格容器 */
-.jn-r{display:grid;gap:.5vw}
-.jn-cols{grid-template-columns:repeat(5,1fr)}   /* 5 阶段 */
-/* 8 阶段紧凑版 */
-.jn-cols8{grid-template-columns:repeat(8,minmax(0,1fr));gap:.46vw}
-.jn-cols8 .jn-stage{border-radius:9px;padding:.58vh .35vw}
-.jn-cols8 .jn-stage .s{font-size:var(--fs-sm);line-height:1.15}
-.jn-cols8 .jn-stage .e{font-size:12px;line-height:1.15}
-.jn-cols8 .jn-touch,.jn-cols8 .jn-pain,.jn-cols8 .jn-opp{font-size:var(--fs-xs);line-height:1.24;padding:.46vh .45vw;border-radius:8px}
-
-/* 行标（触点 / 痛点 / 机会点 等）*/
-.jn-rl{display:flex;align-items:center;gap:.5em;font-family:'JetBrains Mono';font-size:var(--fs-xs);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin-top:.4vh}
-.jn-rl::after{content:'';flex:1;height:1px;background:var(--line)}
-
-/* 阶段名（深色背景）*/
-.jn-stage{background:var(--g-ink);color:#fff;border-radius:10px;padding:.8vh .7vw;text-align:center}
-.jn-stage .s{font-weight:700;font-size:var(--fs-body)}
-.jn-stage .e{font-family:'JetBrains Mono';font-size:var(--fs-xs);opacity:.6;letter-spacing:.08em}
-
-/* 触点（中性白卡）*/
-.jn-touch{background:#fff;border:1px solid var(--line);border-radius:9px;padding:.6vh .7vw;font-size:var(--fs-sm);color:var(--ink-2);text-align:center;line-height:1.35}
-
-/* 痛点（红）/ 机会点（绿）*/
-.jn-pain,.jn-opp{background:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.7);border-radius:9px;padding:.6vh .7vw;font-size:var(--fs-sm);line-height:1.4}
-.jn-pain{color:#C0344A} .jn-pain b{color:#C0344A;font-weight:700}
-.jn-opp{color:var(--ink-2)} .jn-opp b{color:#1E9E6A;font-weight:700}
-
-/* 底部引用原声（跨列全宽）*/
-.journey-voc{display:grid;grid-template-columns:1fr auto;gap:1vw;align-items:center;background:rgba(255,255,255,.62);border:1px solid rgba(255,255,255,.78);border-radius:10px;padding:.75vh .95vw}
-.journey-voc .q{font-size:var(--fs-sm);line-height:1.45;color:var(--ink-2)} .journey-voc .q b{color:#C0344A}
-.journey-voc .who{font-size:var(--fs-xs);color:var(--ink-3);white-space:nowrap}
-
-/* 情绪曲线格子（ECharts line chart，跨全列）*/
-.jn-emo{min-height:13vh;background:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.7);border-radius:12px;overflow:hidden;position:relative}
-.jn-emo #emochart{position:absolute;inset:0}
+.jrn-wrap{flex:1;min-height:0;display:flex;flex-direction:column;gap:0}
+.jrn-grid{display:grid;grid-template-columns:56px repeat(5,1fr);gap:0}   /* 5 阶段；改列数即改 repeat(N) */
+/* 行标列 */
+.jrn-rl{display:flex;flex-direction:column;justify-content:center;padding-right:9px;text-align:right}
+.jrn-rn{font-size:10px;font-weight:700;color:var(--ink-2);line-height:1.4}
+.jrn-re{font-size:8px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.5px;margin-top:1px}
+/* ① 阶段头（深色，底部彩条按阶段区分）*/
+.jrn-pw{padding-right:5px;display:flex;flex-direction:column}
+.jrn-ph{flex:1;border-radius:10px 10px 0 0;padding:1.1vh .85vw 1.4vh;background:var(--g-ink);position:relative;overflow:hidden}
+.jrn-ph::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px}
+.jpc1 .jrn-ph::after{background:#EF4444}.jpc2 .jrn-ph::after{background:#F59E0B}
+.jpc3 .jrn-ph::after{background:#3B82F6}.jpc4 .jrn-ph::after{background:#10B981}
+.jpc5 .jrn-ph::after{background:#8B5CF6}
+.jrn-ph .pn{font-size:8.5px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:2px}
+.jrn-ph .pt{font-size:max(11px,.8vw);font-weight:800;color:#fff;line-height:1.3}
+.jrn-ph .ptm{font-size:8px;margin-top:.35vh;display:inline-flex;align-items:center;gap:3px;padding:1.5px 6px;border-radius:100px;background:rgba(255,255,255,.08);color:rgba(255,255,255,.5)}
+/* ② 触点 */
+.jrn-tw{padding-right:5px;display:flex;flex-direction:column}
+.jrn-tc{flex:1;border-left:1px solid rgba(255,255,255,.6);border-right:1px solid rgba(255,255,255,.6);border-bottom:1px solid rgba(255,255,255,.6);padding:1vh .85vw;background:rgba(255,255,255,.42);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);display:flex;flex-direction:column;justify-content:center;gap:.5vh}
+.jrn-touch{font-size:max(9.5px,.7vw);color:var(--ink);line-height:1.35;display:flex;align-items:baseline;gap:.4em}
+.jrn-touch::before{content:"";width:4px;height:4px;border-radius:50%;background:var(--ink-3);flex-shrink:0;align-self:center}
+/* ③ 行为（手画 mini 线框 + 行为描述）*/
+.jrn-fw{padding-right:5px;display:flex;flex-direction:column}
+.jrn-fc{flex:1;border-left:1px solid rgba(255,255,255,.6);border-right:1px solid rgba(255,255,255,.6);border-bottom:1px solid rgba(255,255,255,.6);padding:1vh .85vw;display:flex;flex-direction:column;gap:.6vh;background:rgba(255,255,255,.42);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px)}
+.jrn-scr{border-radius:5px;overflow:hidden;border:1px solid var(--line);background:#F8F9FB;flex:0 0 auto;height:13.5vh;display:flex;flex-direction:column}
+.jrn-sb{display:flex;align-items:center;gap:3px;padding:3px 5px;background:#ECEEF2;border-bottom:1px solid var(--line);flex-shrink:0}
+.jrn-sd{width:4px;height:4px;border-radius:50%}
+.jrn-sc{padding:4px 5px;flex:1;overflow:hidden;display:flex;flex-direction:column;gap:2px}
+.jmb{height:2.5px;border-radius:2px;background:#E5E7EB}
+.jrn-fl{font-size:max(9.5px,.7vw);font-weight:500;color:var(--ink);line-height:1.4}
+/* ④ 情绪：逐格 SVG（jrn-grid.je 显式锁高，否则被压扁）*/
+.jrn-grid.je{flex-shrink:0;height:16vh}
+.jrn-ew{padding-right:5px;display:flex;flex-direction:column}
+.jrn-ec{flex:1;position:relative;height:100%;border-left:1px solid rgba(255,255,255,.6);border-right:1px solid rgba(255,255,255,.6);border-bottom:1px solid rgba(255,255,255,.6);background:rgba(250,251,255,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);overflow:hidden}
+.jrn-ec svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.jrn-ec .d{position:absolute;width:9px;height:9px;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.2);transform:translate(-50%,-50%);left:50%;z-index:3}
+.jrn-ec .e{position:absolute;font-size:13px;transform:translate(-50%,0);left:50%;z-index:3;line-height:1}
+.jrn-ec .l{position:absolute;font-family:'JetBrains Mono';font-size:8px;font-weight:700;transform:translateX(-50%);left:50%;bottom:4px;z-index:3;white-space:nowrap}
+/* ⑤ 痛点（红底 + 警告图标）*/
+.jrn-pw2{padding-right:5px;display:flex;flex-direction:column}
+.jrn-pc{flex:1;border-left:1px solid rgba(255,255,255,.6);border-right:1px solid rgba(255,255,255,.6);border-bottom:1px solid rgba(255,255,255,.6);padding:.9vh .85vw;display:flex;flex-direction:column;justify-content:center;gap:.55vh;background:linear-gradient(160deg,rgba(254,236,236,.72),rgba(255,247,240,.55));backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.jrn-pi{display:flex;gap:4px;align-items:flex-start}
+.jrn-pi-icon{width:16px;height:16px;border-radius:4px;background:#FEF3C7;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center}
+.jrn-pi-icon svg{width:9px;height:9px;stroke:#92400E}
+.jrn-pt{font-size:max(9.5px,.7vw);color:#7F1D1D;line-height:1.45}
+/* ⑥ 机会点（绿底，末行收圆角）*/
+.jrn-ow{padding-right:5px;display:flex;flex-direction:column}
+.jrn-oc{flex:1;border-left:1px solid rgba(255,255,255,.6);border-right:1px solid rgba(255,255,255,.6);border-bottom:1px solid rgba(255,255,255,.6);border-radius:0 0 9px 9px;padding:.9vh .85vw;display:flex;flex-direction:column;justify-content:center;gap:.55vh;background:linear-gradient(160deg,rgba(220,252,231,.72),rgba(240,253,244,.55));backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.jrn-oi{display:flex;gap:4px;align-items:flex-start}
+.jrn-oi-dot{width:7px;height:7px;border-radius:50%;background:#10B981;flex-shrink:0;margin-top:3px}
+.jrn-ot{font-size:max(9.5px,.7vw);color:#064E3B;line-height:1.45}
 ```
 
-### HTML 骨架（5 阶段标准版）
+### HTML 骨架（每行首格 = 行标，后接 N 个阶段格）
 
 ```html
-<div class="body-area">
-  <div class="jn">   <!-- 或直接 display:flex;flex-direction:column;gap:.7vh -->
-    <!-- 1. 阶段行（深色）-->
-    <div class="jn-r jn-cols">
-      <div class="jn-stage"><div class="s">阶段名</div><div class="e">PHASE</div></div>
-      <!-- × N 列 -->
-    </div>
-    <!-- 2. 行标 + 触点行 -->
-    <div class="jn-rl">触点</div>
-    <div class="jn-r jn-cols">
-      <div class="jn-touch">触点描述</div><!-- × N -->
-    </div>
-    <!-- 3. 情绪曲线（可选，需 ECharts）-->
-    <div class="jn-emo"><div id="emochart"></div></div>
-    <!-- 4. 行标 + 痛点行 -->
-    <div class="jn-rl">痛点</div>
-    <div class="jn-r jn-cols">
-      <div class="jn-pain"><b>关键词：</b>描述</div><!-- × N -->
-    </div>
-    <!-- 5. 机会点行 -->
-    <div class="jn-r jn-cols">
-      <div class="jn-opp"><b>机会：</b>描述</div><!-- × N -->
-    </div>
-    <!-- 6. 底部原声（可选）-->
-    <div class="journey-voc">
-      <div class="q">「引用原声」<b>关键词</b></div>
-      <div class="who">姓名 · 角色</div>
-    </div>
+<div class="body-area"><div class="jrn-wrap">
+
+  <!-- ① 阶段头（行标列留空）-->
+  <div class="jrn-grid">
+    <div></div>
+    <div class="jrn-pw jpc1"><div class="jrn-ph"><div class="pn">01</div><div class="pt">环境搭建</div><div class="ptm">⏱ 2–8 hr</div></div></div>
+    <div class="jrn-pw jpc2"><div class="jrn-ph"><div class="pn">02</div><div class="pt">文档学习</div><div class="ptm">⏱ 1–3 天</div></div></div>
+    <!-- … jpc3/jpc4/jpc5 同理 -->
   </div>
-</div>
+
+  <!-- ② 触点 -->
+  <div class="jrn-grid">
+    <div class="jrn-rl"><div class="jrn-rn">触点</div><div class="jrn-re">Touch</div></div>
+    <div class="jrn-tw"><div class="jrn-tc">
+      <div class="jrn-touch">官网文档中心</div>
+      <div class="jrn-touch">Driver/CANN 版本矩阵</div>
+    </div></div>
+    <!-- 每阶段一个 jrn-tw -->
+  </div>
+
+  <!-- ③ 行为：每格 = 手画 mini 浏览器线框 + 行为描述 -->
+  <div class="jrn-grid">
+    <div class="jrn-rl"><div class="jrn-rn">行为</div><div class="jrn-re">Action</div></div>
+    <div class="jrn-fw"><div class="jrn-fc">
+      <div class="jrn-scr" style="height:11vh">
+        <div class="jrn-sb"><div class="jrn-sd" style="background:#FF5F57"></div><div class="jrn-sd" style="background:#FFBD2E"></div><div class="jrn-sd" style="background:#28CA41"></div></div>
+        <div class="jrn-sc"><!-- 用 .jmb 小条 + 彩色块手画示意 UI(终端/IDE/看板) -->
+          <div class="jmb" style="width:90%"></div><div class="jmb" style="width:70%"></div></div>
+      </div>
+      <div class="jrn-fl">查版本矩阵 → 装 Driver+CANN → 验证 Hello World</div>
+    </div></div>
+    <!-- 每阶段一个 jrn-fw，各画一张不同 mini UI -->
+  </div>
+
+  <!-- ④ 情绪：jrn-grid je 锁高；每格 SVG 曲线 + 圆点 + emoji + 标签 -->
+  <div class="jrn-grid je">
+    <div class="jrn-rl"><div class="jrn-rn">情绪</div><div class="jrn-re">Emotion</div></div>
+    <div class="jrn-ew"><div class="jrn-ec">
+      <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+        <defs><linearGradient id="jeg1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F59E0B" stop-opacity=".16"/><stop offset="1" stop-color="#F59E0B" stop-opacity="0"/></linearGradient></defs>
+        <line x1="0" y1="50" x2="100" y2="50" stroke="#E5E7EB" stroke-width=".8" stroke-dasharray="3,3" vector-effect="non-scaling-stroke"/>
+        <polygon points="0,38 50,38 100,45 100,100 0,100" fill="url(#jeg1)"/>
+        <polyline points="0,38 50,38 100,45" fill="none" stroke="#F59E0B" stroke-width="1.6" vector-effect="non-scaling-stroke"/>
+      </svg>
+      <div class="d" style="top:38%;background:#F59E0B"></div>
+      <div class="e" style="top:calc(38% - 19px)">😐</div>
+      <div class="l" style="color:#92400E">摸索中</div>
+    </div></div>
+    <!-- 每阶段一格；points 的 y 越大情绪越低，谷底用红 #EF4444 + 😣 -->
+  </div>
+
+  <!-- ⑤ 痛点 -->
+  <div class="jrn-grid">
+    <div class="jrn-rl"><div class="jrn-rn">痛点</div><div class="jrn-re">Pain</div></div>
+    <div class="jrn-pw2"><div class="jrn-pc">
+      <div class="jrn-pi"><div class="jrn-pi-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="jrn-pt"><b>版本依赖复杂</b>，三者版本须精准匹配，一错全报</div></div>
+    </div></div>
+    <!-- 每阶段一个 jrn-pw2，每格 1-2 条 jrn-pi -->
+  </div>
+
+  <!-- ⑥ 机会点 -->
+  <div class="jrn-grid">
+    <div class="jrn-rl"><div class="jrn-rn">机会点</div><div class="jrn-re">Opps</div></div>
+    <div class="jrn-ow"><div class="jrn-oc">
+      <div class="jrn-oi"><div class="jrn-oi-dot"></div><div class="jrn-ot">一键环境容器，版本<b>自动匹配锁定</b></div></div>
+    </div></div>
+    <!-- 每阶段一个 jrn-ow -->
+  </div>
+
+</div></div>
 ```
 
-### 变体说明
+### 要点
 
-| 变体 | 怎么改 |
-|---|---|
-| **8 阶段**（训练工程师旅程） | `jn-r jn-cols8` 替换 `jn-cols`；顶部加 `.train-kpis` 指标带（4列 grid） |
-| **6 阶段**（算子开发旅程） | `grid-template-columns:repeat(6,1fr)` 内联 style 即可，不另建 class |
-| **无情绪曲线** | 直接删 `.jn-emo` 行，其余不变 |
-| **行内附耗时** | `.jn-touch` 里加 `<b>30-60 分钟</b> → 秒级` 格式，不影响布局 |
-
-- 每列**阶段数可以自由调**（3-10 列），只改 `grid-template-columns`。
-- 痛点用**红色**（`#C0344A`），机会点用**绿色**（`#1E9E6A`）——色义固定，别乱换。
-- 底部 `.journey-voc` 是**跨列全宽**的原声引用，选用（有代表性原声时才加）。
-
-### 填充示例（5 阶段算子开发旅程参照）
-
-```html
-<div class="body-area">
-  <div style="display:flex;flex-direction:column;gap:.7vh;flex:1;min-height:0">
-    <!-- 阶段行 -->
-    <div class="jn-r jn-cols">
-      <div class="jn-stage"><div class="s">准备接入</div><div class="e">PREPARE</div></div>
-      <div class="jn-stage"><div class="s">环境搭建</div><div class="e">SETUP</div></div>
-      <div class="jn-stage"><div class="s">算子开发·编译</div><div class="e">DEVELOP</div></div>
-      <div class="jn-stage"><div class="s">调试定位</div><div class="e">DEBUG</div></div>
-      <div class="jn-stage"><div class="s">训练·验证调优</div><div class="e">TUNE</div></div>
-    </div>
-    <!-- 触点行 -->
-    <div class="jn-rl">触点</div>
-    <div class="jn-r jn-cols">
-      <div class="jn-touch">昇腾官网文档 · 选型指南（缺）</div>
-      <div class="jn-touch">CANN 安装包 · MS 调试工具</div>
-      <div class="jn-touch">CodeArts IDE · tbe 编译</div>
-      <div class="jn-touch">MS debug · 仿真日志</div>
-      <div class="jn-touch">训练监控 · TensorBoard · NPU 日志</div>
-    </div>
-    <!-- 情绪曲线（ECharts，可选）-->
-    <div class="jn-emo"><div id="emochart"></div></div>
-    <!-- 痛点行 -->
-    <div class="jn-rl">痛点</div>
-    <div class="jn-r jn-cols">
-      <div class="jn-pain">文档分散，<b>无法快速确认算子是否支持</b></div>
-      <div class="jn-pain">MS 调试配置复杂，<b>缺一键环境验证</b></div>
-      <div class="jn-pain"><b>编译 30-60 分钟</b>，不支持增量</div>
-      <div class="jn-pain"><b>高优化下无法打断点</b>，十几万行 16 进制日志</div>
-      <div class="jn-pain"><b>NPU/GPU 精度对齐难</b>，监控分散</div>
-    </div>
-    <!-- 机会点行 -->
-    <div class="jn-r jn-cols">
-      <div class="jn-opp"><b>机会：</b>统一算子查询总表</div>
-      <div class="jn-opp"><b>机会：</b>一键安装与验证脚本</div>
-      <div class="jn-opp"><b>机会：</b>增量编译 + 智能去重</div>
-      <div class="jn-opp"><b>机会：</b>IR 级可视化调试</div>
-      <div class="jn-opp"><b>机会：</b>自动精度对齐与误差热力图</div>
-    </div>
-    <!-- 底部原声（可选）-->
-    <div class="journey-voc">
-      <div class="q">「<b>ASC 最困难的一点就是没法调试</b>」——问题集中在编译与调试两段，且互相放大</div>
-      <div class="who">王工 · ASC 算子开发</div>
-    </div>
-  </div>
-</div>
-```
+- **列数 = `.jrn-grid` 的 `repeat(N,1fr)`**，6 行必须同步改成同一列数否则错位；首列固定 `56px` 行标。
+- **竖边框拼接**：每行 cell 只用 `border-left/right/bottom`（无 top），上下相邻拼成连续竖容器；阶段头 `border-radius:10px 10px 0 0`、机会点 `0 0 9px 9px` 收口。
+- **情绪行必须 `.jrn-grid.je` 显式锁高**（16vh）——格内全绝对定位，不锁高会被 flex 压扁（踩过）。
+- **行为行 mini UI 是手画线框**（`.jrn-scr` 内 `.jmb` 小条 + 彩色块拼）——工作量大但最贴主题；偷懒可换一句话或真截图。
+- 痛点红系（`#7F1D1D`/`#FEF3C7`）、机会点绿系（`#064E3B`/`#10B981`），色义固定。
 
 ## 5. 竞品对照
 
@@ -605,7 +605,7 @@
   <div class="pf-row">
     <!-- 左栏 -->
     <div class="pf-side">
-      <div class="pf-portrait"><img src="av/role-xxx.svg" alt=""></div>
+      <div class="pf-portrait"><img src="assets/av/chen.svg" alt=""></div>
       <div class="pf-sb head"><div class="nm">张工</div><div class="rl">资深算子工程师</div></div>
       <div class="pf-chips">
         <span>5年+</span><span>C/C++</span><span>底层开发</span>
@@ -645,7 +645,7 @@
   <div class="pf-row">
     <!-- 左栏 -->
     <div class="pf-side">
-      <div class="pf-portrait"><img src="av/role-asc.svg" alt="王工"></div>
+      <div class="pf-portrait"><img src="assets/av/persona.svg" alt="王工"></div>
       <div class="pf-sb head"><div class="nm">王工</div><div class="rl">资深 ASC 算子工程师</div></div>
       <div class="pf-chips"><span>5年+</span><span>C/C++</span><span>CUDA 迁移</span><span>汇编基础</span></div>
       <div class="pf-sb white">
@@ -705,117 +705,66 @@
 
 ## 8. 黑底设计点页（基调③）
 
-### CSS 骨架
+### CSS 骨架（抄自样板）
 
 ```css
-.s-glow{background:#06060a;color:#fff;padding:7vh 6vw;position:relative}
-/* 底部渐变光晕（颜色由 --glow-h 变量控制，可调色面板实时改）*/
-.s-glow .glow{position:absolute;left:0;right:0;bottom:0;height:35vh;z-index:0;pointer-events:none}
-.s-glow .glow::before,.s-glow .glow::after{content:"";position:absolute;inset:0;mix-blend-mode:screen;
-  background:radial-gradient(ellipse 78% 96% at 22% 112%,hsla(var(--glow-h),95%,52%,.68) 0%,transparent 90%)}
-.s-glow .glow::after{background:radial-gradient(ellipse 78% 96% at 78% 112%,hsla(var(--glow-h2),95%,52%,.52) 0%,transparent 90%)}
-/* 渐变标题字 */
-.h-title{position:relative;z-index:1;font-weight:700;font-size:min(4.2vw,7.2vh);line-height:1.12;
-  background:linear-gradient(100deg,hsl(var(--glow-h),95%,78%),hsl(var(--glow-h2),95%,72%));
-  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.s-glow{background:#06060a;color:#fff;padding:7vh 6vw}
+/* 三层光晕：glow(双色径向) + glow-white(底部白雾)，高度由 --glow-spread 控制 */
+.s-glow .glow{position:absolute;left:0;right:0;bottom:0;height:calc(var(--glow-spread)*1vh);z-index:0;pointer-events:none}
+.s-glow .glow::before,.s-glow .glow::after{content:"";position:absolute;inset:0;mix-blend-mode:screen}
+.s-glow .glow::before{background:radial-gradient(ellipse 78% 96% at 22% 112%,hsla(var(--glow-h),var(--glow-sat),calc(var(--glow-light) + 12%),var(--glow-color-int)) 0%,hsla(var(--glow-h),var(--glow-sat),var(--glow-light),0) 92%)}
+.s-glow .glow::after{background:radial-gradient(ellipse 78% 96% at 78% 112%,hsla(var(--glow-h2),var(--glow-sat),calc(var(--glow-light) + 12%),calc(var(--glow-color-int)*.9)) 0%,hsla(var(--glow-h2),var(--glow-sat),var(--glow-light),0) 90%)}
+.s-glow .glow-white{position:absolute;left:0;right:0;bottom:0;height:calc(var(--glow-spread)*1vh);z-index:0;pointer-events:none;mix-blend-mode:screen;background:linear-gradient(to top,hsla(var(--glow-h),22%,90%,var(--glow-white-int)) 0%,hsla(var(--glow-h),30%,80%,0) 84%)}
+/* 顶部角标 */
+.s-glow .chrome{position:absolute;top:5vh;left:6vw;right:6vw;z-index:1;display:flex;justify-content:space-between;font-family:'JetBrains Mono';font-size:var(--fs-xs);letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.4)}
 /* 左文右图双栏 */
-.glow-inner{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:3vw;flex:1;min-height:0;align-items:center}
-/* 图位占位（玻璃拟态）*/
-.shot{position:relative;border-radius:14px;overflow:hidden;background:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.12);box-shadow:0 30px 80px -20px hsla(var(--glow-h),var(--glow-sat,95%),30%,.5);display:flex;align-items:center;justify-content:center;aspect-ratio:16/10}
+.s-glow .inner{position:relative;z-index:1;height:100%;display:grid;grid-template-columns:1fr 1fr;gap:4vw;align-items:center}
+/* kicker 小标签 + 渐变标题 + 正文 */
+.kicker{font-family:'JetBrains Mono';font-size:var(--fs-xs);letter-spacing:.24em;text-transform:uppercase;color:hsl(var(--glow-h),var(--glow-sat),72%);margin-bottom:2.4vh;display:flex;align-items:center;gap:.8em}
+.kicker::before{content:"";width:28px;height:1px;background:currentColor;opacity:.7}
+.h-title{font-weight:700;font-size:min(3.7vw,6.4vh);line-height:1.2;letter-spacing:-.01em;margin-bottom:1.4vh;background:linear-gradient(100deg,hsl(var(--glow-h),var(--glow-sat),80%),hsl(var(--glow-h2),var(--glow-sat),74%));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.h-title .light{font-weight:200}
+.body{font-weight:300;font-size:var(--fs-body);line-height:1.75;color:rgba(255,255,255,.64);max-width:42ch;margin-bottom:3vh}
+.body b{color:#fff;font-weight:600}
 /* 要点列表 */
-.glow-points{display:flex;flex-direction:column;gap:1.6vh;margin-top:2vh}
-.point{display:grid;grid-template-columns:auto 1fr;gap:.9vw;align-items:start}
-.point-dot{width:8px;height:8px;border-radius:50%;background:hsl(var(--glow-h),95%,72%);margin-top:.55em;flex-shrink:0}
-.point-body .pt{font-weight:700;font-size:var(--fs-h3);margin-bottom:.3vh}
-.point-body .pd{font-size:var(--fs-sm);color:rgba(255,255,255,.72);line-height:1.55}
+.points{display:flex;flex-direction:column;gap:1.8vh}
+.point{display:grid;grid-template-columns:auto 1fr;gap:1.1em;align-items:start}
+.point .dot{width:9px;height:9px;margin-top:.55em;border-radius:50%;background:hsl(var(--glow-h),var(--glow-sat),62%);box-shadow:0 0 12px 2px hsla(var(--glow-h),var(--glow-sat),60%,.7);flex-shrink:0}
+.point .pt-title{font-weight:500;font-size:var(--fs-h3);color:#fff;margin-bottom:.3vh}
+.point .pt-desc{font-weight:300;font-size:var(--fs-sm);line-height:1.55;color:rgba(255,255,255,.52)}
+.point .pt-desc b{color:hsl(var(--glow-h),var(--glow-sat),74%);font-weight:600}
+/* 右图位占位 */
+.shot{position:relative;border-radius:14px;overflow:hidden;aspect-ratio:16/10;background:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.12);box-shadow:0 30px 80px -20px hsla(var(--glow-h),var(--glow-sat),30%,.5);display:flex;align-items:center;justify-content:center}
+.shot .ph{font-family:'JetBrains Mono';font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.3)}
 ```
 
-### HTML 骨架
+### HTML 骨架（即样板设计点页，已填真实内容）
 
 ```html
 <section class="slide s-glow" data-chapter="1"
   style="--glow-h:234;--glow-h2:291;--glow-sat:95%;--glow-light:40%;--glow-spread:35;--glow-color-int:.68;--glow-white-int:.58">
-  <div class="glow"></div>
-  <div class="head">
-    <div class="head-l">
-      <div class="brand"><img class="logo" src="cann-dark-logo.svg" alt="CANN"><span class="ttl h-title">渐变标题即结论</span></div>
-      <div class="subttl" style="color:rgba(255,255,255,.6)">副标题 · 英文补充</div>
-    </div>
-    <div class="head-r" style="color:rgba(255,255,255,.45)">01 / 章节名<br/>2026</div>
-  </div>
-  <div class="glow-inner">
-    <!-- 左：文字 + 要点 -->
+  <div class="glow-top"></div><div class="glow"></div><div class="glow-white"></div>
+  <div class="chrome"><div>设计点 1.1 · CONTROL FLOW</div><div>第一章 · 控制与可观测</div></div>
+  <div class="inner">
     <div>
-      <p style="font-size:var(--fs-body);color:rgba(255,255,255,.8);line-height:1.7">正文描述……</p>
-      <div class="glow-points">
-        <div class="point">
-          <div class="point-dot"></div>
-          <div class="point-body">
-            <div class="pt">要点标题</div>
-            <div class="pd">补充说明……</div>
-          </div>
-        </div>
-        <!-- 重复 × 3-4 条 -->
+      <div class="kicker">DESIGN POINT 1.1</div>
+      <h1 class="h-title">控制流<br/><span class="light">结构化可视化</span></h1>
+      <p class="body">把算子执行的控制流抽象成结构化视图——读取/计算/决策/回写，<b>一图可达，全局可见</b>。</p>
+      <div class="points">
+        <div class="point"><div class="dot"></div><div><div class="pt-title">执行过程全局可见</div><div class="pt-desc">各阶段一目了然，无需在代码里逐层定位</div></div></div>
+        <div class="point"><div class="dot"></div><div><div class="pt-title">关键路径高亮</div><div class="pt-desc">自动标注热点算子与数据依赖关系</div></div></div>
+        <div class="point"><div class="dot"></div><div><div class="pt-title">精度逻辑定位</div><div class="pt-desc">精度异常快速对应到具体算子节点</div></div></div>
       </div>
     </div>
-    <!-- 右：图位占位 / 截图 -->
-    <div class="shot">
-      <img src="screenshot.png" alt="" style="width:100%;height:100%;object-fit:cover">
-    </div>
+    <div class="shot"><span class="ph">控制流可视化界面 · 16:10</span></div>
   </div>
 </section>
 ```
 
-- **一章一色**：每章首页（`chapter-cover`）带调色面板，其他同章页用 `data-chapter="N"` + 相同 `--glow-h` inline 变量继承颜色。
+### 要点
+
+- **三层光晕**：`.glow`（双色径向，`--glow-h`/`--glow-h2`）+ `.glow-white`（底部白雾），高度由 `--glow-spread` 控制；`.glow-top` 为可选顶部叠层。
+- **标题用 `.h-title`**，`<span class="light">` 包的部分变细体（200）形成主次。
+- **图位用 `.shot` + `.ph` 占位文字**；有真截图就把 `<span class="ph">` 换成 `<img>`。
+- **一章一色**：章节封面页（`chapter-cover`）挂调色面板，同章其他页 `data-chapter="N"` + 相同 `--glow-*` inline 变量继承。
 - `cann-dark-logo.svg` = 白色版 logo，专用于深色底；别用深色 logo。
-- `.shot` 的 `box-shadow` 用 `hsla(var(--glow-h),...)` 让阴影颜色随光晕同步变化。
-
-### 填充示例（「增量编译」设计点参照）
-
-```html
-<section class="slide s-glow" data-chapter="1"
-  style="--glow-h:234;--glow-h2:291;--glow-sat:95%;--glow-light:40%;--glow-spread:35;--glow-color-int:.68;--glow-white-int:.58">
-  <div class="glow"></div>
-  <div class="head">
-    <div class="head-l">
-      <div class="brand"><img class="logo" src="cann-dark-logo.svg" alt="CANN">
-        <span class="ttl h-title">增量编译：把 30 分钟压缩到 3 秒</span>
-      </div>
-      <div class="subttl" style="color:rgba(255,255,255,.6)">Design Point 01 · Incremental Build</div>
-    </div>
-    <div class="head-r" style="color:rgba(255,255,255,.45)">01 / 编译体验<br/>2026</div>
-  </div>
-  <div class="glow-inner">
-    <div>
-      <p style="font-size:var(--fs-body);color:rgba(255,255,255,.8);line-height:1.7;margin-bottom:2vh">
-        现有 tbe 编译每次全量重编 460+ .o 文件，改一行代码等 30-60 分钟。<br>
-        增量编译 + 智能依赖分析可将 <b style="color:#fff">95% 的日常改动</b>压缩到秒级响应。
-      </p>
-      <div class="glow-points">
-        <div class="point">
-          <div class="point-dot"></div>
-          <div class="point-body">
-            <div class="pt">依赖图感知</div>
-            <div class="pd">静态分析算子依赖树，只重编真正受影响的子图，其余复用缓存。</div>
-          </div>
-        </div>
-        <div class="point">
-          <div class="point-dot"></div>
-          <div class="point-body">
-            <div class="pt">智能去重</div>
-            <div class="pd">内容 hash 识别重复 .o，跨项目共享编译产物，节省磁盘与时间。</div>
-          </div>
-        </div>
-        <div class="point">
-          <div class="point-dot"></div>
-          <div class="point-body">
-            <div class="pt">IDE 实时反馈</div>
-            <div class="pd">保存即触发后台编译，错误在编辑器内实时标红，无需等待完整构建。</div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="shot"><!-- 截图或示意图 --></div>
-  </div>
-</section>
-```
