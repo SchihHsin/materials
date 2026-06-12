@@ -567,9 +567,12 @@ document.body.addEventListener('click',e=>{if(!document.body.classList.contains(
 addEventListener('resize',()=>{if(document.body.classList.contains('overview'))applyOverviewScale();else reanchor();});
 
 /* 默认隐藏控制栏+右侧点；鼠标移到屏幕底部才出现，离开 2.5s 淡出 */
-let hideTimer;
-function showCtrl(){controls.classList.add('show');navDots.classList.add('show');clearTimeout(hideTimer);hideTimer=setTimeout(()=>{controls.classList.remove('show');navDots.classList.remove('show');},2500);}
-document.addEventListener('mousemove',e=>{ if(e.clientY>window.innerHeight-130) showCtrl(); });
+/* 底部控制栏 / 右侧导航点各自独立显隐：移到底部出底部栏、移到右侧出右侧点，离开该区即淡出 */
+document.addEventListener('mousemove',e=>{
+  controls.classList.toggle('show', e.clientY > window.innerHeight - 120);
+  navDots.classList.toggle('show', e.clientX > window.innerWidth - 120);
+});
+document.addEventListener('mouseleave',()=>{ controls.classList.remove('show'); navDots.classList.remove('show'); });
 
 window.scrollTo(0,0);
 slides.forEach(paintSlide);

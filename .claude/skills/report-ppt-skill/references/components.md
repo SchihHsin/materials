@@ -20,10 +20,13 @@
 | 干系人关系网络/谁连谁/相关方关系/角色协作/influence map/关系图（节点多、有连线） | **§9 关系网络图** | ECharts graph 力导向/环形，0 新依赖 |
 | 信息架构/IA/sitemap/功能树/思维导图/组织架构/心智模型（有父子层级） | **§10 思维导图·层级树** | ECharts tree，横/纵向 |
 | 用户流转/转化路径/流量分配/痛点→方案映射/从 A 到 B 的量 | **§11 桑基流向图** | ECharts sankey |
+| 评分矩阵/能力打分/竞品打分/多对象×多维度热力表/scorecard | **§12 评分热力矩阵** | 手画网格 + JS 渲染（淡底+彩字+表情脸）|
+| 能力架构/体验架构/产品架构/分层框架（目标→场景→…纵向分层）| **§13 分层架构图** | 左标签 + 聚类玻璃卡 |
+| 几个冲击力大数字/效率提升 X%/加速 N×/关键成果/KPI 主打 | **§14 数据突出卡** | 切角玻璃方卡 + 总体说明 |
 
-判不准时，按主体：**数字进度**→§1，**时间轴**→§2，**引用堆**→§3，**分阶段流程**→§4，**多产品比**→§5，**讲一个人**→§6a，**多人维度对比**→§6b，**讲方案**→§8，**关系网络**→§9，**层级树**→§10，**带权流向**→§11。命中后翻到该节，照抄骨架 + 参考填充示例，只改文案/配色。
+判不准时，按主体：**数字进度**→§1，**时间轴**→§2，**引用堆**→§3，**分阶段流程**→§4，**多产品比**→§5，**讲一个人**→§6a，**多人维度对比**→§6b，**讲方案**→§8，**关系网络**→§9，**层级树**→§10，**带权流向**→§11，**打分表**→§12，**分层架构**→§13，**大数字主打**→§14。命中后翻到该节，照抄骨架 + 参考填充示例，只改文案/配色。
 
-> §9–§11 是 **ECharts 图**（已内联，0 新依赖）；布局型 pattern（洋葱圈 / 2×2 / 共情图 / 服务蓝图 / 亲和图）走手画，待补。
+> §9–§11 是 **ECharts 图**（已内联，0 新依赖）；§12–§14 是手画 pattern（矩阵需配套 JS）。布局型 pattern（洋葱圈 / 2×2 / 共情图 / 服务蓝图 / 亲和图）待补。
 
 ## 0. 封面 + logo（默认件）· ⛔ 标题前不放图标
 
@@ -898,3 +901,116 @@
 - 节点超过两层（来源→中转→去向）直接在 `data`/`links` 里加即可，sankey 自动分层。
 
 > 以上三个都是 **ECharts** 图（已内联 `lib/echarts.min.js`）。合并进单 deck 时遵守 `chart-selection.md` 约定：脚本放主脚本前，init 包 IIFE + `if(typeof echarts==='undefined')return` + `if(!el)return` 保护；翻页/全屏后调 `chart.resize()`。
+
+## 12. 评分热力矩阵（行 × 列打分，参考 reference/mattrix.html）
+
+> **命中**：能力/竞品评分矩阵、多对象 × 多维度打分、热力打分表。**手画 CSS 网格 + JS 渲染**（按分着色），不用库。
+> ⚠️ 关键：cell **底色极淡**（`rgba(色,.05)`）+ 彩色描边 + **彩色数字** + **表情脸图标**——不是饱和填充。分档（0–100）：`<20红 <40橙 <60绿 <80青 ≥80蓝`。
+
+```css
+.hm-grid{display:grid;grid-template-columns:120px repeat(5,1fr);gap:8px}   /* 改列数同步改 repeat 与内联 grid-template-columns */
+.hm-header{font-size:12px;font-weight:700;color:#3D4452;text-align:center;text-transform:uppercase;letter-spacing:.04em;background:#fff;border:1px solid rgba(223,223,223,.5);border-radius:12px;height:48px;display:flex;align-items:center;justify-content:center}
+.hm-corner{position:relative;overflow:hidden;border-radius:12px;background:#fff;border:1px solid #EFF0F1}   /* 左上角斜线 + 行/列名 */
+.hm-corner svg{position:absolute;inset:0;width:100%;height:100%}
+.hm-corner .hc-col{position:absolute;top:30%;right:18%;font-size:12px;font-weight:600;color:#3D4452;text-transform:uppercase}
+.hm-corner .hc-row{position:absolute;bottom:30%;left:18%;font-size:12px;font-weight:600;color:#3D4452;text-transform:uppercase}
+.hm-row-label{display:flex;align-items:center;gap:10px;padding:0 8px;font-size:12px;font-weight:700;color:#1B2432;background:#fff;border:1px solid rgba(223,223,223,.5);border-radius:12px;height:48px}
+.hm-row-label small{font-size:9.5px;font-weight:500;color:#A1A4AA;display:block}
+.hm-cell{border-radius:12px;height:48px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:1px solid #EFF0F1}
+.hm-cell .cv{font-family:'JetBrains Mono';font-size:14px;font-weight:800;display:flex;align-items:center;gap:3px}   /* 表情 + 数字 + 趋势 */
+.hm-legend{display:flex;align-items:center;gap:10px;margin-top:14px;font-size:11px;color:#A1A4AA;justify-content:flex-end}
+.hm-grad{height:8px;width:120px;border-radius:4px;background:linear-gradient(90deg,#FFB9B9,#FFD7B7 35%,#FFF2A5 55%,#C4F3E1 75%,#94E1C8)}
+```
+
+容器 `<div class="hm-grid" id="m1" style="grid-template-columns:150px repeat(6,1fr)"></div>` + 渲染脚本（**配色/表情/趋势/状态点函数逐字抄自 mattrix.html**）：
+
+```js
+(function(){var grid=document.getElementById('m1');if(!grid)return;
+  function heat(s){return s<20?'rgba(224,33,40,.05)':s<40?'rgba(244,132,12,.05)':s<60?'rgba(5,131,88,.05)':s<80?'rgba(18,113,128,.05)':'rgba(57,121,249,.05)';}
+  function bord(s){return s<20?'rgba(224,33,40,.1)':s<40?'rgba(244,132,12,.1)':s<60?'rgba(5,131,88,.1)':s<80?'rgba(18,113,128,.1)':'rgba(57,121,249,.1)';}
+  function txt(s){return s<20?'#E02128':s<40?'#F4840C':s<60?'#058358':s<80?'#127180':'#3979F9';}
+  function face(s){var a='<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/>';
+    if(s>=80)return a+'<circle cx="9" cy="9" r="1"/><circle cx="15" cy="9" r="1"/><path d="M6 15h12M6 15c3 5 9 5 12 0"/></svg>';        /* 大笑 */
+    if(s>=60)return a+'<circle cx="9" cy="9" r="1"/><circle cx="15" cy="9" r="1"/><path d="M6 16c3 2 9 2 12 0"/></svg>';            /* 微笑 */
+    if(s>=40)return a+'<circle cx="9" cy="9" r="1"/><circle cx="15" cy="9" r="1"/><line x1="6" y1="16" x2="18" y2="16"/></svg>';   /* 平 */
+    if(s>=20)return a+'<circle cx="9" cy="9" r="1"/><circle cx="15" cy="9" r="1"/><path d="M6 17c3-2 9-2 12 0"/></svg>';            /* 难过 */
+    return a+'<line x1="7" y1="8" x2="11" y2="10"/><line x1="13" y1="10" x2="17" y2="8"/><path d="M6 16c3-3 9-3 12 0"/></svg>';}     /* 哭 */
+  var cols=['总分','维度A','维度B','维度C','维度D','维度E'];
+  var rows=[{name:'对象一',sub:'TAG',v:[74,66,86,82,60,35]},{name:'对象二',sub:'TAG',v:[28,18,35,38,36,16]}];  // v[0]=总分(管状态点)
+  var h='<div class="hm-corner"><svg viewBox="0 0 100 100" preserveAspectRatio="none"><line x1="0" y1="0" x2="100" y2="100" stroke="#EFF0F1" stroke-width="1"/></svg><span class="hc-col">维度</span><span class="hc-row">对象</span></div>';
+  cols.forEach(function(c){h+='<div class="hm-header">'+c+'</div>';});
+  rows.forEach(function(r){
+    var dot='<div style="width:8px;height:8px;border-radius:50%;flex-shrink:0;background:'+(r.v[0]<40?'#E63838':r.v[0]<60?'#FD9A00':'#37C597')+';box-shadow:0 0 0 2px '+(r.v[0]<40?'rgba(230,56,56,.2)':r.v[0]<60?'rgba(253,154,0,.2)':'rgba(55,197,151,.2)')+'"></div>';
+    h+='<div class="hm-row-label" style="background:transparent;border-color:rgba(223,223,223,.5)">'+dot+'<div><div style="font-size:12px">'+r.name+'</div><small>'+r.sub+'</small></div></div>';
+    r.v.forEach(function(s){h+='<div class="hm-cell" style="background:'+heat(s)+';color:'+txt(s)+';border-color:'+bord(s)+'"><div class="cv">'+face(s)+' '+s+'</div></div>';});
+  });
+  grid.innerHTML=h;
+})();
+```
+
+- 行标签底色 **透明**（`background:transparent`）；行首一个**状态点**（按总分 `<40红/<60橙/≥60绿`，带光晕）。
+- 整张矩阵外面包一张 `.card` 玻璃卡更稳重。
+- ⚠️ **合并进 build_index.py 单 deck 时，渲染脚本要同时写在分册 script 和 build_index.py 硬编码 script 两处**（build 不抽取分册 `<script>`）。
+
+## 13. 分层架构图（左标签 + 聚类卡，参考 reference/层级架构图.jpg）
+
+> **命中**：能力/体验/产品架构图、分层框架（目标→场景→资产→范式→理念 这类纵向分层）。纯手画。
+> ⚠️ **按聚类分卡**：一层放若干张玻璃卡，**一张卡 = 一类相关内容（含多个条目）**，不是"一条内容一张卡"。卡高 `grid-auto-rows:auto` **按内容自适应**（目标层一行字就矮、范式层内容多就高）。
+
+```css
+.arc{margin:auto 0;width:100%;display:grid;gap:.9vw;grid-auto-rows:auto}     /* auto = 各层按内容高度自适应 */
+.arc-row{display:grid;grid-template-columns:74px 1fr;gap:1vw;align-items:stretch}
+.arc-lbl{display:flex;flex-direction:column;justify-content:center;gap:.3vh}  /* 左侧分层标签：中文 + 英文 */
+.arc-lbl .zh{font-weight:800;font-size:var(--fs-sm);color:var(--ink)}
+.arc-lbl .en{font-family:'JetBrains Mono';font-size:9px;letter-spacing:.1em;color:var(--ink-3);text-transform:uppercase}
+.arc-cells{display:flex;gap:.9vw;align-items:stretch}                         /* 一层的若干聚类卡；用 inline flex:N 配不等宽 */
+.arc-band{flex:1;min-width:0;background:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.7);border-radius:14px;padding:1vw;display:flex;flex-direction:column;justify-content:center;gap:1vw;box-shadow:0 6px 18px -14px rgba(30,40,70,.18)}
+.arc-vision{justify-content:center;align-items:center;text-align:center;font-weight:700;font-size:var(--fs-h3)}  /* 目标层：单卡居中陈述，别用深底深字 */
+.arc-vision b{background:linear-gradient(100deg,#5B5BD6,#7C3AED);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.arc-h{font-weight:800;font-size:var(--fs-sm);color:var(--ink);display:flex;align-items:baseline;gap:.5em}   /* 聚类卡标题 + 英文 small */
+.arc-h small{font-family:'JetBrains Mono';font-size:9px;color:var(--ink-3);text-transform:uppercase}
+.arc-chips{display:flex;gap:.5vw .9vw;flex-wrap:wrap;align-items:center}     /* 场景层：图标 chips */
+.arc-chip{display:flex;align-items:center;gap:.42vw;font-size:var(--fs-sm);font-weight:600;color:var(--ink)}
+.arc-ic{width:26px;height:26px;border-radius:7px;flex-shrink:0;display:flex;align-items:center;justify-content:center}  /* 彩色底块（inline background:var(--g-blue)…）*/
+.arc-ic svg{width:15px;height:15px;stroke:#fff}
+.arc-list{font-size:var(--fs-sm);color:var(--ink-2);line-height:1.62}        /* 资产层：长列表文本 */
+.arc-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1vw}         /* 理念层：3 列 */
+.arc-band.ctr{align-items:center}                                            /* 居中聚类卡 */
+.arc-band.ctr .arc-h{justify-content:center} .arc-band.ctr .arc-chips{justify-content:center}
+/* 范式层 mini 条目：黑线 icon + 下方彩色光晕 */
+.arc-mini{display:flex;flex-direction:column;align-items:center;text-align:center;gap:.4vh}
+.arc-pic{position:relative;width:32px;height:32px;display:flex;align-items:center;justify-content:center}
+.arc-pic svg{width:24px;height:24px;stroke:#16191e;fill:none;position:relative;z-index:1}     /* 黑色线性图标 */
+.arc-pic::after{content:"";position:absolute;left:50%;bottom:1px;transform:translateX(-50%);width:26px;height:10px;border-radius:50%;background:var(--glow,rgba(91,91,214,.55));filter:blur(6px);z-index:0}  /* 彩色光晕 */
+.arc-mini .mt{font-weight:700;font-size:var(--fs-sm);color:var(--ink)} .arc-mini .md{font-size:var(--fs-xs);color:var(--ink-2);line-height:1.4}
+```
+
+HTML：`.arc` 内每层一个 `.arc-row`（左 `.arc-lbl` + 右 `.arc-cells`）；`.arc-cells` 里放 1~N 张 `.arc-band`，每张 band 内是一个聚类（标题 `.arc-h` + 内容 chips/list/grid/cols）。范式层每个 `.arc-mini` = `.arc-pic`(图标+光晕) + `.mt` + `.md`。
+
+## 14. 数据突出卡（切角玻璃卡 + 总体说明，参考 reference/data.png）
+
+> **命中**：3 个左右**冲击力大数字**（效率提升 X%、加速 N×…），每个配图标 + 短标题 + 小描述，上面一段**总体说明**。
+> ⚠️ **两个致命坑**：
+> 1. **必须单层玻璃**——卡片直接 `backdrop-filter` 采样背景纹理。**别用"外层白底 + 内层玻璃"双层做描边**，否则内层 backdrop 采到外层白底 → 卡片发实、不透（反复踩）。
+> 2. **切角用 `clip-path` 会裁掉 `border`/`box-shadow`** → 渐变描边改用 **`::after` + `mask-composite:exclude` 只画边框环**（内部透明、不加实度）。
+
+```css
+.dh-wrap{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;gap:4.2vh}
+.dh-lead{font-size:clamp(15px,1.05vw,18px);color:var(--ink-2);line-height:1.7;text-align:center;max-width:1000px;margin:0 auto}   /* 总体说明，宽度=卡片行宽 */
+.dh{display:grid;grid-template-columns:repeat(3,1fr);gap:2vw;max-width:1000px;margin:0 auto}
+/* 单层玻璃卡：切右上+左下角、近正方、内容三段分布（图标上 / 数字组中 / 描述右下）*/
+.dh-card{position:relative;aspect-ratio:1;overflow:hidden;clip-path:polygon(0 0,calc(100% - 44px) 0,100% 44px,100% 100%,44px 100%,0 calc(100% - 44px));padding:2.6vh 1.7vw;display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;text-align:left;background:rgba(255,255,255,.4);backdrop-filter:blur(15px) saturate(1.5);-webkit-backdrop-filter:blur(15px) saturate(1.5)}
+.dh-card::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.32),rgba(255,255,255,0) 14%);pointer-events:none;z-index:1}  /* 顶部细高光 */
+.dh-card::after{content:"";position:absolute;inset:0;clip-path:polygon(0 0,calc(100% - 44px) 0,100% 44px,100% 100%,44px 100%,0 calc(100% - 44px));padding:1.3px;background:linear-gradient(150deg,rgba(255,255,255,.85),rgba(255,255,255,.25) 55%,rgba(255,255,255,.5));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;z-index:2}  /* 渐变描边环 */
+.dh-card>*{position:relative;z-index:3}
+.dh-ic{width:44px;height:44px;border-radius:11px;display:flex;align-items:center;justify-content:center;background:rgba(91,91,214,.12);color:var(--accent)}  /* 扁平图标（无白底无阴影）*/
+.dh-ic svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2}
+.dh-num{font-family:'Inter';font-weight:500;font-size:min(5.4vw,9vh);line-height:1;letter-spacing:-.02em;background:linear-gradient(120deg,#5B5BD6,#8B3DEE);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}  /* 大但不粗：Inter 500 */
+.dh-num .u{font-size:.36em;font-weight:600;margin-left:.04em}   /* % / × 小上标 */
+.dh-t{font-weight:700;font-size:var(--fs-h3);color:var(--ink);margin-top:.3vh}
+.dh-d{font-size:var(--fs-sm);color:var(--ink-3);line-height:1.4;align-self:flex-end;text-align:right;white-space:nowrap}  /* 小描述沉右下、灰色、单行 */
+```
+
+HTML：`.dh-wrap` = `.dh-lead`(总体说明) + `.dh`(3 张 `.dh-card`)；每张 card = `.dh-ic` + `.dh-main`(`.dh-num`+`.dh-t`) + `.dh-d`。
+- 倒角大小调 `clip-path` 的 `44px`（`::after` 同步）；要更透降 `.dh-card` 背景 `.4`。
+- 说明是**总体一段**（不是每数字一条），且 `max-width` 跟卡片行一致。
