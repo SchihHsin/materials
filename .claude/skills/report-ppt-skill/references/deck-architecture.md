@@ -14,6 +14,7 @@ body     滚动容器：height:100%; overflow:hidden auto; scroll-snap-type:y ma
 - **底部居中控制栏 `#controls`**：`上一页 / 页码 / 下一页 ｜ 概览 / 全屏`；**要小、要透**（背景 ~`rgba(22,25,30,.42)`、按钮 26px、别抢眼）。亮/暗随当前页用 **`body.on-dark`** 切换（封面/黑底 = on-dark）。
   - ⚠️ **显隐：底部栏与右侧 `.nav-dots` 分区独立、离开即淡出**（别绑死、别用定时器）：`mousemove` 里 `controls.classList.toggle('show', e.clientY>innerHeight-120)` + `navDots.classList.toggle('show', e.clientX>innerWidth-120)` + `mouseleave` 一并隐藏。移到底部出底部栏、移到右侧出右侧点，互不联动。（旧版用 2.5s 定时器 + 两栏同步——移开残留、且只能从底部触发，已弃用。）
 - **全屏**：Fullscreen API（`requestFullscreen`/`exitFullscreen`，`F` 键）；监听 `fullscreenchange` 切换按钮图标（全屏 ⛶ ↔ 退出全屏）。
+- **滚动条**：细、半透、**默认隐藏，滚动时才淡入**（`body.scrolling` 类，停 700ms 淡出），亮/暗随 `body.on-dark`。⚠️ **滚动监听挂 `body` 不是 `window`**（`html{overflow-y:visible}` 让 body 当滚动容器，scroll 事件在 body 上触发）+ `wheel` 兜底，否则 `.scrolling` 永远加不上、滚动条永不出现。
 - 键盘：`↑↓←→` / 空格 / PageUp-Down / Home / End / `O` 概览 / `F` 全屏 / `Esc` 退总览。
 - 页面顺序随时可调：reorder 时记得**同步页码 head-r 的 01/02…**。
 
