@@ -664,8 +664,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 .up-note.g{background:linear-gradient(180deg,#66BC54,#7FCB6A 22%)} .up-note.g2{background:linear-gradient(180deg,#BAE2AC,#CDEBBE 22%)}
 .up-note.p{background:linear-gradient(180deg,#C3B6F2,#DCD5F8 22%)} .up-note.p2{background:linear-gradient(180deg,#D5CDF6,#EAE6FB 22%)}
 /* 右侧面板网格：上排 4 列 + 下排 2 个跨 2 列 */
-.up-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1vw;grid-auto-rows:minmax(min-content,1fr);align-content:stretch;min-height:0}
-.up-panel{background:rgba(255,255,255,.66);border:1px solid rgba(255,255,255,.75);border-radius:10px;padding:2vh 1.4vw;box-shadow:0 6px 18px -14px rgba(30,40,70,.2);min-width:0;display:flex;flex-direction:column}
+.up-grid{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:1fr 1fr;gap:1vw;min-height:0}
+.up-panel{background:rgba(255,255,255,.66);border:1px solid rgba(255,255,255,.75);border-radius:10px;padding:2vh 1.4vw;box-shadow:0 6px 18px -14px rgba(30,40,70,.2);min-width:0;min-height:0;display:flex;flex-direction:column}
 .up-panel.wide{grid-column:span 2}
 /* 列内两卡堆叠（性格+动机 / 技术+兴趣），两卡均分该列高度 */
 .up-stack{display:flex;flex-direction:column;gap:1vw;min-width:0}
@@ -1500,7 +1500,6 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
                 <div><div class="up-pl-top"><span>理性</span><span>感性</span></div><div class="up-track"><div class="d" style="left:26%"></div></div></div>
                 <div><div class="up-pl-top"><span>激进</span><span>稳健</span></div><div class="up-track"><div class="d" style="left:64%"></div></div></div>
                 <div><div class="up-pl-top"><span>条理</span><span>随性</span></div><div class="up-track"><div class="d" style="left:30%"></div></div></div>
-                <div><div class="up-pl-top"><span>独立</span><span>协作</span></div><div class="up-track"><div class="d" style="left:40%"></div></div></div>
               </div>
             </div>
             <div class="up-panel">
