@@ -17,16 +17,13 @@
 | 几类用户有什么不同/角色对比/各角色的敏感程度/能力维度对比/radar/雷达图/多角色对照（**多人对比**） | **§6b 用户画像·形式二** | 展示**多人在若干维度的差异** → 顶栏 + 雷达图 |
 | 卡片底部补几个小数字/附加指标/标签+数值/secondary KPI | **§7 KPI 小数字组** | 嵌在别的卡**底部**，不独占一页 |
 | 设计理念/方案亮点/解法/核心设计点/问题→方案/design concept/我们的答案是 | **§8 黑底设计点** | 讲**方案/主张**，要氛围感 → 黑底光晕 + 渐变标题 |
-| 干系人关系网络/谁连谁/相关方关系/角色协作/influence map/关系图（节点多、有连线） | **§9 关系网络图** | ECharts graph 力导向/环形，0 新依赖 |
-| 信息架构/IA/sitemap/功能树/思维导图/组织架构/心智模型（有父子层级） | **§10 思维导图·层级树** | ECharts tree，横/纵向 |
-| 用户流转/转化路径/流量分配/痛点→方案映射/从 A 到 B 的量 | **§11 桑基流向图** | ECharts sankey |
-| 评分矩阵/能力打分/竞品打分/多对象×多维度热力表/scorecard | **§12 评分热力矩阵** | 手画网格 + JS 渲染（淡底+彩字+表情脸）|
-| 能力架构/体验架构/产品架构/分层框架（目标→场景→…纵向分层）| **§13 分层架构图** | 左标签 + 聚类玻璃卡 |
-| 几个冲击力大数字/效率提升 X%/加速 N×/关键成果/KPI 主打 | **§14 数据突出卡** | 切角玻璃方卡 + 总体说明 |
+| 评分矩阵/能力打分/竞品打分/多对象×多维度热力表/scorecard | **§9 评分热力矩阵** | 手画网格 + JS 渲染（淡底+彩字+表情脸）|
+| 能力架构/体验架构/产品架构/分层框架（目标→场景→…纵向分层）| **§10 分层架构图** | 左标签 + 聚类玻璃卡 |
+| 几个冲击力大数字/效率提升 X%/加速 N×/关键成果/KPI 主打 | **§11 数据突出卡** | 切角玻璃方卡 + 总体说明 |
 
-判不准时，按主体：**数字进度**→§1，**时间轴**→§2，**引用堆**→§3，**分阶段流程**→§4，**多产品比**→§5，**讲一个人**→§6a，**多人维度对比**→§6b，**讲方案**→§8，**关系网络**→§9，**层级树**→§10，**带权流向**→§11，**打分表**→§12，**分层架构**→§13，**大数字主打**→§14。命中后翻到该节，照抄骨架 + 参考填充示例，只改文案/配色。
+判不准时，按主体：**数字进度**→§1，**时间轴**→§2，**引用堆**→§3，**分阶段流程**→§4，**多产品比**→§5，**讲一个人**→§6a，**多人维度对比**→§6b，**讲方案**→§8，**打分表**→§9，**分层架构**→§10，**大数字主打**→§11。命中后翻到该节，照抄骨架 + 参考填充示例，只改文案/配色。
 
-> §9–§11 是 **ECharts 图**（已内联，0 新依赖）；§12–§14 是手画 pattern（矩阵需配套 JS）。布局型 pattern（洋葱圈 / 2×2 / 共情图 / 服务蓝图 / 亲和图）待补。
+> §9–§11 是手画 pattern（评分矩阵需配套 JS 渲染）。布局型 pattern（洋葱圈 / 2×2 / 共情图 / 服务蓝图 / 亲和图）待补。
 
 ## 0. 封面 + logo（默认件）· ⛔ 标题前不放图标
 
@@ -777,132 +774,7 @@
 - **一章一色**：章节封面页（`chapter-cover`）挂调色面板，同章其他页 `data-chapter="N"` + 相同 `--glow-*` inline 变量继承。
 - `cann-dark-logo.svg` = 白色版 logo，专用于深色底；别用深色 logo。
 
-## 9. 关系网络图（ECharts graph · 干系人/角色关系）
-
-> **命中**：干系人**关系网络**、谁连谁、相关方影响图、系统角色协作、influence map——节点多、连线表示关系、需要自动布局时用。简单分层（无连线）走手画方块即可，别上库。
-> 用已内联的 **ECharts graph series**，0 新依赖。配色用样板 `PAL` 调色板，字体 `HarmonyOS Sans SC`。
-
-```js
-// 容器：<div id="netchart" style="width:100%;height:62vh"></div>
-(function(){
-  if(typeof echarts==='undefined')return; const el=document.getElementById('netchart'); if(!el)return;
-  const PAL=['#5B5BD6','#7C3AED','#2FCB8E','#F59E0B','#4FACFE','#E6789B'];
-  echarts.init(el).setOption({
-    textStyle:{fontFamily:'HarmonyOS Sans SC, Inter, "Noto Sans SC", sans-serif'},
-    color:PAL,
-    legend:{top:0,textStyle:{color:'#5e646e',fontSize:12},icon:'roundRect',itemWidth:11,itemHeight:8},
-    series:[{
-      type:'graph', layout:'force',          // 也可 'circular'（环形）
-      roam:false, draggable:true,
-      categories:[{name:'研发侧'},{name:'平台侧'},{name:'用户侧'}],
-      label:{show:true,position:'right',color:'#16191e',fontSize:12,fontWeight:500},
-      labelLayout:{hideOverlap:true},
-      force:{repulsion:260,edgeLength:[60,140],gravity:.08},
-      lineStyle:{color:'#c4cad4',width:1.2,curveness:.08,opacity:.7},
-      emphasis:{focus:'adjacency',lineStyle:{width:2.4}},
-      data:[
-        // symbolSize 表重要度；category 决定颜色
-        {name:'算子开发',category:0,symbolSize:46,value:9},
-        {name:'框架适配',category:0,symbolSize:34,value:6},
-        {name:'CI/发布',category:1,symbolSize:30,value:5},
-        {name:'实验平台',category:1,symbolSize:38,value:7},
-        {name:'高校用户',category:2,symbolSize:30,value:5},
-        {name:'生产训练',category:2,symbolSize:42,value:8}
-      ],
-      links:[
-        {source:'算子开发',target:'框架适配'},
-        {source:'框架适配',target:'实验平台'},
-        {source:'实验平台',target:'CI/发布'},
-        {source:'实验平台',target:'生产训练'},
-        {source:'高校用户',target:'实验平台'},
-        {source:'生产训练',target:'算子开发'}
-      ]
-    }]
-  });
-})();
-```
-
-- `layout:'force'` 自动力导向布局；关系是「围绕一个中心」时改 `layout:'circular',circular:{rotateLabel:true}`。
-- `symbolSize` 映射重要度/影响力，`categories` 分组上色（用 PAL），`links.curveness` 给一点弧度更好看。
-- 想给连线方向加箭头：`links` 里加 `symbol:['none','arrow']`。
-
-## 10. 思维导图 / 信息架构树（ECharts tree）
-
-> **命中**：信息架构 IA、sitemap、功能树、思维导图、组织架构、心智模型层级——**有明确父子层级**时用 ECharts tree；扁平的几个并列框走手画。
-
-```js
-// 容器：<div id="treechart" style="width:100%;height:64vh"></div>
-(function(){
-  if(typeof echarts==='undefined')return; const el=document.getElementById('treechart'); if(!el)return;
-  echarts.init(el).setOption({
-    textStyle:{fontFamily:'HarmonyOS Sans SC, Inter, "Noto Sans SC", sans-serif'},
-    series:[{
-      type:'tree', left:'2%', right:'18%', top:'2%', bottom:'2%',
-      orient:'LR',                       // 横向左→右；纵向用 'TB'
-      symbol:'circle', symbolSize:9,
-      itemStyle:{color:'#5B5BD6',borderColor:'#5B5BD6'},
-      lineStyle:{color:'#c4cad4',width:1.2,curveness:.5},
-      label:{position:'left',align:'right',color:'#16191e',fontSize:13,fontWeight:600},
-      leaves:{label:{position:'right',align:'left',color:'#5e646e',fontWeight:400}},
-      expandAndCollapse:false, initialTreeDepth:-1,
-      emphasis:{focus:'descendant'},
-      data:[{
-        name:'CANN 开发者门户',
-        children:[
-          {name:'入门',children:[{name:'环境搭建'},{name:'快速上手'},{name:'示例库'}]},
-          {name:'算子开发',children:[{name:'Ascend C'},{name:'Tiling 指南'},{name:'调试'}]},
-          {name:'训练',children:[{name:'迁移'},{name:'精度对齐'},{name:'性能调优'}]},
-          {name:'参考',children:[{name:'API'},{name:'版本矩阵'}]}
-        ]
-      }]
-    }]
-  });
-})();
-```
-
-- `orient:'LR'`（横向）最适合 IA/sitemap；`'TB'`（纵向）适合组织架构。
-- `lineStyle.curveness:.5` 是 ECharts tree 标志性的圆角连线；根/枝节点用 accent 实心点、叶子用中性色。
-- 层级深时设 `initialTreeDepth:2` + `expandAndCollapse:true` 可折叠。
-
-## 11. 桑基流向图（ECharts sankey · 用户流转/转化/映射）
-
-> **命中**：用户流转、转化路径、流量分配、痛点→方案映射、从 A 到 B 的「量」的流动——节点分层、连线带权重时用。抄自样板 `charts-gallery.html`。
-
-```js
-// 容器：<div id="sankeychart" style="width:100%;height:60vh"></div>
-(function(){
-  if(typeof echarts==='undefined')return; const el=document.getElementById('sankeychart'); if(!el)return;
-  const PAL=['#5B5BD6','#7C3AED','#2FCB8E','#F59E0B','#4FACFE','#E6789B'];
-  echarts.init(el).setOption({
-    textStyle:{fontFamily:'HarmonyOS Sans SC, Inter, "Noto Sans SC", sans-serif'},
-    color:PAL,
-    series:[{
-      type:'sankey', left:6, right:64, top:8, bottom:8,
-      nodeWidth:12, nodeGap:10,
-      label:{color:'#16191e',fontSize:12},
-      lineStyle:{color:'gradient',opacity:.42},   // 连线用源/目标渐变色
-      data:[
-        {name:'文档碎片'},{name:'调试黑盒'},{name:'环境复杂'},
-        {name:'交互式文档'},{name:'可视化 Profiling'},{name:'一键环境'}
-      ],
-      links:[
-        {source:'文档碎片',target:'交互式文档',value:6},
-        {source:'调试黑盒',target:'可视化 Profiling',value:5},
-        {source:'环境复杂',target:'一键环境',value:4},
-        {source:'文档碎片',target:'可视化 Profiling',value:2}
-      ]
-    }]
-  });
-})();
-```
-
-- `lineStyle.color:'gradient'` 让连线从源节点色渐变到目标节点色，是桑基最好看的设置。
-- 左侧=问题/来源，右侧=方案/去向；`value` 是流量权重（决定带子粗细）。
-- 节点超过两层（来源→中转→去向）直接在 `data`/`links` 里加即可，sankey 自动分层。
-
-> 以上三个都是 **ECharts** 图（已内联 `lib/echarts.min.js`）。合并进单 deck 时遵守 `chart-selection.md` 约定：脚本放主脚本前，init 包 IIFE + `if(typeof echarts==='undefined')return` + `if(!el)return` 保护；翻页/全屏后调 `chart.resize()`。
-
-## 12. 评分热力矩阵（行 × 列打分，参考 reference/mattrix.html）
+## 9. 评分热力矩阵（行 × 列打分，参考 reference/mattrix.html）
 
 > **命中**：能力/竞品评分矩阵、多对象 × 多维度打分、热力打分表。**手画 CSS 网格 + JS 渲染**（按分着色），不用库。
 > ⚠️ 关键：cell **底色极淡**（`rgba(色,.05)`）+ 彩色描边 + **彩色数字** + **表情脸图标**——不是饱和填充。分档（0–100）：`<20红 <40橙 <60绿 <80青 ≥80蓝`。
@@ -952,7 +824,7 @@
 - 整张矩阵外面包一张 `.card` 玻璃卡更稳重。
 - ⚠️ **合并进 build_index.py 单 deck 时，渲染脚本要同时写在分册 script 和 build_index.py 硬编码 script 两处**（build 不抽取分册 `<script>`）。
 
-## 13. 分层架构图（左标签 + 聚类卡，参考 reference/层级架构图.jpg）
+## 10. 分层架构图（左标签 + 聚类卡，参考 reference/层级架构图.jpg）
 
 > **命中**：能力/体验/产品架构图、分层框架（目标→场景→资产→范式→理念 这类纵向分层）。纯手画。
 > ⚠️ **按聚类分卡**：一层放若干张玻璃卡，**一张卡 = 一类相关内容（含多个条目）**，不是"一条内容一张卡"。卡高 `grid-auto-rows:auto` **按内容自适应**（目标层一行字就矮、范式层内容多就高）。
@@ -987,7 +859,7 @@
 
 HTML：`.arc` 内每层一个 `.arc-row`（左 `.arc-lbl` + 右 `.arc-cells`）；`.arc-cells` 里放 1~N 张 `.arc-band`，每张 band 内是一个聚类（标题 `.arc-h` + 内容 chips/list/grid/cols）。范式层每个 `.arc-mini` = `.arc-pic`(图标+光晕) + `.mt` + `.md`。
 
-## 14. 数据突出卡（切角玻璃卡 + 总体说明，参考 reference/data.png）
+## 11. 数据突出卡（切角玻璃卡 + 总体说明，参考 reference/data.png）
 
 > **命中**：3 个左右**冲击力大数字**（效率提升 X%、加速 N×…），每个配图标 + 短标题 + 小描述，上面一段**总体说明**。
 > ⚠️ **两个致命坑**：
