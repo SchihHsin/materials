@@ -198,7 +198,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 .kpi.accent,.mcell.feat,.jm-opp,.lc.hl,.plat{backdrop-filter:none;-webkit-backdrop-filter:none}
 
 /* ===== VOC 分析：情感概览 + 用户声音墙 ===== */
-.voc-top{display:grid;grid-template-columns:1.7fr 1fr 1fr 1fr;gap:1vw;flex:0 0 auto;margin-bottom:1vh}
+.voc-top{display:grid;grid-template-columns:1.7fr 1fr 1fr 1fr;gap:1vw;flex:0 0 auto;margin-bottom:1.1vw}
 .voc-sent{display:flex;flex-direction:column;gap:1.2vh;justify-content:center;border-radius:12px;padding:1.6vh 1.3vw}
 .voc-sent .sh{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
 .voc-bar{display:flex;height:16px;border-radius:8px;overflow:hidden;box-shadow:inset 0 1px 2px rgba(0,0,0,.08)}
@@ -617,8 +617,12 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 /* 一层 = 若干聚类卡；一张卡 = 一类相关内容（含多个条目）*/
 .arc-cells{display:flex;gap:.9vw;align-items:stretch}
 .arc-band{flex:1;min-width:0;background:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.7);border-radius:14px;padding:1vw;display:flex;flex-direction:column;justify-content:center;gap:1vw;box-shadow:0 6px 18px -14px rgba(30,40,70,.18)}
-.arc-vision{justify-content:center;align-items:center;text-align:center;font-weight:700;font-size:var(--fs-h3);color:var(--ink)}
-.arc-vision b{background:linear-gradient(100deg,#5B5BD6,#7C3AED);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.arc-vision{justify-content:center;align-items:center;text-align:center;font-weight:700;font-size:var(--fs-h3);color:#fff;white-space:nowrap;background:var(--g-ink);border:1px solid rgba(255,255,255,.16);box-shadow:0 10px 28px -14px rgba(20,25,35,.55),inset 0 1px 0 rgba(255,255,255,.22)}
+/* 理念层：紫色玻璃（半透 g-accent + 模糊 + 高光，仿甘特 accent 条）*/
+.arc-band.accent{background:var(--g-accent);border:1px solid rgba(255,255,255,.34);box-shadow:0 10px 28px -14px rgba(91,91,214,.45),inset 0 1px 0 rgba(255,255,255,.34)}
+.arc-band.accent .arc-cols .mt{color:#fff}
+.arc-band.accent .arc-cols .md{color:rgba(255,255,255,.84)}
+.arc-vision b{background:linear-gradient(100deg,#A9B0FF,#E2CEFF);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 /* 聚类卡标题 */
 .arc-h{font-weight:800;font-size:var(--fs-sm);color:var(--ink);line-height:1.2;display:flex;align-items:baseline;gap:.5em}
 .arc-h small{font-family:'JetBrains Mono';font-size:9px;font-weight:500;color:var(--ink-3);letter-spacing:.08em;text-transform:uppercase}
@@ -647,6 +651,63 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 .arc-band.ctr .arc-h{justify-content:center}
 .arc-band.ctr .arc-chips{justify-content:center}
 
+/* ===== 用户画像看板（复刻 reference/Snipaste persona）===== */
+.up{flex:1;min-height:0;display:grid;grid-template-columns:235px 1fr;gap:1.5vw}
+.up-side{display:flex;flex-direction:column;gap:1.1vh;min-height:0;background:linear-gradient(160deg,#6366D8,#8268E2);border-radius:16px;padding:1.8vh 1.3vw;color:#fff;box-shadow:0 14px 34px -18px rgba(99,102,216,.6),inset 0 1px 0 rgba(255,255,255,.25)}
+.up-ava{width:100%;aspect-ratio:1;border-radius:13px;overflow:hidden;background:rgba(255,255,255,.16)}
+.up-ava img{width:100%;height:100%;object-fit:cover;display:block}
+.up-name{font-weight:800;font-size:var(--fs-h1);color:#fff;line-height:1.1;letter-spacing:-.01em}
+.up-role{font-size:var(--fs-sm);color:rgba(255,255,255,.9);font-weight:600;margin-top:-.4vh}
+.up-info{display:grid;grid-template-columns:auto 1fr;gap:.3vh .8vw;font-size:var(--fs-sm)}
+.up-info .k{color:rgba(255,255,255,.6)} .up-info .v{color:#fff;font-weight:700}
+.up-bioh,.up-gdh{font-size:var(--fs-sm);font-weight:800;color:#fff;margin-top:.4vh}
+.up-bio{font-size:var(--fs-sm);color:rgba(255,255,255,.85);line-height:1.55}
+.up-notes{display:flex;flex-wrap:wrap;gap:.6vw}
+.up-tags{display:flex;flex-wrap:wrap;gap:.5vw}
+.up-tag{background:rgba(255,255,255,.92);color:#2b2b42;font-size:var(--fs-sm);padding:.5vh .8vw;line-height:1.3}
+.up-note{width:clamp(74px,5.6vw,94px);aspect-ratio:1;display:flex;align-items:center;justify-content:center;text-align:center;color:#20242c;font-size:var(--fs-sm);line-height:1.3;border-radius:0;padding:.5vh;box-shadow:2px 3px 8px rgba(30,40,70,.16)}
+.up-note.y{background:linear-gradient(180deg,#F8CF20,#FFD93B 22%)} .up-note.y2{background:linear-gradient(180deg,#F7E47E,#FFF09E 22%)}
+.up-note.r{background:linear-gradient(180deg,#F57272,#FF8C8C 22%)} .up-note.r2{background:linear-gradient(180deg,#F6C0C0,#FFD6D6 22%)}
+.up-note.b{background:linear-gradient(180deg,#74B5EE,#8EC6F5 22%)} .up-note.b2{background:linear-gradient(180deg,#B5D8F8,#CFE6FC 22%)}
+.up-note.g{background:linear-gradient(180deg,#66BC54,#7FCB6A 22%)} .up-note.g2{background:linear-gradient(180deg,#BAE2AC,#CDEBBE 22%)}
+.up-note.p{background:linear-gradient(180deg,#C3B6F2,#DCD5F8 22%)} .up-note.p2{background:linear-gradient(180deg,#D5CDF6,#EAE6FB 22%)}
+/* 右侧面板网格：上排 4 列 + 下排 2 个跨 2 列 */
+.up-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1vw;grid-auto-rows:minmax(min-content,1fr);align-content:stretch;min-height:0}
+.up-panel{background:rgba(255,255,255,.66);border:1px solid rgba(255,255,255,.75);border-radius:10px;padding:2vh 1.4vw;box-shadow:0 6px 18px -14px rgba(30,40,70,.2);min-width:0;display:flex;flex-direction:column}
+.up-panel.wide{grid-column:span 2}
+/* 列内两卡堆叠（性格+动机 / 技术+兴趣），两卡均分该列高度 */
+.up-stack{display:flex;flex-direction:column;gap:1vw;min-width:0}
+.up-stack>.up-panel{flex:1}
+.up-ph{font-weight:800;font-size:var(--fs-h3);color:var(--ink);margin-bottom:1.7vh}
+.up-ph.mt{margin-top:1.6vh}
+/* Personality 滑块 */
+.up-pl{display:flex;flex-direction:column;gap:1.3vh}
+.up-pl-top{display:flex;justify-content:space-between;font-size:var(--fs-sm);color:var(--ink-2)}
+.up-track{position:relative;height:4px;background:#e3e6ec;border-radius:4px;margin-top:.45vh}
+.up-track .d{position:absolute;top:50%;width:11px;height:11px;border-radius:50%;background:var(--accent);transform:translate(-50%,-50%);box-shadow:0 1px 4px rgba(91,91,214,.4)}
+/* Motivation 进度条 */
+.up-mot{display:flex;flex-direction:column;gap:1.3vh}
+.up-mot .l{font-size:var(--fs-sm);color:var(--ink-2);margin-bottom:.4vh}
+.up-bar{position:relative;height:5px;background:#e3e6ec;border-radius:4px}
+.up-bar .f{position:absolute;left:0;top:0;height:100%;background:linear-gradient(90deg,rgba(91,91,214,0),rgba(91,91,214,1));border-radius:4px}
+.up-bar .d{position:absolute;top:50%;width:11px;height:11px;border-radius:50%;background:var(--accent);transform:translate(-50%,-50%);box-shadow:0 1px 4px rgba(91,91,214,.4)}
+/* Goals/Frustrations 便利贴墙 */
+.up-wall{display:flex;flex-wrap:wrap;gap:.7vw .7vw;align-items:flex-start;align-content:flex-start}
+/* 错落：交错上下偏移 + 轻微旋转，像手贴的便利贴 */
+.up-wall .up-note:nth-child(3n+2){margin-top:1.8vh;transform:rotate(-1.6deg)}
+.up-wall .up-note:nth-child(3n){margin-top:.7vh;transform:rotate(1.4deg)}
+.up-wall .up-note:nth-child(3n+1){transform:rotate(.6deg)}
+/* Technology 评分点 */
+.up-tech{display:flex;flex-direction:column;gap:1.9vh}
+.up-tr{display:grid;grid-template-columns:auto auto;justify-content:start;align-items:center;gap:1vw}
+.up-tr .l{font-size:var(--fs-body);color:var(--ink-2);font-weight:400}
+.up-dots{display:flex;gap:5px}
+.up-dots i{width:11px;height:11px;border-radius:50%;background:#d6dae2;display:inline-block}
+.up-dots i.on{background:var(--accent)}
+/* Interests 标签 */
+.up-chips{display:flex;flex-wrap:wrap;gap:.55vw}
+.up-chip{background:#dde1ea;border-radius:0;padding:.9vh 1.1vw;font-size:var(--fs-body);color:var(--ink-2);box-shadow:0 2px 5px rgba(30,40,70,.08)}
+
 /* ===== 数据突出卡（参考 data.png：切角方卡 + 渐变描边玻璃 + 总体说明）===== */
 .dh-wrap{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;gap:4.2vh}
 .dh-lead{font-size:clamp(17px,1.3vw,22px);color:var(--ink-2);line-height:1.7;text-align:center;max-width:1000px;width:100%;margin:0 auto}
@@ -666,6 +727,15 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 .dh-num .u{font-size:.36em;font-weight:600;margin-left:.04em}
 .dh-t{font-weight:700;font-size:var(--fs-h3);color:var(--ink);letter-spacing:-.01em;margin-top:.3vh}
 .dh-d{font-size:var(--fs-sm);color:var(--ink-3);line-height:1.4;align-self:flex-end;text-align:right;white-space:nowrap}
+/* 三色（白/深/紫，仿甘特条）：深、紫卡用不透明渐变底 + 白字 */
+.dh-card.dark{background:radial-gradient(ellipse 130% 130% at 50% 48%,#0E1116 0%,#3A424F 100%)}
+.dh-card.accent{background:radial-gradient(ellipse 130% 130% at 50% 48%,#3F2DBE 0%,#9D86EC 100%)}
+/* 深/紫卡关掉顶部白高光，否则把顶部提亮成"上浅下深" */
+.dh-card.dark::before,.dh-card.accent::before{display:none}
+.dh-card.dark .dh-ic,.dh-card.accent .dh-ic{background:rgba(255,255,255,.2);color:#fff}
+.dh-card.dark .dh-num,.dh-card.accent .dh-num{background:none;-webkit-text-fill-color:#fff;color:#fff}
+.dh-card.dark .dh-t,.dh-card.accent .dh-t{color:#fff}
+.dh-card.dark .dh-d,.dh-card.accent .dh-d{color:rgba(255,255,255,.78)}
 
 
 :root{
@@ -1619,7 +1689,7 @@ body.overview #panel,body.overview #toggle{display:none!important}
         </div>
         <div class="arc-row">
           <div class="arc-lbl"><span class="zh">理念</span><span class="en">Philosophy</span></div>
-          <div class="arc-band">
+          <div class="arc-band accent">
             <div class="arc-cols">
               <div><div class="mt">开发者与工具的关系</div><div class="md">工具退到背后，让开发者专注算法与性能本身，而非和环境、编译、日志搏斗</div></div>
               <div><div class="mt">设计理念</div><div class="md">复杂留给工具，简单留给人——把认知负荷从开发者转移到系统</div></div>
@@ -1651,12 +1721,12 @@ body.overview #panel,body.overview #toggle{display:none!important}
             <div class="dh-main"><div class="dh-num">70<span class="u">%</span></div><div class="dh-t">调试耗时下降</div></div>
             <div class="dh-d">断点级调试替代 print 排查</div>
           </div>
-          <div class="dh-card">
+          <div class="dh-card dark">
             <div class="dh-ic"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
             <div class="dh-main"><div class="dh-num">90<span class="u">%</span></div><div class="dh-t">环境一键就绪</div></div>
             <div class="dh-d">版本自动锁定，复现不翻车</div>
           </div>
-          <div class="dh-card">
+          <div class="dh-card accent">
             <div class="dh-ic"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
             <div class="dh-main"><div class="dh-num">5000<span class="u">×</span></div><div class="dh-t">增量编译加速</div></div>
             <div class="dh-d">改一行代码秒级反馈</div>
@@ -1666,6 +1736,136 @@ body.overview #panel,body.overview #toggle{display:none!important}
     </div>
     <div class="ucd">▢ UCD CENTER</div>
     <div class="foot">Page 08 · Targets</div>
+  </section>
+
+  <!-- ===== 新增 pattern：用户画像看板（复刻 reference persona）===== -->
+  <section class="slide s-gray">
+    <div class="head">
+      <div class="head-l">
+        <div class="brand"><span class="ttl">用户画像：资深 ASC 算子工程师</span></div>
+        <div class="subttl">User Persona · 在编译/调试/调优之间循环的底层开发者</div>
+      </div>
+      <div class="head-r">09 / 用户画像<br/>2026</div>
+    </div>
+    <div class="body-area">
+      <div class="up">
+        <!-- 左：人物档案 -->
+        <div class="up-side">
+          <div class="up-ava"><img src="assets/av/persona-dev.svg" alt=""></div>
+          <div>
+            <div class="up-name">王伟</div>
+            <div class="up-role">资深 ASC 算子工程师</div>
+          </div>
+          <div class="up-info">
+            <span class="k">年龄</span><span class="v">32</span>
+            <span class="k">城市</span><span class="v">杭州</span>
+            <span class="k">岗位</span><span class="v">底层算子开发</span>
+            <span class="k">司龄</span><span class="v">5 年+</span>
+          </div>
+          <div class="up-bioh">个人简介</div>
+          <div class="up-bio">C/C++ 与 CUDA 迁移出身，负责把算法需求落地成高性能昇腾算子。日常在需求确认、编译、调试、性能调优之间循环往复，对一切拖慢迭代的环节零容忍。</div>
+          <div class="up-gdh">特征标签</div>
+          <div class="up-notes">
+            <div class="up-note p">追求极致性能</div>
+            <div class="up-note p2">偏好命令行</div>
+            <div class="up-note p2">重视可复现</div>
+          </div>
+        </div>
+        <!-- 右：多面板 -->
+        <div class="up-grid">
+          <!-- 第1列：性格 / 动机（两张卡上下堆叠）-->
+          <div class="up-stack">
+            <div class="up-panel">
+              <div class="up-ph">性格 Personality</div>
+              <div class="up-pl">
+                <div><div class="up-pl-top"><span>外向</span><span>内向</span></div><div class="up-track"><div class="d" style="left:70%"></div></div></div>
+                <div><div class="up-pl-top"><span>理性</span><span>感性</span></div><div class="up-track"><div class="d" style="left:26%"></div></div></div>
+                <div><div class="up-pl-top"><span>激进</span><span>稳健</span></div><div class="up-track"><div class="d" style="left:64%"></div></div></div>
+                <div><div class="up-pl-top"><span>条理</span><span>随性</span></div><div class="up-track"><div class="d" style="left:30%"></div></div></div>
+                <div><div class="up-pl-top"><span>独立</span><span>协作</span></div><div class="up-track"><div class="d" style="left:40%"></div></div></div>
+              </div>
+            </div>
+            <div class="up-panel">
+              <div class="up-ph">动机 Motivation</div>
+              <div class="up-mot">
+                <div><div class="l">成就驱动</div><div class="up-bar"><div class="f" style="width:80%"></div><div class="d" style="left:80%"></div></div></div>
+                <div><div class="l">风险规避</div><div class="up-bar"><div class="f" style="width:46%"></div><div class="d" style="left:46%"></div></div></div>
+                <div><div class="l">成长</div><div class="up-bar"><div class="f" style="width:90%"></div><div class="d" style="left:90%"></div></div></div>
+                <div><div class="l">话语权</div><div class="up-bar"><div class="f" style="width:38%"></div><div class="d" style="left:38%"></div></div></div>
+                <div><div class="l">协作</div><div class="up-bar"><div class="f" style="width:55%"></div><div class="d" style="left:55%"></div></div></div>
+              </div>
+            </div>
+          </div>
+          <!-- 第2列：目标 -->
+          <div class="up-panel">
+            <div class="up-ph">目标 Goals</div>
+            <div class="up-wall">
+              <div class="up-note y">高效产出可复用算子</div>
+              <div class="up-note y2">缩短「改→看」迭代循环</div>
+              <div class="up-note y2">性能稳定达标</div>
+              <div class="up-note y">少踩环境/版本坑</div>
+              <div class="up-note y2">一键复现环境</div>
+              <div class="up-note y">性能可量化对比</div>
+            </div>
+          </div>
+          <!-- 第3列：痛点 -->
+          <div class="up-panel">
+            <div class="up-ph">痛点 Pain Points</div>
+            <div class="up-wall">
+              <div class="up-note r">编译一次 30–60 分钟</div>
+              <div class="up-note r2">断点失效，只能看日志</div>
+              <div class="up-note r2">算子状态散落各处</div>
+              <div class="up-note r">报错晦涩、无引导</div>
+              <div class="up-note r2">Tiling 切分靠试错</div>
+              <div class="up-note r">日志十几万行难定位</div>
+            </div>
+          </div>
+          <!-- 第4列：技术 / 兴趣（两张卡上下堆叠）-->
+          <div class="up-stack">
+            <div class="up-panel">
+              <div class="up-ph">技术熟练度 Technology</div>
+              <div class="up-tech">
+                <div class="up-tr"><span class="l">算子开发</span><span class="up-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></div>
+                <div class="up-tr"><span class="l">调试工具</span><span class="up-dots"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></span></div>
+                <div class="up-tr"><span class="l">Profiling</span><span class="up-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span></div>
+                <div class="up-tr"><span class="l">框架适配</span><span class="up-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span></div>
+                <div class="up-tr"><span class="l">文档检索</span><span class="up-dots"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></span></div>
+              </div>
+            </div>
+            <div class="up-panel">
+              <div class="up-ph">兴趣 Interests</div>
+              <div class="up-chips">
+                <span class="up-chip">编译器</span><span class="up-chip">体系结构</span><span class="up-chip">开源社区</span><span class="up-chip">机械键盘</span><span class="up-chip">长跑</span>
+              </div>
+            </div>
+          </div>
+          <!-- 底排：问题（通栏）-->
+          <div class="up-panel wide">
+            <div class="up-ph">问题 Problems</div>
+            <div class="up-wall">
+              <div class="up-note b">Tiling 切分靠试错</div>
+              <div class="up-note b2">调试只能逐层 print</div>
+              <div class="up-note b">460+ .o 全量重编</div>
+              <div class="up-note b2">多框架接入不统一</div>
+              <div class="up-note b">缺统一可观测视图</div>
+            </div>
+          </div>
+          <!-- 底排：解法（通栏）-->
+          <div class="up-panel wide">
+            <div class="up-ph">解法 Solutions</div>
+            <div class="up-wall">
+              <div class="up-note g">可视化 Tiling 辅助</div>
+              <div class="up-note g2">IR 级断点调试</div>
+              <div class="up-note g2">增量编译 + 智能去重</div>
+              <div class="up-note g">统一算子查询入口</div>
+              <div class="up-note g2">一键发布流水线</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ucd">▢ UCD CENTER</div>
+    <div class="foot">Page 09 · Persona</div>
   </section>
 
   
@@ -1927,6 +2127,7 @@ function updateCurrent(i){
   const panel=document.getElementById('panel'),toggle=document.getElementById('toggle');
   if(s.dataset.chapter && s.classList.contains('chapter-cover')){ if(panel)s.appendChild(panel); if(toggle){s.appendChild(toggle);toggle.style.display='flex';} setPanelOpen(false); apply(); syncPanel(); }
   else if(toggle){ toggle.style.display='none'; setPanelOpen(false); }
+  try{history.replaceState(null,'','#'+(idx+1));}catch(e){try{location.hash=idx+1;}catch(_){}}   /* 地址同步成 #页码；file:// 下 replaceState 会报错，回退到 location.hash */
 }
 /* 谁滚进视口 ≥55% 谁就是当前页（原生滚动 / 跳转都覆盖）*/
 const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting&&e.intersectionRatio>=0.55){const i=slides.indexOf(e.target);if(i>=0&&i!==idx)updateCurrent(i);}});},{threshold:[0.55]});
@@ -1975,9 +2176,17 @@ document.addEventListener('mousemove',e=>{
 });
 document.addEventListener('mouseleave',()=>{ controls.classList.remove('show'); navDots.classList.remove('show'); });
 
-window.scrollTo(0,0);
 slides.forEach(paintSlide);
-updateCurrent(0);
+/* 进场：地址带 #页码 就定位到那页，否则第一页 */
+(function(){
+  var n=parseInt(location.hash.slice(1),10);
+  var i=(!isNaN(n)&&n>=1&&n<=slides.length)?n-1:0;
+  updateCurrent(i);
+  if(i>0){requestAnimationFrame(function(){slides[i].scrollIntoView({block:'start',behavior:'auto'});});}
+  else{window.scrollTo(0,0);}
+})();
+/* 手动改地址 #页码 → 跳到对应页 */
+addEventListener('hashchange',function(){var n=parseInt(location.hash.slice(1),10);if(!isNaN(n)&&n>=1&&n<=slides.length&&(n-1)!==idx)go(n-1);});
 
 /* ===== gray 简笔头像 ===== */
 const AV_SKIN={light:'#F3D2B0',tan:'#E1B188',brown:'#B97F58',pale:'#F7DEC4'};

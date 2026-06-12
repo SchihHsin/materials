@@ -310,6 +310,7 @@ function updateCurrent(i){
   const panel=document.getElementById('panel'),toggle=document.getElementById('toggle');
   if(s.dataset.chapter && s.classList.contains('chapter-cover')){ if(panel)s.appendChild(panel); if(toggle){s.appendChild(toggle);toggle.style.display='flex';} setPanelOpen(false); apply(); syncPanel(); }
   else if(toggle){ toggle.style.display='none'; setPanelOpen(false); }
+  try{history.replaceState(null,'','#'+(idx+1));}catch(e){try{location.hash=idx+1;}catch(_){}}   /* 地址同步成 #页码；file:// 下 replaceState 会报错，回退到 location.hash */
 }
 /* 谁滚进视口 ≥55% 谁就是当前页（原生滚动 / 跳转都覆盖）*/
 const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting&&e.intersectionRatio>=0.55){const i=slides.indexOf(e.target);if(i>=0&&i!==idx)updateCurrent(i);}});},{threshold:[0.55]});
@@ -358,9 +359,17 @@ document.addEventListener('mousemove',e=>{
 });
 document.addEventListener('mouseleave',()=>{ controls.classList.remove('show'); navDots.classList.remove('show'); });
 
-window.scrollTo(0,0);
 slides.forEach(paintSlide);
-updateCurrent(0);
+/* 进场：地址带 #页码 就定位到那页，否则第一页 */
+(function(){
+  var n=parseInt(location.hash.slice(1),10);
+  var i=(!isNaN(n)&&n>=1&&n<=slides.length)?n-1:0;
+  updateCurrent(i);
+  if(i>0){requestAnimationFrame(function(){slides[i].scrollIntoView({block:'start',behavior:'auto'});});}
+  else{window.scrollTo(0,0);}
+})();
+/* 手动改地址 #页码 → 跳到对应页 */
+addEventListener('hashchange',function(){var n=parseInt(location.hash.slice(1),10);if(!isNaN(n)&&n>=1&&n<=slides.length&&(n-1)!==idx)go(n-1);});
 
 /* ===== gray 简笔头像 ===== */
 const AV_SKIN={light:'#F3D2B0',tan:'#E1B188',brown:'#B97F58',pale:'#F7DEC4'};
