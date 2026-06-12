@@ -24,9 +24,10 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-snap-type:y mandatory;scroll-behavior:smooth}
-html,body{width:100%;background:#0c0a0b;color:var(--ink);
+html,body{width:100%;height:auto;overflow-x:hidden;overflow-y:visible;background:#0c0a0b;color:var(--ink);
   font-family:'HarmonyOS Sans SC','Inter','Noto Sans SC',sans-serif;-webkit-font-smoothing:antialiased}
-body{height:100%;overflow:hidden auto;scroll-snap-type:y mandatory;scroll-behavior:smooth}
+/* body 作 scroll-snap 滚动容器（html 设 overflow-y:visible 让 body 接管滚动）*/
+body{overflow:hidden auto;scroll-snap-type:y mandatory;scroll-behavior:smooth}
 #deck{position:relative;width:100vw;display:block}
 .slide{position:relative;width:100vw;height:100vh;overflow:hidden;font-size:var(--fs-body);scroll-snap-align:start;scroll-snap-stop:always}
 

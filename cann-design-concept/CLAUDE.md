@@ -13,12 +13,16 @@
 **已从横向 `translateX` 受控翻页改为纵向原生 `scroll-snap`**，`index.html`（build_index.py 统一层）与 skill 模板 `assets/deck-template.html` 同步。
 - `body` 作滚动容器（`overflow:hidden auto`+`scroll-snap-type:y mandatory`），`#deck{display:block}`，`.slide{height:100vh;scroll-snap-align:start;scroll-snap-stop:always}`——划时短暂两页、松手吸附整页（不再拦截滚轮）。⚠️ 各分册自带的横向 `#deck{display:flex}` 和 `html,body{overflow:hidden;height:100%}` **必须被统一层显式盖掉**，否则横排/snap 失效。
 - 当前页由 **`IntersectionObserver`（≥55%）** 判；`go()`/键盘/导航点走 `scrollIntoView`。键盘 `↑↓←→`/空格/PageUp-Down/Home/End + `O` 概览 / `F` 全屏 / `Esc` 退概览。
-- 右侧竖排 `.nav-dots` + 底部居中 `#controls`（**小/透/默认隐藏**，鼠标移到屏幕底部才现、2.5s 淡出，`body.on-dark` 自适应）。**无顶部进度条**。
+- 右侧竖排 `.nav-dots` + 底部居中 `#controls`（**小/透/默认隐藏**，`body.on-dark` 自适应）。**无顶部进度条**。⚠️ **显隐分区独立、离开即淡出**（2026-06 改）：`mousemove` 里 `controls.classList.toggle('show',clientY>innerHeight-120)` + `navDots.classList.toggle('show',clientX>innerWidth-120)`——移到底部出底部栏、移到右侧出右侧点，互不绑定；`mouseleave` 一并隐藏。**别用 2.5s 定时器**（会残留、且把两栏绑死）。
 - **概览**：每页 children 包进 `.slide-inner`（按基调重建内部 flex/padding，否则 `flex:1` 失父塌成一团）→ `#deck` 变 grid 3 列；缩略框**按当前视窗比例**缩放（**不强制 16:9**——窗口非 16:9 时强制 16:9 必然裁边或留缝；且 `aspect-ratio:16/9` 在带 `height:100vh` 的 `.slide` 上失效）。`body.overview #panel,#toggle{display:none!important}` 藏调色入口。
 - **全屏**：Fullscreen API，进入后图标切「退出全屏」；监听 `fullscreenchange`/`resize` → `scrollIntoView` 重新吸附当前页（修复改窗口后停两页之间）；`scrollRestoration='manual'`+进场 `scrollTo(0,0)`。
 - `cover.html` 封面（分册源）：2.5D 芯片背景图 `reference/cover-bg.png` + logo/标题
 - `glow.html` 黑底光晕设计点（分册源，章节调色面板）
-- `gray.html` 灰底分析篇 **7 页**（分册源，**当前顺序**：① 用户旅程 ② VOC 墙 ③ 关键指标概览(胶囊) ④ 用户画像·形式一 ⑤ 用户画像·形式二 ⑥ 竞品对照 ⑦ 甘特 roadmap）；页码 head-r 01–07 跟随此顺序
+- `gray.html` 灰底分析篇（分册源）；**2026-06 新增 3 个 pattern**（接在原 7 页后）：
+  - **评分热力矩阵**（参考 `reference/mattrix.html` 逐字复刻）：`.hm-grid` 网格 + JS 渲染（`#cann-matrix`，配色/表情脸/趋势/状态点函数照抄参考）；格子极淡底 `rgba(色,.05)` + 彩色描边 + 数字按分档红/橙/绿/青/蓝 + 行首状态点。⚠️ **渲染 JS 同时写在 gray.html 脚本 和 build_index.py 硬编码脚本两处**（build 不抽取分册 script）。外层包一张 `.card` 玻璃卡。
+  - **分层架构图**（参考 `reference/层级架构图.jpg`）：左竖排分层标签 + 每层若干**聚类玻璃卡**（一卡=一类、含多条目，非一条一卡）；卡高 `grid-auto-rows:auto` 自适应；范式层 mini 条目带**黑线 icon + 下方彩色光晕**（`.arc-pic::after`）。
+  - **数据突出卡**（参考 `reference/data.png`）：3 张**切角方卡**（`clip-path` 切右上+左下、`aspect-ratio:1`）；⚠️ **单层玻璃**（`backdrop-filter` 直接采样背景纹理）——**别用"外层白底+内层玻璃"双层**，否则内层 backdrop 采到外层白底→发实；描边用 `::after`+`mask-composite:exclude` **只画边框环**（内部透明不加实度）；图标扁平、数字 Inter 500、小描述沉右下。
+- `gray.html` 原 7 页顺序：① 用户旅程 ② VOC 墙 ③ 关键指标概览(胶囊) ④ 用户画像·形式一 ⑤ 用户画像·形式二 ⑥ 竞品对照 ⑦ 甘特 roadmap
 
 ## 字体与字号规范（index.html，写 skill 用）
 - **主字体 = HarmonyOS Sans SC（鸿蒙黑体）**，CDN @font-face `cdn.jsdelivr.net/gh/IKKI2000/harmonyos-fonts@master/css/harmonyos_sans_sc.css`（MIT，权重 100/300/400/500/700/900）；字体栈 `'HarmonyOS Sans SC','Inter','Noto Sans SC'`（Latin 回退 Inter）；**JetBrains Mono 仅保留给英文 kicker/meta/页码等刻意等宽标签**

@@ -592,6 +592,81 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 .voice .vr{font-family:'JetBrains Mono';font-size:11px;color:var(--ink-3)}
 .ucd{position:absolute;bottom:2.4vh;left:4vw;font-family:'JetBrains Mono';font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
 
+/* ===== 评分热力矩阵（完全复刻 reference/mattrix.html）===== */
+.hm-wrap{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center}
+.hm-grid{display:grid;grid-template-columns:120px repeat(5,1fr);gap:8px}
+.hm-header{font-size:12px;font-weight:700;color:#3D4452;text-align:center;padding:6px 4px;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap;background:#fff;border:1px solid rgba(223,223,223,0.5);border-radius:12px;height:48px;display:flex;align-items:center;justify-content:center}
+.hm-corner{position:relative;overflow:hidden;border-radius:12px;background:#fff;border:1px solid #EFF0F1}
+.hm-corner svg{position:absolute;inset:0;width:100%;height:100%}
+.hm-corner .hc-col{position:absolute;top:30%;right:18%;font-size:12px;font-weight:600;color:#3D4452;letter-spacing:.04em;text-transform:uppercase}
+.hm-corner .hc-row{position:absolute;bottom:30%;left:18%;font-size:12px;font-weight:600;color:#3D4452;letter-spacing:.04em;text-transform:uppercase}
+.hm-row-label{display:flex;flex-direction:row;align-items:center;gap:10px;padding:0 8px;font-size:12px;font-weight:700;color:#1B2432;background:#fff;border:1px solid rgba(223,223,223,0.5);border-radius:12px;height:48px}
+.hm-row-label small{font-size:9.5px;font-weight:500;color:#A1A4AA;margin-top:1px;display:block}
+.hm-cell{border-radius:12px;height:48px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:1px solid #EFF0F1;position:relative}
+.hm-cell .cv{font-size:14px;font-weight:800;letter-spacing:-.02em;font-family:'JetBrains Mono','PingFang SC','Microsoft YaHei',monospace}
+.hm-cell .ct{font-size:9px;font-weight:600;opacity:.7;margin-top:1px}
+.hm-legend{display:flex;align-items:center;gap:10px;margin-top:14px;font-size:11px;color:#A1A4AA;font-weight:500;justify-content:flex-end}
+.hm-grad{height:8px;width:120px;border-radius:4px;background:linear-gradient(90deg,#FFB9B9 0%,#FFD7B7 35%,#FFF2A5 55%,#C4F3E1 75%,#94E1C8 100%)}
+
+/* ===== 分层架构图（参考 层级架构图：按聚类分卡）===== */
+.arc{margin:auto 0;width:100%;display:grid;gap:.9vw;grid-auto-rows:auto}
+.arc-row{display:grid;grid-template-columns:74px 1fr;gap:1vw;align-items:stretch}
+.arc-lbl{display:flex;flex-direction:column;justify-content:center;gap:.3vh}
+.arc-lbl .zh{font-weight:800;font-size:var(--fs-sm);color:var(--ink);line-height:1.2}
+.arc-lbl .en{font-family:'JetBrains Mono';font-size:9px;letter-spacing:.1em;color:var(--ink-3);text-transform:uppercase}
+/* 一层 = 若干聚类卡；一张卡 = 一类相关内容（含多个条目）*/
+.arc-cells{display:flex;gap:.9vw;align-items:stretch}
+.arc-band{flex:1;min-width:0;background:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.7);border-radius:14px;padding:1vw;display:flex;flex-direction:column;justify-content:center;gap:1vw;box-shadow:0 6px 18px -14px rgba(30,40,70,.18)}
+.arc-vision{justify-content:center;align-items:center;text-align:center;font-weight:700;font-size:var(--fs-h3);color:var(--ink)}
+.arc-vision b{background:linear-gradient(100deg,#5B5BD6,#7C3AED);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+/* 聚类卡标题 */
+.arc-h{font-weight:800;font-size:var(--fs-sm);color:var(--ink);line-height:1.2;display:flex;align-items:baseline;gap:.5em}
+.arc-h small{font-family:'JetBrains Mono';font-size:9px;font-weight:500;color:var(--ink-3);letter-spacing:.08em;text-transform:uppercase}
+/* 场景：图标 chips */
+.arc-chips{display:flex;gap:.5vw .9vw;flex-wrap:wrap;align-items:center}
+.arc-chip{display:flex;align-items:center;gap:.42vw;font-size:var(--fs-sm);font-weight:600;color:var(--ink);white-space:nowrap}
+.arc-ic{width:26px;height:26px;border-radius:7px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.arc-ic svg{width:15px;height:15px;stroke:#fff}
+/* 资产：长列表文本 */
+.arc-list{font-size:var(--fs-sm);color:var(--ink-2);line-height:1.62}
+.arc-list b{color:var(--ink);font-weight:600}
+/* 范式/视觉品牌：mini 条目（标题 + 描述）网格 */
+.arc-grid{display:grid;gap:.45vh 1vw}
+.arc-mini{display:flex;flex-direction:column;align-items:center;text-align:center;gap:.4vh}
+.arc-pic{position:relative;width:32px;height:32px;display:flex;align-items:center;justify-content:center;margin-bottom:.3vh}
+.arc-pic svg{width:24px;height:24px;stroke:#16191e;fill:none;position:relative;z-index:1}
+.arc-pic::after{content:"";position:absolute;left:50%;bottom:1px;transform:translateX(-50%);width:26px;height:10px;border-radius:50%;background:var(--glow,rgba(91,91,214,.55));filter:blur(6px);z-index:0}
+.arc-mini .mt{font-weight:700;font-size:var(--fs-sm);color:var(--ink);line-height:1.25}
+.arc-mini .md{font-size:var(--fs-xs);color:var(--ink-2);line-height:1.4}
+/* 理念：3 列 */
+.arc-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1vw}
+.arc-cols .mt{font-weight:700;font-size:var(--fs-sm);color:var(--ink);margin-bottom:1vw}
+.arc-cols .md{font-size:var(--fs-xs);color:var(--ink-2);line-height:1.5}
+/* 居中聚类卡（场景用）*/
+.arc-band.ctr{align-items:center}
+.arc-band.ctr .arc-h{justify-content:center}
+.arc-band.ctr .arc-chips{justify-content:center}
+
+/* ===== 数据突出卡（参考 data.png：切角方卡 + 渐变描边玻璃 + 总体说明）===== */
+.dh-wrap{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;gap:4.2vh}
+.dh-lead{font-size:clamp(15px,1.05vw,18px);color:var(--ink-2);line-height:1.7;text-align:center;max-width:1000px;width:100%;margin:0 auto}
+.dh-lead b{color:var(--ink);font-weight:600}
+.dh{display:grid;grid-template-columns:repeat(3,1fr);gap:2vw;max-width:1000px;width:100%;margin:0 auto}
+/* 单层玻璃卡：backdrop 直接采样背景纹理（不再双层，避免内层采到外层白底发实）；描边用 mask 只画边框环 */
+.dh-card{position:relative;aspect-ratio:1;overflow:hidden;clip-path:polygon(0 0,calc(100% - 44px) 0,100% 44px,100% 100%,44px 100%,0 calc(100% - 44px));padding:2.6vh 1.7vw;display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;text-align:left;background:rgba(255,255,255,.4);backdrop-filter:blur(15px) saturate(1.5);-webkit-backdrop-filter:blur(15px) saturate(1.5)}
+/* 顶部细高光 */
+.dh-card::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.32),rgba(255,255,255,0) 14%);pointer-events:none;z-index:1}
+/* 渐变描边环（mask：只留 1.3px 边框，内部透明，不增加卡片实度）*/
+.dh-card::after{content:"";position:absolute;inset:0;clip-path:polygon(0 0,calc(100% - 44px) 0,100% 44px,100% 100%,44px 100%,0 calc(100% - 44px));padding:1.3px;background:linear-gradient(150deg,rgba(255,255,255,.85),rgba(255,255,255,.25) 55%,rgba(255,255,255,.5));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;z-index:2}
+.dh-card>*{position:relative;z-index:3}
+.dh-main{display:flex;flex-direction:column;gap:.1vh}
+.dh-ic{width:44px;height:44px;border-radius:11px;display:flex;align-items:center;justify-content:center;background:rgba(91,91,214,.12);color:var(--accent)}
+.dh-ic svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.dh-num{font-family:'HarmonyOS Sans SC','Inter';font-weight:500;font-size:min(5.4vw,9vh);line-height:1;letter-spacing:-.02em;background:linear-gradient(120deg,#5B5BD6,#8B3DEE);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.dh-num .u{font-size:.36em;font-weight:600;margin-left:.04em}
+.dh-t{font-weight:700;font-size:var(--fs-h3);color:var(--ink);letter-spacing:-.01em;margin-top:.3vh}
+.dh-d{font-size:var(--fs-sm);color:var(--ink-3);line-height:1.4;align-self:flex-end;text-align:right;white-space:nowrap}
+
 
 :root{
   /* 光晕色值（由调色面板实时改写，每页可不同）*/
@@ -1430,6 +1505,160 @@ body.overview #panel,body.overview #toggle{display:none!important}
     <div class="foot">Page 05 · Roadmap</div>
   </section>
 
+  <!-- ===== 新增 pattern A：评分热力矩阵 ===== -->
+  <section class="slide s-gray">
+    <div class="head">
+      <div class="head-l">
+        <div class="brand"><img class="logo" src="assets/CANNlogo.png" alt="CANN"><span class="ttl">调试、可观测、实验管理是三块能力洼地</span></div>
+        <div class="subttl">Capability Matrix · CANN 工具链 6 能力域 × 5 维度自评（1 差 – 5 优）</div>
+      </div>
+      <div class="head-r">08 / 能力矩阵<br/>2026</div>
+    </div>
+    <div class="body-area">
+      <div class="hm-wrap">
+        <div class="card" style="padding:2.6vh 2vw">
+          <div class="hm-grid" id="cann-matrix" style="grid-template-columns:150px repeat(6,1fr)"></div>
+          <div class="hm-legend">能力评分（0–100）·颜色越蓝越好 &nbsp;差<div class="hm-grad"></div>优</div>
+          <div style="margin-top:1.9vh;padding-top:1.7vh;border-top:1px solid var(--line);display:grid;grid-template-columns:auto 1fr;gap:1.4vw;align-items:center">
+            <div style="font-family:'JetBrains Mono';font-size:var(--fs-xs);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);white-space:nowrap">读图结论<br/>Insight</div>
+            <div style="font-size:var(--fs-sm);line-height:1.62;color:var(--ink-2)"><b style="color:var(--ink)">调试定位、可观测性、实验管理是常年红区</b>——三项总分均低于 30，是工具链最该补的洼地；算子开发 IDE 的完备性、稳定性已进入蓝色优区，属维持优势项。<b style="color:var(--ink)">下一步投入应优先填红区，而非锦上添花。</b></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ucd">▢ UCD CENTER</div>
+    <div class="foot">Page 06 · Matrix</div>
+  </section>
+
+  <!-- ===== 新增 pattern B：分层架构图 ===== -->
+  <section class="slide s-gray">
+    <div class="head">
+      <div class="head-l">
+        <div class="brand"><img class="logo" src="assets/CANNlogo.png" alt="CANN"><span class="ttl">CANN 智慧开发体验架构：从理念到场景五层贯通</span></div>
+        <div class="subttl">Experience Architecture · 目标 → 场景 → 资产 → 范式 → 理念</div>
+      </div>
+      <div class="head-r">09 / 体验架构<br/>2026</div>
+    </div>
+    <div class="body-area">
+      <div class="arc">
+        <div class="arc-row">
+          <div class="arc-lbl"><span class="zh">目标</span><span class="en">Vision</span></div>
+          <div class="arc-band arc-vision">构建一致、可复用的 CANN 开发者体验，让全链路<b>顺畅、可观测、可恢复</b></div>
+        </div>
+        <div class="arc-row">
+          <div class="arc-lbl"><span class="zh">场景</span><span class="en">Scenario</span></div>
+          <div class="arc-cells">
+            <div class="arc-band ctr" style="flex:1.18">
+              <div class="arc-h">训练研发<small>R&amp;D</small></div>
+              <div class="arc-chips">
+                <div class="arc-chip"><div class="arc-ic" style="background:var(--g-blue)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>算子开发</div>
+                <div class="arc-chip"><div class="arc-ic" style="background:var(--g-purple)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 15h3M1 9h3M1 15h3"/></svg></div>模型训练</div>
+                <div class="arc-chip"><div class="arc-ic" style="background:var(--g-blue)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></div>分布式训练</div>
+              </div>
+            </div>
+            <div class="arc-band ctr">
+              <div class="arc-h">推理部署<small>Serving</small></div>
+              <div class="arc-chips">
+                <div class="arc-chip"><div class="arc-ic" style="background:var(--g-green)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></div>在线推理</div>
+                <div class="arc-chip"><div class="arc-ic" style="background:var(--g-green)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg></div>服务化</div>
+                <div class="arc-chip"><div class="arc-ic" style="background:var(--g-blue)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20z"/></svg></div>边缘部署</div>
+              </div>
+            </div>
+            <div class="arc-band ctr">
+              <div class="arc-h">性能与质量<small>Perf &amp; QA</small></div>
+              <div class="arc-chips">
+                <div class="arc-chip"><div class="arc-ic" style="background:var(--g-amber)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>性能调优</div>
+                <div class="arc-chip"><div class="arc-ic" style="background:var(--g-amber)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>精度对齐</div>
+                <div class="arc-chip"><div class="arc-ic" style="background:var(--g-red)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>故障定位</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="arc-row">
+          <div class="arc-lbl"><span class="zh">资产</span><span class="en">Assets</span></div>
+          <div class="arc-cells">
+            <div class="arc-band">
+              <div class="arc-h">工具组件库<small>Components</small></div>
+              <div class="arc-list">算子模板 · 调试面板 · <b>Profiling 看板</b> · 环境校验器 · 错误码库 · 示例库 · 进度指示器 · 结果容器 · 日志检索 · Tiling 可视化……</div>
+            </div>
+            <div class="arc-band">
+              <div class="arc-h">开发框架 + 能力开放<small>Framework &amp; API</small></div>
+              <div class="arc-list"><b>Ascend C</b> · IDE 插件 · CLI 工具 · 智能错误诊断引擎 · Triton 后端 · 开放 API · SDK · CI/CD 集成 · 插件市场……</div>
+            </div>
+          </div>
+        </div>
+        <div class="arc-row">
+          <div class="arc-lbl"><span class="zh">范式</span><span class="en">Interaction</span></div>
+          <div class="arc-cells">
+            <div class="arc-band" style="flex:2.7">
+              <div class="arc-h">交互范式<small>Interaction Paradigm</small></div>
+              <div class="arc-grid" style="grid-template-columns:repeat(4,1fr)">
+                <div class="arc-mini"><div class="arc-pic" style="--glow:rgba(79,172,254,.6)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4V2"/><path d="M15 16v-2"/><path d="M8 9h2"/><path d="M20 9h2"/><path d="M17.8 11.8 19 13"/><path d="M15 9h.01"/><path d="M17.8 6.2 19 5"/><path d="m3 21 9-9"/><path d="M12.2 6.2 11 5"/></svg></div><div class="mt">向导式开发</div><div class="md">模板生成 + 可视化 Tiling 配置</div></div>
+                <div class="arc-mini"><div class="arc-pic" style="--glow:rgba(124,58,237,.55)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg></div><div class="mt">可视化调试</div><div class="md">IR 级断点 + 统一时间线</div></div>
+                <div class="arc-mini"><div class="arc-pic" style="--glow:rgba(245,158,11,.6)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div><div class="mt">智能诊断</div><div class="md">报错 → 上下文修复建议</div></div>
+                <div class="arc-mini"><div class="arc-pic" style="--glow:rgba(47,203,142,.55)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div class="mt">协同分析</div><div class="md">跨角色共享 Profiling 看板</div></div>
+              </div>
+            </div>
+            <div class="arc-band" style="flex:1.05">
+              <div class="arc-h">视觉品牌<small>Visual Brand</small></div>
+              <div class="arc-grid" style="grid-template-columns:1fr 1fr">
+                <div class="arc-mini"><div class="arc-pic" style="--glow:rgba(230,120,155,.55)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg></div><div class="mt">工具视觉语言</div><div class="md">统一色板 · 图标 · 动效</div></div>
+                <div class="arc-mini"><div class="arc-pic" style="--glow:rgba(91,91,214,.55)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg></div><div class="mt">数据可视化规范</div><div class="md">图表 · 状态色 · 密度</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="arc-row">
+          <div class="arc-lbl"><span class="zh">理念</span><span class="en">Philosophy</span></div>
+          <div class="arc-band">
+            <div class="arc-cols">
+              <div><div class="mt">开发者与工具的关系</div><div class="md">工具退到背后，让开发者专注算法与性能本身，而非和环境、编译、日志搏斗</div></div>
+              <div><div class="mt">设计理念</div><div class="md">复杂留给工具，简单留给人——把认知负荷从开发者转移到系统</div></div>
+              <div><div class="mt">设计原则</div><div class="md">可见 · 可定位 · 可恢复 · 跨工具一致，让每一步都有反馈和退路</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ucd">▢ UCD CENTER</div>
+    <div class="foot">Page 07 · Architecture</div>
+  </section>
+
+  <!-- ===== 新增 pattern：数据突出卡（参考 data.png）===== -->
+  <section class="slide s-gray">
+    <div class="head">
+      <div class="head-l">
+        <div class="brand"><img class="logo" src="assets/CANNlogo.png" alt="CANN"><span class="ttl">设计目标：编译提速 5000×、调试省 70%、环境零配置</span></div>
+        <div class="subttl">Design Targets · 三项可量化的开发体验提升</div>
+      </div>
+      <div class="head-r">08 / 设计目标<br/>2026</div>
+    </div>
+    <div class="body-area">
+      <div class="dh-wrap">
+        <div class="dh-lead">围绕<b>更快的反馈、更稳的环境、更短的问题定位</b>三个方向，把 CANN 开发体验从「能用」推向「好用」——以下是三项可量化的设计目标。</div>
+        <div class="dh">
+          <div class="dh-card">
+            <div class="dh-ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+            <div class="dh-main"><div class="dh-num">70<span class="u">%</span></div><div class="dh-t">调试耗时下降</div></div>
+            <div class="dh-d">断点级调试替代 print 排查</div>
+          </div>
+          <div class="dh-card">
+            <div class="dh-ic"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+            <div class="dh-main"><div class="dh-num">90<span class="u">%</span></div><div class="dh-t">环境一键就绪</div></div>
+            <div class="dh-d">版本自动锁定，复现不翻车</div>
+          </div>
+          <div class="dh-card">
+            <div class="dh-ic"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+            <div class="dh-main"><div class="dh-num">5000<span class="u">×</span></div><div class="dh-t">增量编译加速</div></div>
+            <div class="dh-d">改一行代码秒级反馈</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ucd">▢ UCD CENTER</div>
+    <div class="foot">Page 08 · Targets</div>
+  </section>
+
   
 
   <!-- ===== 设计点（glow）===== -->
@@ -1724,9 +1953,12 @@ document.body.addEventListener('click',e=>{if(!document.body.classList.contains(
 addEventListener('resize',()=>{if(document.body.classList.contains('overview'))applyOverviewScale();else reanchor();});
 
 /* 默认隐藏控制栏+右侧点；只有鼠标移到屏幕底部区域才出现，离开 2.5s 后淡出 */
-let hideTimer;
-function showCtrl(){controls.classList.add('show');navDots.classList.add('show');clearTimeout(hideTimer);hideTimer=setTimeout(()=>{controls.classList.remove('show');navDots.classList.remove('show');},2500);}
-document.addEventListener('mousemove',e=>{ if(e.clientY>window.innerHeight-130) showCtrl(); });
+/* 底部控制栏 / 右侧导航点各自独立显隐：移到底部出底部栏，移到右侧出右侧点，离开该区即淡出 */
+document.addEventListener('mousemove',e=>{
+  controls.classList.toggle('show', e.clientY > window.innerHeight - 120);
+  navDots.classList.toggle('show', e.clientX > window.innerWidth - 120);
+});
+document.addEventListener('mouseleave',()=>{ controls.classList.remove('show'); navDots.classList.remove('show'); });
 
 window.scrollTo(0,0);
 slides.forEach(paintSlide);
@@ -1776,6 +2008,54 @@ document.querySelectorAll('[data-av]').forEach(el=>{if(el.closest('.sb-role'))re
     ]}]
   });
   addEventListener('resize',function(){ch.resize();});
+})();
+
+/* ===== 能力评分矩阵（配色/表情/趋势完全复刻 reference/mattrix.html）===== */
+(function(){
+  var grid=document.getElementById('cann-matrix'); if(!grid) return;
+  function heat(s){return s<20?'rgba(224,33,40,0.05)':s<40?'rgba(244,132,12,0.05)':s<60?'rgba(5,131,88,0.05)':s<80?'rgba(18,113,128,0.05)':'rgba(57,121,249,0.05)';}
+  function bord(s){return s<20?'rgba(224,33,40,0.1)':s<40?'rgba(244,132,12,0.1)':s<60?'rgba(5,131,88,0.1)':s<80?'rgba(18,113,128,0.1)':'rgba(57,121,249,0.1)';}
+  function txt(s){return s<20?'#E02128':s<40?'#F4840C':s<60?'#058358':s<80?'#127180':'#3979F9';}
+  function face(s){var a='<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/>';
+    if(s>=80)return a+'<circle cx="9" cy="9" r="1"/><circle cx="15" cy="9" r="1"/><path d="M6 15h12M6 15c3 5 9 5 12 0"/></svg>';
+    if(s>=60)return a+'<circle cx="9" cy="9" r="1"/><circle cx="15" cy="9" r="1"/><path d="M6 16c3 2 9 2 12 0"/></svg>';
+    if(s>=40)return a+'<circle cx="9" cy="9" r="1"/><circle cx="15" cy="9" r="1"/><line x1="6" y1="16" x2="18" y2="16"/></svg>';
+    if(s>=20)return a+'<circle cx="9" cy="9" r="1"/><circle cx="15" cy="9" r="1"/><path d="M6 17c3-2 9-2 12 0"/></svg>';
+    return a+'<line x1="7" y1="8" x2="11" y2="10"/><line x1="13" y1="10" x2="17" y2="8"/><path d="M6 16c3-3 9-3 12 0"/></svg>';
+  }
+  function trend(t){if(!t)return '';
+    if(t==='u')return '<svg width="7" height="5" viewBox="0 0 8 8" style="flex-shrink:0"><polyline points="1,7 4,3 7,7" fill="none" stroke="#6DBD9A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    if(t==='d')return '<svg width="7" height="5" viewBox="0 0 8 8" style="flex-shrink:0"><polyline points="1,1 4,5 7,1" fill="none" stroke="#E89494" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    return '<svg width="7" height="5" viewBox="0 0 8 8" style="flex-shrink:0"><line x1="1" y1="4" x2="7" y2="4" stroke="#AAAAAA" stroke-width="1.8" stroke-linecap="round"/></svg>';
+  }
+  function icon(p){return '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+p+'</svg>';}
+  var I={
+    code:'<polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>',
+    bars:'<line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>',
+    search:'<circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>',
+    file:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>',
+    box:'<path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>',
+    grid:'<rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>'
+  };
+  var cols=['总分','易用','完备','稳定','生态','可观测'];
+  var rows=[
+    {name:'算子开发 IDE',sub:'ASCEND C',ic:I.code, v:[74,66,86,82,60,35], t:'u'},
+    {name:'可视化 Profiling',sub:'PROFILING',ic:I.bars, v:[44,38,42,55,40,45], t:'u'},
+    {name:'调试定位',sub:'DEBUG',ic:I.search, v:[28,18,35,38,36,16], t:'d'},
+    {name:'文档与示例',sub:'DOCS',ic:I.file, v:[62,46,66,84,62,55], t:'u'},
+    {name:'环境与版本',sub:'ENV',ic:I.box, v:[54,40,60,58,58,44], t:'flat'},
+    {name:'实验管理',sub:'EXP MGMT',ic:I.grid, v:[26,16,32,35,22,15], t:'d'}
+  ];
+  var h='<div class="hm-corner"><svg viewBox="0 0 100 100" preserveAspectRatio="none"><line x1="0" y1="0" x2="100" y2="100" stroke="#EFF0F1" stroke-width="1"/></svg><span class="hc-col">维度</span><span class="hc-row">能力域</span></div>';
+  cols.forEach(function(c){h+='<div class="hm-header">'+c+'</div>';});
+  rows.forEach(function(r){
+    h+='<div class="hm-row-label" style="background:transparent;border-color:rgba(223,223,223,0.5)"><div style="width:8px;height:8px;border-radius:50%;flex-shrink:0;background:'+(r.v[0]<40?'#E63838':r.v[0]<60?'#FD9A00':'#37C597')+';box-shadow:0 0 0 2px '+(r.v[0]<40?'rgba(230,56,56,.2)':r.v[0]<60?'rgba(253,154,0,.2)':'rgba(55,197,151,.2)')+'"></div><div style="flex-shrink:0;color:#3D4452">'+icon(r.ic)+'</div><div><div style="font-size:12px">'+r.name+'</div><small>'+r.sub+'</small></div></div>';
+    r.v.forEach(function(s,ci){
+      var tr=ci===0?trend(r.t):'';
+      h+='<div class="hm-cell" style="background:'+heat(s)+';color:'+txt(s)+';border-color:'+bord(s)+'"><div class="cv" style="display:flex;align-items:center;gap:3px">'+face(s)+' '+s+tr+'</div></div>';
+    });
+  });
+  grid.innerHTML=h;
 })();
 </script>
 </body>

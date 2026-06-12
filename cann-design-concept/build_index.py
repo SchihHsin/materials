@@ -336,9 +336,12 @@ document.body.addEventListener('click',e=>{if(!document.body.classList.contains(
 addEventListener('resize',()=>{if(document.body.classList.contains('overview'))applyOverviewScale();else reanchor();});
 
 /* 默认隐藏控制栏+右侧点；只有鼠标移到屏幕底部区域才出现，离开 2.5s 后淡出 */
-let hideTimer;
-function showCtrl(){controls.classList.add('show');navDots.classList.add('show');clearTimeout(hideTimer);hideTimer=setTimeout(()=>{controls.classList.remove('show');navDots.classList.remove('show');},2500);}
-document.addEventListener('mousemove',e=>{ if(e.clientY>window.innerHeight-130) showCtrl(); });
+/* 底部控制栏 / 右侧导航点各自独立显隐：移到底部出底部栏，移到右侧出右侧点，离开该区即淡出 */
+document.addEventListener('mousemove',e=>{
+  controls.classList.toggle('show', e.clientY > window.innerHeight - 120);
+  navDots.classList.toggle('show', e.clientX > window.innerWidth - 120);
+});
+document.addEventListener('mouseleave',()=>{ controls.classList.remove('show'); navDots.classList.remove('show'); });
 
 window.scrollTo(0,0);
 slides.forEach(paintSlide);
@@ -388,6 +391,54 @@ document.querySelectorAll('[data-av]').forEach(el=>{if(el.closest('.sb-role'))re
     ]}]
   });
   addEventListener('resize',function(){ch.resize();});
+})();
+
+/* ===== 能力评分矩阵（配色/表情/趋势完全复刻 reference/mattrix.html）===== */
+(function(){
+  var grid=document.getElementById('cann-matrix'); if(!grid) return;
+  function heat(s){return s<20?'rgba(224,33,40,0.05)':s<40?'rgba(244,132,12,0.05)':s<60?'rgba(5,131,88,0.05)':s<80?'rgba(18,113,128,0.05)':'rgba(57,121,249,0.05)';}
+  function bord(s){return s<20?'rgba(224,33,40,0.1)':s<40?'rgba(244,132,12,0.1)':s<60?'rgba(5,131,88,0.1)':s<80?'rgba(18,113,128,0.1)':'rgba(57,121,249,0.1)';}
+  function txt(s){return s<20?'#E02128':s<40?'#F4840C':s<60?'#058358':s<80?'#127180':'#3979F9';}
+  function face(s){var a='<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/>';
+    if(s>=80)return a+'<circle cx="9" cy="9" r="1"/><circle cx="15" cy="9" r="1"/><path d="M6 15h12M6 15c3 5 9 5 12 0"/></svg>';
+    if(s>=60)return a+'<circle cx="9" cy="9" r="1"/><circle cx="15" cy="9" r="1"/><path d="M6 16c3 2 9 2 12 0"/></svg>';
+    if(s>=40)return a+'<circle cx="9" cy="9" r="1"/><circle cx="15" cy="9" r="1"/><line x1="6" y1="16" x2="18" y2="16"/></svg>';
+    if(s>=20)return a+'<circle cx="9" cy="9" r="1"/><circle cx="15" cy="9" r="1"/><path d="M6 17c3-2 9-2 12 0"/></svg>';
+    return a+'<line x1="7" y1="8" x2="11" y2="10"/><line x1="13" y1="10" x2="17" y2="8"/><path d="M6 16c3-3 9-3 12 0"/></svg>';
+  }
+  function trend(t){if(!t)return '';
+    if(t==='u')return '<svg width="7" height="5" viewBox="0 0 8 8" style="flex-shrink:0"><polyline points="1,7 4,3 7,7" fill="none" stroke="#6DBD9A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    if(t==='d')return '<svg width="7" height="5" viewBox="0 0 8 8" style="flex-shrink:0"><polyline points="1,1 4,5 7,1" fill="none" stroke="#E89494" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    return '<svg width="7" height="5" viewBox="0 0 8 8" style="flex-shrink:0"><line x1="1" y1="4" x2="7" y2="4" stroke="#AAAAAA" stroke-width="1.8" stroke-linecap="round"/></svg>';
+  }
+  function icon(p){return '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+p+'</svg>';}
+  var I={
+    code:'<polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>',
+    bars:'<line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>',
+    search:'<circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>',
+    file:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>',
+    box:'<path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>',
+    grid:'<rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>'
+  };
+  var cols=['总分','易用','完备','稳定','生态','可观测'];
+  var rows=[
+    {name:'算子开发 IDE',sub:'ASCEND C',ic:I.code, v:[74,66,86,82,60,35], t:'u'},
+    {name:'可视化 Profiling',sub:'PROFILING',ic:I.bars, v:[44,38,42,55,40,45], t:'u'},
+    {name:'调试定位',sub:'DEBUG',ic:I.search, v:[28,18,35,38,36,16], t:'d'},
+    {name:'文档与示例',sub:'DOCS',ic:I.file, v:[62,46,66,84,62,55], t:'u'},
+    {name:'环境与版本',sub:'ENV',ic:I.box, v:[54,40,60,58,58,44], t:'flat'},
+    {name:'实验管理',sub:'EXP MGMT',ic:I.grid, v:[26,16,32,35,22,15], t:'d'}
+  ];
+  var h='<div class="hm-corner"><svg viewBox="0 0 100 100" preserveAspectRatio="none"><line x1="0" y1="0" x2="100" y2="100" stroke="#EFF0F1" stroke-width="1"/></svg><span class="hc-col">维度</span><span class="hc-row">能力域</span></div>';
+  cols.forEach(function(c){h+='<div class="hm-header">'+c+'</div>';});
+  rows.forEach(function(r){
+    h+='<div class="hm-row-label" style="background:transparent;border-color:rgba(223,223,223,0.5)"><div style="width:8px;height:8px;border-radius:50%;flex-shrink:0;background:'+(r.v[0]<40?'#E63838':r.v[0]<60?'#FD9A00':'#37C597')+';box-shadow:0 0 0 2px '+(r.v[0]<40?'rgba(230,56,56,.2)':r.v[0]<60?'rgba(253,154,0,.2)':'rgba(55,197,151,.2)')+'"></div><div style="flex-shrink:0;color:#3D4452">'+icon(r.ic)+'</div><div><div style="font-size:12px">'+r.name+'</div><small>'+r.sub+'</small></div></div>';
+    r.v.forEach(function(s,ci){
+      var tr=ci===0?trend(r.t):'';
+      h+='<div class="hm-cell" style="background:'+heat(s)+';color:'+txt(s)+';border-color:'+bord(s)+'"><div class="cv" style="display:flex;align-items:center;gap:3px">'+face(s)+' '+s+tr+'</div></div>';
+    });
+  });
+  grid.innerHTML=h;
 })();
 </script>
 </body>
