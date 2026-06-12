@@ -14,6 +14,8 @@
 - `body` 作滚动容器（`overflow:hidden auto`+`scroll-snap-type:y mandatory`），`#deck{display:block}`，`.slide{height:100vh;scroll-snap-align:start;scroll-snap-stop:always}`——划时短暂两页、松手吸附整页（不再拦截滚轮）。⚠️ 各分册自带的横向 `#deck{display:flex}` 和 `html,body{overflow:hidden;height:100%}` **必须被统一层显式盖掉**，否则横排/snap 失效。
 - 当前页由 **`IntersectionObserver`（≥55%）** 判；`go()`/键盘/导航点走 `scrollIntoView`。键盘 `↑↓←→`/空格/PageUp-Down/Home/End + `O` 概览 / `F` 全屏 / `Esc` 退概览。
 - 右侧竖排 `.nav-dots` + 底部居中 `#controls`（**小/透/默认隐藏**，`body.on-dark` 自适应）。**无顶部进度条**。⚠️ **显隐分区独立、离开即淡出**（2026-06 改）：`mousemove` 里 `controls.classList.toggle('show',clientY>innerHeight-120)` + `navDots.classList.toggle('show',clientX>innerWidth-120)`——移到底部出底部栏、移到右侧出右侧点，互不绑定；`mouseleave` 一并隐藏。**别用 2.5s 定时器**（会残留、且把两栏绑死）。
+- **滚动条**（2026-06）：细、半透、**默认隐藏，滚动时才淡入**（`body.scrolling` 类，停 700ms 淡出）；亮/暗随 `body.on-dark`。⚠️ **滚动监听必须挂 body**（`html` 设 `overflow-y:visible`、body 才是滚动容器，事件在 body 上不在 window）+ `wheel` 兜底。
+- **灰底页标题前不放 CANN logo**（2026-06 用户要求）：gray.html 各页 `.brand` 只留 `.ttl`；封面 logo 保留。
 - **概览**：每页 children 包进 `.slide-inner`（按基调重建内部 flex/padding，否则 `flex:1` 失父塌成一团）→ `#deck` 变 grid 3 列；缩略框**按当前视窗比例**缩放（**不强制 16:9**——窗口非 16:9 时强制 16:9 必然裁边或留缝；且 `aspect-ratio:16/9` 在带 `height:100vh` 的 `.slide` 上失效）。`body.overview #panel,#toggle{display:none!important}` 藏调色入口。
 - **全屏**：Fullscreen API，进入后图标切「退出全屏」；监听 `fullscreenchange`/`resize` → `scrollIntoView` 重新吸附当前页（修复改窗口后停两页之间）；`scrollRestoration='manual'`+进场 `scrollTo(0,0)`。
 - `cover.html` 封面（分册源）：2.5D 芯片背景图 `reference/cover-bg.png` + logo/标题

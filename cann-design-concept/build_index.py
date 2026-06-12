@@ -78,6 +78,15 @@ UNIFY = """
 html,body{width:100%;height:100%;margin:0;background:#0c0a0b;color:var(--ink);
   font-family:'HarmonyOS Sans SC','Inter','Noto Sans SC',sans-serif;-webkit-font-smoothing:antialiased}
 body{overflow:hidden auto;scroll-snap-type:y mandatory;scroll-behavior:smooth}
+/* 滚动条：细、半透、默认隐藏，滚动时（body.scrolling）才淡入 */
+body{scrollbar-width:thin;scrollbar-color:transparent transparent}
+body.scrolling{scrollbar-color:rgba(140,140,160,.45) transparent}
+body::-webkit-scrollbar{width:9px}
+body::-webkit-scrollbar-track{background:transparent}
+body::-webkit-scrollbar-thumb{background:transparent;border-radius:9px;border:3px solid transparent;background-clip:padding-box;transition:background .25s}
+body.scrolling::-webkit-scrollbar-thumb{background:rgba(140,140,160,.45);background-clip:padding-box}
+body.on-dark.scrolling::-webkit-scrollbar-thumb{background:rgba(255,255,255,.32);background-clip:padding-box}
+body.on-dark.scrolling{scrollbar-color:rgba(255,255,255,.32) transparent}
 /* 纵向翻页（同参考 demo）：每页 100vh + 强制吸附——划的过程可能短暂见两页，松手自动吸附到整页 */
 #deck{position:relative;width:100vw;display:block}
 .slide{position:relative;width:100vw;height:100vh;overflow:hidden;font-size:var(--fs-body);scroll-snap-align:start;scroll-snap-stop:always}
@@ -281,6 +290,12 @@ document.addEventListener('click',e=>{
 
 /* ===== 纵向 scroll-snap 翻页（同参考 demo：划时短暂两页，松手吸附到整页）+ 右侧点 + 控制栏 + 总览 + 全屏 ===== */
 if('scrollRestoration' in history) history.scrollRestoration='manual';
+/* 滚动条默认隐藏，滚动时淡入、停 700ms 后淡出（body 是滚动容器，事件挂 body 不是 window）*/
+let scrollbarTimer;
+function flashScrollbar(){document.body.classList.add('scrolling');clearTimeout(scrollbarTimer);scrollbarTimer=setTimeout(()=>document.body.classList.remove('scrolling'),700);}
+document.body.addEventListener('scroll',flashScrollbar,{passive:true});
+addEventListener('scroll',flashScrollbar,{passive:true});
+addEventListener('wheel',flashScrollbar,{passive:true});
 const navDots=document.getElementById('navDots'), controls=document.getElementById('controls'), counter=document.getElementById('counter');
 const prevBtn=document.getElementById('prevBtn'), nextBtn=document.getElementById('nextBtn'), ovBtn=document.getElementById('ovBtn'), fsBtn=document.getElementById('fsBtn');
 const pad=n=>String(n).padStart(2,'0');
