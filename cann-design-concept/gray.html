@@ -427,9 +427,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 .cj-chev{position:relative;display:flex;align-items:center;padding-left:1.7vw;color:#fff;font-weight:800;font-size:max(10px,.86vw);clip-path:polygon(0 0, calc(100% - 13px) 0, 100% 50%, calc(100% - 13px) 100%, 0 100%, 13px 50%);margin-left:-13px;height:3.6vh}
 .cj-chev:first-child{margin-left:0;clip-path:polygon(0 0, calc(100% - 13px) 0, 100% 50%, calc(100% - 13px) 100%, 0 100%)}
 .cj-ch1{background:#9E9EEA}.cj-ch2{background:#7C79E4}.cj-ch3{background:#5B5BD6}.cj-ch4{background:#473BB0}
-.cj-act{font-size:max(8.5px,.66vw);color:#333;line-height:1.4}
-.cj-act .ti{display:inline-flex;align-items:center;gap:.3em;margin-bottom:.2vh}
-.cj-met .n{font-weight:800;font-size:max(16px,1.5vw);color:var(--accent);line-height:1;font-family:'Inter','Noto Sans SC'}
+.cj-act{display:flex;align-items:center;gap:.55em;font-size:max(8.5px,.66vw);color:#333;line-height:1.35}
+.cj-act .ti{display:inline-flex;align-items:center;flex:none}
+.cj-met .n{font-weight:800;font-size:max(16px,1.5vw);color:#2b3038;line-height:1;font-family:'Inter','Noto Sans SC'}
 .cj-met .d{font-size:max(8px,.62vw);color:#666;line-height:1.4}
 .cj-emo{flex:1;min-height:0;display:flex;border-bottom:1px solid #eef0f4}
 .cj-emo-l{flex:0 0 8.5vw;display:flex;align-items:center;gap:.4vw;padding:.6vh .6vw;background:#fafbfc;border-right:1px solid #eef0f4}
@@ -447,10 +447,19 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 .cj-bub .em{font-size:max(8.5px,.64vw);font-style:italic;font-weight:700;margin-top:.3vh}
 .cj-bub.pos .em{color:#1F9E6B}.cj-bub.neg .em{color:#E0566B}
 .cj-metline{position:relative}
-.cj-metline::before{content:'';position:absolute;left:.3vw;right:.3vw;top:2vh;height:3px;border-radius:2px;background:var(--g-accent);z-index:0}
-.cj-metline .cj-cell{position:relative;z-index:1;justify-content:flex-start;align-items:flex-start;padding-top:.9vh}
-.cj-metline .cj-met .n{position:relative;z-index:1;background:#fff;padding:0 .45vw;line-height:1;border-radius:2px}
-.cj-metline .cj-met .d{position:relative;z-index:1;margin-top:1.4vh}
+.cj-metline .cj-cell{justify-content:flex-start;align-items:stretch;padding-top:1vh}
+.cj-met .mt{display:flex;align-items:center;gap:.45vw;width:100%}
+.cj-met .ln{flex:1;height:3px;border-radius:2px;background:#7C79E4;min-width:6px}
+.cj-metline .cj-cell:nth-child(1) .ln{background:#AEABEE}
+.cj-metline .cj-cell:nth-child(2) .ln{background:#9E97E9}
+.cj-metline .cj-cell:nth-child(3) .ln{background:#8E83E3}
+.cj-metline .cj-cell:nth-child(4) .ln{background:#7F70DC}
+.cj-metline .cj-cell:nth-child(5) .ln{background:#705FD3}
+.cj-metline .cj-cell:nth-child(6) .ln{background:#6351C8}
+.cj-metline .cj-cell:nth-child(7) .ln{background:#5544B8}
+.cj-metline .cj-cell:nth-child(8) .ln{background:#4A3CAC}
+.cj-met .n{line-height:1;white-space:nowrap}
+.cj-met .d{margin-top:1.3vh}
 .cj-emo .cj-rl{flex:0 0 5vw;align-items:center}
 .cj-erange{flex:0 0 3.4vw;position:relative;background:#fafbfc;border-right:1px solid #eef0f4}
 .cj-erange .ax{position:absolute;left:50%;transform:translateX(-50%);top:18.7%;height:59.6%;display:flex;flex-direction:column;align-items:center;justify-content:space-between;background:linear-gradient(#cfd3dc,#cfd3dc) 50%/2px 100% no-repeat}
@@ -1724,14 +1733,14 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
         <div class="cj-row">
           <div class="cj-rl">数据</div>
           <div class="cj-rc cj-metline" style="min-height:9vh">
-            <div class="cj-cell cj-met"><div class="n">2.5天</div><div class="d">平均环境搭建耗时</div></div>
-            <div class="cj-cell cj-met"><div class="n">47%</div><div class="d">文档检索一次命中率</div></div>
-            <div class="cj-cell cj-met"><div class="n">320+</div><div class="d">需掌握的算子接口</div></div>
-            <div class="cj-cell cj-met"><div class="n">30–60min</div><div class="d">单次编译耗时</div></div>
-            <div class="cj-cell cj-met"><div class="n">460+</div><div class="d">改一处需重编的 .o</div></div>
-            <div class="cj-cell cj-met"><div class="n">40%</div><div class="d">旅程时间花在调试</div></div>
-            <div class="cj-cell cj-met"><div class="n">15万行</div><div class="d">单次排查日志量</div></div>
-            <div class="cj-cell cj-met"><div class="n">55%</div><div class="d">需适配的框架/版本</div></div>
+            <div class="cj-cell cj-met"><div class="mt"><span class="n">2.5天</span><span class="ln"></span></div><div class="d">平均环境搭建耗时</div></div>
+            <div class="cj-cell cj-met"><div class="mt"><span class="n">47%</span><span class="ln"></span></div><div class="d">文档检索一次命中率</div></div>
+            <div class="cj-cell cj-met"><div class="mt"><span class="n">320+</span><span class="ln"></span></div><div class="d">需掌握的算子接口</div></div>
+            <div class="cj-cell cj-met"><div class="mt"><span class="n">30–60min</span><span class="ln"></span></div><div class="d">单次编译耗时</div></div>
+            <div class="cj-cell cj-met"><div class="mt"><span class="n">460+</span><span class="ln"></span></div><div class="d">改一处需重编的 .o</div></div>
+            <div class="cj-cell cj-met"><div class="mt"><span class="n">40%</span><span class="ln"></span></div><div class="d">旅程时间花在调试</div></div>
+            <div class="cj-cell cj-met"><div class="mt"><span class="n">15万行</span><span class="ln"></span></div><div class="d">单次排查日志量</div></div>
+            <div class="cj-cell cj-met"><div class="mt"><span class="n">55%</span><span class="ln"></span></div><div class="d">需适配的框架/版本</div></div>
           </div>
         </div>
 
