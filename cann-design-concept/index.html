@@ -491,7 +491,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 .cj-fn .cj-cell{padding:.8vh .7vw;gap:.4vh}
 .cj-fnl{font-size:max(8.5px,.66vw);color:#333;line-height:1.4;display:flex;gap:.4em;align-items:flex-start}
 .cj-fnl::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--accent);flex:none;margin-top:.5em}
-.cj-fnl.pain::before{background:#EF4444;border-radius:1px}
+.cj-fnl.cjpain::before{background:#EF4444;border-radius:1px}
 .cj-fnl.opp::before{background:#10B981}
 .cj-painrow .cj-rc{background:rgba(254,241,241,.75)}
 .cj-opprow .cj-rc{background:rgba(235,250,242,.8)}
@@ -2049,15 +2049,6 @@ body.overview #panel,body.overview #toggle{display:none!important}
           </div>
         </div>
 
-        <div class="cj-row">
-          <div class="cj-rl">用时</div>
-          <div class="cj-rc cj-time">
-            <div class="cj-tbar tc1" style="flex:2"><span>≈ 2 周</span></div>
-            <div class="cj-tbar tc2" style="flex:2"><span>≈ 3 周</span></div>
-            <div class="cj-tbar tc3" style="flex:3"><span>≈ 6 周</span></div>
-            <div class="cj-tbar tc4" style="flex:1"><span>≈ 2 周</span></div>
-          </div>
-        </div>
         <div class="cj-emo">
           <div class="cj-rl">想法与情绪</div>
           <div class="cj-erange">
@@ -2107,10 +2098,10 @@ body.overview #panel,body.overview #toggle{display:none!important}
         <div class="cj-fn cj-row cj-painrow">
           <div class="cj-rl">痛点</div>
           <div class="cj-rc">
-            <div class="cj-cell" style="flex:2"><div class="cj-fnl pain">驱动 / 版本反复踩坑</div><div class="cj-fnl pain">文档版本对不上</div><div class="cj-fnl pain">依赖安装繁琐</div></div>
-            <div class="cj-cell" style="flex:2"><div class="cj-fnl pain">Tiling 切分靠试错</div><div class="cj-fnl pain">缺最佳实践向导</div><div class="cj-fnl pain">接口繁多难记</div></div>
-            <div class="cj-cell" style="flex:3"><div class="cj-fnl pain">断点失效，只能 print</div><div class="cj-fnl pain">编译一次 30–60min</div><div class="cj-fnl pain">日志十几万行难定位</div></div>
-            <div class="cj-cell" style="flex:1"><div class="cj-fnl pain">多框架接入不统一</div><div class="cj-fnl pain">缺统一可观测</div><div class="cj-fnl pain">全量重编耗时</div></div>
+            <div class="cj-cell" style="flex:2"><div class="cj-fnl cjpain">驱动 / 版本反复踩坑</div><div class="cj-fnl cjpain">文档版本对不上</div><div class="cj-fnl cjpain">依赖安装繁琐</div></div>
+            <div class="cj-cell" style="flex:2"><div class="cj-fnl cjpain">Tiling 切分靠试错</div><div class="cj-fnl cjpain">缺最佳实践向导</div><div class="cj-fnl cjpain">接口繁多难记</div></div>
+            <div class="cj-cell" style="flex:3"><div class="cj-fnl cjpain">断点失效，只能 print</div><div class="cj-fnl cjpain">编译一次 30–60min</div><div class="cj-fnl cjpain">日志十几万行难定位</div></div>
+            <div class="cj-cell" style="flex:1"><div class="cj-fnl cjpain">多框架接入不统一</div><div class="cj-fnl cjpain">缺统一可观测</div><div class="cj-fnl cjpain">全量重编耗时</div></div>
           </div>
         </div>
         <div class="cj-fn cj-row cj-opprow" style="border-bottom:0">
