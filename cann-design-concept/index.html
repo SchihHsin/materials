@@ -453,7 +453,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 .cj-pt{position:absolute;width:11px;height:11px;border-radius:50%;background:#fff;border:2.5px solid #8b909c;transform:translate(-50%,-50%);z-index:3;box-shadow:0 1px 4px rgba(0,0,0,.18)}
 .cj-pic{position:absolute;transform:translate(-50%,-50%);z-index:4}
 .cj-conn{position:absolute;width:1px;background:#c2c7d2;transform:translateX(-50%);z-index:2}
-.cj-bub{position:absolute;width:max(96px,8vw);transform:translateX(-50%);background:#fff;border:1px solid #dfe2e9;border-radius:7px;padding:.55vh .6vw;z-index:5}
+.cj-bub{position:absolute;width:max(116px,9.6vw);transform:translateX(-50%);background:#fff;border:1px solid #dfe2e9;border-radius:7px;padding:.55vh .6vw;z-index:5}
 .cj-bub .q{font-size:max(8px,.62vw);color:#3a3f4a;line-height:1.35}
 .cj-bub .q b{font-weight:800;color:#1f2430}
 .cj-bub .em{font-size:max(8.5px,.64vw);font-style:italic;font-weight:700;margin-top:.3vh}
@@ -493,6 +493,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 .cj-fnl::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--accent);flex:none;margin-top:.5em}
 .cj-fnl.pain::before{background:#EF4444;border-radius:1px}
 .cj-fnl.opp::before{background:#10B981}
+.cj-painrow .cj-rc{background:rgba(254,241,241,.75)}
+.cj-opprow .cj-rc{background:rgba(235,250,242,.8)}
+.cj-painrow .cj-cell,.cj-opprow .cj-cell{border-left-color:rgba(255,255,255,.6)}
 
 /* ===== 全局沙盘：分层架构 ===== */
 .sb{flex:1;min-height:0;display:flex;flex-direction:column;gap:.7vh}
@@ -2090,33 +2093,33 @@ body.overview #panel,body.overview #toggle{display:none!important}
             <span class="cj-conn" style="left:75%;top:79.3%;height:5.7%"></span>
             <span class="cj-conn" style="left:85%;top:8%;height:26.7%"></span>
             <span class="cj-conn" style="left:98.3%;top:8%;height:11.3%"></span>
-            <div class="cj-bub pos" style="left:.5%;top:1%;transform:none"><div class="q">终于要开始写算子了</div><div class="em">期待</div></div>
-            <div class="cj-bub pos" style="left:16.7%;top:1%"><div class="q">看起来有模板，应该不难</div><div class="em">乐观</div></div>
-            <div class="cj-bub neg" style="left:30%;top:66%"><div class="q"><b>驱动 / 版本又对不上</b>，环境跑不起来</div><div class="em">受阻</div></div>
-            <div class="cj-bub neg" style="left:41.7%;top:66%"><div class="q">文档东一块西一块，<b>示例还跑不通</b></div><div class="em">困惑</div></div>
-            <div class="cj-bub pos" style="left:53.3%;top:1%"><div class="q">照着模板能写了，手感回来了</div><div class="em">渐入佳境</div></div>
-            <div class="cj-bub neg" style="left:75%;top:85%"><div class="q"><b>断点用不了</b>，只能 print 翻日志</div><div class="em">抓狂</div></div>
-            <div class="cj-bub pos" style="left:85%;top:1%"><div class="q">用上增量编译，迭代快起来了</div><div class="em">有进展</div></div>
-            <div class="cj-bub pos" style="left:98.3%;top:1%;transform:translateX(-82%)"><div class="q">性能终于达标，能交付了！</div><div class="em">如释重负</div></div>
+            <div class="cj-bub pos" style="left:.5%;top:1%;transform:none"><div class="q">终于要写算子了</div><div class="em">期待</div></div>
+            <div class="cj-bub pos" style="left:16.7%;top:1%"><div class="q">有模板，应该不难</div><div class="em">乐观</div></div>
+            <div class="cj-bub neg" style="left:30%;top:66%"><div class="q"><b>驱动 / 版本又对不上</b></div><div class="em">受阻</div></div>
+            <div class="cj-bub neg" style="left:41.7%;top:66%"><div class="q">文档散，<b>示例跑不通</b></div><div class="em">困惑</div></div>
+            <div class="cj-bub pos" style="left:53.3%;top:1%"><div class="q">照着模板能写了</div><div class="em">渐入佳境</div></div>
+            <div class="cj-bub neg" style="left:75%;top:85%"><div class="q"><b>断点用不了</b>，只能 print</div><div class="em">抓狂</div></div>
+            <div class="cj-bub pos" style="left:85%;top:1%"><div class="q">增量编译，迭代快了</div><div class="em">有进展</div></div>
+            <div class="cj-bub pos" style="left:98.3%;top:1%;transform:translateX(-82%)"><div class="q">性能达标，能交付！</div><div class="em">如释重负</div></div>
           </div>
         </div>
 
-        <div class="cj-fn cj-row">
+        <div class="cj-fn cj-row cj-painrow">
           <div class="cj-rl">痛点</div>
           <div class="cj-rc">
-            <div class="cj-cell" style="flex:2"><div class="cj-fnl pain">驱动 / 版本反复踩坑</div></div>
-            <div class="cj-cell" style="flex:2"><div class="cj-fnl pain">Tiling 切分靠试错、缺向导</div></div>
-            <div class="cj-cell" style="flex:3"><div class="cj-fnl pain">断点失效 · 编译慢 · 日志难定位</div></div>
-            <div class="cj-cell" style="flex:1"><div class="cj-fnl pain">多框架接入不统一</div></div>
+            <div class="cj-cell" style="flex:2"><div class="cj-fnl pain">驱动 / 版本反复踩坑</div><div class="cj-fnl pain">文档版本对不上</div><div class="cj-fnl pain">依赖安装繁琐</div></div>
+            <div class="cj-cell" style="flex:2"><div class="cj-fnl pain">Tiling 切分靠试错</div><div class="cj-fnl pain">缺最佳实践向导</div><div class="cj-fnl pain">接口繁多难记</div></div>
+            <div class="cj-cell" style="flex:3"><div class="cj-fnl pain">断点失效，只能 print</div><div class="cj-fnl pain">编译一次 30–60min</div><div class="cj-fnl pain">日志十几万行难定位</div></div>
+            <div class="cj-cell" style="flex:1"><div class="cj-fnl pain">多框架接入不统一</div><div class="cj-fnl pain">缺统一可观测</div><div class="cj-fnl pain">全量重编耗时</div></div>
           </div>
         </div>
-        <div class="cj-fn cj-row" style="border-bottom:0">
+        <div class="cj-fn cj-row cj-opprow" style="border-bottom:0">
           <div class="cj-rl">机会点</div>
           <div class="cj-rc">
-            <div class="cj-cell" style="flex:2"><div class="cj-fnl opp">一键可复现环境镜像</div></div>
-            <div class="cj-cell" style="flex:2"><div class="cj-fnl opp">算子模板 + 最佳实践向导</div></div>
-            <div class="cj-cell" style="flex:3"><div class="cj-fnl opp">IR 级断点 + 增量编译 + 可视化 Profiling</div></div>
-            <div class="cj-cell" style="flex:1"><div class="cj-fnl opp">统一发布流水线</div></div>
+            <div class="cj-cell" style="flex:2"><div class="cj-fnl opp">一键可复现环境镜像</div><div class="cj-fnl opp">版本自检与提示</div><div class="cj-fnl opp">上手检查清单</div></div>
+            <div class="cj-cell" style="flex:2"><div class="cj-fnl opp">算子模板库</div><div class="cj-fnl opp">最佳实践向导</div><div class="cj-fnl opp">交互式文档 + 成长地图</div></div>
+            <div class="cj-cell" style="flex:3"><div class="cj-fnl opp">IR 级断点调试</div><div class="cj-fnl opp">增量编译 + 智能去重</div><div class="cj-fnl opp">可视化 Profiling</div></div>
+            <div class="cj-cell" style="flex:1"><div class="cj-fnl opp">多框架统一接入</div><div class="cj-fnl opp">一键发布流水线</div><div class="cj-fnl opp">统一状态可观测</div></div>
           </div>
         </div>
       </div>
