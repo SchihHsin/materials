@@ -452,24 +452,23 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 .cj-pt{position:absolute;width:11px;height:11px;border-radius:50%;background:#fff;border:2.5px solid #8b909c;transform:translate(-50%,-50%);z-index:3;box-shadow:0 1px 4px rgba(0,0,0,.18)}
 .cj-pic{position:absolute;transform:translate(-50%,-50%);z-index:4}
 .cj-conn{position:absolute;width:1px;background:#c2c7d2;transform:translateX(-50%);z-index:2}
-.cj-bub{position:absolute;width:max(96px,8vw);transform:translateX(-50%);background:#fff;border:1px solid #dfe2e9;border-radius:7px;padding:.55vh .6vw;box-shadow:0 6px 16px -10px rgba(30,40,70,.4);z-index:5}
+.cj-bub{position:absolute;width:max(96px,8vw);transform:translateX(-50%);background:#fff;border:1px solid #dfe2e9;border-radius:7px;padding:.55vh .6vw;z-index:5}
 .cj-bub .q{font-size:max(8px,.62vw);color:#3a3f4a;line-height:1.35}
 .cj-bub .q b{font-weight:800;color:#1f2430}
 .cj-bub .em{font-size:max(8.5px,.64vw);font-style:italic;font-weight:700;margin-top:.3vh}
 .cj-bub.pos .em{color:#1F9E6B}.cj-bub.neg .em{color:#E0566B}
 .cj-metline{position:relative}
-.cj-metline .cj-cell{position:relative;z-index:1;justify-content:space-between}
-.cj-metsegs{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);display:flex;gap:1.6vw;z-index:0;pointer-events:none}
-.cj-metsegs .seg{height:3px;border-radius:3px;background:var(--g-accent)}
-.cj-emo .cj-rl{flex:0 0 5vw;align-items:flex-start}
-.cj-erange{flex:0 0 3.6vw;position:relative;background:#fafbfc;border-right:1px solid #eef0f4}
-.cj-erange .rot{position:absolute;left:.12vw;top:48.5%;transform:translateY(-50%) rotate(180deg);writing-mode:vertical-rl;font-size:max(6.5px,.5vw);font-weight:700;letter-spacing:.04em;color:#aeb3bd;text-transform:uppercase;white-space:nowrap}
-.cj-erange .ax{position:absolute;right:1.05vw;top:18.7%;height:59.6%;border-left:2px solid #cfd3dc}
-.cj-erange .ax::before{content:'';position:absolute;top:-4px;left:-4px;border:4px solid transparent;border-bottom-color:#cfd3dc;border-top:0}
-.cj-erange .ax::after{content:'';position:absolute;bottom:-4px;left:-4px;border:4px solid transparent;border-top-color:#cfd3dc;border-bottom:0}
-.cj-erange .pl{position:absolute;top:0;left:.3vw;transform:translateY(-55%);color:#2DBE82;font-weight:800;font-size:max(10px,.85vw);line-height:1}
-.cj-erange .mn{position:absolute;bottom:0;left:.3vw;transform:translateY(55%);color:#E0566B;font-weight:800;font-size:max(10px,.85vw);line-height:1}
-.cj-erange .nu{position:absolute;top:19%;left:.3vw;transform:translateY(-50%);font-family:'JetBrains Mono';font-size:max(6.5px,.5vw);color:#9298a5;white-space:nowrap}
+.cj-metline::before{content:'';position:absolute;left:.3vw;right:.3vw;top:2vh;height:3px;border-radius:2px;background:var(--g-accent);z-index:0}
+.cj-metline .cj-cell{position:relative;z-index:1;justify-content:flex-start;align-items:flex-start;padding-top:.9vh}
+.cj-metline .cj-met .n{position:relative;z-index:1;background:#fff;padding:0 .45vw;line-height:1;border-radius:2px}
+.cj-metline .cj-met .d{position:relative;z-index:1;margin-top:1.4vh}
+.cj-emo .cj-rl{flex:0 0 5vw;align-items:center}
+.cj-erange{flex:0 0 3.4vw;position:relative;background:#fafbfc;border-right:1px solid #eef0f4}
+.cj-erange .ax{position:absolute;left:50%;transform:translateX(-50%);top:18.7%;height:59.6%;display:flex;flex-direction:column;align-items:center;justify-content:space-between;background:linear-gradient(#cfd3dc,#cfd3dc) 50%/2px 100% no-repeat}
+.cj-erange .ax::before{content:'';position:absolute;top:-7px;left:50%;transform:translateX(-50%);border:5px solid transparent;border-bottom:6px solid #b9bec9;border-top:0}
+.cj-erange .ax::after{content:'';position:absolute;bottom:-7px;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top:6px solid #b9bec9;border-bottom:0}
+.cj-erange .pl,.cj-erange .mn{color:#9298a5;font-weight:800;font-size:max(10px,.85vw);line-height:1;background:#fafbfc;padding:.2vh 0}
+.cj-erange .rot{writing-mode:vertical-rl;font-size:max(6.5px,.5vw);font-weight:700;letter-spacing:.05em;color:#9298a5;text-transform:uppercase;white-space:nowrap;background:#fafbfc;padding:.5vh 0}
 .cj-neutral{position:absolute;left:0;right:0;top:30%;border-top:1.5px dashed #c2c7d2;z-index:1;pointer-events:none}
 .cj-neutral span{position:absolute;left:.5vw;top:-.95em;font-family:'JetBrains Mono';font-size:max(7px,.52vw);color:#aeb3bd;background:#fff;padding:0 .35vw;letter-spacing:.04em}
 .cj-fn{display:flex;align-items:stretch}
@@ -2011,23 +2010,21 @@ body.overview #panel,body.overview #toggle{display:none!important}
         <div class="cj-row">
           <div class="cj-rl">数据</div>
           <div class="cj-rc cj-metline" style="min-height:9vh">
-            <div class="cj-metsegs"><div class="seg" style="flex:2"></div><div class="seg" style="flex:2"></div><div class="seg" style="flex:3"></div><div class="seg" style="flex:1"></div></div>
-            <div class="cj-cell cj-met"></div>
+            <div class="cj-cell cj-met"><div class="n">2.5天</div><div class="d">平均环境搭建耗时</div></div>
             <div class="cj-cell cj-met"><div class="n">47%</div><div class="d">文档检索一次命中率</div></div>
-            <div class="cj-cell cj-met"></div>
+            <div class="cj-cell cj-met"><div class="n">320+</div><div class="d">需掌握的算子接口</div></div>
             <div class="cj-cell cj-met"><div class="n">30–60min</div><div class="d">单次编译耗时</div></div>
             <div class="cj-cell cj-met"><div class="n">460+</div><div class="d">改一处需重编的 .o</div></div>
             <div class="cj-cell cj-met"><div class="n">40%</div><div class="d">旅程时间花在调试</div></div>
-            <div class="cj-cell cj-met"><div class="n">5000×</div><div class="d">目标增量编译加速</div></div>
-            <div class="cj-cell cj-met"></div>
+            <div class="cj-cell cj-met"><div class="n">15万行</div><div class="d">单次排查日志量</div></div>
+            <div class="cj-cell cj-met"><div class="n">55%</div><div class="d">需适配的框架/版本</div></div>
           </div>
         </div>
 
         <div class="cj-emo">
           <div class="cj-rl">想法与情绪</div>
           <div class="cj-erange">
-            <span class="rot">情绪区间 Emotional Range</span>
-            <div class="ax"><span class="pl">＋</span><span class="nu">中性</span><span class="mn">－</span></div>
+            <div class="ax"><span class="pl">＋</span><span class="rot">情绪区间 Emotional Range</span><span class="mn">－</span></div>
           </div>
           <div class="cj-canvas">
             <svg viewBox="0 0 1200 300" preserveAspectRatio="none">
@@ -2041,7 +2038,6 @@ body.overview #panel,body.overview #toggle{display:none!important}
               </defs>
               <path d="M40,56 C104,56 136,62 200,62 C264,62 296,170 360,170 C416,170 444,172 500,172 C556,172 584,76 640,76 C692,76 718,140 770,140 C822,140 848,235 900,235 C948,235 972,104 1020,104 C1084,104 1116,58 1180,58 L1180,90 L40,90 Z" fill="url(#cjGrad)"/>
               <path d="M40,56 C104,56 136,62 200,62 C264,62 296,170 360,170 C416,170 444,172 500,172 C556,172 584,76 640,76 C692,76 718,140 770,140 C822,140 848,235 900,235 C948,235 972,104 1020,104 C1084,104 1116,58 1180,58" fill="none" stroke="#aab0bb" stroke-width="1.5" vector-effect="non-scaling-stroke"/>
-              <path d="M40,56 C104,56 136,62 200,62 C264,62 296,170 360,170 C416,170 444,172 500,172 C556,172 584,76 640,76 C692,76 718,140 770,140 C822,140 848,235 900,235 C948,235 972,104 1020,104 C1084,104 1116,58 1180,58" fill="none" stroke="#828a98" stroke-width="1.1" stroke-dasharray="1.5,5" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
             </svg>
             <div class="cj-neutral"><span>中性 NEUTRAL</span></div>
             <span class="cj-pt" style="left:3.3%;top:18.7%"></span>
