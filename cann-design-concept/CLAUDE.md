@@ -24,7 +24,7 @@
   - **评分热力矩阵**（参考 `reference/mattrix.html` 逐字复刻）：`.hm-grid` 网格 + JS 渲染（`#cann-matrix`，配色/表情脸/趋势/状态点函数照抄参考）；格子极淡底 `rgba(色,.05)` + 彩色描边 + 数字按分档红/橙/绿/青/蓝 + 行首状态点。⚠️ **渲染 JS 同时写在 gray.html 脚本 和 build_index.py 硬编码脚本两处**（build 不抽取分册 script）。外层包一张 `.card` 玻璃卡。
   - **分层架构图**（参考 `reference/层级架构图.jpg`）：左竖排分层标签 + 每层若干**聚类玻璃卡**（一卡=一类、含多条目，非一条一卡）；卡高 `grid-auto-rows:auto` 自适应；范式层 mini 条目带**黑线 icon + 下方彩色光晕**（`.arc-pic::after`）。
   - **数据突出卡**（参考 `reference/data.png`）：3 张**切角方卡**（`clip-path` 切右上+左下、`aspect-ratio:1`）；⚠️ **单层玻璃**（`backdrop-filter` 直接采样背景纹理）——**别用"外层白底+内层玻璃"双层**，否则内层 backdrop 采到外层白底→发实；描边用 `::after`+`mask-composite:exclude` **只画边框环**（内部透明不加实度）；图标扁平、数字 Inter 500、小描述沉右下。
-- `gray.html` 页序（2026-06 重排为干净 01–11，**三个用户画像连排**）：01 用户旅程 / 02 VOC 墙 / 03 用户研究(胶囊) / **04 画像·形式一 / 05 画像·形式二 / 06 画像·形式三** / 07 竞品对照 / 08 实施路线(甘特) / 09 能力矩阵(热力) / 10 体验架构(分层) / 11 设计目标(数据卡)。head-r 与 foot 均已按此重编号（脚本批量替换，注意三页连排是把原末尾的 `.up` 形式三移到形式二之后）
+- `gray.html` 页序（2026-06 重排为干净 01–11，**三个用户画像连排**）：01 用户旅程 / 02 VOC 墙 / 03 用户研究(胶囊) / **04 画像·形式一 / 05 画像·形式二 / 06 画像·形式三** / 07 竞品对照 / 08 实施路线(甘特) / 09 能力矩阵(热力) / 10 体验架构(分层) / 11 设计目标(数据卡) / 12 用户旅程地图(复刻 Heart-of-the-Customer：人物头带+阶段chevron+Actions+Metrics大数字+情绪曲线渐变填充气泡+Functional Needs，`.cj-*`，全幅白底无 deck head)。head-r 与 foot 均已按此重编号（脚本批量替换，注意三页连排是把原末尾的 `.up` 形式三移到形式二之后）
 
 ## 字体与字号规范（index.html，写 skill 用）
 - **主字体 = HarmonyOS Sans SC（鸿蒙黑体）**，CDN @font-face `cdn.jsdelivr.net/gh/IKKI2000/harmonyos-fonts@master/css/harmonyos_sans_sc.css`（MIT，权重 100/300/400/500/700/900）；字体栈 `'HarmonyOS Sans SC','Inter','Noto Sans SC'`（Latin 回退 Inter）；**JetBrains Mono 仅保留给英文 kicker/meta/页码等刻意等宽标签**

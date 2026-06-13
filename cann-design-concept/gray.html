@@ -395,43 +395,62 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 .rm-diamond{position:absolute;width:18px;height:18px;transform:rotate(45deg);background:var(--g-ink);border:1px solid rgba(255,255,255,.3);border-radius:3px;box-shadow:0 5px 14px rgba(0,0,0,.22);z-index:3}
 .rm-ms{position:absolute;font-size:max(10px,.78vw);font-weight:500;color:var(--ink-2)}
 
-/* ===== 新旅程：按时间占比的甘特条（复用 rm-bar 玻璃质感）===== */
-.tj{flex:1;min-height:0;margin-top:1vh;display:flex;flex-direction:column;
-  background:rgba(255,255,255,.55);backdrop-filter:blur(16px) saturate(1.4);-webkit-backdrop-filter:blur(16px) saturate(1.4);
-  border:1px solid rgba(255,255,255,.7);border-radius:18px;
-  box-shadow:0 12px 34px -16px rgba(30,40,70,.22),inset 0 1px 0 rgba(255,255,255,.85);
-  padding:2.8vh 2.4vw}
-/* 三行网格：列宽 = 各阶段时间占比(fr)，条/情绪/卡片自动对齐 */
-.tj-board{flex:1;min-height:0;display:grid;grid-template-columns:var(--tj-cols);grid-template-rows:auto auto auto;align-content:center;gap:1.8vh .55vw}
-/* 顶：情绪 + 阶段名 */
-.tj-top{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:.35vh;text-align:center;min-width:0}
-.tj-top .em{font-size:max(18px,1.5vw);line-height:1}
-.tj-top .pn{font-size:max(10px,.8vw);font-weight:800;color:var(--ink);line-height:1.2;white-space:nowrap}
-.tj-top .en{font-family:'JetBrains Mono';font-size:max(7.5px,.56vw);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
-/* 甘特条：撑满本列(=时间占比)，玻璃质感同 rm-bar */
-.tj-bar{height:5.6vh;border-radius:13px;display:flex;align-items:center;justify-content:space-between;gap:.4em;padding:0 .8vw;overflow:hidden;
-  backdrop-filter:blur(2px) saturate(1.3);-webkit-backdrop-filter:blur(2px) saturate(1.3);position:relative}
-.tj-bar .pct{font-size:max(13px,1.2vw);font-weight:800;line-height:1;font-family:'Inter','Noto Sans SC'}
-.tj-bar .wk{font-size:max(8px,.62vw);font-weight:600;opacity:.85;white-space:nowrap}
-.tj-bar.white{background:rgba(255,255,255,.62);border:1px solid rgba(255,255,255,.78);color:var(--ink);box-shadow:0 8px 22px rgba(30,40,70,.1),inset 0 1px 0 rgba(255,255,255,.85)}
-.tj-bar.dark{background:var(--g-ink);border:1px solid rgba(255,255,255,.22);color:#fff;box-shadow:0 8px 26px rgba(20,25,35,.32),inset 0 1px 0 rgba(255,255,255,.28)}
-.tj-bar.accent{background:var(--g-accent);border:1px solid rgba(255,255,255,.34);color:#fff;box-shadow:0 10px 28px rgba(91,91,214,.32),inset 0 1px 0 rgba(255,255,255,.35)}
-/* 极窄列(占比小)隐藏周数、只留百分比 */
-.tj-bar.tiny{justify-content:center}.tj-bar.tiny .wk{display:none}
-/* 阶段详情卡：痛点 + 机会，顶部留阶段色识别条 */
-.tj-card{min-width:0;border-radius:11px;padding:1vh .75vw .9vh;display:flex;flex-direction:column;gap:.7vh;position:relative;overflow:hidden;
-  background:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.72);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 6px 18px -12px rgba(30,40,70,.2)}
-.tj-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--pc)}
-.tj-tp{font-size:max(8.5px,.64vw);color:var(--ink-2);line-height:1.45;padding-bottom:.7vh;margin-bottom:.2vh;border-bottom:1px dashed rgba(126,134,150,.32)}
-.tj-tp b{color:var(--ink);font-weight:800;margin-right:.4em}
-.tj-pain,.tj-opp{font-size:max(9px,.68vw);line-height:1.42;display:flex;gap:.4em;align-items:flex-start}
-.tj-pain{color:#9B1C1C}.tj-opp{color:#065F46}
-.tj-pain .ic,.tj-opp .ic{flex:none;margin-top:.42em;width:6px;height:6px}
-.tj-pain .ic{border-radius:2px;background:#EF4444}.tj-opp .ic{border-radius:50%;background:#10B981}
-/* 底部时间轴基线 */
-.tj-axis{flex:0 0 auto;display:flex;justify-content:space-between;align-items:center;margin-top:1.4vh;padding-top:1vh;border-top:1px dashed rgba(126,134,150,.4)}
-.tj-axis .ax-l{font-size:var(--fs-sm);color:var(--ink-2);font-weight:600}
-.tj-axis .ax-r{font-family:'JetBrains Mono';font-size:max(9px,.66vw);color:var(--ink-3)}
+/* ===== 用户旅程地图（复刻 Heart-of-the-Customer 样式 · CANN 配色）===== */
+.cj{flex:1;min-height:0;display:flex;flex-direction:column;background:#fff;border-radius:14px;overflow:hidden;border:1px solid #e6e8ee;box-shadow:0 16px 44px -22px rgba(30,40,70,.32);color:#2a2f3a}
+.cj-row{display:flex;align-items:stretch;border-bottom:1px solid #eef0f4}
+.cj-rl{flex:0 0 8.5vw;padding:.7vh .8vw;font-size:max(8px,.6vw);font-weight:800;letter-spacing:.05em;color:#9298a5;text-transform:uppercase;display:flex;align-items:center;background:#fafbfc;border-right:1px solid #eef0f4}
+.cj-rc{flex:1;display:flex;min-width:0}
+.cj-cell{flex:1;border-left:1px solid #f0f2f5;padding:.7vh .65vw;min-width:0;display:flex;flex-direction:column;gap:.3vh}
+.cj-cell:first-child{border-left:0}
+.cj-head{flex:0 0 auto;display:grid;grid-template-columns:1.75fr 1.15fr 1.2fr .95fr 1.05fr auto;border-bottom:2px solid #e3e6ec}
+.cj-hc{padding:1.1vh 1vw;border-right:1px solid #eef0f4;min-width:0}
+.cj-hc:last-child{border-right:0}
+.cj-persona{display:flex;gap:.8vw;align-items:flex-start}
+.cj-persona img{width:max(48px,4.2vw);height:max(48px,4.2vw);border-radius:9px;object-fit:cover;flex:none;background:linear-gradient(160deg,#6366D8,#8268E2)}
+.cj-kick{font-family:'JetBrains Mono';font-size:max(7px,.55vw);letter-spacing:.12em;color:#9aa0ad;text-transform:uppercase}
+.cj-title{font-weight:800;font-size:max(15px,1.3vw);color:var(--accent);line-height:1.08;margin:.5vh 0 .6vh}
+.cj-role{font-size:max(8.5px,.66vw);color:#3a3f4a;font-weight:600;border-top:1px solid #eef0f4;padding-top:.55vh}
+.cj-h2{font-size:max(7.5px,.58vw);font-weight:800;letter-spacing:.1em;color:#9298a5;text-transform:uppercase;margin-bottom:.7vh}
+.cj-quote{font-size:max(9px,.74vw);font-style:italic;color:#333;line-height:1.5}
+.cj-li{font-size:max(8.5px,.66vw);color:#333;line-height:1.45;padding:.34vh 0;border-bottom:1px solid #f0f2f5}
+.cj-li:last-child{border-bottom:0}
+.cj-key .ki{display:flex;align-items:center;gap:.45vw;font-size:max(8px,.62vw);color:#444;margin:.32vh 0}
+.cj-ic{width:max(14px,1.15vw);height:max(14px,1.15vw);border-radius:50%;flex:none;display:inline-flex;align-items:center;justify-content:center;font-size:max(8px,.62vw);font-weight:800;line-height:1}
+.cj-ic.mot{background:var(--accent);color:#fff}
+.cj-ic.fr{background:#fff;border:2px solid var(--accent);color:var(--accent)}
+.cj-ic.act{background:#fff;border:1.5px solid #c2c7d2}
+.cj-ic.wait{background:#EEEAFB;border:1.5px solid var(--accent);color:var(--accent)}
+.cj-logo{display:flex;flex-direction:column;align-items:flex-end;justify-content:center;gap:.7vh;padding:0 1vw;white-space:nowrap}
+.cj-logo .l1{font-weight:900;font-size:max(13px,1.05vw);letter-spacing:.02em;color:var(--ink)}
+.cj-logo .l1 b{color:#E5352B}
+.cj-logo .l2{font-family:'JetBrains Mono';font-size:max(7.5px,.56vw);letter-spacing:.14em;color:#9298a5}
+.cj-phases{display:flex;align-items:stretch;border-bottom:1px solid #e3e6ec}
+.cj-chev{position:relative;display:flex;align-items:center;padding-left:1.5vw;color:#fff;font-weight:800;font-size:max(10px,.86vw);clip-path:polygon(0 0, calc(100% - 13px) 0, 100% 50%, calc(100% - 13px) 100%, 0 50%);margin-left:-11px;height:3.6vh}
+.cj-chev:first-child{margin-left:0;clip-path:polygon(0 0, calc(100% - 13px) 0, 100% 50%, calc(100% - 13px) 100%, 0 100%)}
+.cj-ch1{background:#9E9EEA}.cj-ch2{background:#7C79E4}.cj-ch3{background:#5B5BD6}.cj-ch4{background:#473BB0}
+.cj-act{font-size:max(8.5px,.66vw);color:#333;line-height:1.4}
+.cj-act .ti{display:inline-flex;align-items:center;gap:.3em;margin-bottom:.2vh}
+.cj-met .n{font-weight:800;font-size:max(16px,1.5vw);color:var(--accent);line-height:1;font-family:'Inter','Noto Sans SC'}
+.cj-met .d{font-size:max(8px,.62vw);color:#666;line-height:1.4}
+.cj-emo{flex:1;min-height:0;display:flex;border-bottom:1px solid #eef0f4}
+.cj-emo-l{flex:0 0 8.5vw;display:flex;align-items:center;gap:.4vw;padding:.6vh .6vw;background:#fafbfc;border-right:1px solid #eef0f4}
+.cj-emo-l .lab{font-size:max(8px,.6vw);font-weight:800;letter-spacing:.05em;color:#9298a5;text-transform:uppercase;line-height:1.25}
+.cj-axis{display:flex;flex-direction:column;justify-content:space-between;align-items:center;height:100%;font-family:'JetBrains Mono';font-size:max(8px,.6vw);color:#aeb3bd;font-weight:700}
+.cj-axis .pl{color:#2DBE82}.cj-axis .mn{color:#E0566B}.cj-axis .nu{color:#9298a5;font-size:max(7px,.54vw)}
+.cj-canvas{flex:1;position:relative;min-width:0}
+.cj-canvas svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.cj-pt{position:absolute;width:11px;height:11px;border-radius:50%;background:#fff;border:2.5px solid #8b909c;transform:translate(-50%,-50%);z-index:3;box-shadow:0 1px 4px rgba(0,0,0,.18)}
+.cj-pic{position:absolute;transform:translate(-50%,-50%);z-index:4}
+.cj-conn{position:absolute;width:1px;background:#c2c7d2;transform:translateX(-50%);z-index:2}
+.cj-bub{position:absolute;width:max(96px,8vw);transform:translateX(-50%);background:#fff;border:1px solid #dfe2e9;border-radius:7px;padding:.55vh .6vw;box-shadow:0 6px 16px -10px rgba(30,40,70,.4);z-index:5}
+.cj-bub .q{font-size:max(8px,.62vw);color:#3a3f4a;line-height:1.35}
+.cj-bub .q b{font-weight:800;color:#1f2430}
+.cj-bub .em{font-size:max(8.5px,.64vw);font-style:italic;font-weight:700;margin-top:.3vh}
+.cj-bub.pos .em{color:#1F9E6B}.cj-bub.neg .em{color:#E0566B}
+.cj-fn{display:flex;align-items:stretch}
+.cj-fn .cj-cell{padding:.8vh .7vw;gap:.4vh}
+.cj-fnl{font-size:max(8.5px,.66vw);color:#333;line-height:1.4;display:flex;gap:.4em;align-items:flex-start}
+.cj-fnl::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--accent);flex:none;margin-top:.5em}
 
 /* ===== 全局沙盘：分层架构 ===== */
 .sb{flex:1;min-height:0;display:flex;flex-direction:column;gap:.7vh}
@@ -1622,70 +1641,157 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
     <div class="foot">Page 11 · Targets</div>
   </section>
 
-  <!-- ===== 新增：用户旅程 · 时间占比（甘特条）===== -->
+  <!-- ===== 新增：用户旅程地图（复刻 Heart-of-the-Customer）===== -->
   <section class="slide">
-    <div class="head">
-      <div class="head-l">
-        <div class="brand"><span class="ttl">调试优化吃掉旅程 36% 的时间，是最大的时间黑洞</span></div>
-        <div class="subttl">User Journey · 各阶段时间占比（甘特条长 = 占比）</div>
-      </div>
-      <div class="head-r">12 / 用户旅程 · 时间占比<br/>2026</div>
-    </div>
-    <div class="body-area">
-      <div class="tj">
-        <div class="tj-board" style="--tj-cols:10fr 18fr 24fr 36fr 12fr">
-          <!-- 行1：情绪 + 阶段名 -->
-          <div class="tj-top"><span class="em">😣</span><span class="pn">环境搭建</span><span class="en">Env Setup</span></div>
-          <div class="tj-top"><span class="em">😕</span><span class="pn">文档学习</span><span class="en">Docs</span></div>
-          <div class="tj-top"><span class="em">🙂</span><span class="pn">算子开发</span><span class="en">Dev</span></div>
-          <div class="tj-top"><span class="em">😖</span><span class="pn">调试优化</span><span class="en">Debug · Tune</span></div>
-          <div class="tj-top"><span class="em">😌</span><span class="pn">集成发布</span><span class="en">Release</span></div>
-          <!-- 行2：甘特条（宽=时间占比）-->
-          <div class="tj-bar white tiny"><span class="pct">10%</span><span class="wk">≈1.5周</span></div>
-          <div class="tj-bar dark"><span class="pct">18%</span><span class="wk">≈2.5周</span></div>
-          <div class="tj-bar white"><span class="pct">24%</span><span class="wk">≈3.5周</span></div>
-          <div class="tj-bar accent"><span class="pct">36%</span><span class="wk">≈5.5周</span></div>
-          <div class="tj-bar dark tiny"><span class="pct">12%</span><span class="wk">≈2周</span></div>
-          <!-- 行3：痛点 + 机会 -->
-          <div class="tj-card" style="--pc:#EF4444">
-            <div class="tj-tp"><b>触点</b>安装脚本 · 依赖文档</div>
-            <div class="tj-pain"><span class="ic"></span>版本/驱动反复踩坑</div>
-            <div class="tj-pain"><span class="ic"></span>文档版本对不上</div>
-            <div class="tj-opp"><span class="ic"></span>一键环境镜像</div>
+    <div class="body-area" style="padding-top:.5vh">
+      <div class="cj">
+        <div class="cj-head">
+          <div class="cj-hc cj-persona">
+            <img src="assets/av/persona-dev.svg" alt="">
+            <div style="min-width:0">
+              <div class="cj-kick">CANN 用户旅程</div>
+              <div class="cj-title">算子开发<br/>与性能调优</div>
+              <div class="cj-role">王伟 · 资深 ASC 算子工程师</div>
+            </div>
           </div>
-          <div class="tj-card" style="--pc:#F59E0B">
-            <div class="tj-tp"><b>触点</b>官网文档 · 示例仓库</div>
-            <div class="tj-pain"><span class="ic"></span>文档分散、检索难</div>
-            <div class="tj-pain"><span class="ic"></span>可跑示例太少</div>
-            <div class="tj-opp"><span class="ic"></span>交互式文档 + 成长地图</div>
+          <div class="cj-hc">
+            <div class="cj-h2">用户原声</div>
+            <div class="cj-quote">"这个算子的性能直接压在整条推理链路上，调不出来我就没法交付，老板天天盯。"</div>
           </div>
-          <div class="tj-card" style="--pc:#3B82F6">
-            <div class="tj-tp"><b>触点</b>IDE · 算子模板</div>
-            <div class="tj-pain"><span class="ic"></span>Tiling 切分靠试错</div>
-            <div class="tj-pain"><span class="ic"></span>缺最佳实践向导</div>
-            <div class="tj-opp"><span class="ic"></span>算子开发向导</div>
+          <div class="cj-hc">
+            <div class="cj-h2">用户目标</div>
+            <div class="cj-li">高效产出可复用算子</div>
+            <div class="cj-li">缩短「改 → 看」迭代</div>
+            <div class="cj-li">性能稳定达标</div>
+            <div class="cj-li">少踩环境 / 版本坑</div>
           </div>
-          <div class="tj-card" style="--pc:#8B5CF6">
-            <div class="tj-tp"><b>触点</b>日志 · Profiler · print</div>
-            <div class="tj-pain"><span class="ic"></span>断点失效，只能逐层 print</div>
-            <div class="tj-pain"><span class="ic"></span>编译 30–60min、日志难定位</div>
-            <div class="tj-opp"><span class="ic"></span>IR 级断点 + 增量编译 + 可视化 Profiling</div>
+          <div class="cj-hc">
+            <div class="cj-h2">情绪诉求</div>
+            <div class="cj-li">被清晰引导</div>
+            <div class="cj-li">对过程有掌控</div>
+            <div class="cj-li">对结果有信心</div>
           </div>
-          <div class="tj-card" style="--pc:#10B981">
-            <div class="tj-tp"><b>触点</b>CI · 发布脚本</div>
-            <div class="tj-pain"><span class="ic"></span>多框架接入不统一</div>
-            <div class="tj-pain"><span class="ic"></span>缺统一可观测</div>
-            <div class="tj-opp"><span class="ic"></span>统一发布流水线</div>
+          <div class="cj-hc cj-key">
+            <div class="cj-h2">图例</div>
+            <div class="ki"><span class="cj-ic mot">&#9829;</span>关键时刻</div>
+            <div class="ki"><span class="cj-ic fr">!</span>摩擦点</div>
+            <div class="ki"><span class="cj-ic act"></span>操作</div>
+            <div class="ki"><span class="cj-ic wait">&#9711;</span>等待工具链</div>
+          </div>
+          <div class="cj-hc cj-logo">
+            <div class="l1">C<b>A</b>NN</div>
+            <div class="l2">UCD CENTER</div>
           </div>
         </div>
-        <div class="tj-axis">
-          <span class="ax-l">单次算子交付全周期 ≈ 15 周</span>
-          <span class="ax-r">条长 = 阶段时间占比 ｜ ▪ 痛点 · ● 机会</span>
+
+        <div class="cj-phases">
+          <div class="cj-rl">阶段</div>
+          <div class="cj-rc">
+            <div class="cj-chev cj-ch1" style="flex:2">环境与上手</div>
+            <div class="cj-chev cj-ch2" style="flex:2">算子开发</div>
+            <div class="cj-chev cj-ch3" style="flex:3">调试与调优</div>
+            <div class="cj-chev cj-ch4" style="flex:2">集成与发布</div>
+          </div>
+        </div>
+
+        <div class="cj-row">
+          <div class="cj-rl">操作</div>
+          <div class="cj-rc">
+            <div class="cj-cell"><div class="cj-act">装环境 · 装依赖</div></div>
+            <div class="cj-cell"><div class="cj-act"><span class="ti"><span class="cj-ic act"></span></span>查文档 · 跑示例</div></div>
+            <div class="cj-cell"><div class="cj-act">选模板 · 写算子</div></div>
+            <div class="cj-cell"><div class="cj-act"><span class="ti"><span class="cj-ic wait">&#9711;</span></span>本地编译</div></div>
+            <div class="cj-cell"><div class="cj-act">跑用例 · 看结果</div></div>
+            <div class="cj-cell"><div class="cj-act"><span class="ti"><span class="cj-ic fr">!</span></span>调试定位</div></div>
+            <div class="cj-cell"><div class="cj-act"><span class="ti"><span class="cj-ic wait">&#9711;</span></span>性能 Profiling</div></div>
+            <div class="cj-cell"><div class="cj-act">多框架接入 · 灰度发布</div></div>
+          </div>
+        </div>
+
+        <div class="cj-row">
+          <div class="cj-rl">数据</div>
+          <div class="cj-rc">
+            <div class="cj-cell cj-met"></div>
+            <div class="cj-cell cj-met"><div class="n">47%</div><div class="d">文档检索一次命中率</div></div>
+            <div class="cj-cell cj-met"></div>
+            <div class="cj-cell cj-met"><div class="n">30–60min</div><div class="d">单次编译耗时</div></div>
+            <div class="cj-cell cj-met"><div class="n">460+</div><div class="d">改一处需重编的 .o</div></div>
+            <div class="cj-cell cj-met"><div class="n">40%</div><div class="d">旅程时间花在调试</div></div>
+            <div class="cj-cell cj-met"><div class="n">5000×</div><div class="d">目标增量编译加速</div></div>
+            <div class="cj-cell cj-met"></div>
+          </div>
+        </div>
+
+        <div class="cj-emo">
+          <div class="cj-emo-l">
+            <div class="lab">想法<br/>与情绪</div>
+            <div class="cj-axis"><span class="pl">＋</span><span class="nu">中性</span><span class="mn">－</span></div>
+          </div>
+          <div class="cj-canvas">
+            <svg viewBox="0 0 1200 300" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="cjGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#34C58A" stop-opacity="0.6"/>
+                  <stop offset="42%" stop-color="#F4C53C" stop-opacity="0.5"/>
+                  <stop offset="100%" stop-color="#EF5350" stop-opacity="0.6"/>
+                </linearGradient>
+              </defs>
+              <path d="M40,70 C110,68 150,74 200,76 C270,80 280,200 350,202 C420,204 440,196 500,192 C560,188 580,120 640,118 C700,116 720,150 770,152 C840,155 860,250 910,252 C970,254 1000,150 1050,140 C1110,128 1150,86 1180,82 L1180,300 L40,300 Z" fill="url(#cjGrad)"/>
+              <path d="M40,70 C110,68 150,74 200,76 C270,80 280,200 350,202 C420,204 440,196 500,192 C560,188 580,120 640,118 C700,116 720,150 770,152 C840,155 860,250 910,252 C970,254 1000,150 1050,140 C1110,128 1150,86 1180,82" fill="none" stroke="#5b6270" stroke-width="2" vector-effect="non-scaling-stroke"/>
+              <path d="M40,70 C110,68 150,74 200,76 C270,80 280,200 350,202 C420,204 440,196 500,192 C560,188 580,120 640,118 C700,116 720,150 770,152 C840,155 860,250 910,252 C970,254 1000,150 1050,140 C1110,128 1150,86 1180,82" fill="none" stroke="#3a3f4a" stroke-width="2" stroke-dasharray="1,5" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+            </svg>
+            <span class="cj-pt" style="left:3.3%;top:23%"></span>
+            <span class="cj-pt" style="left:16.7%;top:25%"></span>
+            <span class="cj-pic" style="left:29.2%;top:67%"><span class="cj-ic mot">&#9829;</span></span>
+            <span class="cj-pt" style="left:41.7%;top:64%"></span>
+            <span class="cj-pt" style="left:53.3%;top:39%"></span>
+            <span class="cj-pic" style="left:75.8%;top:84%"><span class="cj-ic fr">!</span></span>
+            <span class="cj-pt" style="left:87.5%;top:47%"></span>
+            <span class="cj-pt" style="left:98.3%;top:27%"></span>
+            <span class="cj-conn" style="left:3.3%;top:6%;height:17%"></span>
+            <span class="cj-conn" style="left:16.7%;top:6%;height:19%"></span>
+            <span class="cj-conn" style="left:29.2%;top:67%;height:18%"></span>
+            <span class="cj-conn" style="left:41.7%;top:64%;height:21%"></span>
+            <span class="cj-conn" style="left:53.3%;top:14%;height:25%"></span>
+            <span class="cj-conn" style="left:75.8%;top:84%;height:8%"></span>
+            <span class="cj-conn" style="left:87.5%;top:24%;height:23%"></span>
+            <span class="cj-conn" style="left:98.3%;top:6%;height:21%"></span>
+            <div class="cj-bub pos" style="left:3.3%;top:-1%"><div class="q">终于要开始写算子了</div><div class="em">期待</div></div>
+            <div class="cj-bub pos" style="left:16.7%;top:-1%"><div class="q">看起来有模板，应该不难</div><div class="em">乐观</div></div>
+            <div class="cj-bub neg" style="left:29.2%;top:86%"><div class="q"><b>驱动 / 版本又对不上</b>，环境跑不起来</div><div class="em">受阻</div></div>
+            <div class="cj-bub neg" style="left:41.7%;top:86%"><div class="q">文档东一块西一块，<b>示例还跑不通</b></div><div class="em">困惑</div></div>
+            <div class="cj-bub pos" style="left:53.3%;top:-3%"><div class="q">照着模板能写了，手感回来了</div><div class="em">渐入佳境</div></div>
+            <div class="cj-bub neg" style="left:75.8%;top:93%"><div class="q"><b>断点用不了</b>，只能 print + 翻十几万行日志</div><div class="em">抓狂</div></div>
+            <div class="cj-bub pos" style="left:87.5%;top:-1%"><div class="q">用上增量编译，迭代终于快起来了</div><div class="em">有进展</div></div>
+            <div class="cj-bub pos" style="left:96%;top:-1%"><div class="q">性能终于达标，能交付了！</div><div class="em">如释重负</div></div>
+          </div>
+        </div>
+
+        <div class="cj-fn cj-row" style="border-bottom:0">
+          <div class="cj-rl">能力诉求</div>
+          <div class="cj-rc">
+            <div class="cj-cell" style="flex:2">
+              <div class="cj-fnl">一键可复现的环境镜像</div>
+              <div class="cj-fnl">清晰的上手路径与检查清单</div>
+            </div>
+            <div class="cj-cell" style="flex:2">
+              <div class="cj-fnl">算子模板与最佳实践向导</div>
+              <div class="cj-fnl">可检索的交互式文档 + 成长地图</div>
+            </div>
+            <div class="cj-cell" style="flex:3">
+              <div class="cj-fnl">IR 级断点调试，告别 print</div>
+              <div class="cj-fnl">增量编译 + 智能去重</div>
+              <div class="cj-fnl">可视化 Profiling 与统一可观测</div>
+            </div>
+            <div class="cj-cell" style="flex:2">
+              <div class="cj-fnl">多框架统一接入</div>
+              <div class="cj-fnl">一键发布流水线</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <div class="ucd">▢ UCD CENTER</div>
-    <div class="foot">Page 12 · Journey by Time</div>
+    <div class="foot" style="position:absolute;bottom:1.6vh;right:4vw">Page 12 · Journey Map</div>
   </section>
 
 
