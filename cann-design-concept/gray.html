@@ -425,7 +425,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 .cj-logo .l1 b{color:#E5352B}
 .cj-logo .l2{font-family:'JetBrains Mono';font-size:max(7.5px,.56vw);letter-spacing:.14em;color:#9298a5}
 .cj-phases{display:flex;align-items:stretch;border-bottom:1px solid #e3e6ec}
-.cj-chev{position:relative;display:flex;align-items:center;padding-left:1.5vw;color:#fff;font-weight:800;font-size:max(10px,.86vw);clip-path:polygon(0 0, calc(100% - 13px) 0, 100% 50%, calc(100% - 13px) 100%, 0 50%);margin-left:-11px;height:3.6vh}
+.cj-chev{position:relative;display:flex;align-items:center;padding-left:1.7vw;color:#fff;font-weight:800;font-size:max(10px,.86vw);clip-path:polygon(0 0, calc(100% - 13px) 0, 100% 50%, calc(100% - 13px) 100%, 0 100%, 13px 50%);margin-left:-13px;height:3.6vh}
 .cj-chev:first-child{margin-left:0;clip-path:polygon(0 0, calc(100% - 13px) 0, 100% 50%, calc(100% - 13px) 100%, 0 100%)}
 .cj-ch1{background:#9E9EEA}.cj-ch2{background:#7C79E4}.cj-ch3{background:#5B5BD6}.cj-ch4{background:#473BB0}
 .cj-act{font-size:max(8.5px,.66vw);color:#333;line-height:1.4}
@@ -447,6 +447,17 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 .cj-bub .q b{font-weight:800;color:#1f2430}
 .cj-bub .em{font-size:max(8.5px,.64vw);font-style:italic;font-weight:700;margin-top:.3vh}
 .cj-bub.pos .em{color:#1F9E6B}.cj-bub.neg .em{color:#E0566B}
+.cj-metline::before{content:'';position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);height:3px;border-radius:3px;background:var(--g-accent);z-index:0}
+.cj-metline .cj-cell{position:relative;z-index:1;justify-content:space-between}
+.cj-emo-l{flex:0 0 8.5vw;display:flex;align-items:stretch;gap:.35vw;padding:.6vh .5vw}
+.cj-erot{writing-mode:vertical-rl;transform:rotate(180deg);font-size:max(7.5px,.56vw);font-weight:800;letter-spacing:.08em;color:#9298a5;text-transform:uppercase;text-align:center;white-space:nowrap}
+.cj-vax{position:relative;flex:1;display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;padding:.5vh 0;border-left:2px solid #cfd3dc;padding-left:.45vw}
+.cj-vax .t{font-family:'JetBrains Mono';font-weight:800;line-height:1}
+.cj-vax .pl{color:#2DBE82;font-size:max(11px,.95vw)}
+.cj-vax .mn{color:#E0566B;font-size:max(11px,.95vw)}
+.cj-vax .nu{position:absolute;top:30%;transform:translateY(-50%);color:#9298a5;font-size:max(7px,.54vw)}
+.cj-neutral{position:absolute;left:0;right:0;top:30%;border-top:1.5px dashed #c2c7d2;z-index:1;pointer-events:none}
+.cj-neutral span{position:absolute;left:.5vw;top:-.95em;font-family:'JetBrains Mono';font-size:max(7px,.52vw);color:#aeb3bd;background:#fff;padding:0 .35vw;letter-spacing:.04em}
 .cj-fn{display:flex;align-items:stretch}
 .cj-fn .cj-cell{padding:.8vh .7vw;gap:.4vh}
 .cj-fnl{font-size:max(8.5px,.66vw);color:#333;line-height:1.4;display:flex;gap:.4em;align-items:flex-start}
@@ -1710,7 +1721,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 
         <div class="cj-row">
           <div class="cj-rl">数据</div>
-          <div class="cj-rc">
+          <div class="cj-rc cj-metline" style="min-height:9vh">
             <div class="cj-cell cj-met"></div>
             <div class="cj-cell cj-met"><div class="n">47%</div><div class="d">文档检索一次命中率</div></div>
             <div class="cj-cell cj-met"></div>
@@ -1724,46 +1735,52 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 
         <div class="cj-emo">
           <div class="cj-emo-l">
-            <div class="lab">想法<br/>与情绪</div>
-            <div class="cj-axis"><span class="pl">＋</span><span class="nu">中性</span><span class="mn">－</span></div>
+            <div class="cj-erot">想法与情绪 · Emotional Range</div>
+            <div class="cj-vax">
+              <span class="t pl">＋</span>
+              <span class="t nu">中性</span>
+              <span class="t mn">－</span>
+            </div>
           </div>
           <div class="cj-canvas">
             <svg viewBox="0 0 1200 300" preserveAspectRatio="none">
               <defs>
                 <linearGradient id="cjGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="#34C58A" stop-opacity="0.6"/>
-                  <stop offset="42%" stop-color="#F4C53C" stop-opacity="0.5"/>
+                  <stop offset="0%" stop-color="#34C58A" stop-opacity="0.55"/>
+                  <stop offset="30%" stop-color="#5CCB8E" stop-opacity="0.5"/>
+                  <stop offset="60%" stop-color="#F4C53C" stop-opacity="0.5"/>
                   <stop offset="100%" stop-color="#EF5350" stop-opacity="0.6"/>
                 </linearGradient>
               </defs>
-              <path d="M40,70 C110,68 150,74 200,76 C270,80 280,200 350,202 C420,204 440,196 500,192 C560,188 580,120 640,118 C700,116 720,150 770,152 C840,155 860,250 910,252 C970,254 1000,150 1050,140 C1110,128 1150,86 1180,82 L1180,300 L40,300 Z" fill="url(#cjGrad)"/>
-              <path d="M40,70 C110,68 150,74 200,76 C270,80 280,200 350,202 C420,204 440,196 500,192 C560,188 580,120 640,118 C700,116 720,150 770,152 C840,155 860,250 910,252 C970,254 1000,150 1050,140 C1110,128 1150,86 1180,82" fill="none" stroke="#5b6270" stroke-width="2" vector-effect="non-scaling-stroke"/>
-              <path d="M40,70 C110,68 150,74 200,76 C270,80 280,200 350,202 C420,204 440,196 500,192 C560,188 580,120 640,118 C700,116 720,150 770,152 C840,155 860,250 910,252 C970,254 1000,150 1050,140 C1110,128 1150,86 1180,82" fill="none" stroke="#3a3f4a" stroke-width="2" stroke-dasharray="1,5" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+              <path d="M40,72 C104,72 136,76 200,76 C264,76 296,180 360,180 C416,180 444,180 500,180 C556,180 584,112 640,112 C688,112 712,130 760,130 C808,130 832,235 880,235 C932,235 958,150 1010,150 C1078,150 1112,78 1180,78 L1180,300 L40,300 Z" fill="url(#cjGrad)"/>
+              <path d="M40,72 C104,72 136,76 200,76 C264,76 296,180 360,180 C416,180 444,180 500,180 C556,180 584,112 640,112 C688,112 712,130 760,130 C808,130 832,235 880,235 C932,235 958,150 1010,150 C1078,150 1112,78 1180,78" fill="none" stroke="#5b6270" stroke-width="2.5" vector-effect="non-scaling-stroke"/>
+              <path d="M40,72 C104,72 136,76 200,76 C264,76 296,180 360,180 C416,180 444,180 500,180 C556,180 584,112 640,112 C688,112 712,130 760,130 C808,130 832,235 880,235 C932,235 958,150 1010,150 C1078,150 1112,78 1180,78" fill="none" stroke="#fff" stroke-width="1" stroke-dasharray="1,6" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
             </svg>
-            <span class="cj-pt" style="left:3.3%;top:23%"></span>
-            <span class="cj-pt" style="left:16.7%;top:25%"></span>
-            <span class="cj-pic" style="left:29.2%;top:67%"><span class="cj-ic mot">&#9829;</span></span>
-            <span class="cj-pt" style="left:41.7%;top:64%"></span>
-            <span class="cj-pt" style="left:53.3%;top:39%"></span>
-            <span class="cj-pic" style="left:75.8%;top:84%"><span class="cj-ic fr">!</span></span>
-            <span class="cj-pt" style="left:87.5%;top:47%"></span>
-            <span class="cj-pt" style="left:98.3%;top:27%"></span>
-            <span class="cj-conn" style="left:3.3%;top:6%;height:17%"></span>
-            <span class="cj-conn" style="left:16.7%;top:6%;height:19%"></span>
-            <span class="cj-conn" style="left:29.2%;top:67%;height:18%"></span>
-            <span class="cj-conn" style="left:41.7%;top:64%;height:21%"></span>
-            <span class="cj-conn" style="left:53.3%;top:14%;height:25%"></span>
-            <span class="cj-conn" style="left:75.8%;top:84%;height:8%"></span>
-            <span class="cj-conn" style="left:87.5%;top:24%;height:23%"></span>
-            <span class="cj-conn" style="left:98.3%;top:6%;height:21%"></span>
-            <div class="cj-bub pos" style="left:3.3%;top:-1%"><div class="q">终于要开始写算子了</div><div class="em">期待</div></div>
-            <div class="cj-bub pos" style="left:16.7%;top:-1%"><div class="q">看起来有模板，应该不难</div><div class="em">乐观</div></div>
-            <div class="cj-bub neg" style="left:29.2%;top:86%"><div class="q"><b>驱动 / 版本又对不上</b>，环境跑不起来</div><div class="em">受阻</div></div>
-            <div class="cj-bub neg" style="left:41.7%;top:86%"><div class="q">文档东一块西一块，<b>示例还跑不通</b></div><div class="em">困惑</div></div>
-            <div class="cj-bub pos" style="left:53.3%;top:-3%"><div class="q">照着模板能写了，手感回来了</div><div class="em">渐入佳境</div></div>
-            <div class="cj-bub neg" style="left:75.8%;top:93%"><div class="q"><b>断点用不了</b>，只能 print + 翻十几万行日志</div><div class="em">抓狂</div></div>
-            <div class="cj-bub pos" style="left:87.5%;top:-1%"><div class="q">用上增量编译，迭代终于快起来了</div><div class="em">有进展</div></div>
-            <div class="cj-bub pos" style="left:96%;top:-1%"><div class="q">性能终于达标，能交付了！</div><div class="em">如释重负</div></div>
+            <div class="cj-neutral"><span>中性 NEUTRAL</span></div>
+            <span class="cj-pt" style="left:3.3%;top:24%"></span>
+            <span class="cj-pt" style="left:16.7%;top:25.3%"></span>
+            <span class="cj-pic" style="left:30%;top:60%"><span class="cj-ic mot">&#9829;</span></span>
+            <span class="cj-pt" style="left:41.7%;top:60%"></span>
+            <span class="cj-pt" style="left:53.3%;top:37.3%"></span>
+            <span class="cj-pic" style="left:73.3%;top:78.3%"><span class="cj-ic fr">!</span></span>
+            <span class="cj-pt" style="left:84.2%;top:50%"></span>
+            <span class="cj-pt" style="left:96.5%;top:26%"></span>
+            <span class="cj-conn" style="left:3.3%;top:9%;height:15%"></span>
+            <span class="cj-conn" style="left:16.7%;top:9%;height:16.3%"></span>
+            <span class="cj-conn" style="left:30%;top:61%;height:8%"></span>
+            <span class="cj-conn" style="left:41.7%;top:61%;height:8%"></span>
+            <span class="cj-conn" style="left:53.3%;top:9%;height:28.3%"></span>
+            <span class="cj-conn" style="left:73.3%;top:79.3%;height:6.7%"></span>
+            <span class="cj-conn" style="left:84.2%;top:9%;height:41%"></span>
+            <span class="cj-conn" style="left:96.5%;top:9%;height:17%"></span>
+            <div class="cj-bub pos" style="left:3.3%;top:1%"><div class="q">终于要开始写算子了</div><div class="em">期待</div></div>
+            <div class="cj-bub pos" style="left:16.7%;top:1%"><div class="q">看起来有模板，应该不难</div><div class="em">乐观</div></div>
+            <div class="cj-bub neg" style="left:30%;top:69%"><div class="q"><b>驱动 / 版本又对不上</b>，环境跑不起来</div><div class="em">受阻</div></div>
+            <div class="cj-bub neg" style="left:41.7%;top:69%"><div class="q">文档东一块西一块，<b>示例还跑不通</b></div><div class="em">困惑</div></div>
+            <div class="cj-bub pos" style="left:53.3%;top:1%"><div class="q">照着模板能写了，手感回来了</div><div class="em">渐入佳境</div></div>
+            <div class="cj-bub neg" style="left:73.3%;top:86%"><div class="q"><b>断点用不了</b>，只能 print 翻日志</div><div class="em">抓狂</div></div>
+            <div class="cj-bub pos" style="left:84.2%;top:1%"><div class="q">用上增量编译，迭代快起来了</div><div class="em">有进展</div></div>
+            <div class="cj-bub pos" style="left:96.5%;top:1%;transform:translateX(-80%)"><div class="q">性能终于达标，能交付了！</div><div class="em">如释重负</div></div>
           </div>
         </div>
 
