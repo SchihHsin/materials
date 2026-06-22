@@ -16,6 +16,11 @@ body     滚动容器：height:100%; overflow:hidden auto; scroll-snap-type:y ma
 - **全屏**：Fullscreen API（`requestFullscreen`/`exitFullscreen`，`F` 键）；监听 `fullscreenchange` 切换按钮图标（全屏 ⛶ ↔ 退出全屏）。
 - **滚动条**：细、半透、**默认隐藏，滚动时才淡入**（`body.scrolling` 类，停 700ms 淡出），亮/暗随 `body.on-dark`。⚠️ **滚动监听挂 `body` 不是 `window`**（`html{overflow-y:visible}` 让 body 当滚动容器，scroll 事件在 body 上触发）+ `wheel` 兜底，否则 `.scrolling` 永远加不上、滚动条永不出现。
 - 键盘：`↑↓←→` / 空格 / PageUp-Down / Home / End / `O` 概览 / `F` 全屏 / `Esc` 退总览。
+- **地址栏 `#页码` 定位（deep-link）**：翻到第 n 页时把地址同步成 `#n`，进场读 `location.hash` 跳到该页，手动改 `#n` 也能跳——方便直接打开/分享到某一页（如 `index.html#14`）。
+  - `updateCurrent(i)` 末尾：`try{history.replaceState(null,'','#'+(idx+1));}catch(e){location.hash=idx+1;}`（`file://` 下 `replaceState` 可能抛错 → 回退 `location.hash`）。
+  - 进场：`var n=parseInt(location.hash.slice(1),10); var i=(!isNaN(n)&&n>=1&&n<=slides.length)?n-1:0;` 然后 `slides[i].scrollIntoView({block:'start',behavior:'auto'})`（i>0 时）；配合 `history.scrollRestoration='manual'`。
+  - 手动改 hash：`addEventListener('hashchange',()=>{…go(n-1)…})`。
+  - ⚠️ 页码 = **整个 deck 的绝对屏序**（封面=#1，其后顺延）——不是分册内的 head-r 编号。`Start-Process`/文件关联打开会**丢掉 `#fragment`**；要带锚点打开用 `cmd /c start "" "file:///…/index.html#14"`，且已开着的同 URL 旧标签可能只是聚焦不跳转（关掉旧标签再开）。
 - 页面顺序随时可调：reorder 时记得**同步页码 head-r 的 01/02…**。
 
 ### ⚠️ scroll-snap 的两个坑（都踩过）
