@@ -27,32 +27,39 @@ body     滚动容器：height:100%; overflow:hidden auto; scroll-snap-type:y ma
 1. **`html,body{overflow:hidden;height:100%}`（各分册横向版自带）会让 snap 失效** → 必须让滚动容器（body）`overflow-y:auto` 且带 `scroll-snap-type:y`，否则停在两页之间。统一层用 `body{overflow:hidden auto;scroll-snap-type:y mandatory}` 盖掉。
 2. **进/出全屏、改窗口后不会自动重新吸附**，会停在两页之间 → 监听 `fullscreenchange`/`resize`，之后 `slides[idx].scrollIntoView({block:'start'})` 重新吸附当前页（`scrollRestoration='manual'` + 进场 `scrollTo(0,0)` 防刷新落在半页）。
 
-### 翻页过渡模式（可切换：slide 默认 / fade）
+### 翻页过渡模式（可切换：5 种）
 
-两种翻页动画，由脚本顶部一个常量选，默认 `slide`：
+由脚本顶部一个常量选，默认 `slide`：
 
 ```js
-const TRANSITION = (new URLSearchParams(location.search).get('t')) || 'slide';  // 'slide' | 'fade'
-const FADE = TRANSITION==='fade';
-if(FADE) document.body.classList.add('fade-mode');
+const TRANSITION = (new URLSearchParams(location.search).get('t')) || 'slide';  // slide|fade|cut|slide-h|magic
+const CTRL = TRANSITION!=='slide';   // 非 slide 都走「受控叠层」
+if(CTRL){ document.body.classList.add('ctrl'); document.body.dataset.transition=TRANSITION; }
 ```
 
-- **切换方式有两种**：① 改这行兜底值（改默认）；② 地址加 `?t=fade` / `?t=slide` 临时切换、不用改代码（方便对比/分享）。
-- **`slide`（默认）**：上面的原生 scroll-snap，一切照旧（IO 判当前页、`scrollIntoView` 翻页、滚动条淡入、reanchor）。
-- **`fade`**：所有页**叠在同一位置**、只有 `.active` 页 `opacity:1` 淡入——无滚动、瞬间交叉淡化。靠 CSS `body.fade-mode` 类驱动：
+- **切换方式两种**：① 改兜底值（改默认）；② 地址 `?t=fade`/`?t=cut`/`?t=slide-h`/`?t=magic`/`?t=slide` 临时切换、不改代码。
+- **5 种**：
+  - **`slide`（默认）**：原生纵向 scroll-snap，一切照旧（IO 判当前页、`scrollIntoView` 翻页、滚动条淡入、reanchor）。
+  - **`fade`**：交叉淡入淡出。
+  - **`cut`**：瞬切、无动画（PPT 式硬切）。
+  - **`slide-h`**：横向滑动（按方向 `translateX(±100%)`，JS 设进/出位移）。
+  - **`magic`**：Keynote 式神奇移动——相邻两页中 `data-key` 相同的元素从旧位置 FLIP 到新位置，其余底层交叉淡化。
+- **架构**：除 slide 外都走「受控叠层」`body.ctrl`——所有页 `position:absolute;inset:0` 叠在一起、只 `.active` 显示、`.leaving` 是正在退出的旧页。每种模式的动画用 `body[data-transition=X]` 选择器写 CSS（fade/cut/slide-h），magic 用 JS。
   ```css
-  body.fade-mode{overflow:hidden;scroll-snap-type:none}
-  body.fade-mode #deck{position:fixed;inset:0}
-  body.fade-mode .slide{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity .5s ease,visibility .5s}
-  body.fade-mode .slide.active{opacity:1;visibility:visible;z-index:1}
+  body.ctrl{overflow:hidden;scroll-snap-type:none}
+  body.ctrl #deck{position:fixed;inset:0}
+  body.ctrl .slide{position:absolute;inset:0;opacity:0;visibility:hidden}
+  body.ctrl .slide.active{opacity:1;visibility:visible;z-index:2}
+  body.ctrl .slide.leaving{visibility:visible;z-index:1}
+  body[data-transition=fade] .slide{transition:opacity .5s} body[data-transition=fade] .slide.leaving{opacity:0}
+  body[data-transition=cut]  .slide{transition:none}        body[data-transition=cut]  .slide.leaving{opacity:0}
+  body[data-transition=slide-h] .slide{transition:transform .56s cubic-bezier(.77,0,.175,1),opacity .4s}
+  body[data-transition=magic] .slide{transition:opacity .6s} body[data-transition=magic] .slide.leaving{opacity:0}
   ```
-- **JS 要分支的几处**（都用 `if(FADE)`）：
-  - **IO 只在 slide 模式挂**（fade 无滚动，IO 永不触发）；fade 模式由 `go()` 直接驱动当前页。
-  - `go(n)`：fade → `setActive(i)+updateCurrent(i)`；slide → `scrollIntoView`。`setActive` = 给第 i 页加 `.active`、其余移除。
-  - **fade 要自己拦滚轮**：`addEventListener('wheel',…,{passive:false})` + `e.preventDefault()` + 节流（~620ms 锁），`deltaY>0` next 否则 prev。
-  - `reanchor()`、进场定位、`exitOverview()` 收尾：fade 用 `setActive(idx)`，slide 用 `scrollIntoView`。
-- ⚠️ **概览要盖掉 fade 的叠层**：`body.overview.fade-mode #deck{position:static}` + `body.overview.fade-mode .slide{position:relative!important;opacity:1!important;visibility:visible!important}`，否则缩略图全透明/堆一起。
-- 键盘/导航点/控制栏/全屏/`#页码` deep-link 两模式通用（都走 `go()`），无需分支。
+- **JS（都用 `if(CTRL)`）**：IO 只在 slide 挂；`go(n)` 受控时 `showSlide(i,dir)+updateCurrent(i)`（dir=`i>idx?'fwd':'back'`）；受控自己拦滚轮（`{passive:false}`+`preventDefault`+~620ms 节流）；`reanchor`/进场/`exitOverview` 受控用 `setActive(idx)`。`showSlide` 按模式：slide-h 用 JS 设进出 `translateX`；fade/cut 切 `.active`/`.leaving`；magic 调 `magicMove`。
+- **magic 的 FLIP 用 Web Animations API**（`el.animate([from,to])`）——⚠️ **别用「同帧设 transition + 改 transform」**（不触发动画，会瞬切到终点）；`void offsetWidth` 双 rAF 也不稳，WAA 最可靠。要 magic 出效果，**作者需在相邻两页给"同一个东西"标相同 `data-key`**（如 logo/标题/某卡），没标的页 magic 就退化成淡入。
+- ⚠️ **概览盖掉受控叠层**：`body.overview.ctrl #deck{position:static}` + `body.overview.ctrl .slide{position:relative!important;opacity:1!important;visibility:visible!important;transform:none!important}`。
+- 键盘/导航点/控制栏/全屏/`#页码` deep-link 全模式通用（都走 `go()`），无需分支。
 
 ### 总览 Overview（缩略图网格）
 - 进入：把每页 children 包进 `.slide-inner`（`position:absolute; width:100vw;height:100vh`，并按基调重建内部布局 `display:flex/padding`，否则 `flex:1` 失父→内容塌成一团）；`body.overview` 把 `#deck` 变 `display:grid`（3 列），`.slide` 变缩略框（`overflow:hidden`）；JS 给 `.slide-inner` 加 `transform:scale(缩略框宽/视口宽)`。

@@ -1207,15 +1207,30 @@ body.overview .s-cover .slide-inner{padding:0}
 .s-gray{color:var(--ink)}
 .s-glow,.s-cover{color:#fff}
 
-/* ===== 翻页过渡 · fade 模式（TRANSITION='fade' 或 ?t=fade 时 JS 给 body 加 .fade-mode）=====
-   默认走上面的纵向 scroll-snap（slide 模式）；fade 模式把所有页叠在同一位置，只让 .active 页淡入 */
-body.fade-mode{overflow:hidden;scroll-snap-type:none}
-body.fade-mode #deck{position:fixed;inset:0;width:100vw}
-body.fade-mode .slide{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity .5s ease,visibility .5s;scroll-snap-align:none;scroll-snap-stop:normal}
-body.fade-mode .slide.active{opacity:1;visibility:visible;z-index:1}
-/* 概览态优先：盖掉 fade 的叠层定位/透明，回到网格缩略图 */
-body.overview.fade-mode #deck{position:static}
-body.overview.fade-mode .slide{position:relative!important;opacity:1!important;visibility:visible!important}
+/* ===== 翻页过渡（可切换）=====
+   默认 slide=纵向 scroll-snap（上面那套）；其余模式走「受控叠层」：所有页叠在同一位置、只让 .active 显示
+   TRANSITION / ?t= : slide(默认) | fade(淡入淡出) | cut(瞬切) | slide-h(横向滑动) | magic(神奇移动) */
+body.ctrl{overflow:hidden;scroll-snap-type:none}
+body.ctrl #deck{position:fixed;inset:0;width:100vw}
+body.ctrl .slide{position:absolute;inset:0;opacity:0;visibility:hidden;scroll-snap-align:none;scroll-snap-stop:normal}
+body.ctrl .slide.active{opacity:1;visibility:visible;z-index:2}
+body.ctrl .slide.leaving{visibility:visible;z-index:1}
+/* fade：交叉淡入淡出 */
+body[data-transition=fade] .slide{transition:opacity .5s ease}
+body[data-transition=fade] .slide.leaving{opacity:0}
+/* cut：瞬切、无动画 */
+body[data-transition=cut] .slide{transition:none}
+body[data-transition=cut] .slide.leaving{opacity:0}
+/* slide-h：横向滑动（进/出 translateX 由 JS 按方向设，保持不透明）*/
+body[data-transition=slide-h] .slide{transition:transform .56s cubic-bezier(.77,0,.175,1),opacity .4s ease}
+body[data-transition=slide-h] .slide.active{opacity:1}
+body[data-transition=slide-h] .slide.leaving{opacity:1}
+/* magic：底层交叉淡化，匹配 data-key 的元素由 JS 做 FLIP 位移/缩放（神奇移动）*/
+body[data-transition=magic] .slide{transition:opacity .6s ease}
+body[data-transition=magic] .slide.leaving{opacity:0}
+/* 概览态优先：盖掉受控叠层的定位/透明/位移，回到网格缩略图 */
+body.overview.ctrl #deck{position:static}
+body.overview.ctrl .slide{position:relative!important;opacity:1!important;visibility:visible!important;transform:none!important}
 
 /* ----- 封面（cv- 前缀，避免与各分册类名冲突）----- */
 .s-cover{padding:0;background:#0c0a0b}
@@ -2805,12 +2820,47 @@ const slides=[...document.querySelectorAll('.slide')];
 const nav=document.getElementById('nav');
 let idx=0;
 
-/* ===== 翻页过渡模式：'slide'(默认·纵向滑动) | 'fade'(淡入淡出) =====
-   改默认就改这行的兜底值；或地址加 ?t=fade / ?t=slide 临时切换、不用改代码 */
+/* ===== 翻页过渡（可切换）：slide(默认) | fade | cut | slide-h | magic =====
+   改默认就改这行兜底值；或地址加 ?t=fade / ?t=cut / ?t=slide-h / ?t=magic 临时切换、不用改代码
+   slide=原生纵向 scroll-snap；其余走「受控叠层」(body.ctrl) */
 const TRANSITION = (new URLSearchParams(location.search).get('t')) || 'slide';
-const FADE = TRANSITION==='fade';
-if(FADE) document.body.classList.add('fade-mode');
-function setActive(i){ slides.forEach((s,k)=>s.classList.toggle('active',k===i)); }
+const CTRL = TRANSITION!=='slide';
+if(CTRL){ document.body.classList.add('ctrl'); document.body.dataset.transition=TRANSITION; }
+const TDUR=600;
+function setActive(i){ slides.forEach((s,k)=>{s.classList.toggle('active',k===i);s.classList.remove('leaving');s.style.transform='';s.style.opacity='';}); }
+/* 受控翻页：按模式做动画。dir:'fwd'|'back' */
+function showSlide(i,dir){
+  const cur=slides.find(s=>s.classList.contains('active'));
+  const nxt=slides[i]; if(!nxt||nxt===cur)return; dir=dir||'fwd';
+  if(TRANSITION==='magic'&&cur){ magicMove(cur,nxt); return; }
+  if(TRANSITION==='slide-h'){
+    nxt.style.transition='none'; nxt.style.visibility='visible'; nxt.style.opacity='1';
+    nxt.style.transform='translateX('+(dir==='fwd'?'100%':'-100%')+')';
+    void nxt.offsetWidth; nxt.style.transition=''; nxt.classList.add('active'); nxt.style.transform='';
+    if(cur){ cur.classList.remove('active'); cur.classList.add('leaving');
+      cur.style.transform='translateX('+(dir==='fwd'?'-100%':'100%')+')';
+      const c=cur; setTimeout(()=>{c.classList.remove('leaving');c.style.transform='';},TDUR); }
+  } else { /* fade / cut */
+    if(cur){ cur.classList.remove('active'); cur.classList.add('leaving'); const c=cur; setTimeout(()=>c.classList.remove('leaving'),TDUR); }
+    nxt.classList.add('active');
+  }
+}
+/* Keynote 式神奇移动：相邻两页中 data-key 相同的元素，从旧位置 FLIP 到新位置；底层交叉淡化
+   用 Web Animations API（el.animate 直接 from→to），避开"同帧设 transition+改值"不触发动画的坑 */
+function magicMove(cur,nxt){
+  const out={}; cur.querySelectorAll('[data-key]').forEach(el=>{out[el.dataset.key]=el.getBoundingClientRect();});
+  cur.classList.remove('active'); cur.classList.add('leaving'); nxt.classList.add('active');
+  nxt.querySelectorAll('[data-key]').forEach(el=>{
+    const o=out[el.dataset.key]; if(!o)return; const n=el.getBoundingClientRect(); if(!n.width||!n.height)return;
+    const dx=o.left-n.left, dy=o.top-n.top, sx=o.width/n.width, sy=o.height/n.height;
+    if(Math.abs(dx)<1&&Math.abs(dy)<1&&Math.abs(sx-1)<.02&&Math.abs(sy-1)<.02)return;  /* 几乎没动就不折腾 */
+    el.style.zIndex='3';
+    el.animate([{transformOrigin:'top left',transform:'translate('+dx+'px,'+dy+'px) scale('+sx+','+sy+')'},
+                {transformOrigin:'top left',transform:'none'}],
+               {duration:620,easing:'cubic-bezier(.4,0,.2,1)'}).onfinish=()=>{el.style.zIndex='';};
+  });
+  const c=cur; setTimeout(()=>c.classList.remove('leaving'),TDUR);
+}
 
 /* ===== glow 章节调色（仅 data-chapter 的 glow 页生效，其余页不受影响）===== */
 const chapters={
@@ -2923,19 +2973,19 @@ function updateCurrent(i){
   else if(toggle){ toggle.style.display='none'; setPanelOpen(false); }
   try{history.replaceState(null,'','#'+(idx+1));}catch(e){try{location.hash=idx+1;}catch(_){}}   /* 地址同步成 #页码；file:// 下 replaceState 会报错，回退到 location.hash */
 }
-/* slide 模式：谁滚进视口 ≥55% 谁就是当前页（原生滚动 / 跳转都覆盖）。fade 模式无滚动，不用 IO */
-if(!FADE){
+/* slide 模式：谁滚进视口 ≥55% 谁就是当前页（原生滚动 / 跳转都覆盖）。受控模式无滚动，不用 IO */
+if(!CTRL){
   const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting&&e.intersectionRatio>=0.55){const i=slides.indexOf(e.target);if(i>=0&&i!==idx)updateCurrent(i);}});},{threshold:[0.55]});
   slides.forEach(s=>io.observe(s));
 }
 
 function go(n){ if(document.body.classList.contains('overview'))return; const i=Math.max(0,Math.min(slides.length-1,n));
-  if(FADE){ setActive(i); updateCurrent(i); }                 /* fade：切 active 类淡入，不滚动 */
+  if(CTRL){ const dir=i>idx?'fwd':'back'; showSlide(i,dir); updateCurrent(i); }   /* 受控：按模式动画 + 方向 */
   else slides[i].scrollIntoView({behavior:'smooth',block:'start'});
 }
 function next(){go(idx+1);} function prev(){go(idx-1);}
-/* fade 模式：滚轮 / 触控板上下翻页（无原生滚动，需拦截 + 节流）*/
-if(FADE){
+/* 受控模式：滚轮 / 触控板翻页（无原生滚动，需拦截 + 节流）*/
+if(CTRL){
   let wlock=false;
   addEventListener('wheel',e=>{ if(document.body.classList.contains('overview'))return; e.preventDefault();
     if(wlock||Math.abs(e.deltaY)<6)return; wlock=true; setTimeout(()=>wlock=false,620);
@@ -2962,14 +3012,14 @@ function syncFsIcon(){const fs=!!document.fullscreenElement;fsBtn.innerHTML=fs?I
 function toggleFullscreen(){ if(!document.fullscreenElement){document.documentElement.requestFullscreen().catch(()=>{});}else{document.exitFullscreen();} }
 fsBtn.onclick=toggleFullscreen;
 /* 视口尺寸变化(进/出全屏)后 scroll-snap 会停在两页之间 → 重新吸附到当前页 */
-function reanchor(){ if(FADE||document.body.classList.contains('overview'))return; slides[idx].scrollIntoView({block:'start',behavior:'auto'}); }
+function reanchor(){ if(CTRL||document.body.classList.contains('overview'))return; slides[idx].scrollIntoView({block:'start',behavior:'auto'}); }
 document.addEventListener('fullscreenchange',()=>{syncFsIcon();setTimeout(reanchor,90);});
 syncFsIcon();
 
 /* 总览 Overview：每页包进 .slide-inner 缩放成缩略图，排网格 */
 function applyOverviewScale(){if(!document.body.classList.contains('overview'))return;const cellW=slides[0].getBoundingClientRect().width,scale=cellW/window.innerWidth;slides.forEach(s=>{s.style.height=(window.innerHeight*scale)+'px';const inner=s.querySelector(':scope>.slide-inner');if(inner)inner.style.transform='scale('+scale+')';});}
 function enterOverview(){slides.forEach(s=>{if(!s.querySelector(':scope>.slide-inner')){const w=document.createElement('div');w.className='slide-inner';while(s.firstChild)w.appendChild(s.firstChild);s.appendChild(w);}});document.body.classList.add('overview');requestAnimationFrame(applyOverviewScale);}
-function exitOverview(){slides.forEach(s=>{const w=s.querySelector(':scope>.slide-inner');if(w){while(w.firstChild)s.insertBefore(w.firstChild,w);w.remove();}s.style.height='';});document.body.classList.remove('overview');if(FADE){setActive(idx);}else setTimeout(()=>slides[idx].scrollIntoView({block:'start',behavior:'auto'}),20);}
+function exitOverview(){slides.forEach(s=>{const w=s.querySelector(':scope>.slide-inner');if(w){while(w.firstChild)s.insertBefore(w.firstChild,w);w.remove();}s.style.height='';});document.body.classList.remove('overview');if(CTRL){setActive(idx);}else setTimeout(()=>slides[idx].scrollIntoView({block:'start',behavior:'auto'}),20);}
 function toggleOverview(){ if(document.body.classList.contains('overview')){exitOverview();} else enterOverview(); }
 ovBtn.onclick=toggleOverview;
 document.body.addEventListener('click',e=>{if(!document.body.classList.contains('overview'))return;const sl=e.target.closest('.slide');if(sl){const i=slides.indexOf(sl);if(i>=0){idx=i;exitOverview();}}});
@@ -2989,7 +3039,7 @@ slides.forEach(paintSlide);
   var n=parseInt(location.hash.slice(1),10);
   var i=(!isNaN(n)&&n>=1&&n<=slides.length)?n-1:0;
   updateCurrent(i);
-  if(FADE){ setActive(i); }
+  if(CTRL){ setActive(i); }
   else if(i>0){requestAnimationFrame(function(){slides[i].scrollIntoView({block:'start',behavior:'auto'});});}
   else{window.scrollTo(0,0);}
 })();
