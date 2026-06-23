@@ -987,3 +987,55 @@ HTML：`.dh-wrap` = `.dh-lead`(总体说明) + `.dh`(3 张 `.dh-card`)；每张 
 ```
 > 便利贴 `.up-note`（黄 `.y` / 红 `.r` / 蓝 `.b` / 绿 `.g` + 浅版 `.y2/.r2/.b2/.g2`）见模板/画像形式三；字号统一用基础 `.up-note`（`clamp(11px,.8vw,14px)`）。
 > 图例胶囊 chips：tint 底（`rgba(色,.15)`）+ 同色淡描边 + 圆色点 + 象限名。
+
+## 14. 图 / 表 + 左侧 sm2 文案（图+文 通用模式）
+
+> **命中**：灰底页"放一张图/表/mockup + 一小段说明"——只要不是上面 1–13 那些有专属版式的图（旅程/VOC/能力矩阵/架构/2×2 等），都走这个。**默认模式，没想好用哪个就用它。**
+>
+> **结构**：左 `.sm2-left` = **h2 结论句 + 1–2 段说明（紫色下划线 b 加粗关键词）+ 可选 `.cx-concl` 黑底白字结论条**；右 = 图/表/mockup 容器（卡 / 白卡 / 玻璃卡 / 虚线占位）。栅格沿用 `.sm2`（`0.64fr 1.36fr`）。
+>
+> **角色分工**：head 的 `.ttl` 写**描述式标题**（topic：「XX 矩阵」「XX 分布」），左 h2 写**结论/洞察句**——两层不重复。
+>
+> **关键做法/坑**：
+> - **`.sm2 align-items:stretch`**：左右栏等高拉齐；左 `.sm2-left` 的 `justify-content:center` 让文案在格内垂直居中，与右图视觉对齐。
+> - **`.body-area{padding-bottom:4.2vh}`** 必须开（已写在 `.body-area` 全局）：`.foot` / `.ucd` 是绝对定位、**不占垂直空间**，没这条 padding 时居中卡会被推到右下、紧贴页尾。详见 `pitfalls.md`。
+> - **黑底结论条复用 `.cx-concl`**（不要新建，class 名是 layout-agnostic 的；tag 文案常用：结论 / 下一步 / 对策 / 行动）。
+> - **图容器内容居中**：实际页换成具体图表时，容器仍用 `align-items:center;justify-content:center`，让图天然居中——别去顶/底对齐（视觉容易塌）。
+> - **占位卡**（设计阶段未定图时用）：虚线紫框 + bar icon + 「图 / 表 占位 · Chart / Table Placeholder」双语标签，给设计稿留位。
+
+```css
+/* sm2 grid + 左文案（已在样板 gray.html 全局；新页直接 class 用即可）*/
+.sm2{flex:1;min-height:0;display:grid;grid-template-columns:0.64fr 1.36fr;gap:2vw;align-items:stretch}
+.sm2-left{display:flex;flex-direction:column;justify-content:center;gap:1.8vh;max-width:42em;padding-right:.4vw}
+.sm2-left h2{font-weight:800;font-size:clamp(18px,1.5vw,25px);line-height:1.3;letter-spacing:-.01em;color:var(--ink)}
+.sm2-left p{font-size:clamp(13.5px,1.05vw,17px);color:var(--ink-2);line-height:1.7}
+.sm2-left p b{color:var(--ink);font-weight:600;background:linear-gradient(transparent 58%,rgba(91,91,214,.18) 0)} /* 紫色荧光笔底 */
+/* 黑底白字结论条（cx-wrap 那节同款，layout-agnostic）*/
+.cx-concl{flex:0 0 auto;display:grid;grid-template-columns:auto 1fr;gap:1.2vw;align-items:center;background:var(--g-ink);color:#fff;border-radius:12px;padding:1.7vh 1.5vw}
+.cx-concl .ck{font-size:13px;font-weight:700;color:var(--ink);background:#fff;border-radius:12px;padding:6px 15px;white-space:nowrap}
+.cx-concl .cv{font-size:max(13px,1vw);line-height:1.6}
+```
+```html
+<div class="body-area">
+  <div class="sm2" style="align-items:stretch">
+    <div class="sm2-left">
+      <h2>调试 + 调优合计占 63%，真正写代码只剩 12%</h2>
+      <p>30 名一线算子工程师 7 天的打卡显示，<b>调试定位 35%、性能调优 28%</b>——两项合起来吃掉了一天 6 成多的精力。</p>
+      <p>真正<b>编码的时间只有 12%</b>，剩下的耗在<b>环境配置、文档查阅、评审与联调</b>这些"代码之外"的事情上。</p>
+      <div class="cx-concl">
+        <span class="ck">结论</span>
+        <span class="cv"><b>调试与调优才是工具链最大的杠杆点</b>——把这两块时间砍半，整体效率立刻翻倍。</span>
+      </div>
+    </div>
+    <!-- 右栏：实际页换成具体图/表/mockup；下面是设计阶段未定图时的占位卡 -->
+    <div style="display:flex;align-items:center;justify-content:center;border:1.5px dashed rgba(91,91,214,.32);background:rgba(255,255,255,.32);backdrop-filter:blur(12px) saturate(1.3);border-radius:16px;min-width:0;padding:3vh 2vw">
+      <div style="text-align:center;color:var(--ink-3)">
+        <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="opacity:.5;display:block;margin:0 auto 1.4vh"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        <div style="font-size:var(--fs-h3);font-weight:600;color:var(--ink-2)">图 / 表 占位</div>
+        <div style="font-family:'JetBrains Mono';font-size:var(--fs-xs);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);margin-top:.6vh">Chart / Table Placeholder</div>
+      </div>
+    </div>
+  </div>
+</div>
+```
+> 写文案的口诀：**h2 = 一句话的发现**（"调试 + 调优合计占 63%"），**p = 数据 + bold 关键词**，**cx-concl = 行动 / 下一步**。三层各占一种语气：发现 → 解释 → 行动。

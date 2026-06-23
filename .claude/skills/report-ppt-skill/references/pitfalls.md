@@ -7,6 +7,7 @@
 - **`min-content≈0` 导致 flex 行被压扁**：行内全是绝对定位子元素时，该行 min-content 约等于 0，会被 flex 压没 → 显式 `height` + `flex-shrink:0` 锁高（情绪曲线行的教训）。
 - **`gap` 本身是对称的**：flex/grid `gap` 在所有相邻项之间相等。若"看着上大下小"，多半是**某个块自身内部留白**（如带背景的标题块、两行文字块的 padding/line-height）造成的视觉差，不是 gap 不对称——去收紧那个块的内边距，别去动 gap。
 - 想"前几项等距、最后一项贴底"：前面用统一 `gap`，最后一项 `margin-top:auto`（它只吃多余空间，不影响前面的等距）。
+- **`.foot` / `.ucd` 是绝对定位、不占垂直空间**：所以 `.body-area` 内居中的卡会被推到右下、紧贴页尾、视觉失衡。**对策**：`.body-area{padding-bottom:4.2vh}` 全局给页尾留位（已在模板里）；居中布局立刻平衡。**别**：① 给每张图卡加 `margin-bottom`（散乱、漏改难维护）；② 把 `.foot` 改成常规 flex 项（会撑高，跟 `.ucd` 的 absolute 不一致）。
 
 ## 字号
 
