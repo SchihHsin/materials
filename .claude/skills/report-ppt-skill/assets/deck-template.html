@@ -199,12 +199,13 @@ body.overview.fade-mode .slide{position:relative!important;opacity:1!important;v
 .s-glow .glow::after{background:radial-gradient(ellipse 78% 96% at 78% 112%,hsla(var(--glow-h2),var(--glow-sat),calc(var(--glow-light) + 12%),calc(var(--glow-color-int)*.9)) 0%,hsla(var(--glow-h2),var(--glow-sat),var(--glow-light),0) 90%)}
 .s-glow .glow-white{position:absolute;left:0;right:0;bottom:0;height:calc(var(--glow-spread)*1vh);z-index:0;pointer-events:none;mix-blend-mode:screen;background:linear-gradient(to top,hsla(var(--glow-h),22%,90%,var(--glow-white-int)) 0%,hsla(var(--glow-h),30%,80%,0) 84%)}
 .s-glow .chrome{position:absolute;top:5vh;left:6vw;right:6vw;z-index:1;display:flex;justify-content:space-between;font-family:'JetBrains Mono';font-size:var(--fs-xs);letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.4)}
-.s-glow .inner{position:relative;z-index:1;height:100%;display:grid;grid-template-columns:0.58fr 1.42fr;gap:4vw;align-items:center}  /* 设计点版式①（默认）左文右图：图占~60% */
+.s-glow .inner{position:relative;z-index:1;height:100%;display:grid;grid-template-columns:0.5fr 1.5fr;gap:2vw;align-items:center}  /* 设计点版式①（默认）左文右图：图占~65% */
 .kicker{font-family:'JetBrains Mono';font-size:var(--fs-xs);letter-spacing:.24em;text-transform:uppercase;color:hsl(var(--glow-h),var(--glow-sat),72%);margin-bottom:2.6vh;display:flex;align-items:center;gap:.8em}
 .kicker::before{content:"";width:28px;height:1px;background:currentColor;opacity:.7}
-.h-title{font-weight:700;font-size:min(4.2vw,7.2vh);line-height:1.15;letter-spacing:-.01em;margin-bottom:1.4vh;background:linear-gradient(100deg,hsl(var(--glow-h),var(--glow-sat),78%),hsl(var(--glow-h2),var(--glow-sat),72%));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.h-title{font-weight:700;font-size:min(3.5vw,6vh);line-height:1.15;letter-spacing:-.01em;margin-bottom:1.4vh;background:linear-gradient(100deg,hsl(var(--glow-h),var(--glow-sat),78%),hsl(var(--glow-h2),var(--glow-sat),72%));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 .h-title .light{font-weight:200}
 .body{font-weight:300;font-size:var(--fs-body);line-height:1.75;color:rgba(255,255,255,.62);max-width:40ch;margin-bottom:4vh}
+.body b{color:#fff;font-weight:600}  /* 正文主次：默认细体 + <b> 加粗提亮 */
 .points{display:flex;flex-direction:column;gap:2.2vh}
 .point{display:grid;grid-template-columns:auto 1fr;gap:1.2em;align-items:start}
 .point .dot{width:9px;height:9px;margin-top:.7em;border-radius:50%;background:hsl(var(--glow-h),var(--glow-sat),62%);box-shadow:0 0 12px 2px hsla(var(--glow-h),var(--glow-sat),60%,.7);flex-shrink:0}
@@ -482,7 +483,7 @@ body.overview #panel,body.overview #toggle{display:none!important}
         <div class="sh-l">
           <h1 class="h-title">设计点标题<span class="light"> · 副标用细体</span></h1>  <!-- 单行，别用 <br> -->
         </div>
-        <p class="body">一段说明这个设计点解决什么问题、带来什么价值。</p>
+        <p class="body">一段说明这个设计点<b>解决什么问题</b>、<b>带来什么价值</b>——默认细体、关键词 &lt;b&gt; 加粗提亮做主次。</p>
       </div>
       <div class="shot"><span class="ph">界面截图位 · 16:9</span></div>  <!-- 真图：<img src="shot.png">（16:9 不裁）-->
     </div>

@@ -752,12 +752,13 @@
 .s-glow .glow-white{position:absolute;left:0;right:0;bottom:0;height:calc(var(--glow-spread)*1vh);z-index:0;pointer-events:none;mix-blend-mode:screen;background:linear-gradient(to top,hsla(var(--glow-h),22%,90%,var(--glow-white-int)) 0%,hsla(var(--glow-h),30%,80%,0) 84%)}
 /* 顶部角标 */
 .s-glow .chrome{position:absolute;top:5vh;left:6vw;right:6vw;z-index:1;display:flex;justify-content:space-between;font-family:'JetBrains Mono';font-size:var(--fs-xs);letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.4)}
-/* 版式①（默认）左文右图双栏：文字窄、图宽（~60%），尽量给截图空间。再大要砍文字栏 → 改用版式② */
-.s-glow .inner{position:relative;z-index:1;height:100%;display:grid;grid-template-columns:0.58fr 1.42fr;gap:4vw;align-items:center}
+/* 版式①（默认）左文右图双栏：文字窄、图宽（~65%）。再大要砍文字栏/标题会折行 → 改用版式②
+   注：列推到 0.5fr 后文字栏窄，.h-title 同时压到 min(3.5vw,6vh) 才不折行（见下 .h-title）*/
+.s-glow .inner{position:relative;z-index:1;height:100%;display:grid;grid-template-columns:0.5fr 1.5fr;gap:2vw;align-items:center}
 /* kicker 小标签 + 渐变标题 + 正文 */
 .kicker{font-family:'JetBrains Mono';font-size:var(--fs-xs);letter-spacing:.24em;text-transform:uppercase;color:hsl(var(--glow-h),var(--glow-sat),72%);margin-bottom:2.4vh;display:flex;align-items:center;gap:.8em}
 .kicker::before{content:"";width:28px;height:1px;background:currentColor;opacity:.7}
-.h-title{font-weight:700;font-size:min(3.7vw,6.4vh);line-height:1.2;letter-spacing:-.01em;margin-bottom:1.4vh;background:linear-gradient(100deg,hsl(var(--glow-h),var(--glow-sat),80%),hsl(var(--glow-h2),var(--glow-sat),74%));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.h-title{font-weight:700;font-size:min(3.5vw,6vh);line-height:1.2;letter-spacing:-.01em;margin-bottom:1.4vh;background:linear-gradient(100deg,hsl(var(--glow-h),var(--glow-sat),80%),hsl(var(--glow-h2),var(--glow-sat),74%));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 .h-title .light{font-weight:200}
 .body{font-weight:300;font-size:var(--fs-body);line-height:1.75;color:rgba(255,255,255,.64);max-width:42ch;margin-bottom:3vh}
 .body b{color:#fff;font-weight:600}
@@ -786,10 +787,11 @@
 
 | 版式 | 结构 | 图尺寸 | 适用 |
 |---|---|---|---|
-| **① 左文右图**（默认） | `.inner`（`0.58fr 1.42fr`）：左 kicker+title+body+**3 要点** / 右 16:9 框 | ~60% 宽 | 文字要点多、想保持经典左右构图 |
+| **① 左文右图**（默认） | `.inner`（`0.5fr 1.5fr`）：左 kicker+title+body+**3 要点** / 右 16:9 框 | ~65% 宽 | 文字要点多、想保持经典左右构图 |
 | **② 上下堆叠 hero**（大图型） | `.inner.stack`：上 title+body 一条（**无 kicker、无要点**）/ 下 16:9 大图填高居中 | ~75-78% 宽 | 让截图当主角、放大展示；不需要逐条要点 |
 
-> 两种都用真 **16:9** 框（匹配 1920×1080，不裁图）。**几何现实**：16:9 横图旁边/上面只要还有文字，图就有上限——并排 ~60%、堆叠 ~75%。想更大只能再砍文字（堆叠已砍到只剩标题+正文）。**别为了放大去把框拉成宽幅裁图**（之前踩过：框 2.2:1 把 16:9 源上下裁掉，被否）。
+> 两种都用真 **16:9** 框（匹配 1920×1080，不裁图）。**几何现实**：16:9 横图旁边/上面只要还有文字，图就有上限——并排 ~65%（已把列推到 0.5fr + 标题压到 min(3.5vw,6vh) 防折行）、堆叠 ~75-78%。想更大只能再砍文字。**别为了放大去把框拉成宽幅裁图**（之前踩过：框 2.2:1 把 16:9 源上下裁掉，被否）。
+> **正文主次**：`.body` 默认细体（300，`.62` 白），关键词用 `<b>` 加粗提亮（`.body b{color:#fff;font-weight:600}`）——两种版式通用。
 > 版式② **不放 kicker**：左上角 `.chrome` 已有"设计点 X.X · NAME"，再放 `DESIGN POINT X.X` 重复。
 
 ### HTML 骨架 · 版式①（左文右图，默认）
