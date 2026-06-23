@@ -213,15 +213,12 @@ body.overview.fade-mode .slide{position:relative!important;opacity:1!important;v
 .shot{position:relative;border-radius:14px;overflow:hidden;aspect-ratio:16/9;background:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.12);box-shadow:0 30px 80px -20px hsla(var(--glow-h),var(--glow-sat),30%,.5);display:flex;align-items:center;justify-content:center}  /* 16:9 匹配 1920×1080 截图 */
 .shot .ph{font-family:'JetBrains Mono';font-size:var(--fs-xs);letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.3)}
 .shot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
-/* 设计点版式② 上下堆叠 hero：文字压顶一条 + 16:9 大图铺满下方（图~88% 宽）*/
-.s-glow .inner.stack{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr);gap:2.8vh;align-items:stretch}
+/* 设计点版式② 上下堆叠 hero（大图型）：title+body 薄薄一条（无 kicker/无要点）+ 16:9 大图填高居中（~75-78%）*/
+.s-glow .inner.stack{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr);gap:2.6vh;align-items:stretch}
 .inner.stack .stack-head{display:grid;grid-template-columns:1.35fr 1fr;gap:3.4vw;align-items:end}
-.inner.stack .stack-head .kicker{margin-bottom:1.4vh}
 .inner.stack .stack-head .h-title{margin-bottom:0;font-size:min(2.9vw,4.6vh);line-height:1.2}
 .inner.stack .stack-head .body{margin:0;max-width:46ch;padding-bottom:.4vh}
-.inner.stack .stack-head .points{flex-direction:row;gap:1.8vw;margin-top:1.4vh;grid-column:1 / -1}
-.inner.stack .stack-head .point{flex:1}
-.inner.stack .shot{aspect-ratio:auto;width:100%;height:100%}
+.inner.stack .shot{aspect-ratio:16/9;height:100%;width:auto;max-width:100%;margin:0 auto}  /* 真 16:9、按高填满、居中、不裁 */
 .chapter-cover .inner{grid-template-columns:1fr;align-content:center}
 .cover-block{max-width:62vw}
 .ch-no{font-family:'Inter';font-weight:200;font-size:min(11vw,17vh);line-height:.9;letter-spacing:-.04em;opacity:.45;background:linear-gradient(120deg,hsl(var(--glow-h),var(--glow-sat),82%),hsl(var(--glow-h2),var(--glow-sat),70%));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:1vh}
@@ -476,24 +473,18 @@ body.overview #panel,body.overview #toggle{display:none!important}
     </div>
   </section>
 
-  <!-- ⑧ 黑底：设计点页 · 版式②（上下堆叠 hero，图当主角 ~88% 宽）-->
+  <!-- ⑧ 黑底：设计点页 · 版式②（上下堆叠 hero，大图型 ~75-78% 宽）⛔ 无 kicker、无要点 -->
   <section class="slide s-glow" data-chapter="1">
     <div class="glow-white"></div><div class="glow"></div>
     <div class="chrome"><div>设计点 1.2 · DESIGN POINT</div><div>第一章</div></div>
     <div class="inner stack">
       <div class="stack-head">
         <div class="sh-l">
-          <div class="kicker">DESIGN POINT 1.2</div>
           <h1 class="h-title">设计点标题<span class="light"> · 副标用细体</span></h1>  <!-- 单行，别用 <br> -->
         </div>
         <p class="body">一段说明这个设计点解决什么问题、带来什么价值。</p>
-        <div class="points">
-          <div class="point"><div class="dot"></div><div><div class="pt-title">要点标题</div><div class="pt-desc">短描述</div></div></div>
-          <div class="point"><div class="dot"></div><div><div class="pt-title">要点标题</div><div class="pt-desc">短描述</div></div></div>
-          <div class="point"><div class="dot"></div><div><div class="pt-title">要点标题</div><div class="pt-desc">短描述</div></div></div>
-        </div>
       </div>
-      <div class="shot"><span class="ph">界面截图位 · 16:9（堆叠版会按宽幅居中裁）</span></div>
+      <div class="shot"><span class="ph">界面截图位 · 16:9</span></div>  <!-- 真图：<img src="shot.png">（16:9 不裁）-->
     </div>
   </section>
 

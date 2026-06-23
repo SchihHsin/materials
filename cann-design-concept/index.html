@@ -1082,15 +1082,14 @@ html,body{width:100%;height:100%;overflow:hidden;background:#06060a;color:#fff;f
 .shot::after{content:"";position:absolute;inset:0;
   background:radial-gradient(circle at 70% 90%, hsla(var(--glow-h2),var(--glow-sat),50%,.18), transparent 60%)}
 
-/* ===== 设计点版式② 上下堆叠 hero：文字压顶一条 + 16:9 大图铺满下方 ===== */
-.slide.s-glow .inner.stack{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr);gap:2.8vh;align-items:stretch}
+/* ===== 设计点版式② 上下堆叠 hero（大图型）：文字压顶一条 + 16:9 大图填高居中（~75%）
+   为把 16:9 图放到最大，头部只留 kicker+标题+正文一条、不放 3 要点（要点多请用版式①）===== */
+.slide.s-glow .inner.stack{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr);gap:2.6vh;align-items:stretch}
 .inner.stack .stack-head{display:grid;grid-template-columns:1.35fr 1fr;gap:3.4vw;align-items:end}
 .inner.stack .stack-head .kicker{margin-bottom:1.4vh}
 .inner.stack .stack-head .h-title{margin-bottom:0;font-size:min(2.9vw,4.6vh);line-height:1.2}
 .inner.stack .stack-head .body{margin:0;max-width:46ch;padding-bottom:.4vh}
-.inner.stack .stack-head .points{flex-direction:row;gap:1.8vw;margin-top:1.4vh;grid-column:1 / -1}
-.inner.stack .stack-head .point{flex:1}
-.inner.stack .shot{aspect-ratio:auto;width:100%;height:100%}  /* 填满下方整行；真图 object-fit:cover（16:9 源会按宽幅居中裁切）*/
+.inner.stack .shot{aspect-ratio:16/9;height:100%;width:auto;max-width:100%;margin:0 auto}  /* 真 16:9、按高度填满、水平居中（不裁图）*/
 
 /* 角标 */
 .chrome{position:absolute;top:5vh;left:6vw;right:6vw;z-index:1;display:flex;justify-content:space-between;
@@ -2734,15 +2733,9 @@ body.overview #panel,body.overview #toggle{display:none!important}
     <div class="inner stack">
       <div class="stack-head">
         <div class="sh-l">
-          <div class="kicker">DESIGN POINT 2.1</div>
           <h1 class="h-title">算子开发向导<span class="light"> · 模板化 + 可视化调试</span></h1>
         </div>
         <p class="body">从空白文件到可运行算子，向导式引导每一步；模板代码自动生成，调试器可视化中间张量，降低 TBE 开发门槛。</p>
-        <div class="points">
-          <div class="point"><div class="dot"></div><div><div class="pt-title">模板代码生成</div><div class="pt-desc">按算子类型生成骨架，省去样板代码</div></div></div>
-          <div class="point"><div class="dot"></div><div><div class="pt-title">可视化调试器</div><div class="pt-desc">逐步查看中间张量与 tiling</div></div></div>
-          <div class="point"><div class="dot"></div><div><div class="pt-title">硬件映射可视化</div><div class="pt-desc">算子到 AI Core 映射一目了然</div></div></div>
-        </div>
       </div>
       <div class="shot"><span class="ph">算子开发向导界面 · 16:9</span></div>
     </div>

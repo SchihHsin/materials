@@ -773,27 +773,24 @@
 .shot .ph{font-family:'JetBrains Mono';font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.3)}
 .shot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}  /* 真图：16:9 框 + 16:9 源严丝合缝 */
 
-/* ===== 版式② 上下堆叠 hero：文字压顶一条 + 16:9 大图铺满下方（图占 ~88% 宽，比并排大得多）===== */
-.s-glow .inner.stack{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr);gap:2.8vh;align-items:stretch}
-.inner.stack .stack-head{display:grid;grid-template-columns:1.35fr 1fr;gap:3.4vw;align-items:end}  /* 左:kicker+title | 右:body | 下:points 通栏 */
-.inner.stack .stack-head .kicker{margin-bottom:1.4vh}
+/* ===== 版式② 上下堆叠 hero（大图型）：文字压顶薄薄一条 + 16:9 大图填高居中（~75-78% 宽）=====
+   头部只留 title + body 一行（⛔ 不放 kicker：和左上角 .chrome 的"设计点 X.X"重复；⛔ 不放 3 要点：要给图让高度）。要点多请用版式① */
+.s-glow .inner.stack{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr);gap:2.6vh;align-items:stretch}
+.inner.stack .stack-head{display:grid;grid-template-columns:1.35fr 1fr;gap:3.4vw;align-items:end}  /* 左:title | 右:body */
 .inner.stack .stack-head .h-title{margin-bottom:0;font-size:min(2.9vw,4.6vh);line-height:1.2}     /* 标题压小、单行 */
 .inner.stack .stack-head .body{margin:0;max-width:46ch;padding-bottom:.4vh}
-.inner.stack .stack-head .points{flex-direction:row;gap:1.8vw;margin-top:1.4vh;grid-column:1 / -1} /* 3 要点排成一行 */
-.inner.stack .stack-head .point{flex:1}
-.inner.stack .shot{aspect-ratio:auto;width:100%;height:100%}  /* 填满下方整行；真图 object-fit:cover 会按宽幅居中裁 16:9 源 */
+.inner.stack .shot{aspect-ratio:16/9;height:100%;width:auto;max-width:100%;margin:0 auto}  /* 真 16:9、按高度填满、水平居中（不裁图）*/
 ```
 
 ### 两种版式怎么选（设计点页二选一）
 
 | 版式 | 结构 | 图尺寸 | 适用 |
 |---|---|---|---|
-| **① 左文右图**（默认） | `.inner`（`0.58fr 1.42fr`）：左 kicker+title+body+points / 右 16:9 框 | ~60% 宽 | 文字要点多、图是一张完整界面截图、想保持经典左右构图 |
-| **② 上下堆叠 hero** | `.inner.stack`：上 `.stack-head`（文字压成一条）/ 下 16:9 大图 | ~88% 宽 | 想让截图当主角、放大展示；要点可精简（标题为主、描述短） |
+| **① 左文右图**（默认） | `.inner`（`0.58fr 1.42fr`）：左 kicker+title+body+**3 要点** / 右 16:9 框 | ~60% 宽 | 文字要点多、想保持经典左右构图 |
+| **② 上下堆叠 hero**（大图型） | `.inner.stack`：上 title+body 一条（**无 kicker、无要点**）/ 下 16:9 大图填高居中 | ~75-78% 宽 | 让截图当主角、放大展示；不需要逐条要点 |
 
-> 想让①的图更大就只能压缩左侧文字栏（标题会折行）——并排布局的图上限就在 ~60%；要更大请直接用版式②。
-
-> ⚠️ 两种都用 **16:9** 框（匹配 1920×1080 截图）。版式② 的 `.shot` 不锁比例、`object-fit:cover` 会按宽幅**居中裁** 16:9 源（上下各裁掉一点）——能接受才用②；要完整展示整张界面用①。
+> 两种都用真 **16:9** 框（匹配 1920×1080，不裁图）。**几何现实**：16:9 横图旁边/上面只要还有文字，图就有上限——并排 ~60%、堆叠 ~75%。想更大只能再砍文字（堆叠已砍到只剩标题+正文）。**别为了放大去把框拉成宽幅裁图**（之前踩过：框 2.2:1 把 16:9 源上下裁掉，被否）。
+> 版式② **不放 kicker**：左上角 `.chrome` 已有"设计点 X.X · NAME"，再放 `DESIGN POINT X.X` 重复。
 
 ### HTML 骨架 · 版式①（左文右图，默认）
 
@@ -822,19 +819,13 @@
 
 ```html
 <div class="inner stack">
-  <div class="stack-head">
+  <div class="stack-head">  <!-- ⛔ 无 kicker（chrome 已写设计点号）、⛔ 无 points（给图让高度）-->
     <div class="sh-l">
-      <div class="kicker">DESIGN POINT 2.1</div>
       <h1 class="h-title">算子开发向导<span class="light"> · 模板化 + 可视化调试</span></h1>  <!-- 单行，别用 <br> -->
     </div>
     <p class="body">从空白文件到可运行算子，向导式引导每一步；模板代码自动生成，调试器可视化中间张量。</p>
-    <div class="points">
-      <div class="point"><div class="dot"></div><div><div class="pt-title">模板代码生成</div><div class="pt-desc">按算子类型生成骨架</div></div></div>
-      <div class="point"><div class="dot"></div><div><div class="pt-title">可视化调试器</div><div class="pt-desc">逐步查看中间张量</div></div></div>
-      <div class="point"><div class="dot"></div><div><div class="pt-title">硬件映射可视化</div><div class="pt-desc">算子到 AI Core 映射</div></div></div>
-    </div>
   </div>
-  <div class="shot"><span class="ph">算子开发向导界面 · 16:9</span></div>  <!-- 真图：<img src="shot.png">，会按宽幅居中裁 -->
+  <div class="shot"><span class="ph">算子开发向导界面 · 16:9</span></div>  <!-- 真图：<img src="shot.png">（16:9 不裁） -->
 </div>
 ```
 
