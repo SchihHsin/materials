@@ -56,7 +56,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#06060a;color:#fff;f
     hsla(var(--glow-h),30%,80%,0) 84%);
 }
 
-.slide .inner{position:relative;z-index:1;height:100%;display:grid;grid-template-columns:1fr 1fr;gap:4vw;align-items:center}
+.slide .inner{position:relative;z-index:1;height:100%;display:grid;grid-template-columns:0.58fr 1.42fr;gap:4vw;align-items:center}
 
 /* 左列文字 */
 .kicker{font-family:'JetBrains Mono';font-size:13px;letter-spacing:.24em;text-transform:uppercase;
@@ -82,15 +82,26 @@ html,body{width:100%;height:100%;overflow:hidden;background:#06060a;color:#fff;f
 .point .pt-title{font-family:'Inter','Noto Sans SC';font-weight:500;font-size:max(16px,1.15vw);color:#fff;margin-bottom:.4vh}
 .point .pt-desc{font-family:'Inter','Noto Sans SC';font-weight:300;font-size:max(14px,.92vw);line-height:1.6;color:rgba(255,255,255,.5)}
 
-/* 右列大图占位（玻璃拟态边框）*/
-.shot{position:relative;border-radius:14px;overflow:hidden;aspect-ratio:16/10;
+/* 右列大图占位（玻璃拟态边框）· 16:9 匹配 1920×1080 截图 */
+.shot{position:relative;border-radius:14px;overflow:hidden;aspect-ratio:16/9;
   background:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.02));
   border:1px solid rgba(255,255,255,.12);
   box-shadow:0 30px 80px -20px hsla(var(--glow-h),var(--glow-sat),30%,.5);
   display:flex;align-items:center;justify-content:center}
 .shot .ph{font-family:'JetBrains Mono';font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.3)}
+.shot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}  /* 真图：16:9 框 + 16:9 源严丝合缝 */
 .shot::after{content:"";position:absolute;inset:0;
   background:radial-gradient(circle at 70% 90%, hsla(var(--glow-h2),var(--glow-sat),50%,.18), transparent 60%)}
+
+/* ===== 设计点版式② 上下堆叠 hero：文字压顶一条 + 16:9 大图铺满下方 ===== */
+.slide .inner.stack{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr);gap:2.8vh;align-items:stretch}
+.inner.stack .stack-head{display:grid;grid-template-columns:1.35fr 1fr;gap:3.4vw;align-items:end}
+.inner.stack .stack-head .kicker{margin-bottom:1.4vh}
+.inner.stack .stack-head .h-title{margin-bottom:0;font-size:min(2.9vw,4.6vh);line-height:1.2}
+.inner.stack .stack-head .body{margin:0;max-width:46ch;padding-bottom:.4vh}
+.inner.stack .stack-head .points{flex-direction:row;gap:1.8vw;margin-top:1.4vh;grid-column:1 / -1}
+.inner.stack .stack-head .point{flex:1}
+.inner.stack .shot{aspect-ratio:auto;width:100%;height:100%}  /* 填满下方整行；真图 object-fit:cover（16:9 源会按宽幅居中裁切）*/
 
 /* 角标 */
 .chrome{position:absolute;top:5vh;left:6vw;right:6vw;z-index:1;display:flex;justify-content:space-between;
@@ -207,7 +218,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#06060a;color:#fff;f
           <div class="point"><div class="dot"></div><div><div class="pt-title">精度与控制逻辑定位</div><div class="pt-desc">精度异常快速对应到具体算子节点</div></div></div>
         </div>
       </div>
-      <div class="shot"><span class="ph">控制流可视化界面 · 16:10</span></div>
+      <div class="shot"><span class="ph">控制流可视化界面 · 16:9</span></div>
     </div>
   </section>
 
@@ -226,7 +237,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#06060a;color:#fff;f
           <div class="point"><div class="dot"></div><div><div class="pt-title">修复建议自动生成</div><div class="pt-desc">常见错误给出可直接套用的修改方案</div></div></div>
         </div>
       </div>
-      <div class="shot"><span class="ph">错误诊断面板 · 16:10</span></div>
+      <div class="shot"><span class="ph">错误诊断面板 · 16:9</span></div>
     </div>
   </section>
   <!-- ===== 第二章 · 封面 ===== -->
@@ -246,18 +257,21 @@ html,body{width:100%;height:100%;overflow:hidden;background:#06060a;color:#fff;f
   <section class="slide" data-chapter="2">
     <div class="glow-top"></div><div class="glow"></div><div class="glow-white"></div>
     <div class="chrome"><div>设计点 2.1 · OPERATOR WIZARD</div><div>第二章 · 开发提效</div></div>
-    <div class="inner">
-      <div>
-        <div class="kicker">DESIGN POINT 2.1</div>
-        <h1 class="h-title">算子开发向导<br/><span class="light">模板化 + 可视化调试</span></h1>
+    <!-- 版式② 上下堆叠 hero：.inner.stack + .stack-head（文字压顶）+ 下方 16:9 大图 -->
+    <div class="inner stack">
+      <div class="stack-head">
+        <div class="sh-l">
+          <div class="kicker">DESIGN POINT 2.1</div>
+          <h1 class="h-title">算子开发向导<span class="light"> · 模板化 + 可视化调试</span></h1>
+        </div>
         <p class="body">从空白文件到可运行算子，向导式引导每一步；模板代码自动生成，调试器可视化中间张量，降低 TBE 开发门槛。</p>
         <div class="points">
           <div class="point"><div class="dot"></div><div><div class="pt-title">模板代码生成</div><div class="pt-desc">按算子类型生成骨架，省去样板代码</div></div></div>
-          <div class="point"><div class="dot"></div><div><div class="pt-title">可视化调试器</div><div class="pt-desc">逐步查看中间张量与 tiling，定位精度 / 性能问题</div></div></div>
-          <div class="point"><div class="dot"></div><div><div class="pt-title">硬件映射可视化</div><div class="pt-desc">算子到 AI Core 的映射关系一目了然</div></div></div>
+          <div class="point"><div class="dot"></div><div><div class="pt-title">可视化调试器</div><div class="pt-desc">逐步查看中间张量与 tiling</div></div></div>
+          <div class="point"><div class="dot"></div><div><div class="pt-title">硬件映射可视化</div><div class="pt-desc">算子到 AI Core 映射一目了然</div></div></div>
         </div>
       </div>
-      <div class="shot"><span class="ph">算子开发向导界面 · 16:10</span></div>
+      <div class="shot"><span class="ph">算子开发向导界面 · 16:9</span></div>
     </div>
   </section>
 
@@ -276,7 +290,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#06060a;color:#fff;f
           <div class="point"><div class="dot"></div><div><div class="pt-title">渐进式学习路径</div><div class="pt-desc">按阶段推荐下一步，新手也有清晰主线</div></div></div>
         </div>
       </div>
-      <div class="shot"><span class="ph">成长地图 / 交互文档 · 16:10</span></div>
+      <div class="shot"><span class="ph">成长地图 / 交互文档 · 16:9</span></div>
     </div>
   </section>
 </div>

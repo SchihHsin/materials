@@ -752,8 +752,8 @@
 .s-glow .glow-white{position:absolute;left:0;right:0;bottom:0;height:calc(var(--glow-spread)*1vh);z-index:0;pointer-events:none;mix-blend-mode:screen;background:linear-gradient(to top,hsla(var(--glow-h),22%,90%,var(--glow-white-int)) 0%,hsla(var(--glow-h),30%,80%,0) 84%)}
 /* 顶部角标 */
 .s-glow .chrome{position:absolute;top:5vh;left:6vw;right:6vw;z-index:1;display:flex;justify-content:space-between;font-family:'JetBrains Mono';font-size:var(--fs-xs);letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.4)}
-/* 左文右图双栏 */
-.s-glow .inner{position:relative;z-index:1;height:100%;display:grid;grid-template-columns:1fr 1fr;gap:4vw;align-items:center}
+/* 版式①（默认）左文右图双栏：文字窄、图宽（~60%），尽量给截图空间。再大要砍文字栏 → 改用版式② */
+.s-glow .inner{position:relative;z-index:1;height:100%;display:grid;grid-template-columns:0.58fr 1.42fr;gap:4vw;align-items:center}
 /* kicker 小标签 + 渐变标题 + 正文 */
 .kicker{font-family:'JetBrains Mono';font-size:var(--fs-xs);letter-spacing:.24em;text-transform:uppercase;color:hsl(var(--glow-h),var(--glow-sat),72%);margin-bottom:2.4vh;display:flex;align-items:center;gap:.8em}
 .kicker::before{content:"";width:28px;height:1px;background:currentColor;opacity:.7}
@@ -768,12 +768,34 @@
 .point .pt-title{font-weight:500;font-size:var(--fs-h3);color:#fff;margin-bottom:.3vh}
 .point .pt-desc{font-weight:300;font-size:var(--fs-sm);line-height:1.55;color:rgba(255,255,255,.52)}
 .point .pt-desc b{color:hsl(var(--glow-h),var(--glow-sat),74%);font-weight:600}
-/* 右图位占位 */
-.shot{position:relative;border-radius:14px;overflow:hidden;aspect-ratio:16/10;background:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.12);box-shadow:0 30px 80px -20px hsla(var(--glow-h),var(--glow-sat),30%,.5);display:flex;align-items:center;justify-content:center}
+/* 右图位占位 · 16:9 匹配 1920×1080 截图（别用 16:10，会裁图）*/
+.shot{position:relative;border-radius:14px;overflow:hidden;aspect-ratio:16/9;background:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.12);box-shadow:0 30px 80px -20px hsla(var(--glow-h),var(--glow-sat),30%,.5);display:flex;align-items:center;justify-content:center}
 .shot .ph{font-family:'JetBrains Mono';font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.3)}
+.shot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}  /* 真图：16:9 框 + 16:9 源严丝合缝 */
+
+/* ===== 版式② 上下堆叠 hero：文字压顶一条 + 16:9 大图铺满下方（图占 ~88% 宽，比并排大得多）===== */
+.s-glow .inner.stack{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr);gap:2.8vh;align-items:stretch}
+.inner.stack .stack-head{display:grid;grid-template-columns:1.35fr 1fr;gap:3.4vw;align-items:end}  /* 左:kicker+title | 右:body | 下:points 通栏 */
+.inner.stack .stack-head .kicker{margin-bottom:1.4vh}
+.inner.stack .stack-head .h-title{margin-bottom:0;font-size:min(2.9vw,4.6vh);line-height:1.2}     /* 标题压小、单行 */
+.inner.stack .stack-head .body{margin:0;max-width:46ch;padding-bottom:.4vh}
+.inner.stack .stack-head .points{flex-direction:row;gap:1.8vw;margin-top:1.4vh;grid-column:1 / -1} /* 3 要点排成一行 */
+.inner.stack .stack-head .point{flex:1}
+.inner.stack .shot{aspect-ratio:auto;width:100%;height:100%}  /* 填满下方整行；真图 object-fit:cover 会按宽幅居中裁 16:9 源 */
 ```
 
-### HTML 骨架（即样板设计点页，已填真实内容）
+### 两种版式怎么选（设计点页二选一）
+
+| 版式 | 结构 | 图尺寸 | 适用 |
+|---|---|---|---|
+| **① 左文右图**（默认） | `.inner`（`0.58fr 1.42fr`）：左 kicker+title+body+points / 右 16:9 框 | ~60% 宽 | 文字要点多、图是一张完整界面截图、想保持经典左右构图 |
+| **② 上下堆叠 hero** | `.inner.stack`：上 `.stack-head`（文字压成一条）/ 下 16:9 大图 | ~88% 宽 | 想让截图当主角、放大展示；要点可精简（标题为主、描述短） |
+
+> 想让①的图更大就只能压缩左侧文字栏（标题会折行）——并排布局的图上限就在 ~60%；要更大请直接用版式②。
+
+> ⚠️ 两种都用 **16:9** 框（匹配 1920×1080 截图）。版式② 的 `.shot` 不锁比例、`object-fit:cover` 会按宽幅**居中裁** 16:9 源（上下各裁掉一点）——能接受才用②；要完整展示整张界面用①。
+
+### HTML 骨架 · 版式①（左文右图，默认）
 
 ```html
 <section class="slide s-glow" data-chapter="1"
@@ -791,16 +813,36 @@
         <div class="point"><div class="dot"></div><div><div class="pt-title">精度逻辑定位</div><div class="pt-desc">精度异常快速对应到具体算子节点</div></div></div>
       </div>
     </div>
-    <div class="shot"><span class="ph">控制流可视化界面 · 16:10</span></div>
+    <div class="shot"><span class="ph">控制流可视化界面 · 16:9</span></div>  <!-- 真图：<img src="shot.png"> -->
   </div>
 </section>
+```
+
+### HTML 骨架 · 版式②（上下堆叠 hero）
+
+```html
+<div class="inner stack">
+  <div class="stack-head">
+    <div class="sh-l">
+      <div class="kicker">DESIGN POINT 2.1</div>
+      <h1 class="h-title">算子开发向导<span class="light"> · 模板化 + 可视化调试</span></h1>  <!-- 单行，别用 <br> -->
+    </div>
+    <p class="body">从空白文件到可运行算子，向导式引导每一步；模板代码自动生成，调试器可视化中间张量。</p>
+    <div class="points">
+      <div class="point"><div class="dot"></div><div><div class="pt-title">模板代码生成</div><div class="pt-desc">按算子类型生成骨架</div></div></div>
+      <div class="point"><div class="dot"></div><div><div class="pt-title">可视化调试器</div><div class="pt-desc">逐步查看中间张量</div></div></div>
+      <div class="point"><div class="dot"></div><div><div class="pt-title">硬件映射可视化</div><div class="pt-desc">算子到 AI Core 映射</div></div></div>
+    </div>
+  </div>
+  <div class="shot"><span class="ph">算子开发向导界面 · 16:9</span></div>  <!-- 真图：<img src="shot.png">，会按宽幅居中裁 -->
+</div>
 ```
 
 ### 要点
 
 - **三层光晕**：`.glow`（双色径向，`--glow-h`/`--glow-h2`）+ `.glow-white`（底部白雾），高度由 `--glow-spread` 控制；`.glow-top` 为可选顶部叠层。
-- **标题用 `.h-title`**，`<span class="light">` 包的部分变细体（200）形成主次。
-- **图位用 `.shot` + `.ph` 占位文字**；有真截图就把 `<span class="ph">` 换成 `<img>`。
+- **标题用 `.h-title`**，`<span class="light">` 包的部分变细体（200）形成主次。版式② 标题压小、走单行（别用 `<br>`，否则折行难看）。
+- **图位用 `.shot` + `.ph` 占位文字**；有真截图把 `<span class="ph">` 换成 `<img>`，框是 16:9、源是 1920×1080 正好吻合。
 - **一章一色**：章节封面页（`chapter-cover`）挂调色面板，同章其他页 `data-chapter="N"` + 相同 `--glow-*` inline 变量继承。
 - `cann-dark-logo.svg` = 白色版 logo，专用于深色底；别用深色 logo。
 

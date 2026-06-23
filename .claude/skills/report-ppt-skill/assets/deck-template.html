@@ -49,6 +49,15 @@ body.overview .s-gray .slide-inner{display:flex;flex-direction:column;padding:5v
 body.overview .s-glow .slide-inner{padding:7vh 6vw}
 body.overview .s-cover .slide-inner{padding:0}
 
+/* ===== 翻页过渡 · fade 模式（TRANSITION='fade' 或 ?t=fade 时 JS 给 body 加 .fade-mode）=====
+   默认走纵向 scroll-snap（slide 模式）；fade 模式把所有页叠在同一位置、只让 .active 淡入 */
+body.fade-mode{overflow:hidden;scroll-snap-type:none}
+body.fade-mode #deck{position:fixed;inset:0;width:100vw}
+body.fade-mode .slide{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity .5s ease,visibility .5s;scroll-snap-align:none;scroll-snap-stop:normal}
+body.fade-mode .slide.active{opacity:1;visibility:visible;z-index:1}
+body.overview.fade-mode #deck{position:static}
+body.overview.fade-mode .slide{position:relative!important;opacity:1!important;visibility:visible!important}
+
 /* ============ 基调②：灰底分析篇 ============ */
 .s-gray{color:var(--ink);padding:5vh 4vw;display:flex;flex-direction:column;background:var(--paper);
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 480' preserveAspectRatio='none'%3E%3Cpath d='M0 320 C 380 250 760 330 1080 195 C 1280 140 1380 185 1440 130 L1440 480 L0 480 Z' fill='%237e8696' fill-opacity='0.07'/%3E%3Cpath d='M0 372 C 430 305 820 405 1180 245 C 1340 198 1402 240 1440 190 L1440 480 L0 480 Z' fill='%23949bab' fill-opacity='0.08'/%3E%3C/svg%3E"),linear-gradient(125deg,rgba(120,128,145,.05),transparent 50%);
@@ -190,7 +199,7 @@ body.overview .s-cover .slide-inner{padding:0}
 .s-glow .glow::after{background:radial-gradient(ellipse 78% 96% at 78% 112%,hsla(var(--glow-h2),var(--glow-sat),calc(var(--glow-light) + 12%),calc(var(--glow-color-int)*.9)) 0%,hsla(var(--glow-h2),var(--glow-sat),var(--glow-light),0) 90%)}
 .s-glow .glow-white{position:absolute;left:0;right:0;bottom:0;height:calc(var(--glow-spread)*1vh);z-index:0;pointer-events:none;mix-blend-mode:screen;background:linear-gradient(to top,hsla(var(--glow-h),22%,90%,var(--glow-white-int)) 0%,hsla(var(--glow-h),30%,80%,0) 84%)}
 .s-glow .chrome{position:absolute;top:5vh;left:6vw;right:6vw;z-index:1;display:flex;justify-content:space-between;font-family:'JetBrains Mono';font-size:var(--fs-xs);letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.4)}
-.s-glow .inner{position:relative;z-index:1;height:100%;display:grid;grid-template-columns:1fr 1fr;gap:4vw;align-items:center}
+.s-glow .inner{position:relative;z-index:1;height:100%;display:grid;grid-template-columns:0.58fr 1.42fr;gap:4vw;align-items:center}  /* 设计点版式①（默认）左文右图：图占~60% */
 .kicker{font-family:'JetBrains Mono';font-size:var(--fs-xs);letter-spacing:.24em;text-transform:uppercase;color:hsl(var(--glow-h),var(--glow-sat),72%);margin-bottom:2.6vh;display:flex;align-items:center;gap:.8em}
 .kicker::before{content:"";width:28px;height:1px;background:currentColor;opacity:.7}
 .h-title{font-weight:700;font-size:min(4.2vw,7.2vh);line-height:1.15;letter-spacing:-.01em;margin-bottom:1.4vh;background:linear-gradient(100deg,hsl(var(--glow-h),var(--glow-sat),78%),hsl(var(--glow-h2),var(--glow-sat),72%));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
@@ -201,8 +210,18 @@ body.overview .s-cover .slide-inner{padding:0}
 .point .dot{width:9px;height:9px;margin-top:.7em;border-radius:50%;background:hsl(var(--glow-h),var(--glow-sat),62%);box-shadow:0 0 12px 2px hsla(var(--glow-h),var(--glow-sat),60%,.7);flex-shrink:0}
 .point .pt-title{font-weight:500;font-size:var(--fs-h3);color:#fff;margin-bottom:.4vh}
 .point .pt-desc{font-weight:300;font-size:var(--fs-sm);line-height:1.6;color:rgba(255,255,255,.5)}
-.shot{position:relative;border-radius:14px;overflow:hidden;aspect-ratio:16/10;background:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.12);box-shadow:0 30px 80px -20px hsla(var(--glow-h),var(--glow-sat),30%,.5);display:flex;align-items:center;justify-content:center}
+.shot{position:relative;border-radius:14px;overflow:hidden;aspect-ratio:16/9;background:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.12);box-shadow:0 30px 80px -20px hsla(var(--glow-h),var(--glow-sat),30%,.5);display:flex;align-items:center;justify-content:center}  /* 16:9 匹配 1920×1080 截图 */
 .shot .ph{font-family:'JetBrains Mono';font-size:var(--fs-xs);letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.3)}
+.shot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+/* 设计点版式② 上下堆叠 hero：文字压顶一条 + 16:9 大图铺满下方（图~88% 宽）*/
+.s-glow .inner.stack{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr);gap:2.8vh;align-items:stretch}
+.inner.stack .stack-head{display:grid;grid-template-columns:1.35fr 1fr;gap:3.4vw;align-items:end}
+.inner.stack .stack-head .kicker{margin-bottom:1.4vh}
+.inner.stack .stack-head .h-title{margin-bottom:0;font-size:min(2.9vw,4.6vh);line-height:1.2}
+.inner.stack .stack-head .body{margin:0;max-width:46ch;padding-bottom:.4vh}
+.inner.stack .stack-head .points{flex-direction:row;gap:1.8vw;margin-top:1.4vh;grid-column:1 / -1}
+.inner.stack .stack-head .point{flex:1}
+.inner.stack .shot{aspect-ratio:auto;width:100%;height:100%}
 .chapter-cover .inner{grid-template-columns:1fr;align-content:center}
 .cover-block{max-width:62vw}
 .ch-no{font-family:'Inter';font-weight:200;font-size:min(11vw,17vh);line-height:.9;letter-spacing:-.04em;opacity:.45;background:linear-gradient(120deg,hsl(var(--glow-h),var(--glow-sat),82%),hsl(var(--glow-h2),var(--glow-sat),70%));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:1vh}
@@ -438,7 +457,7 @@ body.overview #panel,body.overview #toggle{display:none!important}
     </div>
   </section>
 
-  <!-- ⑦ 黑底：设计点页（左文右图位）-->
+  <!-- ⑦ 黑底：设计点页 · 版式①（左文右图位，默认）-->
   <section class="slide s-glow" data-chapter="1">
     <div class="glow-white"></div><div class="glow"></div>
     <div class="chrome"><div>设计点 1.1 · DESIGN POINT</div><div>第一章</div></div>
@@ -453,7 +472,28 @@ body.overview #panel,body.overview #toggle{display:none!important}
           <div class="point"><div class="dot"></div><div><div class="pt-title">要点标题</div><div class="pt-desc">要点描述文字。</div></div></div>
         </div>
       </div>
-      <div class="shot"><span class="ph">界面截图位 · 16:10</span></div>
+      <div class="shot"><span class="ph">界面截图位 · 16:9</span></div>  <!-- 真图：<img src="shot.png"> -->
+    </div>
+  </section>
+
+  <!-- ⑧ 黑底：设计点页 · 版式②（上下堆叠 hero，图当主角 ~88% 宽）-->
+  <section class="slide s-glow" data-chapter="1">
+    <div class="glow-white"></div><div class="glow"></div>
+    <div class="chrome"><div>设计点 1.2 · DESIGN POINT</div><div>第一章</div></div>
+    <div class="inner stack">
+      <div class="stack-head">
+        <div class="sh-l">
+          <div class="kicker">DESIGN POINT 1.2</div>
+          <h1 class="h-title">设计点标题<span class="light"> · 副标用细体</span></h1>  <!-- 单行，别用 <br> -->
+        </div>
+        <p class="body">一段说明这个设计点解决什么问题、带来什么价值。</p>
+        <div class="points">
+          <div class="point"><div class="dot"></div><div><div class="pt-title">要点标题</div><div class="pt-desc">短描述</div></div></div>
+          <div class="point"><div class="dot"></div><div><div class="pt-title">要点标题</div><div class="pt-desc">短描述</div></div></div>
+          <div class="point"><div class="dot"></div><div><div class="pt-title">要点标题</div><div class="pt-desc">短描述</div></div></div>
+        </div>
+      </div>
+      <div class="shot"><span class="ph">界面截图位 · 16:9（堆叠版会按宽幅居中裁）</span></div>
     </div>
   </section>
 
@@ -494,6 +534,13 @@ const root=document.documentElement;
 const deck=document.getElementById('deck');
 const slides=[...document.querySelectorAll('.slide')];
 let idx=0;
+
+/* ===== 翻页过渡模式：'slide'(默认·纵向滑动) | 'fade'(淡入淡出) =====
+   改默认就改这行兜底值；或地址加 ?t=fade / ?t=slide 临时切换、不用改代码 */
+const TRANSITION = (new URLSearchParams(location.search).get('t')) || 'slide';
+const FADE = TRANSITION==='fade';
+if(FADE) document.body.classList.add('fade-mode');
+function setActive(i){ slides.forEach((s,k)=>s.classList.toggle('active',k===i)); }
 
 /* ===== 黑底光晕：每章一组色值，可调 + localStorage 持久记忆 ===== */
 const chapters={'1':{h:234,gap:57,sat:95,light:40,spread:35,cint:68,wint:58}};
@@ -544,13 +591,26 @@ function updateCurrent(i){
   if(s.dataset.chapter && s.classList.contains('chapter-cover')){ if(panel)s.appendChild(panel); if(toggle){s.appendChild(toggle);toggle.style.display='flex';} setPanelOpen(false); apply(); syncPanel(); }
   else if(toggle){ toggle.style.display='none'; setPanelOpen(false); }
 }
-/* 谁滚进视口 ≥55% 谁就是当前页 */
-const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting&&e.intersectionRatio>=0.55){const i=slides.indexOf(e.target);if(i>=0&&i!==idx)updateCurrent(i);}});},{threshold:[0.55]});
-slides.forEach(s=>io.observe(s));
+/* slide 模式：谁滚进视口 ≥55% 谁就是当前页。fade 模式无滚动，不用 IO */
+if(!FADE){
+  const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting&&e.intersectionRatio>=0.55){const i=slides.indexOf(e.target);if(i>=0&&i!==idx)updateCurrent(i);}});},{threshold:[0.55]});
+  slides.forEach(s=>io.observe(s));
+}
 
-function go(n){ if(document.body.classList.contains('overview'))return; const i=Math.max(0,Math.min(slides.length-1,n)); slides[i].scrollIntoView({behavior:'smooth',block:'start'}); }
+function go(n){ if(document.body.classList.contains('overview'))return; const i=Math.max(0,Math.min(slides.length-1,n));
+  if(FADE){ setActive(i); updateCurrent(i); }
+  else slides[i].scrollIntoView({behavior:'smooth',block:'start'});
+}
 function next(){go(idx+1);} function prev(){go(idx-1);}
 prevBtn.onclick=prev; nextBtn.onclick=next;
+/* fade 模式：滚轮 / 触控板上下翻页（无原生滚动，需拦截 + 节流）*/
+if(FADE){
+  let wlock=false;
+  addEventListener('wheel',e=>{ if(document.body.classList.contains('overview'))return; e.preventDefault();
+    if(wlock||Math.abs(e.deltaY)<6)return; wlock=true; setTimeout(()=>wlock=false,620);
+    if(e.deltaY>0)next(); else prev();
+  },{passive:false});
+}
 
 document.addEventListener('keydown',e=>{
   if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA')return;
@@ -569,14 +629,14 @@ const ICON_MIN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strok
 function syncFsIcon(){const fs=!!document.fullscreenElement;fsBtn.innerHTML=fs?ICON_MIN:ICON_MAX;fsBtn.title=fs?'退出全屏 F':'全屏 F';}
 function toggleFullscreen(){ if(!document.fullscreenElement){document.documentElement.requestFullscreen().catch(()=>{});}else{document.exitFullscreen();} }
 fsBtn.onclick=toggleFullscreen;
-function reanchor(){ if(!document.body.classList.contains('overview')) slides[idx].scrollIntoView({block:'start',behavior:'auto'}); }
+function reanchor(){ if(FADE||document.body.classList.contains('overview'))return; slides[idx].scrollIntoView({block:'start',behavior:'auto'}); }
 document.addEventListener('fullscreenchange',()=>{syncFsIcon();setTimeout(reanchor,90);});
 syncFsIcon();
 
 /* 总览 Overview：每页包进 .slide-inner 缩放成缩略图，排网格（按当前视窗比例）*/
 function applyOverviewScale(){if(!document.body.classList.contains('overview'))return;const cellW=slides[0].getBoundingClientRect().width,scale=cellW/window.innerWidth;slides.forEach(s=>{s.style.height=(window.innerHeight*scale)+'px';const inner=s.querySelector(':scope>.slide-inner');if(inner)inner.style.transform='scale('+scale+')';});}
 function enterOverview(){slides.forEach(s=>{if(!s.querySelector(':scope>.slide-inner')){const w=document.createElement('div');w.className='slide-inner';while(s.firstChild)w.appendChild(s.firstChild);s.appendChild(w);}});document.body.classList.add('overview');requestAnimationFrame(applyOverviewScale);}
-function exitOverview(){slides.forEach(s=>{const w=s.querySelector(':scope>.slide-inner');if(w){while(w.firstChild)s.insertBefore(w.firstChild,w);w.remove();}s.style.height='';});document.body.classList.remove('overview');setTimeout(()=>slides[idx].scrollIntoView({block:'start',behavior:'auto'}),20);}
+function exitOverview(){slides.forEach(s=>{const w=s.querySelector(':scope>.slide-inner');if(w){while(w.firstChild)s.insertBefore(w.firstChild,w);w.remove();}s.style.height='';});document.body.classList.remove('overview');if(FADE){setActive(idx);}else setTimeout(()=>slides[idx].scrollIntoView({block:'start',behavior:'auto'}),20);}
 function toggleOverview(){document.body.classList.contains('overview')?exitOverview():enterOverview();}
 ovBtn.onclick=toggleOverview;
 document.body.addEventListener('click',e=>{if(!document.body.classList.contains('overview'))return;const sl=e.target.closest('.slide');if(sl){const i=slides.indexOf(sl);if(i>=0){idx=i;exitOverview();}}});
@@ -593,6 +653,7 @@ document.addEventListener('mouseleave',()=>{ controls.classList.remove('show'); 
 window.scrollTo(0,0);
 slides.forEach(paintSlide);
 updateCurrent(0);
+if(FADE) setActive(0);
 </script>
 </body>
 </html>

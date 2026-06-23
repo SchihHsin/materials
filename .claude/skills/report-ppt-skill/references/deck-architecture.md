@@ -9,7 +9,7 @@ body     滚动容器：height:100%; overflow:hidden auto; scroll-snap-type:y ma
 .slide   width:100vw; height:100vh; overflow:hidden; scroll-snap-align:start; scroll-snap-stop:always
 ```
 
-- **翻页 = 原生纵向滚动 + scroll-snap**：每页满屏、强制吸附——划的过程会短暂见两页，松手自动吸附到整页。**不要自己拦截滚轮做「瞬切/淡入」**——淡入会两页叠显、瞬切手感差，原生 snap 最稳，也是参考 demo 的做法。
+- **默认翻页 = 原生纵向滚动 + scroll-snap**（`TRANSITION='slide'`）：每页满屏、强制吸附——划的过程会短暂见两页，松手自动吸附到整页。原生 snap 手感最稳，是默认值。**另有可切换的 `fade` 模式**（见下「翻页过渡模式」）——两种由作者按需选，别把 slide 写死。
 - **当前页用 `IntersectionObserver` 判**（谁进视口 ≥55% 谁就是当前页）。别依赖「翻页函数被调用」——原生滚动不经过任何函数。`go(n)`/键盘/点导航点都走 `slides[n].scrollIntoView({behavior:'smooth',block:'start'})`。
 - **底部居中控制栏 `#controls`**：`上一页 / 页码 / 下一页 ｜ 概览 / 全屏`；**要小、要透**（背景 ~`rgba(22,25,30,.42)`、按钮 26px、别抢眼）。亮/暗随当前页用 **`body.on-dark`** 切换（封面/黑底 = on-dark）。
   - ⚠️ **显隐：底部栏与右侧 `.nav-dots` 分区独立、离开即淡出**（别绑死、别用定时器）：`mousemove` 里 `controls.classList.toggle('show', e.clientY>innerHeight-120)` + `navDots.classList.toggle('show', e.clientX>innerWidth-120)` + `mouseleave` 一并隐藏。移到底部出底部栏、移到右侧出右侧点，互不联动。（旧版用 2.5s 定时器 + 两栏同步——移开残留、且只能从底部触发，已弃用。）
@@ -26,6 +26,33 @@ body     滚动容器：height:100%; overflow:hidden auto; scroll-snap-type:y ma
 ### ⚠️ scroll-snap 的两个坑（都踩过）
 1. **`html,body{overflow:hidden;height:100%}`（各分册横向版自带）会让 snap 失效** → 必须让滚动容器（body）`overflow-y:auto` 且带 `scroll-snap-type:y`，否则停在两页之间。统一层用 `body{overflow:hidden auto;scroll-snap-type:y mandatory}` 盖掉。
 2. **进/出全屏、改窗口后不会自动重新吸附**，会停在两页之间 → 监听 `fullscreenchange`/`resize`，之后 `slides[idx].scrollIntoView({block:'start'})` 重新吸附当前页（`scrollRestoration='manual'` + 进场 `scrollTo(0,0)` 防刷新落在半页）。
+
+### 翻页过渡模式（可切换：slide 默认 / fade）
+
+两种翻页动画，由脚本顶部一个常量选，默认 `slide`：
+
+```js
+const TRANSITION = (new URLSearchParams(location.search).get('t')) || 'slide';  // 'slide' | 'fade'
+const FADE = TRANSITION==='fade';
+if(FADE) document.body.classList.add('fade-mode');
+```
+
+- **切换方式有两种**：① 改这行兜底值（改默认）；② 地址加 `?t=fade` / `?t=slide` 临时切换、不用改代码（方便对比/分享）。
+- **`slide`（默认）**：上面的原生 scroll-snap，一切照旧（IO 判当前页、`scrollIntoView` 翻页、滚动条淡入、reanchor）。
+- **`fade`**：所有页**叠在同一位置**、只有 `.active` 页 `opacity:1` 淡入——无滚动、瞬间交叉淡化。靠 CSS `body.fade-mode` 类驱动：
+  ```css
+  body.fade-mode{overflow:hidden;scroll-snap-type:none}
+  body.fade-mode #deck{position:fixed;inset:0}
+  body.fade-mode .slide{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity .5s ease,visibility .5s}
+  body.fade-mode .slide.active{opacity:1;visibility:visible;z-index:1}
+  ```
+- **JS 要分支的几处**（都用 `if(FADE)`）：
+  - **IO 只在 slide 模式挂**（fade 无滚动，IO 永不触发）；fade 模式由 `go()` 直接驱动当前页。
+  - `go(n)`：fade → `setActive(i)+updateCurrent(i)`；slide → `scrollIntoView`。`setActive` = 给第 i 页加 `.active`、其余移除。
+  - **fade 要自己拦滚轮**：`addEventListener('wheel',…,{passive:false})` + `e.preventDefault()` + 节流（~620ms 锁），`deltaY>0` next 否则 prev。
+  - `reanchor()`、进场定位、`exitOverview()` 收尾：fade 用 `setActive(idx)`，slide 用 `scrollIntoView`。
+- ⚠️ **概览要盖掉 fade 的叠层**：`body.overview.fade-mode #deck{position:static}` + `body.overview.fade-mode .slide{position:relative!important;opacity:1!important;visibility:visible!important}`，否则缩略图全透明/堆一起。
+- 键盘/导航点/控制栏/全屏/`#页码` deep-link 两模式通用（都走 `go()`），无需分支。
 
 ### 总览 Overview（缩略图网格）
 - 进入：把每页 children 包进 `.slide-inner`（`position:absolute; width:100vw;height:100vh`，并按基调重建内部布局 `display:flex/padding`，否则 `flex:1` 失父→内容塌成一团）；`body.overview` 把 `#deck` 变 `display:grid`（3 列），`.slide` 变缩略框（`overflow:hidden`）；JS 给 `.slide-inner` 加 `transform:scale(缩略框宽/视口宽)`。

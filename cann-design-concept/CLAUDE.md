@@ -13,6 +13,7 @@
 **已从横向 `translateX` 受控翻页改为纵向原生 `scroll-snap`**，`index.html`（build_index.py 统一层）与 skill 模板 `assets/deck-template.html` 同步。
 - `body` 作滚动容器（`overflow:hidden auto`+`scroll-snap-type:y mandatory`），`#deck{display:block}`，`.slide{height:100vh;scroll-snap-align:start;scroll-snap-stop:always}`——划时短暂两页、松手吸附整页（不再拦截滚轮）。⚠️ 各分册自带的横向 `#deck{display:flex}` 和 `html,body{overflow:hidden;height:100%}` **必须被统一层显式盖掉**，否则横排/snap 失效。
 - 当前页由 **`IntersectionObserver`（≥55%）** 判；`go()`/键盘/导航点走 `scrollIntoView`。键盘 `↑↓←→`/空格/PageUp-Down/Home/End + `O` 概览 / `F` 全屏 / `Esc` 退概览。
+- **翻页过渡可切换**（2026-06，build_index.py + skill deck-template 同步）：脚本顶 `const TRANSITION=(URLSearchParams 取 't')||'slide'`，`'slide'`(默认 scroll-snap) / `'fade'`(淡入淡出)；**地址加 `?t=fade` 即可临时切换不改代码**。fade = `body.fade-mode`：各页绝对叠层 + `opacity` 过渡、只 `.active` 显示；**IO 仅 slide 挂**、fade 自己拦滚轮节流（620ms）、`go()`→`setActive`；概览要 `body.overview.fade-mode` 盖掉叠层（`#deck position:static` + `.slide opacity/visibility !important`）。slide 模式一切照旧。
 - 右侧竖排 `.nav-dots` + 底部居中 `#controls`（**小/透/默认隐藏**，`body.on-dark` 自适应）。**无顶部进度条**。⚠️ **显隐分区独立、离开即淡出**（2026-06 改）：`mousemove` 里 `controls.classList.toggle('show',clientY>innerHeight-120)` + `navDots.classList.toggle('show',clientX>innerWidth-120)`——移到底部出底部栏、移到右侧出右侧点，互不绑定；`mouseleave` 一并隐藏。**别用 2.5s 定时器**（会残留、且把两栏绑死）。
 - **滚动条**（2026-06）：细、半透、**默认隐藏，滚动时才淡入**（`body.scrolling` 类，停 700ms 淡出）；亮/暗随 `body.on-dark`。⚠️ **滚动监听必须挂 body**（`html` 设 `overflow-y:visible`、body 才是滚动容器，事件在 body 上不在 window）+ `wheel` 兜底。
 - **灰底页标题前不放 CANN logo**（2026-06 用户要求）：gray.html 各页 `.brand` 只留 `.ttl`；封面 logo 保留。
@@ -45,6 +46,7 @@
 ## glow.html 关键
 - **章节模型**：颜色按章定（`data-chapter`），每章 = 1 封面 + **2 设计点**；取当前章用 **`cur()`**（⚠️ 不是 `curCh`，曾因笔误致面板打不开）
 - **设计点（CANN 工具）**：第一章 控制与可观测 = 1.1 控制流可视化 / 1.2 智能错误诊断；第二章 开发提效 = 2.1 算子开发向导 / 2.2 交互式文档+成长地图
+- **设计点页两种版式**（2026-06，图统一 **16:9** 匹配 1920×1080 截图，原 16:10 会裁图）：**①左文右图**（默认，`.inner` 列 `0.58fr 1.42fr`，图占~60%）——1.1/1.2/2.2 用；**②上下堆叠 hero**（`.inner.stack`：`.stack-head` 文字压顶一条 + 16:9 大图铺满下方~88%，`object-fit:cover` 会按宽幅居中裁）——2.1 用作样板。`.shot` 支持真 `<img>`。skill components.md §8 收了两套骨架
 - **光晕三层**：左右彩色光斑（`::before/::after`）+ 底部连续白带（`.glow-white`，`linear-gradient`）；视觉黑→彩→白
 - **调色面板**：嵌入章节封面页内（`appendChild`，非 fixed）；图标常驻右上、面板在图标**左侧**展开、点图标开合、点外关；工具纯 icon（撤销/重做/重置，**reset = 回到打开面板前**，无变动时禁用）；`setPanelOpen` 用 `display` 控制
 - 默认色：HUE 234 / GAP 57° / SAT 95% / LIGHT 40% / SPREAD 35vh / COLOR .68 / WHITE .58

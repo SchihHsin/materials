@@ -104,6 +104,16 @@ body.overview .s-cover .slide-inner{padding:0}
 .s-gray{color:var(--ink)}
 .s-glow,.s-cover{color:#fff}
 
+/* ===== 翻页过渡 · fade 模式（TRANSITION='fade' 或 ?t=fade 时 JS 给 body 加 .fade-mode）=====
+   默认走上面的纵向 scroll-snap（slide 模式）；fade 模式把所有页叠在同一位置，只让 .active 页淡入 */
+body.fade-mode{overflow:hidden;scroll-snap-type:none}
+body.fade-mode #deck{position:fixed;inset:0;width:100vw}
+body.fade-mode .slide{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity .5s ease,visibility .5s;scroll-snap-align:none;scroll-snap-stop:normal}
+body.fade-mode .slide.active{opacity:1;visibility:visible;z-index:1}
+/* 概览态优先：盖掉 fade 的叠层定位/透明，回到网格缩略图 */
+body.overview.fade-mode #deck{position:static}
+body.overview.fade-mode .slide{position:relative!important;opacity:1!important;visibility:visible!important}
+
 /* ----- 封面（cv- 前缀，避免与各分册类名冲突）----- */
 .s-cover{padding:0;background:#0c0a0b}
 .cv-bg{position:absolute;inset:0;background:url("assets/cover-bg.png") center/cover no-repeat;z-index:0}
@@ -200,6 +210,13 @@ const deck=document.getElementById('deck');
 const slides=[...document.querySelectorAll('.slide')];
 const nav=document.getElementById('nav');
 let idx=0;
+
+/* ===== 翻页过渡模式：'slide'(默认·纵向滑动) | 'fade'(淡入淡出) =====
+   改默认就改这行的兜底值；或地址加 ?t=fade / ?t=slide 临时切换、不用改代码 */
+const TRANSITION = (new URLSearchParams(location.search).get('t')) || 'slide';
+const FADE = TRANSITION==='fade';
+if(FADE) document.body.classList.add('fade-mode');
+function setActive(i){ slides.forEach((s,k)=>s.classList.toggle('active',k===i)); }
 
 /* ===== glow 章节调色（仅 data-chapter 的 glow 页生效，其余页不受影响）===== */
 const chapters={
@@ -312,12 +329,25 @@ function updateCurrent(i){
   else if(toggle){ toggle.style.display='none'; setPanelOpen(false); }
   try{history.replaceState(null,'','#'+(idx+1));}catch(e){try{location.hash=idx+1;}catch(_){}}   /* 地址同步成 #页码；file:// 下 replaceState 会报错，回退到 location.hash */
 }
-/* 谁滚进视口 ≥55% 谁就是当前页（原生滚动 / 跳转都覆盖）*/
-const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting&&e.intersectionRatio>=0.55){const i=slides.indexOf(e.target);if(i>=0&&i!==idx)updateCurrent(i);}});},{threshold:[0.55]});
-slides.forEach(s=>io.observe(s));
+/* slide 模式：谁滚进视口 ≥55% 谁就是当前页（原生滚动 / 跳转都覆盖）。fade 模式无滚动，不用 IO */
+if(!FADE){
+  const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting&&e.intersectionRatio>=0.55){const i=slides.indexOf(e.target);if(i>=0&&i!==idx)updateCurrent(i);}});},{threshold:[0.55]});
+  slides.forEach(s=>io.observe(s));
+}
 
-function go(n){ if(document.body.classList.contains('overview'))return; const i=Math.max(0,Math.min(slides.length-1,n)); slides[i].scrollIntoView({behavior:'smooth',block:'start'}); }
+function go(n){ if(document.body.classList.contains('overview'))return; const i=Math.max(0,Math.min(slides.length-1,n));
+  if(FADE){ setActive(i); updateCurrent(i); }                 /* fade：切 active 类淡入，不滚动 */
+  else slides[i].scrollIntoView({behavior:'smooth',block:'start'});
+}
 function next(){go(idx+1);} function prev(){go(idx-1);}
+/* fade 模式：滚轮 / 触控板上下翻页（无原生滚动，需拦截 + 节流）*/
+if(FADE){
+  let wlock=false;
+  addEventListener('wheel',e=>{ if(document.body.classList.contains('overview'))return; e.preventDefault();
+    if(wlock||Math.abs(e.deltaY)<6)return; wlock=true; setTimeout(()=>wlock=false,620);
+    if(e.deltaY>0)next(); else prev();
+  },{passive:false});
+}
 prevBtn.onclick=prev; nextBtn.onclick=next;
 
 document.addEventListener('keydown',e=>{
@@ -338,14 +368,14 @@ function syncFsIcon(){const fs=!!document.fullscreenElement;fsBtn.innerHTML=fs?I
 function toggleFullscreen(){ if(!document.fullscreenElement){document.documentElement.requestFullscreen().catch(()=>{});}else{document.exitFullscreen();} }
 fsBtn.onclick=toggleFullscreen;
 /* 视口尺寸变化(进/出全屏)后 scroll-snap 会停在两页之间 → 重新吸附到当前页 */
-function reanchor(){ if(!document.body.classList.contains('overview')) slides[idx].scrollIntoView({block:'start',behavior:'auto'}); }
+function reanchor(){ if(FADE||document.body.classList.contains('overview'))return; slides[idx].scrollIntoView({block:'start',behavior:'auto'}); }
 document.addEventListener('fullscreenchange',()=>{syncFsIcon();setTimeout(reanchor,90);});
 syncFsIcon();
 
 /* 总览 Overview：每页包进 .slide-inner 缩放成缩略图，排网格 */
 function applyOverviewScale(){if(!document.body.classList.contains('overview'))return;const cellW=slides[0].getBoundingClientRect().width,scale=cellW/window.innerWidth;slides.forEach(s=>{s.style.height=(window.innerHeight*scale)+'px';const inner=s.querySelector(':scope>.slide-inner');if(inner)inner.style.transform='scale('+scale+')';});}
 function enterOverview(){slides.forEach(s=>{if(!s.querySelector(':scope>.slide-inner')){const w=document.createElement('div');w.className='slide-inner';while(s.firstChild)w.appendChild(s.firstChild);s.appendChild(w);}});document.body.classList.add('overview');requestAnimationFrame(applyOverviewScale);}
-function exitOverview(){slides.forEach(s=>{const w=s.querySelector(':scope>.slide-inner');if(w){while(w.firstChild)s.insertBefore(w.firstChild,w);w.remove();}s.style.height='';});document.body.classList.remove('overview');setTimeout(()=>slides[idx].scrollIntoView({block:'start',behavior:'auto'}),20);}
+function exitOverview(){slides.forEach(s=>{const w=s.querySelector(':scope>.slide-inner');if(w){while(w.firstChild)s.insertBefore(w.firstChild,w);w.remove();}s.style.height='';});document.body.classList.remove('overview');if(FADE){setActive(idx);}else setTimeout(()=>slides[idx].scrollIntoView({block:'start',behavior:'auto'}),20);}
 function toggleOverview(){ if(document.body.classList.contains('overview')){exitOverview();} else enterOverview(); }
 ovBtn.onclick=toggleOverview;
 document.body.addEventListener('click',e=>{if(!document.body.classList.contains('overview'))return;const sl=e.target.closest('.slide');if(sl){const i=slides.indexOf(sl);if(i>=0){idx=i;exitOverview();}}});
@@ -365,7 +395,8 @@ slides.forEach(paintSlide);
   var n=parseInt(location.hash.slice(1),10);
   var i=(!isNaN(n)&&n>=1&&n<=slides.length)?n-1:0;
   updateCurrent(i);
-  if(i>0){requestAnimationFrame(function(){slides[i].scrollIntoView({block:'start',behavior:'auto'});});}
+  if(FADE){ setActive(i); }
+  else if(i>0){requestAnimationFrame(function(){slides[i].scrollIntoView({block:'start',behavior:'auto'});});}
   else{window.scrollTo(0,0);}
 })();
 /* 手动改地址 #页码 → 跳到对应页 */
