@@ -8,6 +8,7 @@
 ## 文件
 - **`index.html` 合并版完整 deck（14 页）= 封面 + gray 7 页 + glow 6 页**，统一翻页/导航/字体/字号。⚠️ **由 `build_index.py` 从三个分册自动拼装，不要手改 index.html**——改内容改分册再 `python3 build_index.py` 重生成
 - `build_index.py` 拼装脚本：逐块 verbatim 抽取三分册的 CSS/slide/script → 把各册 `.slide` 作用域化（`.slide.s-gray` / `.slide.s-glow`，避免黑/灰底互相覆盖）→ 全局换 HarmonyOS Sans + 套字号 token → 合成单文件单 `#deck`/单当前页机制/单 nav；glow 调色面板逻辑保留但对非 glow 页惰性（`curChap()` 判 `data-chapter`）
+- `gray2.html` 灰底 **Pattern 扩展分册**（新建）：与 gray 同基底（字号 ramp / 渐变 token / 玻璃卡 / 灰底波浪 / 横向翻页 + nav），只留封面 + 空白 pattern 起始页，供继续沉淀新分析型 pattern；`<style>`/`<script>` 末尾有注释标好新 pattern 的写入位（JS 类 pattern 并入 index 时记得同步 build_index.py 硬编码脚本）
 
 ## 翻页机制（2026-06）：纵向 scroll-snap（对齐参考 demo）
 **已从横向 `translateX` 受控翻页改为纵向原生 `scroll-snap`**，`index.html`（build_index.py 统一层）与 skill 模板 `assets/deck-template.html` 同步。
@@ -83,7 +84,9 @@
 ## 能力 / 约定
 - `curl` 下载网图（Wikimedia / **YouTube 缩略图** `img.youtube.com/vi/<id>/maxresdefault.jpg`），**不能生成 AI 图**
 - 竞品分析 = 同类工具对比（Nsight/VTune/rocprof，**不含 CANN**）+ 对策结论
-- 偏好：**多步任务一次做完不打断**；**改完 push**
+- **⛔ 不用 emoji，一律用线性描边 icon**（Lucide/Feather 风格：`fill=none;stroke=currentColor;stroke-width≈1.6–2;round`，跟随文字色）——emoji 随系统变样、彩色破坏冷灰+蓝紫调性、不专业；情绪/表情用线性脸（参考评分热力矩阵 `face(s)`）。**唯一例外：用户旅程「情绪曲线」可用 emoji 表情脸**（😐😕😤…，表达情绪起伏更传神）。已写进 skill SKILL.md 铁律
+- **材料可见文案不口语化**：用书面/专业语（跑→运行、拍板→裁定、找→获取、兜底→后备……）；对话回复不受限
+- 偏好：**多步任务一次做完不打断**；**改完 push**；**改 deck 记得连带改 skill + README + 本 CLAUDE.md**
 
 ## report-ppt-skill（通用汇报 PPT skill，由本项目提炼）
 内容 = README.md + SKILL.md + references/{type-and-color,components,deck-architecture,chart-selection,pitfalls}.md + assets/{deck-template.html, cover-bg.png, cann-dark-logo.svg, CANNlogo.png, persona.svg, cmp-*.jpg}。不绑死 CANN，写别的汇报材料可直接用。对外分享走 ③ 独立仓库。
