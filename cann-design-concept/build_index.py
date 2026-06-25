@@ -63,8 +63,8 @@ HEAD = """<!DOCTYPE html>
 :root{
   --fs-h1:clamp(20px,1.7vw,30px);   /* 页面主标题 */
   --fs-h2:clamp(15px,1.15vw,21px);  /* 区块标题 */
-  --fs-h3:clamp(13px,.95vw,16px);   /* 卡片小标题 */
-  --fs-body:clamp(12px,.82vw,15px); /* 正文 */
+  --fs-h3:clamp(14px,1.05vw,17px);  /* 卡片小标题 */
+  --fs-body:clamp(13.5px,1vw,16px); /* 正文（舒适阅读档；密集形式如用户画像在 .pf/.pp/.up 局部回小）*/
   --fs-sm:clamp(10.5px,.72vw,13px); /* 次要正文 / 说明 */
   --fs-xs:clamp(9px,.62vw,11px);    /* 标签 / 注释 / 页码 */
 }

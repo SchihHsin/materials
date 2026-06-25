@@ -9,8 +9,8 @@
 <style>
 /* ===== 设计 token ===== */
 :root{
-  --fs-h1:clamp(20px,1.7vw,30px); --fs-h2:clamp(15px,1.15vw,21px); --fs-h3:clamp(13px,.95vw,16px);
-  --fs-body:clamp(12px,.82vw,15px); --fs-sm:clamp(10.5px,.72vw,13px); --fs-xs:clamp(9px,.62vw,11px);
+  --fs-h1:clamp(20px,1.7vw,30px); --fs-h2:clamp(15px,1.15vw,21px); --fs-h3:clamp(14px,1.05vw,17px);
+  --fs-body:clamp(13.5px,1vw,16px); --fs-sm:clamp(10.5px,.72vw,13px); --fs-xs:clamp(9px,.62vw,11px);  /* body=舒适阅读档；密集形式见 .pf/.pp/.up 局部回小 */
   --paper:#E9EBEE; --card:#fff; --card-2:#F1F3F6;
   --ink:#16191e; --ink-2:#5e646e; --ink-3:#929aa6; --line:#d4d8df;
   --accent:#5B5BD6; --accent-soft:#ECECFB; --red:#E60012;
@@ -21,6 +21,8 @@
   /* 黑底光晕（每页可被 inline 变量覆盖，实现一章一色）*/
   --glow-h:234; --glow-h2:291; --glow-sat:95%; --glow-light:40%; --glow-spread:35; --glow-color-int:.68; --glow-white-int:.58;
 }
+/* 用户画像是高密度特殊形式：body/h3 局部冻回紧凑档，不随全局正文放大 */
+.pf,.pp,.up{--fs-h3:clamp(13px,.95vw,16px);--fs-body:clamp(12px,.82vw,15px)}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-snap-type:y mandatory;scroll-behavior:smooth}
 html,body{width:100%;height:100%;margin:0;background:#0c0a0b;color:var(--ink);
