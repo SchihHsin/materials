@@ -58,7 +58,7 @@ if(CTRL){ document.body.classList.add('ctrl'); document.body.dataset.transition=
   ```
 - **JS（都用 `if(CTRL)`）**：IO 只在 slide 挂；`go(n)` 受控时 `showSlide(i,dir)+updateCurrent(i)`（dir=`i>idx?'fwd':'back'`）；受控自己拦滚轮（`{passive:false}`+`preventDefault`+~620ms 节流）；`reanchor`/进场/`exitOverview` 受控用 `setActive(idx)`。`showSlide` 按模式：slide-h 用 JS 设进出 `translateX`；fade/cut 切 `.active`/`.leaving`；magic 调 `magicMove`。
 - **magic 的 FLIP 用 Web Animations API**（`el.animate([from,to])`）——⚠️ **别用「同帧设 transition + 改 transform」**（不触发动画，会瞬切到终点）；`void offsetWidth` 双 rAF 也不稳，WAA 最可靠。要 magic 出效果，**作者需在相邻两页给"同一个东西"标相同 `data-key`**（如 logo/标题/某卡），没标的页 magic 就退化成淡入。
-- ⚠️ **概览盖掉受控叠层**：`body.overview.ctrl #deck{position:static}` + `body.overview.ctrl .slide{position:relative!important;opacity:1!important;visibility:visible!important;transform:none!important}`。
+- ⚠️ **概览盖掉受控叠层**：`body.overview.ctrl #deck{position:static}` + `body.overview.ctrl .slide{position:relative!important;opacity:1!important;visibility:visible!important;transform:none!important}` + **`body.overview.ctrl{overflow:hidden auto}`**——`body.ctrl{overflow:hidden}` 是受控叠层翻页（fade/cut/slide-h/magic）专用的锁滚动，进总览只加了 `.overview` 类没摘 `.ctrl`，若漏了这条 overflow 覆盖，缩略图网格超一屏时这几种翻页模式下的总览会滚不动（默认 `slide` 模式不受影响，容易漏测）。
 - 键盘/导航点/控制栏/全屏/`#页码` deep-link 全模式通用（都走 `go()`），无需分支。
 
 ### 总览 Overview（缩略图网格）
@@ -66,6 +66,11 @@ if(CTRL){ document.body.classList.add('ctrl'); document.body.dataset.transition=
 - **缩略框比例 = 当前视窗比例**（不强制 16:9）：框高 JS 设为 `缩略框宽 × 视口高/视口宽`，inner 左上对齐按宽缩放 → 每页完整缩小、不裁不留缝（精确预览）。
   - ⚠️ **别强制 16:9**：页面用 `vw/vh`=窗口比例，窗口非 16:9 时强制 16:9 必然「裁边」或「留黑缝」二选一。且 `aspect-ratio:16/9` 在带 `height:100vh` 的 `.slide` 上会被忽略（失效）→ 想要固定比例只能用 `padding-top:%` 写法。
 - 点缩略图跳到该页并退出；`body.overview #panel,#toggle{display:none!important}` 隐藏调色入口（否则它会浮在概览上）。
+
+### 居中型页的竖向平衡（`.body-area.vc` + `balanceHeads()`）
+- `.head` 在文档流里占空间，`.foot`/`.ucd` 是绝对定位不占空间——所以"居中型"页（内容是个居中块，如数据卡/甘特/2×2 矩阵/sm2 图文）若只靠 `justify-content:center`，净效果会偏上或偏下，且固定 `padding-bottom:Nvh` 这种猜测值在不同页眉高度/窗口宽高比下都对不上。
+- **正确做法**：给这类页的 `.body-area` 加 `.vc` 修饰类，JS `balanceHeads()` 量出该页 `.head` 的实际 `offsetHeight+marginBottom`，把这个像素值设成 `.body-area.vc` 的 `padding-bottom`（`resize`、`exitOverview()`、首屏 `requestAnimationFrame` 时重算）——按真实页眉高度动态补偿，任意窗口都准。
+- **填满型页不加 `.vc`**：旅程/VOC/画像表格/竞品对照等本身占满整页、不需要居中补偿的页留空，否则会被多余的 `padding-bottom` 挤变形。
 
 ## 多分册 → 单 index.html（推荐工作流）
 

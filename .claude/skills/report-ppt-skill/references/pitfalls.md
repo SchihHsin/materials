@@ -7,7 +7,11 @@
 - **`min-content≈0` 导致 flex 行被压扁**：行内全是绝对定位子元素时，该行 min-content 约等于 0，会被 flex 压没 → 显式 `height` + `flex-shrink:0` 锁高（情绪曲线行的教训）。
 - **`gap` 本身是对称的**：flex/grid `gap` 在所有相邻项之间相等。若"看着上大下小"，多半是**某个块自身内部留白**（如带背景的标题块、两行文字块的 padding/line-height）造成的视觉差，不是 gap 不对称——去收紧那个块的内边距，别去动 gap。
 - 想"前几项等距、最后一项贴底"：前面用统一 `gap`，最后一项 `margin-top:auto`（它只吃多余空间，不影响前面的等距）。
-- **`.foot` / `.ucd` 是绝对定位、不占垂直空间**：所以 `.body-area` 内居中的卡会被推到右下、紧贴页尾、视觉失衡。**对策**：`.body-area{padding-bottom:4.2vh}` 全局给页尾留位（已在模板里）；居中布局立刻平衡。**别**：① 给每张图卡加 `margin-bottom`（散乱、漏改难维护）；② 把 `.foot` 改成常规 flex 项（会撑高，跟 `.ucd` 的 absolute 不一致）。
+- **`.foot` / `.ucd` 是绝对定位、不占垂直空间，但 `.head` 占空间**：所以"居中型"页（内容是个居中块、四周留白，如数据卡/甘特/2×2 矩阵/sm2 图文）会被头部往下挤、净效果是偏上/偏下，固定 `padding-bottom:4.2vh`/`1.5vh` 这类猜测值**在不同页眉高度、不同窗口宽高比下都对不上**（量出来有时 0px 有时偏几十 px）。**对策**：居中型页的 `.body-area` 加 `.vc` 标记，配合 JS `balanceHeads()`（量每页实际 `.head` 的 `offsetHeight+marginBottom`，把这个像素值设为 `.body-area.vc` 的 `padding-bottom`，在 `resize`/`exitOverview` 时重算）——按真实页眉高度动态补偿，任意窗口都准。**别**给整站一个固定 vh/px 猜测值。"填满型"页（旅程/VOC/画像/竞品对照等本身占满整页、不需要居中补偿的）不要加 `.vc`。
+
+## 翻页 / 概览
+
+- **`body.ctrl{overflow:hidden}`（受控叠层翻页模式 fade/cut/slide-h/magic）会一直锁住 body 滚动**：进总览 `enterOverview()` 只加了 `.overview` 类，没摘掉 `.ctrl`；如果总览缩略图网格高度超过一屏，`body.overview.ctrl` 这条规则必须**显式把 `overflow` 改回 `hidden auto`**，否则总览页在这几种翻页模式下会出现"滚不动、看不到后面的缩略图"——默认 `slide` 模式不受影响（body 本来就能滚），只有切到非默认翻页模式才会踩到，容易被漏测。
 
 ## 字号
 

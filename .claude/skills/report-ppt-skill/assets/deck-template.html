@@ -68,6 +68,7 @@ body[data-transition=slide-h] .slide.active{opacity:1}
 body[data-transition=slide-h] .slide.leaving{opacity:1}
 body[data-transition=magic] .slide{transition:opacity .6s ease}
 body[data-transition=magic] .slide.leaving{opacity:0}
+body.overview.ctrl{overflow:hidden auto}
 body.overview.ctrl #deck{position:static}
 body.overview.ctrl .slide{position:relative!important;opacity:1!important;visibility:visible!important;transform:none!important}
 
@@ -83,7 +84,12 @@ body.overview.ctrl .slide{position:relative!important;opacity:1!important;visibi
 .subttl{font-weight:300;font-size:var(--fs-sm);color:var(--ink-2)}
 .head-r{font-family:'JetBrains Mono';font-size:var(--fs-xs);letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);text-align:right;line-height:1.8}
 /* padding-bottom 给绝对定位的 .foot/.ucd 留位，否则居中卡会紧贴页尾（见 pitfalls.md）*/
-.body-area{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;padding-bottom:4.2vh}
+.body-area{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center}
+/* 居中型页（内容是个居中块、四周留白）加 .vc：JS balanceHeads() 按实际页眉高度补 padding-bottom，
+   抵消"页眉占空间、页脚(.foot/.ucd 绝对定位)不占空间"的不平衡，让内容落到整页真正正中（任意窗口都准）。
+   固定 vh 猜测值在不同页眉高度/窗口宽高比下对不上，见 pitfalls.md。
+   填满型页（旅程/VOC/画像表格等用满整页的）不加 .vc */
+.body-area.vc{padding-bottom:0}
 .card{background:rgba(255,255,255,.55);-webkit-backdrop-filter:blur(15px) saturate(1.4);backdrop-filter:blur(15px) saturate(1.4);
   border:1px solid rgba(255,255,255,.7);border-radius:16px;box-shadow:0 10px 30px -16px rgba(30,40,70,.2),inset 0 1px 0 rgba(255,255,255,.85);padding:2.2vh 1.6vw}
 
@@ -308,7 +314,7 @@ body.overview #panel,body.overview #toggle{display:none!important}
       </div>
       <div class="head-r">01 / 用户研究<br/>2026</div>
     </div>
-    <div class="body-area">
+    <div class="body-area vc">
       <div class="stat-grid">
         <div class="stat-col"><div class="stat-bar-area"><div class="stat-marks"><span>0</span><span class="stat-tri" style="left:72%">▼</span><span>100%</span></div><div class="stat-pills"><div class="stat-pill" style="flex:72;background:linear-gradient(90deg,#FF6B9D,#FF9340)"></div><div class="stat-pill" style="flex:28;background:linear-gradient(90deg,#FF9340,#FFE040)"></div></div></div><div class="stat-num">72<span class="u">%</span></div><div class="stat-desc">开发者表示文档覆盖不足，找不到连贯的学习路径，上手阶段严重受阻。</div></div>
         <div class="stat-col"><div class="stat-bar-area"><div class="stat-marks"><span>0</span><span class="stat-tri" style="left:58%">▼</span><span>100%</span></div><div class="stat-pills"><div class="stat-pill" style="flex:58;background:linear-gradient(90deg,#56F5A0,#38D4CF)"></div><div class="stat-pill" style="flex:42;background:linear-gradient(90deg,#38D4CF,#4FACFE)"></div></div></div><div class="stat-num">58<span class="u">%</span></div><div class="stat-desc">开发者陷入调试黑盒，只能靠 print 排查，定位一个问题平均耗时数天。</div></div>
@@ -429,7 +435,7 @@ body.overview #panel,body.overview #toggle{display:none!important}
       </div>
       <div class="head-r">04 / 实施路线<br/>2026</div>
     </div>
-    <div class="body-area">
+    <div class="body-area vc">
       <div class="rm">
         <div class="rm-pad">
           <div class="rm-date" style="left:6%">2 月初</div>
@@ -673,11 +679,25 @@ syncFsIcon();
 /* 总览 Overview：每页包进 .slide-inner 缩放成缩略图，排网格（按当前视窗比例）*/
 function applyOverviewScale(){if(!document.body.classList.contains('overview'))return;const cellW=slides[0].getBoundingClientRect().width,scale=cellW/window.innerWidth;slides.forEach(s=>{s.style.height=(window.innerHeight*scale)+'px';const inner=s.querySelector(':scope>.slide-inner');if(inner)inner.style.transform='scale('+scale+')';});}
 function enterOverview(){slides.forEach(s=>{if(!s.querySelector(':scope>.slide-inner')){const w=document.createElement('div');w.className='slide-inner';while(s.firstChild)w.appendChild(s.firstChild);s.appendChild(w);}});document.body.classList.add('overview');requestAnimationFrame(applyOverviewScale);}
-function exitOverview(){slides.forEach(s=>{const w=s.querySelector(':scope>.slide-inner');if(w){while(w.firstChild)s.insertBefore(w.firstChild,w);w.remove();}s.style.height='';});document.body.classList.remove('overview');if(CTRL){setActive(idx);}else setTimeout(()=>slides[idx].scrollIntoView({block:'start',behavior:'auto'}),20);}
+function exitOverview(){slides.forEach(s=>{const w=s.querySelector(':scope>.slide-inner');if(w){while(w.firstChild)s.insertBefore(w.firstChild,w);w.remove();}s.style.height='';});document.body.classList.remove('overview');balanceHeads();if(CTRL){setActive(idx);}else setTimeout(()=>slides[idx].scrollIntoView({block:'start',behavior:'auto'}),20);}
 function toggleOverview(){document.body.classList.contains('overview')?exitOverview():enterOverview();}
 ovBtn.onclick=toggleOverview;
 document.body.addEventListener('click',e=>{if(!document.body.classList.contains('overview'))return;const sl=e.target.closest('.slide');if(sl){const i=slides.indexOf(sl);if(i>=0){idx=i;exitOverview();}}});
-addEventListener('resize',()=>{if(document.body.classList.contains('overview'))applyOverviewScale();else reanchor();});
+addEventListener('resize',()=>{if(document.body.classList.contains('overview'))applyOverviewScale();else reanchor();balanceHeads();});
+
+/* ===== 居中型页竖向平衡：.body-area.vc 的 padding-bottom = 实际页眉高度 =====
+   页眉(.head)在文档流里占空间、页脚(.foot/.ucd 绝对定位)不占——居中内容会偏下。
+   给等于页眉高度的底部 padding，使居中区相对整页对称、内容落到真正正中（任意窗口都准）。
+   只作用于标了 .vc 的居中型页；填满型页不动 */
+function balanceHeads(){
+  if(document.body.classList.contains('overview'))return;
+  document.querySelectorAll('.body-area.vc').forEach(function(ba){
+    var head=ba.parentElement.querySelector('.head'); if(!head){ba.style.paddingBottom='0';return;}
+    var pad=head.offsetHeight+parseFloat(getComputedStyle(head).marginBottom||0);
+    ba.style.paddingBottom=pad+'px';
+  });
+}
+requestAnimationFrame(balanceHeads);
 
 /* 默认隐藏控制栏+右侧点；鼠标移到屏幕底部才出现，离开 2.5s 淡出 */
 /* 底部控制栏 / 右侧导航点各自独立显隐：移到底部出底部栏、移到右侧出右侧点，离开该区即淡出 */
