@@ -21,7 +21,7 @@
 - **标题=结论导向**：每页标题直接说出主要发现，不写空泛栏目名。
 - **logo 分深/浅两版按底色选**：深色底用白/反白版，浅色底用深色/彩色版。
 
-详见 `references/`：`type-and-color.md` · `components.md` · `deck-architecture.md` · `chart-selection.md` · `pitfalls.md`。
+详见 `references/`：`type-and-color.md` · `components.md` · `deck-architecture.md` · `chart-selection.md` · `pitfalls.md` · **`checklist.md`（交付前每页必跑的质检清单）**。
 
 ## 翻页过渡（5 种，可切换）
 
@@ -79,6 +79,11 @@ assets/
 `assets/` 里的封面图、CANN logo、竞品截图等**仅作排版示例**，用于演示组件效果。**套用到你自己的材料时请替换成自己的素材**；其中第三方产品截图、品牌 logo 版权归各自所有，请勿直接商用或再分发。
 
 ## 更新日志
+
+### 2026-06 — 加交付前质检清单，治"生成出来要大量手调"
+- 新增 `references/checklist.md`：**每页必跑的质检清单**（字号误用 sm/xs、内容溢出 slide、flex/grid 子项漏 `min-height:0`、双层 padding 对不齐、图片裸 `aspect-ratio` 撑破、`min(vw,vh)` 视口比例陷阱、测量代替猜），配 `rg` + 无头截图自查。工作流加"交付前逐页跑 checklist"为关键步。
+- 铁律新增 **flex/grid 子项默认 `min-height:0`（横向 `min-width:0`）**——"等高对不齐 / 某栏更高 / 卡片气泡越界 / 文字被裁"几乎都是漏这条。
+- 对照 `guizang-ppt-skill` 的稳健做法提炼：填现成槽位别手搓几何、放不下就删/拆别缩字、图片固定 height+overflow+object-fit、溢出降级而非顶破。
 
 ### 2026-06 — 翻页过渡扩到 5 种 + 设计点页两版式
 
