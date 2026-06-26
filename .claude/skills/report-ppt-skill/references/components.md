@@ -37,6 +37,7 @@
   - 一律用 `<img src="…">` 引用（svg/png 皆可），别手敲文字拼 logo（字形对不上真 logo）。没有现成版本就找用户要，或对单色 logo 用 `filter:brightness(0) invert(1)` 反白（会丢彩色部件，慎用）。
 - **⛔ 页面标题前默认什么都不放——绝不放任何装饰性 icon。** 这是复用 skill 时最容易犯的错：head 的 `.brand` 槽**默认留空，只有标题 `.ttl`**；**仅当用户明确要 logo 时才加**（`<img class="logo" src="CANNlogo.png">` / 深底 `cann-dark-logo.svg`；给了别的真 logo 就换那个）。封面 `.cv-logo` 大 logo 不在此列。**严禁**在页面标题或区块标题前顶 Lucide / 通用 SVG 小图标。
 - 装饰图标**只允许存在于个别精调组件内部**（如用户画像 `.pf-h2` 自带的圈形图标，是该组件的一部分），**不是通用模式**，不要外扩到别的标题上。
+- **`.head-l` 小字（`.subttl`）视觉上在大字标题（`.brand .ttl`）上面**：`.head-l{display:flex;flex-direction:column-reverse;gap:.8vh}`（HTML 里 `.brand` 仍写在 `.subttl` 前面，靠 `column-reverse` 反转视觉顺序，别真的把 HTML 顺序倒过来）。`.subttl` 这行**通常是这页所属的章节/分类名**（如 `User Research` / `Competitive Analysis`），跟 `.brand .ttl` 那句结论型大标题是两个层级：大标题对内容负责（说这页的发现），小标题对全局结构负责（说这页归哪一类）——一份多页 deck 建议先定 3–5 个章节，再把每页的 `.subttl` 改成对应章节名，让总览/快速翻页时能一眼看出分组，不要每页各写一句不成体系的英文短语。
 
 ## 1. 关键指标 · 多彩渐变胶囊（精调模板之一，模板默认页就是它）
 
