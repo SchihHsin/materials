@@ -59,7 +59,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 
 /* ===== 顶部 logo + 标题 ===== */
 .head{display:flex;align-items:flex-start;justify-content:space-between;flex:0 0 auto;margin-bottom:3.4vh}
-.head-l{display:flex;flex-direction:column;gap:.8vh}
+.head-l{display:flex;flex-direction:column-reverse;gap:.8vh}  /* 小副标在上、大标题在下（column-reverse 反转视觉顺序，HTML 仍 brand 在前 subttl 在后）*/
 .brand{display:flex;align-items:center;gap:.5em}
 .brand .logo{height:clamp(19px,1.7vw,25px);width:auto;display:block;flex-shrink:0}
 .brand .ttl{font-family:'Inter','Noto Sans SC';font-weight:600;font-size:23px;letter-spacing:-.01em}
@@ -67,8 +67,11 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 .head-r{font-family:'JetBrains Mono';font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);text-align:right;line-height:1.8}
 .tag-on{display:inline-block;font-family:'Inter','Noto Sans SC';font-size:12px;font-weight:500;color:#fff;background:#3FB37F;border-radius:5px;padding:2px 8px;margin-left:8px;vertical-align:middle}
 
-/* padding-bottom 给 .foot / .ucd（绝对定位的页眉脚）预留空间；否则居中的卡会紧贴页尾 */
-.body-area{flex:1;min-height:0;display:flex;flex-direction:column;padding-bottom:4.2vh}
+.body-area{flex:1;min-height:0;display:flex;flex-direction:column}
+/* 居中型页（内容是居中块、四周有留白）加 .vc：JS 按实际页眉高度补 padding-bottom，
+   抵消"页眉占空间、页脚(绝对定位)不占空间"的不平衡，让内容落到整页真正正中（任意窗口都准）。
+   填满型页（旅程/VOC/画像表格等）不加 .vc——它们用满整页、不需要也不能被压缩 */
+.body-area.vc{padding-bottom:0}  /* 初值，JS 运行时改成 = 页眉高度 */
 
 /* ===== 卡片通用 ===== */
 .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:2.2vh 1.6vw}
@@ -1274,7 +1277,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
       </div>
       <div class="head-r">03 / 用户研究<br/>2026</div>
     </div>
-    <div class="body-area">
+    <div class="body-area vc">
       <div class="stat-grid">
 
         <!-- 指标1：72% 文档覆盖不足 -->
@@ -1652,7 +1655,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
       </div>
       <div class="head-r">08 / 实施路线<br/>2026</div>
     </div>
-    <div class="body-area">
+    <div class="body-area vc">
       <div class="rm">
         <div class="rm-pad">
         <!-- 月份刻度 -->
@@ -1695,7 +1698,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
       </div>
       <div class="head-r">09 / 能力矩阵<br/>2026</div>
     </div>
-    <div class="body-area">
+    <div class="body-area vc">
       <div class="hm-wrap">
         <div class="card" style="padding:2.6vh 2vw">
           <div class="hm-grid" id="cann-matrix" style="grid-template-columns:150px repeat(6,1fr)"></div>
@@ -1720,7 +1723,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
       </div>
       <div class="head-r">10 / 体验架构<br/>2026</div>
     </div>
-    <div class="body-area">
+    <div class="body-area vc">
       <div class="arc">
         <div class="arc-row">
           <div class="arc-lbl"><span class="zh">目标</span><span class="en">Vision</span></div>
@@ -1814,7 +1817,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
       </div>
       <div class="head-r">11 / 设计目标<br/>2026</div>
     </div>
-    <div class="body-area">
+    <div class="body-area vc">
       <div class="dh-wrap">
         <div class="dh-lead">三项可量化的设计目标，把 CANN 开发体验从<b>「能用」推向「好用」</b>。</div>
         <div class="dh">
@@ -2231,7 +2234,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
       </div>
       <div class="head-r">15 / 干系人地图<br/>2026</div>
     </div>
-    <div class="body-area">
+    <div class="body-area vc">
       <div class="sm2">
         <div class="sm2-left">
           <h2>围绕开发者，工具与角色高度割裂</h2>
@@ -2327,7 +2330,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
       </div>
       <div class="head-r">16 / 时间分布<br/>2026</div>
     </div>
-    <div class="body-area">
+    <div class="body-area vc">
       <div class="sm2" style="align-items:stretch">
         <div class="sm2-left">
           <h2>调试 + 调优合计占 63%，真正写代码只剩 12%</h2>

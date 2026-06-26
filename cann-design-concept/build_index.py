@@ -125,7 +125,8 @@ body[data-transition=slide-h] .slide.leaving{opacity:1}
 /* magic：底层交叉淡化，匹配 data-key 的元素由 JS 做 FLIP 位移/缩放（神奇移动）*/
 body[data-transition=magic] .slide{transition:opacity .6s ease}
 body[data-transition=magic] .slide.leaving{opacity:0}
-/* 概览态优先：盖掉受控叠层的定位/透明/位移，回到网格缩略图 */
+/* 概览态优先：盖掉受控叠层的定位/透明/位移，回到网格缩略图；overflow 也要还原，否则受控翻页模式下总览页缩略图超一屏时滚不动 */
+body.overview.ctrl{overflow:hidden auto}
 body.overview.ctrl #deck{position:static}
 body.overview.ctrl .slide{position:relative!important;opacity:1!important;visibility:visible!important;transform:none!important}
 
@@ -425,7 +426,7 @@ syncFsIcon();
 /* 总览 Overview：每页包进 .slide-inner 缩放成缩略图，排网格 */
 function applyOverviewScale(){if(!document.body.classList.contains('overview'))return;const cellW=slides[0].getBoundingClientRect().width,scale=cellW/window.innerWidth;slides.forEach(s=>{s.style.height=(window.innerHeight*scale)+'px';const inner=s.querySelector(':scope>.slide-inner');if(inner)inner.style.transform='scale('+scale+')';});}
 function enterOverview(){slides.forEach(s=>{if(!s.querySelector(':scope>.slide-inner')){const w=document.createElement('div');w.className='slide-inner';while(s.firstChild)w.appendChild(s.firstChild);s.appendChild(w);}});document.body.classList.add('overview');requestAnimationFrame(applyOverviewScale);}
-function exitOverview(){slides.forEach(s=>{const w=s.querySelector(':scope>.slide-inner');if(w){while(w.firstChild)s.insertBefore(w.firstChild,w);w.remove();}s.style.height='';});document.body.classList.remove('overview');if(CTRL){setActive(idx);}else setTimeout(()=>slides[idx].scrollIntoView({block:'start',behavior:'auto'}),20);}
+function exitOverview(){slides.forEach(s=>{const w=s.querySelector(':scope>.slide-inner');if(w){while(w.firstChild)s.insertBefore(w.firstChild,w);w.remove();}s.style.height='';});document.body.classList.remove('overview');balanceHeads();if(CTRL){setActive(idx);}else setTimeout(()=>slides[idx].scrollIntoView({block:'start',behavior:'auto'}),20);}
 function toggleOverview(){ if(document.body.classList.contains('overview')){exitOverview();} else enterOverview(); }
 ovBtn.onclick=toggleOverview;
 document.body.addEventListener('click',e=>{if(!document.body.classList.contains('overview'))return;const sl=e.target.closest('.slide');if(sl){const i=slides.indexOf(sl);if(i>=0){idx=i;exitOverview();}}});
@@ -451,6 +452,21 @@ slides.forEach(paintSlide);
 })();
 /* 手动改地址 #页码 → 跳到对应页 */
 addEventListener('hashchange',function(){var n=parseInt(location.hash.slice(1),10);if(!isNaN(n)&&n>=1&&n<=slides.length&&(n-1)!==idx)go(n-1);});
+
+/* ===== 居中型页竖向平衡：.body-area.vc 的 padding-bottom = 实际页眉高度 =====
+   页眉(.head)在文档流里占空间、页脚(.foot/.ucd 绝对定位)不占——居中内容会偏下。
+   给等于页眉高度的底部 padding，使居中区相对整页对称、内容落到真正正中（任意窗口都准）。
+   只作用于标了 .vc 的居中型页；填满型页不动 */
+function balanceHeads(){
+  if(document.body.classList.contains('overview'))return;
+  document.querySelectorAll('.body-area.vc').forEach(function(ba){
+    var head=ba.parentElement.querySelector('.head'); if(!head){ba.style.paddingBottom='0';return;}
+    var foot=head.offsetHeight+parseFloat(getComputedStyle(head).marginBottom||0);
+    ba.style.paddingBottom=foot+'px';
+  });
+}
+addEventListener('resize',balanceHeads);
+requestAnimationFrame(balanceHeads);
 
 /* ===== gray 简笔头像 ===== */
 const AV_SKIN={light:'#F3D2B0',tan:'#E1B188',brown:'#B97F58',pale:'#F7DEC4'};
