@@ -71,7 +71,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 /* 居中型页（内容是居中块、四周有留白）加 .vc：JS 按实际页眉高度补 padding-bottom，
    抵消"页眉占空间、页脚(绝对定位)不占空间"的不平衡，让内容落到整页真正正中（任意窗口都准）。
    填满型页（旅程/VOC/画像表格等）不加 .vc——它们用满整页、不需要也不能被压缩 */
-.body-area.vc{padding-bottom:0}  /* 初值，JS 运行时改成 = 页眉高度 */
+.body-area.vc{padding-bottom:0;justify-content:center}  /* padding-bottom 初值，JS balanceHeads() 运行时改成让"页眉下沿→内容顶"和"内容底→页脚上沿"两个空白相等的值（别拿页眉高度算，会补过头）；justify-content:center 让内容块组（即使不是 flex:1 撑满，如竞品卡+黑条这种 flex:0 0 auto 的内容组）整体垂直居中 */
 
 /* ===== 卡片通用 ===== */
 .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:2.2vh 1.6vw}
@@ -1613,7 +1613,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
       </div>
       <div class="head-r">07 / 竞品对照<br/>2026</div>
     </div>
-    <div class="body-area">
+    <div class="body-area vc">
       <div class="compare">
         <div class="cmp">
           <div class="cmp-body">

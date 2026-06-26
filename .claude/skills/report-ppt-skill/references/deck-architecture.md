@@ -68,9 +68,10 @@ if(CTRL){ document.body.classList.add('ctrl'); document.body.dataset.transition=
 - 点缩略图跳到该页并退出；`body.overview #panel,#toggle{display:none!important}` 隐藏调色入口（否则它会浮在概览上）。
 
 ### 居中型页的竖向平衡（`.body-area.vc` + `balanceHeads()`）
-- `.head` 在文档流里占空间，`.foot`/`.ucd` 是绝对定位不占空间——所以"居中型"页（内容是个居中块，如数据卡/甘特/2×2 矩阵/sm2 图文）若只靠 `justify-content:center`，净效果会偏上或偏下，且固定 `padding-bottom:Nvh` 这种猜测值在不同页眉高度/窗口宽高比下都对不上。
-- **正确做法**：给这类页的 `.body-area` 加 `.vc` 修饰类，JS `balanceHeads()` 量出该页 `.head` 的实际 `offsetHeight+marginBottom`，把这个像素值设成 `.body-area.vc` 的 `padding-bottom`（`resize`、`exitOverview()`、首屏 `requestAnimationFrame` 时重算）——按真实页眉高度动态补偿，任意窗口都准。
-- **填满型页不加 `.vc`**：旅程/VOC/画像表格/竞品对照等本身占满整页、不需要居中补偿的页留空，否则会被多余的 `padding-bottom` 挤变形。
+- `.head` 在文档流里占空间，`.foot`/`.ucd` 是绝对定位不占空间——所以"居中型"页（内容是个居中块，如数据卡/甘特/2×2 矩阵/sm2 图文/竞品对照）若只靠 `justify-content:center`，净效果会偏上或偏下，且固定 `padding-bottom:Nvh` 这种猜测值在不同页眉高度/窗口宽高比下都对不上。
+- **正确做法**：给这类页的 `.body-area` 加 `.vc` 修饰类，JS `balanceHeads()` **直接量两个可见空白**——「页眉下沿→内容顶」(`topGap`) 和「内容底→页脚上沿」(`botGap`)——让它们相等。⚠️ **别拿页眉高度当 padding-bottom**（直觉上"页眉占了多少空间就补多少"，试过，系统性补过头：页眉的留白已经是它自己的 `margin-bottom`，不需要重复补偿，真正缺的只是页脚 inset 那一截）。两者之差是 padding 的线性函数（斜率恰为 -1，因为 `justify-content:center` 对称分担任何 padding 变化），所以一步公式即可、不用试错：`newPad = 当前 padding-bottom + (topGap − botGap)`（`resize`、`exitOverview()`、首屏 `requestAnimationFrame` 时重算）。
+- **填满型页不加 `.vc`**：旅程/VOC/画像表格等本身占满整页、不需要居中补偿的页留空，否则会被多余的 `padding-bottom` 挤变形。
+- ⚠️ **`.vc` 只解决 padding，不解决 `justify-content`**：若该页内容组是 `flex:0 0 auto`（不撑满高度，如竞品卡+对策条），`.body-area` 基类本身要带 `justify-content:center` 才能整体居中——模板的 `.body-area` 基类已带，自定义页别手滑去掉。
 
 ## 多分册 → 单 index.html（推荐工作流）
 

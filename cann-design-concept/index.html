@@ -82,7 +82,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 /* 居中型页（内容是居中块、四周有留白）加 .vc：JS 按实际页眉高度补 padding-bottom，
    抵消"页眉占空间、页脚(绝对定位)不占空间"的不平衡，让内容落到整页真正正中（任意窗口都准）。
    填满型页（旅程/VOC/画像表格等）不加 .vc——它们用满整页、不需要也不能被压缩 */
-.body-area.vc{padding-bottom:0}  /* 初值，JS 运行时改成 = 页眉高度 */
+.body-area.vc{padding-bottom:0;justify-content:center}  /* padding-bottom 初值，JS balanceHeads() 运行时改成让"页眉下沿→内容顶"和"内容底→页脚上沿"两个空白相等的值（别拿页眉高度算，会补过头）；justify-content:center 让内容块组（即使不是 flex:1 撑满，如竞品卡+黑条这种 flex:0 0 auto 的内容组）整体垂直居中 */
 
 /* ===== 卡片通用 ===== */
 .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:2.2vh 1.6vw}
@@ -1936,7 +1936,7 @@ body.overview #panel,body.overview #toggle{display:none!important}
       </div>
       <div class="head-r">07 / 竞品对照<br/>2026</div>
     </div>
-    <div class="body-area">
+    <div class="body-area vc">
       <div class="compare">
         <div class="cmp">
           <div class="cmp-body">
@@ -3052,16 +3052,24 @@ slides.forEach(paintSlide);
 /* 手动改地址 #页码 → 跳到对应页 */
 addEventListener('hashchange',function(){var n=parseInt(location.hash.slice(1),10);if(!isNaN(n)&&n>=1&&n<=slides.length&&(n-1)!==idx)go(n-1);});
 
-/* ===== 居中型页竖向平衡：.body-area.vc 的 padding-bottom = 实际页眉高度 =====
-   页眉(.head)在文档流里占空间、页脚(.foot/.ucd 绝对定位)不占——居中内容会偏下。
-   给等于页眉高度的底部 padding，使居中区相对整页对称、内容落到真正正中（任意窗口都准）。
+/* ===== 居中型页竖向平衡：直接量"页眉下沿→内容"和"内容→页脚上沿"两个可见空白，让它们相等 =====
+   ⚠️ 别拿页眉高度当 padding-bottom（试过，会系统性补过头）：页眉的留白已经是它自己的 margin-bottom，
+   不需要重复补；真正缺的只是页脚那一截（.foot 绝对定位、不占流式空间，但视觉上离底边有自己的 inset）。
+   两个空白差是 P 的线性函数、斜率恰为 -1（justify-content:center 对称分担），所以不用试错：
+   newPad = 当前 padding-bottom + (topGap − botGap)，一步算出让两个空白相等的正确值。
    只作用于标了 .vc 的居中型页；填满型页不动 */
 function balanceHeads(){
   if(document.body.classList.contains('overview'))return;
   document.querySelectorAll('.body-area.vc').forEach(function(ba){
-    var head=ba.parentElement.querySelector('.head'); if(!head){ba.style.paddingBottom='0';return;}
-    var foot=head.offsetHeight+parseFloat(getComputedStyle(head).marginBottom||0);
-    ba.style.paddingBottom=foot+'px';
+    var head=ba.parentElement.querySelector('.head');
+    var foot=ba.parentElement.querySelector('.foot');
+    var kids=ba.children; if(!head||!foot||!kids.length)return;
+    var firstTop=kids[0].getBoundingClientRect().top;
+    var lastBottom=kids[kids.length-1].getBoundingClientRect().bottom;
+    var topGap=firstTop-head.getBoundingClientRect().bottom;
+    var botGap=foot.getBoundingClientRect().top-lastBottom;
+    var curPad=parseFloat(getComputedStyle(ba).paddingBottom)||0;
+    ba.style.paddingBottom=Math.max(0,curPad+(topGap-botGap))+'px';
   });
 }
 addEventListener('resize',balanceHeads);

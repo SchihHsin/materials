@@ -685,16 +685,24 @@ ovBtn.onclick=toggleOverview;
 document.body.addEventListener('click',e=>{if(!document.body.classList.contains('overview'))return;const sl=e.target.closest('.slide');if(sl){const i=slides.indexOf(sl);if(i>=0){idx=i;exitOverview();}}});
 addEventListener('resize',()=>{if(document.body.classList.contains('overview'))applyOverviewScale();else reanchor();balanceHeads();});
 
-/* ===== 居中型页竖向平衡：.body-area.vc 的 padding-bottom = 实际页眉高度 =====
-   页眉(.head)在文档流里占空间、页脚(.foot/.ucd 绝对定位)不占——居中内容会偏下。
-   给等于页眉高度的底部 padding，使居中区相对整页对称、内容落到真正正中（任意窗口都准）。
+/* ===== 居中型页竖向平衡：直接量"页眉下沿→内容"和"内容→页脚上沿"两个可见空白，让它们相等 =====
+   ⚠️ 别拿页眉高度当 padding-bottom（试过，会系统性补过头）：页眉的留白已经是它自己的 margin-bottom，
+   不需要重复补；真正缺的只是页脚那一截（.foot 绝对定位、不占流式空间，但视觉上离底边有自己的 inset）。
+   两个空白差是 P 的线性函数、斜率恰为 -1（justify-content:center 对称分担），所以不用试错：
+   newPad = 当前 padding-bottom + (topGap − botGap)，一步算出让两个空白相等的正确值。
    只作用于标了 .vc 的居中型页；填满型页不动 */
 function balanceHeads(){
   if(document.body.classList.contains('overview'))return;
   document.querySelectorAll('.body-area.vc').forEach(function(ba){
-    var head=ba.parentElement.querySelector('.head'); if(!head){ba.style.paddingBottom='0';return;}
-    var pad=head.offsetHeight+parseFloat(getComputedStyle(head).marginBottom||0);
-    ba.style.paddingBottom=pad+'px';
+    var head=ba.parentElement.querySelector('.head');
+    var foot=ba.parentElement.querySelector('.foot');
+    var kids=ba.children; if(!head||!foot||!kids.length)return;
+    var firstTop=kids[0].getBoundingClientRect().top;
+    var lastBottom=kids[kids.length-1].getBoundingClientRect().bottom;
+    var topGap=firstTop-head.getBoundingClientRect().bottom;
+    var botGap=foot.getBoundingClientRect().top-lastBottom;
+    var curPad=parseFloat(getComputedStyle(ba).paddingBottom)||0;
+    ba.style.paddingBottom=Math.max(0,curPad+(topGap-botGap))+'px';
   });
 }
 requestAnimationFrame(balanceHeads);

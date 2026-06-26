@@ -7,7 +7,7 @@
 - **`min-content≈0` 导致 flex 行被压扁**：行内全是绝对定位子元素时，该行 min-content 约等于 0，会被 flex 压没 → 显式 `height` + `flex-shrink:0` 锁高（情绪曲线行的教训）。
 - **`gap` 本身是对称的**：flex/grid `gap` 在所有相邻项之间相等。若"看着上大下小"，多半是**某个块自身内部留白**（如带背景的标题块、两行文字块的 padding/line-height）造成的视觉差，不是 gap 不对称——去收紧那个块的内边距，别去动 gap。
 - 想"前几项等距、最后一项贴底"：前面用统一 `gap`，最后一项 `margin-top:auto`（它只吃多余空间，不影响前面的等距）。
-- **`.foot` / `.ucd` 是绝对定位、不占垂直空间，但 `.head` 占空间**：所以"居中型"页（内容是个居中块、四周留白，如数据卡/甘特/2×2 矩阵/sm2 图文）会被头部往下挤、净效果是偏上/偏下，固定 `padding-bottom:4.2vh`/`1.5vh` 这类猜测值**在不同页眉高度、不同窗口宽高比下都对不上**（量出来有时 0px 有时偏几十 px）。**对策**：居中型页的 `.body-area` 加 `.vc` 标记，配合 JS `balanceHeads()`（量每页实际 `.head` 的 `offsetHeight+marginBottom`，把这个像素值设为 `.body-area.vc` 的 `padding-bottom`，在 `resize`/`exitOverview` 时重算）——按真实页眉高度动态补偿，任意窗口都准。**别**给整站一个固定 vh/px 猜测值。"填满型"页（旅程/VOC/画像/竞品对照等本身占满整页、不需要居中补偿的）不要加 `.vc`。
+- **`.foot` / `.ucd` 是绝对定位、不占垂直空间**：所以"居中型"页（内容是个居中块、四周留白，如数据卡/甘特/2×2 矩阵/sm2 图文/竞品对照）只靠 `justify-content:center` 会偏下，固定 `padding-bottom:4.2vh`/`1.5vh` 这类猜测值**在不同页眉高度、不同窗口宽高比下都对不上**（量出来有时 0px 有时偏几十 px）。**对策**：居中型页的 `.body-area` 加 `.vc` 标记，配合 JS `balanceHeads()`——**别拿页眉高度当 padding-bottom**（直觉上"页眉占空间所以要补页眉那么多"，试过，会系统性补过头：页眉的留白已经是它自己的 `margin-bottom`，不需要重复补）；正确做法是**直接量"页眉下沿→内容顶"和"内容底→页脚上沿"两个可见空白，让它们相等**——这两个空白之差是 padding 的线性函数（斜率 -1），所以一步算出 `newPad = 当前 padding-bottom + (topGap − botGap)` 即可，不用试错。"填满型"页（旅程/VOC/画像/竞品对照等本身占满整页、不需要居中补偿的）不要加 `.vc`。⚠️ 像 `.compare`+`.verdict` 这种 `flex:0 0 auto`（不撑满高度）的内容组，`.body-area` 本身也要有 `justify-content:center` 才能居中——光加 `.vc` 不够，模板的 `.body-area` 基类已带这条，自定义页别手滑去掉。
 
 ## 翻页 / 概览
 
