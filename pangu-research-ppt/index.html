@@ -293,10 +293,10 @@ body.overview #panel,body.overview #toggle{display:none!important}
         <div class="cv-meta">Ascend · Compute Architecture</div>
       </div>
       <div class="cv-center">
-        <div class="cv-kicker">Design Concept · 2026</div>
+        <div class="cv-kicker">User Research · 2026</div>
         <div class="cv-logo"><img src="cann-dark-logo.svg" alt="CANN"></div>
-        <div class="cv-sub">DesignConcept 2026</div>
-        <div class="cv-lead">华为昇腾计算架构 · 开发者体验设计概念</div>
+        <div class="cv-sub">盘古训练场景用户研究报告</div>
+        <div class="cv-lead">万卡训练 · 算子开发 · 精度对齐 · 训推迁移 —— 全栈开发者体验研究</div>
       </div>
       <div class="cv-bot">
         <div class="cv-ucd"><span class="sq"></span>UCD CENTER</div>
@@ -309,16 +309,16 @@ body.overview #panel,body.overview #toggle{display:none!important}
   <section class="slide s-gray">
     <div class="head">
       <div class="head-l">
-        <div class="brand"><span class="ttl">文档、调试、环境是三大核心障碍</span></div>
-        <div class="subttl">User Research · 2026 Q1 · 关键指标概览</div>
+        <div class="brand"><span class="ttl">编译 30–60min、单算子 460+ 产物、调试效率降 70%</span></div>
+        <div class="subttl">Key Findings · 工具链断裂是最严重的基础问题</div>
       </div>
-      <div class="head-r">01 / 用户研究<br/>2026</div>
+      <div class="head-r">01 / 核心发现<br/>2026</div>
     </div>
     <div class="body-area vc">
       <div class="stat-grid">
-        <div class="stat-col"><div class="stat-bar-area"><div class="stat-marks"><span>0</span><span class="stat-tri" style="left:72%">▼</span><span>100%</span></div><div class="stat-pills"><div class="stat-pill" style="flex:72;background:linear-gradient(90deg,#FF6B9D,#FF9340)"></div><div class="stat-pill" style="flex:28;background:linear-gradient(90deg,#FF9340,#FFE040)"></div></div></div><div class="stat-num">72<span class="u">%</span></div><div class="stat-desc">开发者表示文档覆盖不足，找不到连贯的学习路径，上手阶段严重受阻。</div></div>
-        <div class="stat-col"><div class="stat-bar-area"><div class="stat-marks"><span>0</span><span class="stat-tri" style="left:58%">▼</span><span>100%</span></div><div class="stat-pills"><div class="stat-pill" style="flex:58;background:linear-gradient(90deg,#56F5A0,#38D4CF)"></div><div class="stat-pill" style="flex:42;background:linear-gradient(90deg,#38D4CF,#4FACFE)"></div></div></div><div class="stat-num">58<span class="u">%</span></div><div class="stat-desc">开发者陷入调试黑盒，只能靠 print 排查，定位一个问题平均耗时数天。</div></div>
-        <div class="stat-col"><div class="stat-bar-area"><div class="stat-marks"><span>0</span><span class="stat-tri" style="left:47%">▼</span><span>100%</span></div><div class="stat-pills"><div class="stat-pill" style="flex:47;background:linear-gradient(90deg,#667EEA,#B260D8)"></div><div class="stat-pill" style="flex:53;background:linear-gradient(90deg,#B260D8,#F5576C)"></div></div></div><div class="stat-num">47<span class="u">%</span></div><div class="stat-desc">受版本依赖矩阵复杂度影响，换机器复现实验时遭遇环境配置失败。</div></div>
+        <div class="stat-col"><div class="stat-bar-area"><div class="stat-marks"><span>0</span><span class="stat-tri" style="left:80%">▼</span><span>满</span></div><div class="stat-pills"><div class="stat-pill" style="flex:80;background:linear-gradient(90deg,#FF6B9D,#FF9340)"></div><div class="stat-pill" style="flex:20;background:linear-gradient(90deg,#FF9340,#FFE040)"></div></div></div><div class="stat-num">30–60<span class="u">min</span></div><div class="stat-desc">ASC 算子单次编译等待；不支持增量编译，Host 改动也触发 Device 全量重编。</div></div>
+        <div class="stat-col"><div class="stat-bar-area"><div class="stat-marks"><span>0</span><span class="stat-tri" style="left:85%">▼</span><span>满</span></div><div class="stat-pills"><div class="stat-pill" style="flex:85;background:linear-gradient(90deg,#56F5A0,#38D4CF)"></div><div class="stat-pill" style="flex:15;background:linear-gradient(90deg,#38D4CF,#4FACFE)"></div></div></div><div class="stat-num">460<span class="u">+</span></div><div class="stat-desc">单个算子可生成 460+ 个 .o 编译产物，构建慢、加载慢、产物冗余。</div></div>
+        <div class="stat-col"><div class="stat-bar-area"><div class="stat-marks"><span>0</span><span class="stat-tri" style="left:70%">▼</span><span>满</span></div><div class="stat-pills"><div class="stat-pill" style="flex:70;background:linear-gradient(90deg,#667EEA,#B260D8)"></div><div class="stat-pill" style="flex:30;background:linear-gradient(90deg,#B260D8,#F5576C)"></div></div></div><div class="stat-num">70<span class="u">%+</span></div><div class="stat-desc">高优化等级下断点失效、仿真日志几十万行 16 进制，调试效率下降 70%+。</div></div>
       </div>
     </div>
   </section>
@@ -327,38 +327,38 @@ body.overview #panel,body.overview #toggle{display:none!important}
   <section class="slide s-gray">
     <div class="head">
       <div class="head-l">
-        <div class="brand"><span class="ttl">竞品已普及统一时间线，CANN 仍缺位</span></div>
-        <div class="subttl">Competitive Analysis · Nsight / VTune / rocprof 横向对比</div>
+        <div class="brand"><span class="ttl">NVIDIA 链路 15–30min 定位掉卡、14min 恢复，昇腾差距明显</span></div>
+        <div class="subttl">Competitive · 成熟生产工具链参照（采集 / SLA / 训推一致）</div>
       </div>
-      <div class="head-r">02 / 竞品对照<br/>2026</div>
+      <div class="head-r">02 / 友商对比<br/>2026</div>
     </div>
     <div class="body-area" style="justify-content:flex-start">
       <div class="compare">
         <div class="cmp">
           <div class="cmp-body">
-            <div class="cmp-h"><span class="hk">Timeline 标杆</span>时间线 + 源码跳转，新手零门槛</div>
-            <div class="cmp-desc">以 <b>CPU/GPU 统一时间线</b> 为核心，开发者框选即可缩放、定位瓶颈算子，并支持 <b>事件 → 源码一键跳转</b>。配合完善的教程体系，新手也能<b>引导式上手</b> Profiling，几乎零学习成本。</div>
+            <div class="cmp-h"><span class="hk">全局采集</span>nsys 采得到数据搬运量，昇腾缺这类数据</div>
+            <div class="cmp-desc">Nsight / nsys 能采集 <b>数据搬运量、通信等全局信息</b> 并统一时间线展示；庞西豹明确指出「昇腾<b>缺少这种数据</b>」。退回单卡采样虽把开销控制在 1–2%，却会<b>漏判通信瓶颈与跨节点不均衡</b>。</div>
           </div>
           <div class="cmp-img"><img src="cmp-nsight.jpg" alt="Nsight Systems 界面"><div class="cmp-cap">NVIDIA Nsight Systems</div></div>
         </div>
         <div class="cmp">
           <div class="cmp-body">
-            <div class="cmp-h"><span class="hk">归因深度</span>逐层下钻，瓶颈归因到微架构</div>
-            <div class="cmp-desc">提供多种分析类型，热点可 <b>逐层下钻</b>，并给出 <b>微架构级瓶颈归因</b>，直指问题根因。向导式配置分析任务，让性能调优<b>有据可依、不靠猜测</b>，深受系统级开发者青睐。</div>
+            <div class="cmp-h"><span class="hk">生产 SLA</span>掉卡 15–30min 定位，目标恢复 14min</div>
+            <div class="cmp-desc">成熟链路把可靠性做成 SLA：常见掉卡 <b>15–30min 定位</b>、目标 <b>故障恢复 14min、备用节点 3min 启用</b>、MFU <b>54%+</b>、有效算力 <b>85%+</b>。昇腾侧仍靠手动盯任务、人工排查，缺生产级闭环。</div>
           </div>
           <div class="cmp-img"><img src="cmp-vtune.jpg" alt="Intel VTune 界面"><div class="cmp-cap">Intel VTune Profiler</div></div>
         </div>
         <div class="cmp">
           <div class="cmp-body">
-            <div class="cmp-h"><span class="hk">开放协作</span>开源 Web 化，trace 浏览器可分享</div>
-            <div class="cmp-desc">走 <b>开源 + Web 化</b> 路线，trace 可导出 <b>Perfetto</b> 在浏览器中查看与 <b>分享</b>。虽以命令行采集为主，但天然适合<b>团队协作与远程复现</b>，可视化门槛低、可扩展性强。</div>
+            <div class="cmp-h"><span class="hk">训推一致</span>Tensor Hook 逐层对齐 + trace 标准统一</div>
+            <div class="cmp-desc">工具成体系且 <b>数据标准统一</b>（HTA / Flight Recorder / DCGM），trace 可跨工具联动；训推一体用 <b>Tensor Hook 逐层比对</b>、余弦相似度分析，保证训练端与推理端算子一致——昇腾侧训推算子不一致会直接影响 RL 效果。</div>
           </div>
           <div class="cmp-img"><img src="cmp-rocm-tool.jpg" alt="AMD rocprof 架构"><div class="cmp-cap">AMD rocprof / Omnitrace</div></div>
         </div>
       </div>
       <div class="verdict">
         <span class="vk">对策</span>
-        <span class="vv">CANN 的 Profiling 看板应对标三家共性——<b>统一时间线 + 一键瓶颈定位 + Web 化可视化</b>，并补齐<b>事件→源码跳转</b>与<b>浏览器端 trace 分享</b>，把命令行门槛降下来。</span>
+        <span class="vv">对策：补 <b>低扰动分层采样</b>（避开全量 5–15% 开销与单卡误判）+ <b>统一 trace 数据标准</b> + <b>全局训练状态 & 故障自动恢复闭环</b>，把万卡定位成本与训推不一致一起降下来。</span>
       </div>
     </div>
   </section>
@@ -367,19 +367,19 @@ body.overview #panel,body.overview #toggle{display:none!important}
   <section class="slide s-gray">
     <div class="head">
       <div class="head-l">
-        <div class="brand"><span class="ttl">资深用户：追求极致性能的内源算子专家</span></div>
-        <div class="subttl">User Persona · 内源团队主力</div>
+        <div class="brand"><span class="ttl">ASC 算子开发工程师：被编译 / 调试 / 日志困在工具链里</span></div>
+        <div class="subttl">User Persona · 研发侧核心角色</div>
       </div>
-      <div class="head-r">03 / 用户画像 · 形式一<br/>2026</div>
+      <div class="head-r">03 / 用户画像<br/>2026</div>
     </div>
     <div class="body-area" style="justify-content:flex-start">
       <div class="pf">
         <div class="pf-side">
           <div class="pf-portrait"><img src="persona.svg" alt=""></div>
-          <div class="pf-sb head"><div class="nm">李 · 资深算子工程师</div><div class="rl">Senior Operator Engineer · 内源团队</div></div>
-          <div class="pf-sb white"><div class="sbh">标签</div><div class="pf-chips"><span>8 年经验</span><span>团队 Leader</span><span>Ascend C 专家</span><span>C++ / CUDA</span></div></div>
-          <div class="pf-sb white"><div class="sbh">职责</div><div class="sbt">负责高性能融合算子开发与性能调优，沉淀团队算子库与开发规范</div></div>
-          <div class="pf-sb white" style="margin-top:auto"><div class="sbh">原声</div><div class="pf-quote">性能优化是门手艺，工具得让我看见每一层。</div></div>
+          <div class="pf-sb head"><div class="nm">王 · ASC 算子开发工程师</div><div class="rl">ASC Operator Engineer · 研发侧</div></div>
+          <div class="pf-sb white"><div class="sbh">标签</div><div class="pf-chips"><span>Ascend C 专家</span><span>编译器</span><span>C++ / CUDA</span><span>体系结构</span></div></div>
+          <div class="pf-sb white"><div class="sbh">职责</div><div class="sbt">实现高性能融合算子，覆盖「编译 - 调试 - 测试 - 发布」全链路，沉淀团队算子库</div></div>
+          <div class="pf-sb white" style="margin-top:auto"><div class="sbh">原声</div><div class="pf-quote">ASC 最困难的一点，就是没法调试。</div></div>
         </div>
         <div class="pf-r">
           <div class="pf-row">
@@ -387,39 +387,39 @@ body.overview #panel,body.overview #toggle{display:none!important}
           <div class="pf-h2"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#385CFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7.5" width="18" height="12" rx="2"/><path d="M8 7.5V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1.5"/></svg></span>岗位特征</div>
           <div class="pf-sub">主要工作职责及分配占比</div>
           <div class="pf-rings">
-            <div class="pf-rg"><div class="dn" style="--p:45%"><b>45%</b></div><div class="rl2">NPU 推理链路<br/>适配与调试</div></div>
-            <div class="pf-rg"><div class="dn" style="--p:30%"><b>30%</b></div><div class="rl2">吞吐 / 时延<br/>性能调优</div></div>
-            <div class="pf-rg"><div class="dn" style="--p:25%"><b>25%</b></div><div class="rl2">文档查阅与<br/>问题排查</div></div>
+            <div class="pf-rg"><div class="dn" style="--p:45%"><b>45%</b></div><div class="rl2">算子实现<br/>与编译验证</div></div>
+            <div class="pf-rg"><div class="dn" style="--p:30%"><b>30%</b></div><div class="rl2">调试定位<br/>与日志分析</div></div>
+            <div class="pf-rg"><div class="dn" style="--p:25%"><b>25%</b></div><div class="rl2">文档查阅与<br/>精度对齐</div></div>
           </div>
           </div>
           <div class="pf-block">
           <div class="pf-h2"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#385CFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="6" height="5" rx="1"/><rect x="15" y="15" width="6" height="5" rx="1"/><path d="M9 6.5h3.5a2 2 0 0 1 2 2V15.5"/></svg></span>上下游协同关系</div>
           <div class="pf-flow">
-            <div class="pf-fc"><div class="ft">需求来源</div><div class="fl">推荐/大模型业务方提出上线需求</div><div class="fl">算法团队交付待部署模型</div></div>
+            <div class="pf-fc"><div class="ft">需求来源</div><div class="fl">算法团队提出算子需求</div><div class="fl">算子需求分析师梳理支持状态</div></div>
             <div class="pf-fa">➤</div>
-            <div class="pf-fc"><div class="ft">交付物</div><div class="fl">昇腾适配推理服务包</div><div class="fl">性能基线报告与调优方案</div><div class="fl">算子缺失问题排查记录</div><div class="fkpi"><span class="kl">KPI</span><b>推理时延 P99</b><b>GPU 替换率</b><b>上线周期</b></div></div>
+            <div class="pf-fc"><div class="ft">交付物</div><div class="fl">高性能融合算子</div><div class="fl">精度基线 + 性能基线</div><div class="fl">测试用例与调试记录</div><div class="fkpi"><span class="kl">KPI</span><b>开发周期</b><b>编译耗时</b><b>精度达标</b></div></div>
             <div class="pf-fa">➤</div>
-            <div class="pf-fc"><div class="ft">下一步流转</div><div class="fl">SRE 团队接手灰度上线</div><div class="fl">业务方验收精度与响应时延</div></div>
+            <div class="pf-fc"><div class="ft">下一步流转</div><div class="fl">框架团队集成 / MDE 详设</div><div class="fl">训练 / 推理侧验证算子</div></div>
             <div class="pf-fa">➤</div>
-            <div class="pf-fc"><div class="ft">产出去向</div><div class="fl">线上推理服务正式替换 GPU 集群</div></div>
+            <div class="pf-fc"><div class="ft">产出去向</div><div class="fl">进入盘古训练 / 推理生产链路</div></div>
           </div>
           </div>
           </div>
           <div class="pf-h2"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#385CFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="1.2"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.2"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.2"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.2"/></svg></span>典型业务场景及工具</div>
           <div class="pf-scs">
-            <div class="pf-sc"><div class="pf-mk"><div class="bar"><i></i><i></i><i></i></div><div class="bd"><span class="mkl b" style="width:45%"></span><span class="mkl" style="width:90%"></span><div style="display:flex;align-items:center;gap:3px"><span style="width:4px;height:4px;border-radius:50%;background:#385CFF;flex-shrink:0"></span><span class="mkl" style="flex:1"></span></div><div style="display:flex;align-items:center;gap:3px"><span style="width:4px;height:4px;border-radius:50%;background:#C4CAD6;flex-shrink:0"></span><span class="mkl" style="flex:1"></span></div></div></div><div class="st">资源获取与问题解决</div><div class="sd">昇腾社区 · GitCode</div></div>
-            <div class="pf-sc"><div class="pf-mk"><div class="bar"><i></i><i></i><i></i></div><div class="bd" style="flex-direction:row;gap:4px"><div style="width:8px;display:flex;flex-direction:column;gap:2px"><span class="mkl"></span><span class="mkl"></span><span class="mkl"></span></div><div style="flex:1;background:#1E2740;border-radius:3px;padding:3px;display:flex;flex-direction:column;gap:2px"><span class="mkl" style="width:70%;background:rgba(255,255,255,.28)"></span><span class="mkl" style="width:88%;background:rgba(120,150,255,.55)"></span><span class="mkl" style="width:60%;background:rgba(255,255,255,.2)"></span></div></div></div><div class="st">推理代码适配</div><div class="sd">Trae（AI IDE）· 智能体协作</div></div>
-            <div class="pf-sc"><div class="pf-mk"><div class="bar"><i></i><i></i><i></i></div><div class="bd"><div style="display:flex;gap:3px"><span style="height:5px;width:34%;background:var(--b);border-radius:2px"></span><span style="height:5px;width:24%;background:#E8896B;border-radius:2px"></span></div><span class="mkl b" style="width:62%"></span><span class="mkl" style="width:80%"></span></div></div><div class="st">性能 Profiling</div><div class="sd">MindStudio · 火山引擎监控平台</div></div>
-            <div class="pf-sc"><div class="pf-mk"><div class="bar"><i></i><i></i><i></i></div><div class="bd"><svg viewBox="0 0 100 40" preserveAspectRatio="none" style="width:100%;flex:1"><polyline points="2,30 20,16 38,24 56,9 74,20 98,7" fill="none" stroke="#385CFF" stroke-width="2" vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div><div class="st">精度对齐验证</div><div class="sd">Jupyter Notebook · 内部测评框架</div></div>
+            <div class="pf-sc"><div class="pf-mk"><div class="bar"><i></i><i></i><i></i></div><div class="bd"><span class="mkl b" style="width:45%"></span><span class="mkl" style="width:90%"></span><div style="display:flex;align-items:center;gap:3px"><span style="width:4px;height:4px;border-radius:50%;background:#385CFF;flex-shrink:0"></span><span class="mkl" style="flex:1"></span></div><div style="display:flex;align-items:center;gap:3px"><span style="width:4px;height:4px;border-radius:50%;background:#C4CAD6;flex-shrink:0"></span><span class="mkl" style="flex:1"></span></div></div></div><div class="st">文档检索与求助</div><div class="sd">昇腾社区 · GitCode</div></div>
+            <div class="pf-sc"><div class="pf-mk"><div class="bar"><i></i><i></i><i></i></div><div class="bd" style="flex-direction:row;gap:4px"><div style="width:8px;display:flex;flex-direction:column;gap:2px"><span class="mkl"></span><span class="mkl"></span><span class="mkl"></span></div><div style="flex:1;background:#1E2740;border-radius:3px;padding:3px;display:flex;flex-direction:column;gap:2px"><span class="mkl" style="width:70%;background:rgba(255,255,255,.28)"></span><span class="mkl" style="width:88%;background:rgba(120,150,255,.55)"></span><span class="mkl" style="width:60%;background:rgba(255,255,255,.2)"></span></div></div></div><div class="st">算子开发与编译</div><div class="sd">Ascend C · MindStudio</div></div>
+            <div class="pf-sc"><div class="pf-mk"><div class="bar"><i></i><i></i><i></i></div><div class="bd"><div style="display:flex;gap:3px"><span style="height:5px;width:34%;background:var(--b);border-radius:2px"></span><span style="height:5px;width:24%;background:#E8896B;border-radius:2px"></span></div><span class="mkl b" style="width:62%"></span><span class="mkl" style="width:80%"></span></div></div><div class="st">性能 Profiling</div><div class="sd">MindStudio · Insight</div></div>
+            <div class="pf-sc"><div class="pf-mk"><div class="bar"><i></i><i></i><i></i></div><div class="bd"><svg viewBox="0 0 100 40" preserveAspectRatio="none" style="width:100%;flex:1"><polyline points="2,30 20,16 38,24 56,9 74,20 98,7" fill="none" stroke="#385CFF" stroke-width="2" vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div><div class="st">精度对齐验证</div><div class="sd">Tensor Hook · 对比框架</div></div>
           </div>
           <div class="pf-h2"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#385CFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4l8.5 15h-17z"/><path d="M12 10v3.6M12 16.6h.01"/></svg></span>核心痛点</div>
           <div class="pf-pains">
-            <div class="pf-pain">算子行为与 <b>CUDA 存在细微差异</b>，文档描述模糊，只能靠反复试验定位，严重拖慢上线排期</div>
-            <div class="pf-pain"><b>文档碎片化、多版本并存</b>，找到的示例代码不确定是否适配当前 CANN 版本，踩坑成本极高</div>
-            <div class="pf-pain">用通用 AI 助手问昇腾问题，往往得到 <b>CUDA 思路的答案</b>，甚至给出不存在的 API，浪费排查时间</div>
-            <div class="pf-pain">缺乏「从 TensorRT/CUDA <b>迁移到昇腾</b>」的系统化路径，差异点散落各处，新人上手周期被拉长</div>
-            <div class="pf-pain">性能调优缺乏可落地的 <b>NPU 最佳实践指引</b>，Profiling 数据看得懂但不知下一步优化哪里</div>
-            <div class="pf-pain">遇到算子缺失或 Bug 只能发飞书群等回复，<b>响应时间不可控</b>，影响项目整体节奏</div>
+            <div class="pf-pain">编译<b>不支持增量</b>，改一行等 30–60min，Host 改动也触发 Device 全量重编</div>
+            <div class="pf-pain">单算子生成 <b>460+ 个 .o</b> 产物，构建慢、加载慢、产物冗余</div>
+            <div class="pf-pain">高优化等级下 <b>断点失效</b>，代码与汇编对应丢失，只能靠日志和汇编排查</div>
+            <div class="pf-pain">仿真日志可达 <b>几十万行 16 进制</b>，人工转换与阅读成本极高</div>
+            <div class="pf-pain"><b>测试框架不支持自定义算子</b>，要改代码才能测，验证周期变长</div>
+            <div class="pf-pain">主线算子<b>发版跟 3 个月节奏</b>，太慢——用户转向 Triton 旁路 1–2 周快验</div>
           </div>
         </div>
       </div>
@@ -430,10 +430,10 @@ body.overview #panel,body.overview #toggle{display:none!important}
   <section class="slide s-gray">
     <div class="head">
       <div class="head-l">
-        <div class="brand"><span class="ttl">设计与开发并行推进，开发是关键路径</span></div>
-        <div class="subttl">Roadmap · 2026 H1 落地时间线</div>
+        <div class="brand"><span class="ttl">P0 六条主线优先：可观测性 + 精度定位 + 增量编译</span></div>
+        <div class="subttl">Roadmap · P0 / P1 改进路线</div>
       </div>
-      <div class="head-r">04 / 实施路线<br/>2026</div>
+      <div class="head-r">04 / 改进路线<br/>2026</div>
     </div>
     <div class="body-area vc">
       <div class="rm">
@@ -446,16 +446,16 @@ body.overview #panel,body.overview #toggle{display:none!important}
           <div class="rm-now-pill" style="left:40%">Now</div>
           <div class="rm-now-tri" style="left:40%"></div>
           <div class="rm-now-line" style="left:40%"></div>
-          <div class="rm-bar dark"  style="left:5%;width:21%;top:13%"><span class="lbl">用户研究 &amp; VOC</span><span class="rm-badge">25 天</span></div>
-          <div class="rm-bar white" style="left:11%;width:14%;top:25%"><span class="lbl">竞品调研</span><span class="rm-badge">10 天</span></div>
-          <div class="rm-bar white" style="left:25%;width:16%;top:37%"><span class="lbl">设计概念定义</span><span class="rm-badge">12 天</span></div>
-          <div class="rm-bar dark"  style="left:39%;width:25%;top:25%"><span class="lbl">交互式文档 &amp; 成长地图</span><span class="rm-badge">20 天</span></div>
-          <div class="rm-bar accent" style="left:50%;width:26%;top:49%"><span class="lbl">可视化 Profiling 看板</span><span class="rm-badge">30 天</span></div>
-          <div class="rm-bar accent" style="left:58%;width:28%;top:37%"><span class="lbl">算子开发向导</span><span class="rm-badge">28 天</span></div>
-          <div class="rm-bar white" style="left:70%;width:16%;top:61%"><span class="lbl">智能错误诊断</span><span class="rm-badge">12 天</span></div>
-          <div class="rm-bar dark"  style="left:83%;width:14%;top:49%"><span class="lbl">联调 &amp; 灰度发布</span><span class="rm-badge">10 天</span></div>
+          <div class="rm-bar dark"  style="left:5%;width:21%;top:13%"><span class="lbl">增量编译与产物治理</span><span class="rm-badge">25 天</span></div>
+          <div class="rm-bar white" style="left:11%;width:14%;top:25%"><span class="lbl">低扰动 Profiling 底座</span><span class="rm-badge">10 天</span></div>
+          <div class="rm-bar white" style="left:25%;width:16%;top:37%"><span class="lbl">结构化日志 + 多卡聚合</span><span class="rm-badge">12 天</span></div>
+          <div class="rm-bar dark"  style="left:39%;width:25%;top:25%"><span class="lbl">精度定位 · 数学等价沙箱</span><span class="rm-badge">20 天</span></div>
+          <div class="rm-bar accent" style="left:50%;width:26%;top:49%"><span class="lbl">统一监控 + 自动恢复闭环</span><span class="rm-badge">30 天</span></div>
+          <div class="rm-bar accent" style="left:58%;width:28%;top:37%"><span class="lbl">训练中控台 + 主动通知</span><span class="rm-badge">28 天</span></div>
+          <div class="rm-bar white" style="left:70%;width:16%;top:61%"><span class="lbl">可执行开发者资产库（P1）</span><span class="rm-badge">12 天</span></div>
+          <div class="rm-bar dark"  style="left:83%;width:14%;top:49%"><span class="lbl">算子能力索引平台（P1）</span><span class="rm-badge">10 天</span></div>
           <div class="rm-diamond" style="left:41%;top:73%"></div>
-          <div class="rm-ms" style="left:44%;top:72.5%">设计定稿 · 转入开发</div>
+          <div class="rm-ms" style="left:44%;top:72.5%">P0 全部就绪 · 转入 P1</div>
         </div>
       </div>
     </div>
@@ -464,12 +464,12 @@ body.overview #panel,body.overview #toggle{display:none!important}
   <!-- ⑥ 黑底：设计点章节封面（带调色面板，色值持久记忆）-->
   <section class="slide s-glow chapter-cover" data-chapter="1">
     <div class="glow-white"></div><div class="glow"></div>
-    <div class="chrome"><div>第一章 · CHAPTER ONE</div><div>DesignConcept · 2026</div></div>
+    <div class="chrome"><div>根因与方向 · ROOT CAUSE</div><div>盘古训练用户研究 · 2026</div></div>
     <div class="inner">
       <div class="cover-block">
         <div class="ch-no">01</div>
-        <h1 class="ch-cover-title">章节标题</h1>
-        <p class="ch-cover-sub">这一章要讲什么的一句话概述。右上角图标可打开调色面板，调好的光晕色下次打开自动恢复。</p>
+        <h1 class="ch-cover-title">从「补工具」<br/>升级为「建全栈系统」</h1>
+        <p class="ch-cover-sub">核心矛盾：万卡级生产训练、复杂算子开发、跨团队精度/性能定位，仍依赖面向单点开发的工具、文档与人工流程——下一阶段要建可观测、可验证、可执行、可自动调优的全栈系统。</p>
       </div>
     </div>
   </section>
@@ -477,34 +477,34 @@ body.overview #panel,body.overview #toggle{display:none!important}
   <!-- ⑦ 黑底：设计点页 · 版式①（左文右图位，默认）-->
   <section class="slide s-glow" data-chapter="1">
     <div class="glow-white"></div><div class="glow"></div>
-    <div class="chrome"><div>设计点 1.1 · DESIGN POINT</div><div>第一章</div></div>
+    <div class="chrome"><div>P0 方案 · DESIGN POINT</div><div>根因与方向</div></div>
     <div class="inner">
       <div>
-        <div class="kicker">DESIGN POINT 1.1</div>
-        <h1 class="h-title">设计点标题<br/><span class="light">副标用细体</span></h1>
-        <p class="body">一段说明这个设计点解决什么问题、带来什么价值。</p>
+        <div class="kicker">P0 · 精度定位</div>
+        <h1 class="h-title">数学等价性精度沙箱<br/><span class="light">同一组 tensor · 多后端对齐</span></h1>
+        <p class="body">把精度从「人工 debug」升级为「自动化对齐流水线」：同一组 tensor 在 CPU/GPU 黄金基准、训练引擎、推理引擎、昇腾 NPU 上运行，输出误差分布与定位建议——概率性问题不再拖到两周以上。</p>
         <div class="points">
-          <div class="point"><div class="dot"></div><div><div class="pt-title">要点标题</div><div class="pt-desc">要点描述文字。</div></div></div>
-          <div class="point"><div class="dot"></div><div><div class="pt-title">要点标题</div><div class="pt-desc">要点描述文字。</div></div></div>
-          <div class="point"><div class="dot"></div><div><div class="pt-title">要点标题</div><div class="pt-desc">要点描述文字。</div></div></div>
+          <div class="point"><div class="dot"></div><div><div class="pt-title">误差热力图 + 触发样本</div><div class="pt-desc">误差分布按 rank 维度、算子链路定位，直接圈出触发样本。</div></div></div>
+          <div class="point"><div class="dot"></div><div><div class="pt-title">余弦相似度对齐</div><div class="pt-desc">训推一体 RL 用 Tensor Hook 逐层比对，保证训练端与推理端一致。</div></div></div>
+          <div class="point"><div class="dot"></div><div><div class="pt-title">自动熔断建议</div><div class="pt-desc">loss 分叉/漂移时动态阈值监控、异常 step 捕捉、逐层波动分析。</div></div></div>
         </div>
       </div>
-      <div class="shot"><span class="ph">界面截图位 · 16:9</span></div>  <!-- 真图：<img src="shot.png"> -->
+      <div class="shot"><span class="ph">精度沙箱看板 · 16:9</span></div>
     </div>
   </section>
 
   <!-- ⑧ 黑底：设计点页 · 版式②（上下堆叠 hero，大图型 ~75-78% 宽）⛔ 无 kicker、无要点 -->
   <section class="slide s-glow" data-chapter="1">
     <div class="glow-white"></div><div class="glow"></div>
-    <div class="chrome"><div>设计点 1.2 · DESIGN POINT</div><div>第一章</div></div>
+    <div class="chrome"><div>P0 方案 · DESIGN POINT</div><div>根因与方向</div></div>
     <div class="inner stack">
       <div class="stack-head">
         <div class="sh-l">
-          <h1 class="h-title">设计点标题<span class="light"> · 副标用细体</span></h1>  <!-- 单行，别用 <br> -->
+          <h1 class="h-title">训练中控台 + 自动恢复闭环<span class="light"> · 万卡生产可观测</span></h1>  <!-- 单行，别用 <br> -->
         </div>
-        <p class="body">一段说明这个设计点<b>解决什么问题</b>、<b>带来什么价值</b>——默认细体、关键词 &lt;b&gt; 加粗提亮做主次。</p>
+        <p class="body">把「手动刷网页、人工盯任务」升级为生产级闭环：<b>全局训练状态 + 主动通知</b>、结构化日志多卡聚合、<b>故障自动预警与备用节点切换</b>、checkpoint 恢复——对标成熟链路 <b>14 分钟恢复</b>目标。</p>
       </div>
-      <div class="shot"><span class="ph">界面截图位 · 16:9</span></div>  <!-- 真图：<img src="shot.png">（16:9 不裁）-->
+      <div class="shot"><span class="ph">训练中控台 · 16:9</span></div>
     </div>
   </section>
 

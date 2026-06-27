@@ -80,6 +80,9 @@ assets/
 
 ## 更新日志
 
+### 2026-06 — 默认正文再调大到 15–18px
+- `--fs-body` `clamp(13.5,1vw,16)` → **`clamp(15,1.12vw,18)`**（1440≈16 / 1920 封顶 18），h3/h2/sm 同步上挪保证层级（h3≥body）；用户画像 `.pf/.pp/.up` 局部小字档不变。
+
 ### 2026-06 — 加交付前质检清单，治"生成出来要大量手调"
 - 新增 `references/checklist.md`：**每页必跑的质检清单**（字号误用 sm/xs、内容溢出 slide、flex/grid 子项漏 `min-height:0`、双层 padding 对不齐、图片裸 `aspect-ratio` 撑破、`min(vw,vh)` 视口比例陷阱、测量代替猜），配 `rg` + 无头截图自查。工作流加"交付前逐页跑 checklist"为关键步。
 - 铁律新增 **flex/grid 子项默认 `min-height:0`（横向 `min-width:0`）**——"等高对不齐 / 某栏更高 / 卡片气泡越界 / 文字被裁"几乎都是漏这条。
