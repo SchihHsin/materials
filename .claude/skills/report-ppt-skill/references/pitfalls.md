@@ -11,6 +11,7 @@
 
 ## 翻页 / 概览
 
+- **总览页（按 O）悬浮缩略图显示页码**（好用的小功能）：纯 CSS counter——`body.overview #deck{counter-reset:slideno}` + `body.overview .slide{counter-increment:slideno}` + `body.overview .slide:hover::after{content:counter(slideno);position:absolute;bottom:7px;right:8px;...;opacity:0→1}`（默认隐藏、hover 浮出；`z-index` 要高于缩放的 `.slide-inner`，否则被盖住）。页码与翻页器一致、不用 JS。
 - **`body.ctrl{overflow:hidden}`（受控叠层翻页模式 fade/cut/slide-h/magic）会一直锁住 body 滚动**：进总览 `enterOverview()` 只加了 `.overview` 类，没摘掉 `.ctrl`；如果总览缩略图网格高度超过一屏，`body.overview.ctrl` 这条规则必须**显式把 `overflow` 改回 `hidden auto`**，否则总览页在这几种翻页模式下会出现"滚不动、看不到后面的缩略图"——默认 `slide` 模式不受影响（body 本来就能滚），只有切到非默认翻页模式才会踩到，容易被漏测。
 
 ## 字号
@@ -32,6 +33,43 @@
 ## 内容
 
 - **标题必须是结论**，不是栏目名。每页问自己"这页到底想说什么发现"，把那句话放标题；空泛词、过度否定的措辞都要改。
+
+## 嵌入复用（iframe 嵌精调原件，别手搓重画）
+
+> 背景：要把另一份**已精调好的报告/图表页**的内容搬进 deck 时，第一反应常是「照着重画一遍」——几乎必被打回：手搓版**内容更少、更丑**，还丢交互。正解是 **iframe 嵌原件 + 注入 `embedfix` 只露目标元素**。
+
+- **判断顺序**：① 原报告/原图已有现成的 → iframe 嵌；② skill 有精调件 → 套；③ 都没有才手搓（且先提方案）。**别用 `var(--fs-*)` 自己拼组件去复刻别人已经做好的东西。**
+- **embedfix 套路**：`cp` 原文件成副本 → 注入一段 `<style id="embedfix">`+`<script>`：读 URL 参数（`?sec=ID` / `?tp=ID` 等）→ 给 `<html>/<body>` 加 `.embed` 类隐藏 topnav/页脚/侧栏 → 沿目标元素的**祖先链**把所有旁支兄弟 `display:none`、只留这一条 DOM → 必要时 `removeAttribute('hidden')`+清 inline `display:none`（异步渲染的内容用 `setInterval` 重试）。deck 页 `.body-area` 里放 `<iframe src="副本.html?sec=...">`。⚠ 原文件改了，副本要**重新 cp + 注入**。⚠ 副本若比原文件深一级目录，**图片相对路径 `const IMG` 要改**（`../` → `../../`），否则截图全 404。
+- **🔴 别让 iframe 先闪一下原始页（FOUC）**：embedfix 跑在 `setInterval` 里，原页会先整页渲染、几百 ms 后才被裁剪——中间露馅。修法：在 `<head>` 里（body 绘制前）同步给 `<html>` 加 `embed-wait` 类 + `html.embed-wait body{opacity:0}`，在 embedfix **首次成功**处 `classList.remove('embed-wait')` 淡入，并 `setTimeout(reveal,3000)` 兜底。⚠ 揭显**必须**挂在 embedfix 成功点，只靠兜底超时会黑屏数秒（比闪烁更糟）。
+- **🔴 多 iframe 要懒加载**：deck 里几十个 iframe 一次性并发加载极慢。把 `src` 改 `data-src`，写 `lazyFrames(center)` 只给当前页及相邻 ±1 注入 `src`，在翻页函数 `updateCurrent(idx)` 里调用。相邻预载让顺序翻页时下一页已就绪。
+- **鼠标在 iframe 上滚不动页**：deck 靠 `wheel` 翻页，但 wheel 被 iframe 吃掉不冒泡 → 每个 embed 末尾加脚本把 wheel `postMessage({__deckWheel:dy})` 给父页，父页监听后复用翻页逻辑（可做 edge-aware：iframe 内未到顶/底先滚自身，到边才翻页）。
+- **嵌入页常见错位**：原页 `body` 若有 `padding-left`（TOC 侧栏留位）等，embedfix 要 `body.embed{padding:0!important}` 复位，否则内容整体偏右下。
+
+## 缩放适配（fit-to-fit 的宽窄陷阱）
+
+- **🔴「内容变窄 / 变小」先查 `fit()` 缩放**：常见写法 `if(fh>vh) transform:scale((vh)/fh)` 把楼层「缩到刚好装下高度」，配 `transform-origin:top center` → **整体等比缩小并水平居中 → 两侧留缝、内容变窄**（视口越矮缩得越狠）。对**宽幅内容**（横向 grid、宽表、并排卡）这是错的：宁可**铺满宽度**（矮了底部留白没关系），也别为塞高度而缩小变窄 → 给这类楼层的缩放加 `id!=='宽幅页'` 排除，或改成只按宽度适配。
+- **嵌入/内容应与题目同宽 + 上下居中**：正文（iframe 或卡片）要**和大标题左对齐、和右上角页码小字右对齐**（即与 `.head` 同宽，把容器 padding 归 0），并垂直居中（容器 `display:flex;flex-direction:column;justify-content:center;height:100vh`）。常见毛病：内容比题目窄、且顶对齐「太靠上」。
+
+## CSS grid 易踩
+
+- **🔴 百分比列 + `gap` 会溢出被裁**：`grid-template-columns:64% 36%` + `column-gap:18px` = 100%+18px，超出容器、右侧内容溢出被父级 `overflow:hidden`（如 iframe）裁掉（**圆角被切**就是这症状）→ **百分比改 `fr` 单位**（`64fr 36fr`，fr 自动扣掉 gap、不溢出）。记住：卡片右边/圆角被切先查是不是「百分比+gap 溢出」。
+- **🔴 `display:grid!important` 会顶掉 JS 给兄弟设的 inline `display:none`**：若用 `.card{display:grid!important}` 广谱命中，被 JS 隐藏的相邻卡会一起冒出来 → grid（及任何 `display:…!important`）只 scope 到**目标元素的专属类**（如 `.xxx.solo`），别落到广谱选择器。
+- **左栏两卡被右侧高卡撑开、间距忽大忽小**：A 在 row2、B 在 row3、右侧 C 跨 row2/4 时，C 比左栏高 → 多出的高度被等分进 row2/row3，把 A、B 推开 → 用一个 flex 容器把左栏两卡**裹成一列**（固定 gap），空隙只留到底部。
+- **同行卡片 demo 顶部对不齐**：题目/描述长短不一会让下方 demo 起始高度参差 → 内容**顶部对齐**（`justify-content:flex-start`）+ 给题目、描述设 `min-height`（统一占位），demo 顶部就齐了；别用 `justify-content:center`（会让序号/标题上下参差）。
+
+## 配色 / 视觉主次
+
+- **🔴 满屏单一 accent = AI 味重**：6 张卡的标签、icon、强调字全是同一个蓝紫 → 颜色多、没主次。**铁律：装饰性元素（类别标签、icon、出处）用中性灰，颜色只留给「有含义」的功能元素**（如 依据/做法/指标 三类标签各一色）。这样颜色都承载意义、主次自然出来。
+- **别用「左描边 accent 条」的卡片**（左边一条竖色条）——很套路、AI 味重。改用 **1px 整框 + 柔阴影**，或 **白底 + 角落径向光晕**（`background:radial-gradient(125% 95% at 0% 0%, rgba(accent,.2), transparent 52%), #fff`，光晕做背景层、文字自然浮在上、无 z-index 问题）。
+- **同一页卡片统一用透白玻璃卡**（`rgba(255,255,255,.55)`+`backdrop-filter:blur(15px) saturate(1.4)`+白边+柔阴影+inset 高光），别一处玻璃一处实底。
+- **小图形直接画在玻璃卡上**，别再给它套个白底小框（卡片本身就是底）。
+- **不常见的专业词换成常见的**：专业没问题，但「结构性缺口」这种不常见、观众反应不过来 → 换「系统性短板」等常见说法；术语（canonical 等）配中文通用译法 +（英文）。
+
+## 配图（别生搬通用 icon）
+
+- **「太多文字、不好读」的页**：拆成**左文字 + 右 demo/示意**，文字密度立降。demo 用**内容相关的小 mockup**：浏览器框（`正文 0 字`/`404`）、版本号徽章列、`原因：N/A` 兜底页、平台覆盖对照（红✕/绿✓ 芯片）、清单（☑ + 指标映射）、渠道/公式图、下降柱、尖峰线…——比堆文字直观得多。
+- **概念页配图，别放通用线性 icon**（用户会说「只是个 icon，我以为有图」）：画**真·小 SVG 概念图**——对照=天平、价值链=漏斗、检索=放大镜→文档、知识 gap=时间轴、多渠道=三路汇一、可复现=循环↻+✓。一眼说明这页在讲什么。
+- icon 当**淡水印**（`opacity:.06`、放大铺角落、`z-index:0` 压文字下层）也行，但那是「装饰」不是「配图」；用户要 demo 时别用水印糊弄。
 
 ## 合并 / 工具
 
