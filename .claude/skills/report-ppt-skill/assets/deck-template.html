@@ -678,7 +678,8 @@ syncFsIcon();
 
 /* 总览 Overview：每页包进 .slide-inner 缩放成缩略图，排网格（按当前视窗比例）*/
 function applyOverviewScale(){if(!document.body.classList.contains('overview'))return;const cellW=slides[0].getBoundingClientRect().width,scale=cellW/window.innerWidth;slides.forEach(s=>{s.style.height=(window.innerHeight*scale)+'px';const inner=s.querySelector(':scope>.slide-inner');if(inner)inner.style.transform='scale('+scale+')';});}
-function enterOverview(){slides.forEach(s=>{if(!s.querySelector(':scope>.slide-inner')){const w=document.createElement('div');w.className='slide-inner';while(s.firstChild)w.appendChild(s.firstChild);s.appendChild(w);}});document.body.classList.add('overview');requestAnimationFrame(applyOverviewScale);}
+function focusOverviewCurrent(){if(!document.body.classList.contains('overview'))return;const s=slides[idx];if(s)s.scrollIntoView({block:'center',inline:'nearest',behavior:'auto'});}
+function enterOverview(){slides.forEach(s=>{if(!s.querySelector(':scope>.slide-inner')){const w=document.createElement('div');w.className='slide-inner';while(s.firstChild)w.appendChild(s.firstChild);s.appendChild(w);}});document.body.classList.add('overview');requestAnimationFrame(()=>{applyOverviewScale();requestAnimationFrame(focusOverviewCurrent);});}
 function exitOverview(){slides.forEach(s=>{const w=s.querySelector(':scope>.slide-inner');if(w){while(w.firstChild)s.insertBefore(w.firstChild,w);w.remove();}s.style.height='';});document.body.classList.remove('overview');balanceHeads();if(CTRL){setActive(idx);}else setTimeout(()=>slides[idx].scrollIntoView({block:'start',behavior:'auto'}),20);}
 function toggleOverview(){document.body.classList.contains('overview')?exitOverview():enterOverview();}
 ovBtn.onclick=toggleOverview;
