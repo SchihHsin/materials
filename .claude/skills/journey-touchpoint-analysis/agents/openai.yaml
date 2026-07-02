@@ -1,0 +1,4 @@
+interface:
+  display_name: "Journey Touchpoint Analysis"
+  short_description: "Journey scoring with annotated screenshots"
+  default_prompt: "Use $journey-touchpoint-analysis to simulate a user journey, score touchpoints, annotate screenshots, and produce a visual UX analysis report."
