@@ -39,7 +39,7 @@
 
 ### 高密度交互模板的字号例外
 
-- `evidence-spotlight-matrix` 的**矩阵 / 表格主体**可以局部使用 `--fs-sm` 或更小的固定像素（仅限极密集 20+ 行矩阵），但浮层解释卡 `.spot-callout/.hm-callout` 的正文必须使用 `--fs-body`，标题使用 `--fs-h2`。
+- `evidence-spotlight-matrix` 的**证据承载物主体**（矩阵、表格、旅程图、流程图、截图组、架构图等）可以局部使用 `--fs-sm` 或更小的固定像素（仅限极密集矩阵 / 小节点），但浮层解释卡 `.spot-callout/.hm-callout` 的正文必须使用 `--fs-body`，标题使用 `--fs-h2`。
 - `derivation-column-flow` 的竖栏标题用 `--fs-body`，条目标题用 `--fs-h3`，条目解释用 `--fs-sm`；不要为了塞更多内容把整页正文降到 xs。
 - 这两个模板的数字序号（如 `/01`）属于展示性页码，可用 Condensed 字体和 bespoke 大字号，不进入正文 ramp。
 

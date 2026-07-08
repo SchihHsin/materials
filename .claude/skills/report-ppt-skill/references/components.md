@@ -24,7 +24,7 @@
 | 干系人/利益相关者/生态/stakeholder map/ecosystem/以X为中心的关系图/谁和谁怎么互动 | **§12 生态干系人地图** | `deck-template:stakeholder-map` | 内联 SVG：同心圈层 + 卫星圆 + 辐射关系箭头 |
 | 优先级/机会矩阵/价值×成本/影响×成本/2×2/四象限/impact-effort/quick wins/先做什么 | **§13 2×2 机会矩阵** | `deck-template:opportunity-matrix-2x2` | bento 四块 + 便利贴散布 + 燕尾箭头轴 |
 | 任何「图 / 图表 / 表格 / mockup + 一段说明文字」的页（旅程/VOC/矩阵等已有专属版式的除外） | **§14 图+文 sm2 模式** | `deck-template:sm2-figure-text` | 左 h2 结论+段落+黑底结论条，右图/表/占位 |
-| 需要用矩阵/评分表组织证据，并通过聚光灯一条一条讲清楚差距；spotlight/高亮某几格/解释某个评分差距/手动翻问题 | **§15 证据矩阵聚光灯** | `evidence-spotlight-matrix` | 主体是**新绘制的证据矩阵或评分表**，需要圈选局部证据并浮出解释卡片 |
+| 需要围绕一组证据逐条讲解；没有现成承载物时新绘证据矩阵；已有矩阵/旅程图/流程图/截图组/架构图/对比卡时加聚光灯；spotlight/高亮局部/手动翻问题 | **§15 证据聚光灯** | `evidence-spotlight-matrix` | 两种用法：**新绘证据矩阵**，或在既有内容上叠加圈选、降透明、解释卡片和手动翻页 |
 | 从问题推导到结论/问题→原因→做法→结论/把前面发现收束成行动/几栏推导/竖栏推导/推理链路 | **§16 四栏推导流** | `derivation-column-flow` | 需要展示**证据链和叙事推导**，而不是单纯列问题卡 |
 
 判不准时，按主体：**数字进度**→§1，**时间轴**→§2，**引用堆**→§3，**分阶段流程**→§4，**多产品比**→§5，**正式讲透一个人**→§6a，**多人维度对比**→§6b，**白板式速写一个人**→§6c，**讲方案**→§8，**打分表**→§9，**分层架构**→§10，**大数字主打**→§11，**干系人关系图**→§12，**优先级/机会四象限**→§13。命中后翻到该节，照抄骨架 + 参考填充示例，只改文案/配色。
@@ -1079,46 +1079,100 @@ HTML：`.dh-wrap` = `.dh-lead`(总体说明) + `.dh`(3 张 `.dh-card`)；每张 
 ```
 > 写文案的口诀：**h2 = 一句话的发现**（"调试 + 调优合计占 63%"），**p = 数据 + bold 关键词**，**cx-concl = 行动 / 下一步**。三层各占一种语气：发现 → 解释 → 行动。
 
-## 15. 证据矩阵聚光灯（矩阵 / 评分表局部圈选 + 卡片解释）
+## 15. 证据聚光灯（新绘证据矩阵 / 既有内容局部圈选 + 卡片解释）
 
 > **data-template**：`evidence-spotlight-matrix`
 >
-> **命中**：需要新绘制一张用于讲证据的矩阵 / 评分表，并在现场逐步讲解“问题从哪里来”；用户会说“圈起来矩阵的哪部分”“聚光灯”“高亮某几列/几行/几格”“别把问题生硬加在矩阵上”“卡片靠近高亮位置”“手动翻页讲几个问题”。
+> **命中**：需要围绕一组证据逐步讲解“问题从哪里来”。如果前文没有合适承载物，可用本模板新绘一张证据矩阵 / 评分表；如果前文已有相应内容，如矩阵、热力图、旅程图、流程图、截图组、架构图、对比卡等，优先保留原内容，只叠加聚光灯、圈选框、降透明、解释卡片和手动翻页机制。用户会说“圈起来哪部分”“聚光灯”“高亮某几列 / 几行 / 几个节点”“别把问题生硬加在图上”“卡片靠近高亮位置”“手动翻页讲几个问题”。
 >
-> **核心叙事**：主体不是问题卡墙，也不是沿用 §9 的普通热力矩阵，而是**为讲解而重新绘制的证据矩阵**；每一步只圈出一组证据，其他内容降透明，解释卡片在表格卡片内部浮出。观众先看到“证据在哪”，再听“它说明什么”。
+> **核心叙事**：主体不是问题卡墙，而是**证据承载物本身**。它可以是一张新绘证据矩阵，也可以是已有的旅程图、流程图、截图或架构图；每一步只圈出一组证据，其他内容降透明，解释卡片在承载物附近浮出。观众先看到“证据在哪”，再听“它说明什么”。
 
 ### 页面结构
 
-- `.spot-wrap`：整页主体，`position:relative;overflow:visible`，承载表格、分页器、圈选框和浮层卡片。
-- `.spot-note`：左侧只放分数渐变图例，右侧放手动分页器（总览 / 1 / 2 / … / 前后按钮）。**不要放问题说明或概览指标卡**，避免把材料讲解文字放到矩阵外面。
-- `.spot-card.card`：一张玻璃卡，里面放 `table` 或 CSS grid 矩阵 + `.spot-callout`。**解释卡片必须在这个大卡片内部浮出**。
+- `.spot-wrap`：整页主体，`position:relative;overflow:visible`，承载证据内容、分页器、圈选框和浮层卡片。
+- `.spot-note`：左侧可放图例 / 分数渐变 / 状态说明，右侧放手动分页器（总览 / 1 / 2 / … / 前后按钮）。**不要放问题说明或概览指标卡**，避免把材料讲解文字放到证据承载物外面。
+- `.spot-card.card`：一张玻璃卡，里面可以放 `table`、CSS grid 矩阵、旅程图、流程图、截图组、架构图或已有内容的嵌入块 + `.spot-callout`。**解释卡片必须在这个大卡片内部或紧贴承载物浮出**。
 - `.spot-rings` / `.spot-ring`：绝对定位的虚线圈，只有描边，无 background。推荐深灰圆点虚线：`border:2px dotted rgba(55,61,72,.9)`。
 - `.spot-callout`：复用 #17 的浮层卡片：左 icon，中间标题 + 值，右侧细高序号（如 `/01`），正文 + 小 demo/chips。
 
 ### 交互机制
 
-1. `focus[]` 维护每一步：`title / val / desc / icon / demo / selector 或 data-issue`。
+1. `focus[]` 维护每一步：`title / val / desc / icon / demo / selector 或 data-issue`。`selector` 可以指向表格行列，也可以指向流程节点、旅程阶段、截图区域、架构模块等。
 2. `setStep(-1)` 是总览：清除高亮、隐藏圈和卡片。
 3. `setStep(i)`：
-   - 给目标行 / 列 / 格子加 `.spot-on`。
-   - 给矩阵整体加 `.is-spot`，让非目标区域透明度降到 `.18` 左右。
+   - 给目标元素加 `.spot-on`。
+   - 给证据承载物加 `.is-spot`，让非目标区域透明度降到 `.18` 左右。
    - 用 `getBoundingClientRect()` 算被高亮元素的外接矩形，绘制 `.spot-ring`。
    - 根据外接矩形和卡片尺寸自动放置 `.spot-callout`：优先放在高亮右侧；放不下时放左侧；超出上下边界时夹在卡片内。
 4. 分页器只做手动翻页，不自动轮播。右侧 nav dots 对这类页无用时不要再额外加一套。
 
+### 框选与卡片定位机制（防错位）
+
+这套机制要写进页面脚本，不要靠手填 `left/top` 微调。原则是：**框选相对 `.spot-wrap` 定位，卡片相对承载卡片 `.spot-card` 定位，二者都从同一组目标元素的 viewport 坐标换算而来**。
+
+1. **确定坐标容器**
+   - `.spot-wrap`：定位所有 `.spot-ring`，必须 `position:relative;overflow:visible`。
+   - `.spot-card` 或等价承载卡片：定位 `.spot-callout`，必须 `position:relative;overflow:visible`。如果复用既有内容，不强行改结构，但要给承载物外层补一个相同职责的 wrapper。
+   - 不要把 ring 放在表格内部，也不要让 callout 相对 `body` 定位；这两种最容易在缩放、滚动、翻页后错位。
+2. **取目标外接矩形**
+   - 每一步用 `focus[i].selector` 找到目标元素数组 `targets`。
+   - 对每个目标取 `el.getBoundingClientRect()`，再合并成 `box={left,top,right,bottom}`。
+   - 如果目标是不连续区域，优先按 `focus[i].groups=[selectorA,selectorB]` 分组，各画一个 ring；不要用一个大框圈住中间无关内容。
+3. **绘制 ring**
+   - 先取 `wrapRect = spotWrap.getBoundingClientRect()`。
+   - ring 坐标统一换算为：
+
+```js
+const pad = 8;
+ring.style.left = `${box.left - wrapRect.left - pad}px`;
+ring.style.top = `${box.top - wrapRect.top - pad}px`;
+ring.style.width = `${box.right - box.left + pad * 2}px`;
+ring.style.height = `${box.bottom - box.top + pad * 2}px`;
+```
+
+   - ring 只有 `border`，不要 background。`pad` 统一 6–10px，避免框贴住文字，也避免压到相邻元素。
+4. **放置 callout**
+   - 先取 `cardRect = spotCard.getBoundingClientRect()`，并确保 callout 已经写入内容、可测量 `offsetWidth/offsetHeight`。
+   - 默认放在高亮区域右侧：`x = box.right - cardRect.left + gap`。
+   - 右侧放不下时放左侧：`x = box.left - cardRect.left - calloutWidth - gap`。
+   - 左右都放不下时，夹在卡片内：`x = clamp(x, margin, cardRect.width - calloutWidth - margin)`。
+   - `y` 默认与高亮区域顶部对齐，再夹在卡片内：`y = clamp(box.top - cardRect.top, margin, cardRect.height - calloutHeight - margin)`。
+
+```js
+function clamp(v, min, max){ return Math.max(min, Math.min(max, v)); }
+function placeCallout(box){
+  const cardRect = spotCard.getBoundingClientRect();
+  const gap = 14, margin = 10;
+  const cw = callout.offsetWidth || 360;
+  const ch = callout.offsetHeight || 160;
+  let x = box.right - cardRect.left + gap;
+  if (x + cw > cardRect.width - margin) x = box.left - cardRect.left - cw - gap;
+  x = clamp(x, margin, cardRect.width - cw - margin);
+  let y = box.top - cardRect.top;
+  y = clamp(y, margin, cardRect.height - ch - margin);
+  callout.style.left = `${x}px`;
+  callout.style.top = `${y}px`;
+}
+```
+
+5. **更新时机**
+   - 每次 `setStep()`、窗口 `resize`、图片 `load`、字体加载完成后都要重算 ring 和 callout。
+   - 如果承载物里有 iframe / 图片 / SVG，等其尺寸稳定后再 `requestAnimationFrame(updateSpotlight)`。
+   - 手动翻页时只更新当前 step，不自动轮播；总览态要清空 ring，并隐藏 callout。
+
 ### 使用注意事项
 
-- **不要额外放 `uxspot` / `uxfocus-top` 这类解释区**。聚光灯页的解释必须进入 `.spot-callout`，而不是表格旁边的静态说明。
+- **不要额外放 `uxspot` / `uxfocus-top` 这类解释区**。聚光灯页的解释必须进入 `.spot-callout`，而不是证据承载物旁边的静态说明。
 - 圈选框不要 background；只用描边。框要在 `.spot-wrap` 上绝对定位，避免被表格外缘裁切。
 - 如果一个问题对应两个不连续区域，画两个 `.spot-ring`，不要强行用一个大框把无关区域也圈进去。
 - 行聚焦通常圈整行；列聚焦可把列头也纳入外接矩形；多列时只给最左列或第一组加辅助描边，避免视觉太乱。
-- 卡片里的 demo 可以是 chips、迷你条形图、版本列表、搜索路径等，**必须解释被圈出的证据**，不要放无关装饰 icon。
-- 字号：表格主体可用 `--fs-body` / `--fs-sm`，密集矩阵才允许局部降到 7–11px；浮层卡正文必须 `--fs-body`，标题 `--fs-h2`。
+- 卡片里的 demo 可以是 chips、迷你条形图、版本列表、搜索路径、节点状态等，**必须解释被圈出的证据**，不要放无关装饰 icon。
+- 字号：承载物主体可用 `--fs-body` / `--fs-sm`，密集矩阵或小节点才允许局部降到 7–11px；浮层卡正文必须 `--fs-body`，标题 `--fs-h2`。
 
 ### 与 §9 评分热力矩阵的区别
 
 - §9 是**静态评分矩阵模板**，解决“怎么画一张打分表”。
-- §15 是**矩阵讲解模板**，解决“已有表格/矩阵如何逐步圈证据、推出问题”。它可以复用 §9 画出的矩阵，也可以换成普通评分表。
+- §15 是**证据讲解模板**，解决“如何逐步圈出证据、推出问题”。没有合适承载物时可新绘证据矩阵；已有表格、矩阵、旅程图、流程图、截图组或架构图时，优先复用既有内容并叠加聚光灯机制。
 
 ### 最小 HTML 骨架
 
@@ -1127,8 +1181,8 @@ HTML：`.dh-wrap` = `.dh-lead`(总体说明) + `.dh`(3 张 `.dh-card`)；每张 
 ```html
 <section class="slide s-gray spot-slide"
   data-template="evidence-spotlight-matrix"
-  data-component="证据矩阵聚光灯"
-  data-title="证据矩阵聚光灯：圈选矩阵证据并浮出解释卡片">
+  data-component="证据聚光灯"
+  data-title="证据聚光灯：圈选局部证据并浮出解释卡片">
   <div class="head">…</div>
   <div class="body-area">
     <div class="spot-wrap">
@@ -1166,6 +1220,14 @@ HTML：`.dh-wrap` = `.dh-lead`(总体说明) + `.dh`(3 张 `.dh-card`)；每张 
   - `.dcol.result`：浅紫玻璃，放后续结论链接。
 - 每条内容不是卡片，直接用 `.ditem` 放在竖栏里：左侧线性 icon，右侧 `strong + p + metric`。避免在竖栏里再套小白卡。
 
+### 竖栏等宽规则
+
+- `.derive` 必须用 `grid-template-columns:repeat(4,minmax(0,1fr))`，四列天然等宽；不要给单列设置 `width/flex-basis/grid-column`。
+- `.dgroup`、`.dcol`、`.dseq` 都加 `min-width:0;min-height:0`，防止长文字把某一列撑宽。
+- 列间距用 `.derive{gap:clamp(14px,1.35vw,24px)}` 一次性控制，不要给某列单独加 margin。
+- 标题 `.dh` 放在竖栏外，列内容 `.dcol` 高度一致；推荐 `.derive{align-items:stretch}` + `.dgroup{display:grid;grid-template-rows:auto 1fr}`。
+- 长句优先压缩文案或手动换行，不能通过加宽某一列解决。
+
 ### Space Between 与 padding 机制
 
 竖栏内内容要上下均衡，不能全部堆在上半部分。用脚本按实际高度计算：
@@ -1189,6 +1251,13 @@ function balanceDeriveColumns(){
 
 这个算法让**上下 padding 与每条内容之间的 gap 相等**，视觉上比固定 `space-between` 更稳定；内容变多或字号变化时自动重算。
 
+补充规则：
+
+- **纵向 padding / gap 由算法统一计算**：`unit = (可用高度 - 条目总高度) / (条目数 + 1)`，再同时赋给 `padding-top / padding-bottom / gap`。这样 3 条内容会形成 4 个等距空隙，4 条内容会形成 5 个等距空隙。
+- **横向 padding 不参与算法**：用固定 token 保持阅读舒适，例如 `.dcol{padding-left:clamp(24px,1.85vw,36px);padding-right:clamp(24px,1.85vw,36px)}`。不要因为内容多就把左右 padding 改小。
+- 算法只作用在 `.dseq` / `.dlinks` 这类竖向内容栈，不直接作用在 `.dcol`，否则会把竖栏背景和标题关系挤乱。
+- 如果 `unit < 8px`，说明内容过多，应删字或拆页；不要继续缩小字号或压缩左右 padding。
+
 ### 连线机制
 
 - 用 `<svg class="drel">` 覆盖在 `.derive` 上方，z-index 高于竖栏背景但 `pointer-events:none`。
@@ -1205,6 +1274,56 @@ const pairs=[
 
 - 起点是来源文字右侧（用文本实际右边界 `textRight()`，不是整块右边界），终点是目标 icon / 序号左侧。这样连线不会离文字太远。
 - 起点画空心圆，终点画实心圆，线宽约 `1.15`，半径约 `2.5`。颜色按段落：1→2 浅灰，2→3 浅紫，3→4 白色或深灰，跟两侧卡片底色保持对比。
+
+#### 连线定位算法（防止起终点错位）
+
+1. **统一坐标系**
+   - SVG 覆盖层 `.drel` 放在 `.derive` 内，`viewBox` 设置为 `.derive.getBoundingClientRect()` 的宽高。
+   - 所有锚点都用 `getBoundingClientRect()` 取 viewport 坐标，再减去 `.derive` 的 `left/top`，不要混用 offsetLeft / clientTop。
+2. **起点 X**
+   - 起点不是 `.ditem` 整块右边界，而是“来源文字真实右边界 + 6px”。
+   - 为避免同一列内起点前后不齐，先把同一列里所有来源条目的文字右边界取 `max`，这一列所有出线都用同一个 `outX`。
+   - `textRight(el)` 要忽略 icon，只测文本节点 / `strong` / `p` / `.metric` 的右边界。
+3. **终点 X**
+   - 终点落在目标条目 icon / 序号左侧 `8px`，不是目标文字左侧。
+   - 同一目标列里所有入线取 icon 左边界的 `min`，这一列所有入线都用同一个 `inX`，视觉上形成整齐的入线边。
+4. **Y 坐标**
+   - `y = itemRect.top + itemRect.height * .5 - deriveRect.top`，即对准该条内容的垂直中心。
+   - 如果某条内容有多行，不要对准第一行或 icon 顶部，否则线会像“分家”。
+5. **曲线和圆点**
+   - 贝塞尔控制距离：`dx = clamp((inX - outX) * .34, 12, 28)`，避免弧线过直或过弯。
+   - 线从空心圆右侧开始：`M outX+3.2 y`，这样空心圆内部不会被线穿过。
+   - 起点圆 `.start` 用 `fill:transparent`，终点圆实心；半径 2.4–2.8px，线宽 1.05–1.2px。
+6. **更新时机**
+   - `balanceDeriveColumns()` 后再画线，因为条目位置会变。
+   - 页面加载后 `requestAnimationFrame(renderDeriveRelations)`，再 `setTimeout(...,120)` 补一次，等待字体与图片稳定；窗口 resize 时重画。
+
+```js
+function textRight(el){
+  const bits=[];
+  (function collect(node){
+    node.childNodes.forEach(child=>{
+      if(child.nodeType===3 && child.nodeValue.trim()) bits.push(child);
+      else if(child.nodeType===1 && !child.matches('svg,i')) collect(child);
+    });
+  })(el);
+  return bits.reduce((m,node)=>{
+    const range=document.createRange();
+    range.selectNodeContents(node);
+    const rects=[...range.getClientRects()];
+    range.detach();
+    return rects.reduce((rm,rr)=>Math.max(rm,rr.right),m);
+  },el.getBoundingClientRect().left);
+}
+```
+
+### Icon 规则
+
+- icon 放在每条 `.ditem` 内，作为该条内容的语义提示；不要放在竖栏标题上，也不要用一个大水印 icon 代替条目 icon。
+- 使用线性 SVG / Lucide 风格：`fill="none"`、`stroke="currentColor"`、`stroke-width="1.8"`、`stroke-linecap="round"`、`stroke-linejoin="round"`。
+- icon 尺寸 18–22px；在 `.ditem` 中用固定列宽承载，例如 `grid-template-columns:24px 1fr`，保证四栏内文字起点整齐。
+- 深色竖栏里的 icon 用白色或浅紫，浅色竖栏里的 icon 用深灰 / 紫；不要使用 emoji 或系统彩色图标。
+- 如果需要编号型入口（如 Step 04 的结论链接），可以用 `.no` 等宽数字代替 icon，但同一栏内不要混用太多 icon 风格。
 
 ### 使用注意事项
 

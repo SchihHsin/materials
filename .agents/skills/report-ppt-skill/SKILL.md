@@ -47,7 +47,7 @@ description: 生成"产品 / 设计 / 研究汇报"风格的单文件网页 PPT�
    | 干系人/利益相关者/生态/stakeholder map/ecosystem/以某角色为中心的关系图 | **§12 生态干系人地图**（同心圈层 SVG + 卫星 + 关系箭头）|
    | 优先级/机会矩阵/价值×成本/影响×成本/2×2/四象限/impact-effort/quick wins | **§13 2×2 机会矩阵**（bento 四块 + 便利贴 + 燕尾箭头轴）|
    | 任何「图 / 图表 / 表格 / mockup + 一段说明文字」的页（旅程/VOC/矩阵等已有专属版式的除外） | **§14 图+文 sm2 模式**（左 h2 结论+段落+黑底结论条，右图/占位）|
-   | 需要用矩阵/评分表组织证据，并通过聚光灯一条条讲清楚差距；spotlight/高亮某几格/解释评分差距 | **§15 证据矩阵聚光灯**（`evidence-spotlight-matrix`）|
+   | 需要围绕一组证据逐条讲解；没有现成承载物时新绘证据矩阵，有现成矩阵/旅程图/流程图/截图组/架构图时叠加聚光灯讲解 | **§15 证据聚光灯**（`evidence-spotlight-matrix`）|
    | 从问题推导到结论/问题→机制→做法→结论/几栏推导/把发现收束成行动 | **§16 四栏推导流**（`derivation-column-flow`）|
 4. **套规范**：字号只用 ramp（`references/type-and-color.md`），颜色只用渐变 token，深色大色块统一 `--g-ink`。
 5. **图表**：能手画就手画（胶囊/甘特是精调模板）；复杂图（雷达/桑基/热力/关系树）才上 ECharts/ApexCharts（`references/chart-selection.md`）。
@@ -80,7 +80,7 @@ description: 生成"产品 / 设计 / 研究汇报"风格的单文件网页 PPT�
 - `assets/template-library/index.html` — 可复制模板库，新增模板均用 `data-template / data-component / data-title` 标注；当前沉淀 `evidence-spotlight-matrix`、`derivation-column-flow`。
   新材料从 deck-template 起步；命中高级 pattern 时从 `components.md` 路由到 template-library 复制对应 section / CSS / JS。⚠️ 用户画像有**三套形式（一/二/三），按输入三选一**：正式深描单人→形式一、多人雷达对比→形式二、白板便利贴速写单人→形式三（详见 components.md §6a/§6b/§6c 顶部「三种形式怎么选」对照表）
 - `references/type-and-color.md` — 字号 ramp（6 token）+ 渐变色彩系统 + 玻璃卡公式 + 鸿蒙字体加载
-- `references/components.md` — 唯一选件路由入口 + 组件骨架：胶囊条 / 甘特 / VOC 墙 / 用户旅程 / 竞品对照 / 用户画像三形式 / KPI / glass card / head / 评分热力矩阵 / 分层架构 / 数据突出卡 / 生态干系人地图(§12) / 2×2 机会矩阵(§13) / 图+文 sm2 模式(§14) / 证据矩阵聚光灯(§15) / 四栏推导流(§16)
+- `references/components.md` — 唯一选件路由入口 + 组件骨架：胶囊条 / 甘特 / VOC 墙 / 用户旅程 / 竞品对照 / 用户画像三形式 / KPI / glass card / head / 评分热力矩阵 / 分层架构 / 数据突出卡 / 生态干系人地图(§12) / 2×2 机会矩阵(§13) / 图+文 sm2 模式(§14) / 证据聚光灯(§15) / 四栏推导流(§16)
 - `references/deck-architecture.md` — 单文件 deck 机制 + 多分册 `build_index.py` 合并模式
 - `references/chart-selection.md` — 手画优先原则 + ECharts/ApexCharts 选型
 - `references/pitfalls.md` — 踩坑清单（间距 / 头像 / SVG / 甘特 / 合并）

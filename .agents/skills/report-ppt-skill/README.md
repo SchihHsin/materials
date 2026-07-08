@@ -63,7 +63,7 @@ git clone git@github.com:SchihHsin/report-ppt-skill.git <项目>/.claude/skills/
 
 > ⚠️ 用户画像有**三套形式（一/二/三），按内容三选一**：正式深描单人→形式一、多角色雷达对比→形式二、白板便利贴速写单人→形式三（详见 `components.md §6a/§6b/§6c`）。
 > ⚠️ 黑底设计点有**两种版式**：①左文右图（要点多）/ ②上下堆叠 hero（大图为主），见 `components.md §8`。
-> ⚠️ 矩阵/评分表逐条讲解用 `evidence-spotlight-matrix`；问题推导成结论用 `derivation-column-flow`。两者已沉淀在 `assets/template-library/index.html`。
+> ⚠️ 证据逐条讲解用 `evidence-spotlight-matrix`：没有现成内容时可新绘证据矩阵，已有矩阵 / 旅程图 / 流程图 / 截图组 / 架构图时优先保留原内容并叠加聚光灯；问题推导成结论用 `derivation-column-flow`。两者已沉淀在 `assets/template-library/index.html`。
 
 ## 目录结构
 
@@ -85,7 +85,7 @@ assets/
 ### 2026-07 — 沉淀矩阵聚光灯与四栏推导流
 
 - 新增 `assets/template-library/index.html`：完整可复制模板库，页面统一带 `data-template / data-component / data-title`。
-- 新增 `components.md §15 证据矩阵聚光灯`，`data-template="evidence-spotlight-matrix"`：用于从矩阵 / 评分表中圈选证据、浮出解释卡片、手动分页讲解问题。
+- 新增 `components.md §15 证据聚光灯`，`data-template="evidence-spotlight-matrix"`：用于围绕证据逐步讲解。没有现成承载物时新绘证据矩阵；已有矩阵、旅程图、流程图、截图组、架构图等内容时，保留原内容并叠加圈选、降透明、解释卡片和手动分页机制。
 - 新增 `components.md §16 四栏推导流`，`data-template="derivation-column-flow"`：用于把“证据信号 → 机制归因 → 改造机会 → 后续结论”串成一页推导叙事，含竖栏样式、自动 Space Between 间距和连线机制。
 - `components.md` 顶部路由表扩展为「用户可能怎么说 → 命中组件 → data-template → 判断标准」，继续作为唯一选件路由入口。
 
