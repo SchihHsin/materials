@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Report PPT Template Library</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600;700;800&family=Barlow+Condensed:wght@200;300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/IKKI2000/harmonyos-fonts@master/css/harmonyos_sans_sc.css">
+<style>
+:root{
+  --fs-h1:clamp(20px,1.7vw,30px);--fs-h2:clamp(16px,1.25vw,22px);--fs-h3:clamp(15.5px,1.2vw,19px);
+  --fs-body:clamp(15px,1.12vw,18px);--fs-sm:clamp(12px,.82vw,14.5px);--fs-xs:clamp(9px,.62vw,11px);
+  --paper:#E9EBEE;--ink:#16191e;--ink-2:#5e646e;--ink-3:#929aa6;--line:#d4d8df;--accent:#5B5BD6;--red:#C7000B;
+  --g-ink:linear-gradient(140deg,#22262F,#14171C);--g-accent:linear-gradient(135deg,#5B5BD6,#7C3AED);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;background:#0c0a0b;color:var(--ink);font-family:'HarmonyOS Sans SC','Inter','Noto Sans SC',sans-serif;-webkit-font-smoothing:antialiased}
+body{overflow:hidden auto;scroll-snap-type:y mandatory;scroll-behavior:smooth}
+.slide{position:relative;width:100vw;height:100vh;overflow:hidden;scroll-snap-align:start;scroll-snap-stop:always}
+.s-gray{padding:5vh 4vw;display:flex;flex-direction:column;background:var(--paper);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 480' preserveAspectRatio='none'%3E%3Cpath d='M0 320 C 380 250 760 330 1080 195 C 1280 140 1380 185 1440 130 L1440 480 L0 480 Z' fill='%237e8696' fill-opacity='0.07'/%3E%3Cpath d='M0 372 C 430 305 820 405 1180 245 C 1340 198 1402 240 1440 190 L1440 480 L0 480 Z' fill='%23949bab' fill-opacity='0.08'/%3E%3C/svg%3E"),linear-gradient(125deg,rgba(120,128,145,.05),transparent 50%);
+  background-position:bottom center,0 0;background-size:100% 50%,100% 100%;background-repeat:no-repeat,no-repeat}
+.head{display:flex;align-items:flex-start;justify-content:space-between;flex:0 0 auto;margin-bottom:2.4vh}
+.head-l{display:flex;flex-direction:column-reverse;gap:.8vh}.brand{display:flex;align-items:center;gap:.5em}.brand .ttl{font-size:var(--fs-h1);font-weight:800;letter-spacing:-.01em}.subttl{font-size:var(--fs-sm);font-weight:300;color:var(--ink-2)}
+.head-r{font-family:'JetBrains Mono';font-size:var(--fs-xs);letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);text-align:right;line-height:1.8}
+.body-area{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center}.card{background:rgba(255,255,255,.55);-webkit-backdrop-filter:blur(15px) saturate(1.4);backdrop-filter:blur(15px) saturate(1.4);border:1px solid rgba(255,255,255,.7);border-radius:16px;box-shadow:0 10px 30px -16px rgba(30,40,70,.2),inset 0 1px 0 rgba(255,255,255,.85)}
+
+/* Template: evidence-spotlight-matrix */
+.spot-slide{padding-top:4.3vh;padding-bottom:3.7vh}.spot-slide .head{margin-bottom:2.1vh}
+.spot-wrap{height:100%;min-height:0;display:flex;flex-direction:column;gap:.28vh;position:relative;overflow:visible}
+.spot-note{display:flex;align-items:center;gap:8px;font-size:var(--fs-xs);line-height:1.05;color:#8E96A3}
+.spot-score-legend{display:flex;align-items:center;gap:7px;flex:0 0 auto;font-family:'JetBrains Mono';font-weight:800;color:#6B7280}
+.spot-grad{height:8px;width:92px;border-radius:4px;background:linear-gradient(90deg,#FFB9B9,#FFD7B7 35%,#FFF2A5 55%,#C4F3E1 75%,#94E1C8)}
+.spot-steps{position:static;z-index:7;margin-left:auto;display:flex;gap:5px;flex:0 0 auto}
+.spot-step{min-width:22px;height:20px;border-radius:999px;border:1px solid rgba(47,61,99,.13);background:rgba(255,255,255,.72);color:#6B7280;padding:0 6px;cursor:pointer;font-family:'JetBrains Mono';font-size:10px;font-weight:850}
+.spot-step.overview{font-family:'HarmonyOS Sans SC','Noto Sans SC',sans-serif;font-size:10.5px;padding:0 9px}.spot-step.arrow{min-width:24px;font-size:13px;line-height:1;padding:0 7px}.spot-step.on{background:var(--red);border-color:var(--red);color:#fff}.spot-step:disabled{opacity:.32;cursor:default;background:rgba(255,255,255,.54);color:#8E96A3}
+.spot-card{flex:1;min-height:0;padding:.45vh .55vw!important;overflow:hidden;position:relative}
+.spot-table{width:100%;height:100%;border-collapse:separate;border-spacing:0;table-layout:fixed}.spot-table col.name-col{width:23%}.spot-table col.score-col{width:10%}.spot-table col.gap-col{width:10%}.spot-table col.note-col{width:37%}
+.spot-table th{font-size:var(--fs-sm);font-weight:800;line-height:1.15;color:#3D4452;background:rgba(255,255,255,.62);border:0;border-radius:0;padding:.72vh .72vw;text-align:left}
+.spot-table td{font-size:var(--fs-body);line-height:1.28;text-align:left;vertical-align:middle;border-bottom:1px solid rgba(47,61,99,.075);padding:.68vh .72vw}
+.spot-table .tp-name{font-weight:900;color:var(--ink)}.spot-table .tp-name small{display:block;margin-top:.12vh;font-size:var(--fs-xs);font-weight:750;color:#8E96A3}
+.spot-table .score,.spot-table .gap{font-family:'JetBrains Mono';font-weight:950;text-align:center;border-radius:8px;padding:.35vh .35vw;display:block}
+.spot-table .score.good{background:rgba(35,160,106,.14);color:#1F7A4D}.spot-table .score.mid{background:rgba(232,163,23,.16);color:#A15C00}.spot-table .score.bad{background:rgba(199,0,11,.1);color:var(--red)}
+.spot-table .gap.dn{background:rgba(199,0,11,.1);color:var(--red)}.spot-table .gap.up{background:rgba(35,160,106,.14);color:#1F7A4D}
+.spot-table .tp-note{color:var(--ink-2);font-size:var(--fs-sm);line-height:1.42}
+.spot-table.is-spot th,.spot-table.is-spot td{opacity:.18;transition:opacity .32s ease,filter .32s ease}.spot-table.is-spot .spot-on{opacity:1;filter:saturate(1.18);position:relative;z-index:2}
+.spot-rings{position:absolute;inset:0;z-index:5;pointer-events:none}.spot-ring{position:absolute;box-sizing:border-box;border:2px dotted rgba(55,61,72,.9);border-radius:14px;background:transparent;box-shadow:none;transition:left .42s cubic-bezier(.2,.8,.2,1),top .42s cubic-bezier(.2,.8,.2,1),width .42s cubic-bezier(.2,.8,.2,1),height .42s cubic-bezier(.2,.8,.2,1),opacity .24s ease}.spot-rings.off{opacity:0}
+.spot-callout{position:absolute;z-index:6;width:min(382px,29vw);padding:1.28vh 1.08vw 1.16vh;border-radius:14px;background:rgba(255,255,255,.91);border:1px solid rgba(255,255,255,.88);box-shadow:0 20px 54px -24px rgba(30,40,70,.45),inset 0 1px 0 rgba(255,255,255,.94);pointer-events:none;transition:left .42s cubic-bezier(.2,.8,.2,1),top .42s cubic-bezier(.2,.8,.2,1),transform .28s ease,opacity .28s ease}.spot-callout.off{opacity:0;transform:translateY(4px)}
+.spot-callout .top{display:grid;grid-template-columns:42px 1fr auto;gap:10px;align-items:start}.spot-callout .ico{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;color:var(--red);background:radial-gradient(circle at 30% 25%,rgba(199,0,11,.15),rgba(199,0,11,.035) 70%);border:1px solid rgba(199,0,11,.12)}
+.spot-callout .ico svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.spot-callout .no{align-self:start;justify-self:end;height:42px;font-family:'Barlow Condensed','Arial Narrow',Arial,sans-serif;font-size:calc(var(--fs-h3)*2.3);font-weight:200;color:var(--red);line-height:1;letter-spacing:-.025em}
+.spot-callout .k{font-size:var(--fs-h2);font-weight:850;color:#465063;line-height:1.18}.spot-callout .v{margin-top:.22vh;font-family:'JetBrains Mono';font-size:var(--fs-h3);font-weight:950;color:var(--red);line-height:1}.spot-callout .d{margin-top:.82vh;font-size:var(--fs-body);line-height:1.46;color:var(--ink-2)}
+.spot-callout .demo{margin-top:.85vh;border:1px solid rgba(212,216,223,.88);border-radius:10px;background:rgba(255,255,255,.82);overflow:hidden;font-size:11px;line-height:1.45}.spot-callout .demo .body{padding:6px 9px}.spot-callout .demo .chips{display:flex;gap:5px;flex-wrap:wrap}.spot-callout .demo .chip{font-size:10.5px;border:1px solid var(--line);border-radius:20px;padding:2px 9px;background:#fafbfc}.spot-callout .demo .chip.bad{border-color:#f0c0c2;background:#FDECEC;color:var(--red)}
+
+/* Template: derivation-column-flow */
+.derive{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1.25vw;flex:1;min-height:0;position:relative}.derive-slide .brand .ttl{font-size:var(--fs-h2);letter-spacing:0}
+.dgroup{--dc:#5B5BD6;min-width:0;min-height:0;display:flex;flex-direction:column;gap:.72vh;position:relative}.dgroup.cause-g{--dc:#fff}.dgroup.move-g{--dc:#fff}
+.dcol{--soft:rgba(91,91,214,.1);min-width:0;min-height:0;display:flex;flex-direction:column;gap:.68vh;border-radius:14px;padding:1.7vh 1.85vw;box-shadow:0 16px 34px -18px rgba(20,25,36,.35);position:relative;overflow:visible;flex:1;backdrop-filter:blur(15px) saturate(1.5);-webkit-backdrop-filter:blur(15px) saturate(1.5)}.dcol>*{position:relative;z-index:3}
+.dcol.signal{--dc:#5B5BD6;--soft:rgba(91,91,214,.1);background:linear-gradient(180deg,rgba(255,255,255,.32),rgba(255,255,255,0) 14%),rgba(255,255,255,.4);border:1px solid rgba(255,255,255,.62)}
+.dcol.cause{--soft:rgba(255,255,255,.14);background:radial-gradient(ellipse 130% 130% at 50% 48%,#0E1116 0%,#3A424F 100%);border:1px solid rgba(255,255,255,.18);color:#fff;backdrop-filter:none;-webkit-backdrop-filter:none}
+.dcol.move{--soft:rgba(255,255,255,.16);background:radial-gradient(ellipse 130% 130% at 50% 48%,#3F2DBE 0%,#9D86EC 100%);border:1px solid rgba(255,255,255,.22);color:#fff;backdrop-filter:none;-webkit-backdrop-filter:none}
+.dcol.result{--dc:#6B4DE6;--soft:rgba(107,77,230,.12);background:linear-gradient(180deg,rgba(255,255,255,.34),rgba(255,255,255,0) 14%),radial-gradient(ellipse 130% 130% at 50% 48%,rgba(118,91,236,.22) 0%,rgba(255,255,255,.42) 100%);border:1px solid rgba(157,134,236,.28)}
+.dh{display:flex;align-items:baseline;gap:.55vw;flex:0 0 auto;margin-bottom:.1vh}.dh b{font-size:var(--fs-body);font-weight:950;color:var(--ink);line-height:1.2}.cause-g .dh b,.move-g .dh b{color:var(--ink)}.dh span{font-family:'JetBrains Mono';font-size:var(--fs-xs);font-weight:900;color:var(--dc);letter-spacing:.08em;text-transform:uppercase}.cause-g .dh span{color:#3A424F}.move-g .dh span{color:#6B4DE6}
+.dseq{display:flex;flex-direction:column;justify-content:flex-start;gap:.84vh;flex:1;min-height:0;position:relative}.ditem{padding:.12vh .12vw .12vh 34px;min-height:0;display:flex;flex-direction:column;gap:.12vh;position:relative}.ditem svg{position:absolute;left:4px;top:.24vh;width:18px;height:18px;fill:none;stroke:var(--dc);stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;z-index:1}.ditem strong{font-size:var(--fs-h3);line-height:1.18;color:var(--ink);font-weight:900}.ditem p{margin:0;font-size:var(--fs-sm);line-height:1.22;color:var(--ink-2)}.ditem .metric{font-family:'JetBrains Mono';font-size:11px;font-weight:900;color:var(--dc);align-self:flex-start;line-height:1.18}
+.dcol.cause .ditem strong,.dcol.move .ditem strong{color:#fff}.dcol.cause .ditem p,.dcol.move .ditem p{color:rgba(255,255,255,.72)}.dcol.cause .ditem svg,.dcol.move .ditem svg{stroke:#fff;opacity:.9}
+.dlinks{display:flex;flex-direction:column;justify-content:flex-start;gap:.84vh;flex:1;min-height:0}.dlink{display:grid;grid-template-columns:auto 1fr;gap:.58vw;align-items:start;padding:.18vh .12vw;text-decoration:none;color:inherit}.dlink .no{font-family:'JetBrains Mono';font-size:12px;font-weight:900;color:#6B4DE6;padding-top:1px}.dlink b{display:block;font-size:var(--fs-body);line-height:1.24;color:var(--ink);font-weight:900}.dlink span{display:block;margin-top:.12vh;font-size:var(--fs-sm);line-height:1.28;color:var(--ink-3)}
+.drel{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:40;overflow:visible}.drel path{fill:none;stroke:#B8BEC8;stroke-width:1.15;stroke-linecap:round;stroke-linejoin:round}.drel circle{fill:#B8BEC8;stroke:#B8BEC8;stroke-width:1.1}.drel circle.start{fill:transparent}.drel path.mid{stroke:#D9D0FF}.drel circle.mid{fill:#D9D0FF;stroke:#D9D0FF}.drel circle.mid.start{fill:transparent}.drel path.purple{stroke:#fff}.drel circle.purple{fill:#fff;stroke:#fff}.drel circle.purple.start{fill:transparent}
+</style>
+</head>
+<body>
+
+<section class="slide s-gray spot-slide" data-template="evidence-spotlight-matrix" data-component="证据矩阵聚光灯" data-title="证据矩阵聚光灯：圈选矩阵证据并浮出解释卡片">
+  <div class="head">
+    <div class="head-l">
+      <div class="brand"><span class="ttl">证据聚光灯：从评分表里定位五类系统性问题</span></div>
+      <div class="subttl">Template · evidence-spotlight-matrix · 矩阵 / 表格 / 评分证据讲解</div>
+    </div>
+    <div class="head-r">Template 15<br/>Spotlight Matrix</div>
+  </div>
+  <div class="body-area">
+    <div class="spot-wrap">
+      <div class="spot-note"><div class="spot-score-legend"><span>低</span><span class="spot-grad"></span><span>高</span></div><span style="flex:1"></span><div class="spot-steps" id="spotSteps"></div></div>
+      <div class="card spot-card">
+        <table class="spot-table" id="spotTable">
+          <colgroup><col class="name-col"><col class="score-col"><col class="score-col"><col class="gap-col"><col class="note-col"></colgroup>
+          <thead><tr><th>代表证据</th><th>对象 A</th><th>对象 B</th><th>差值</th><th>问题来源</th></tr></thead>
+          <tbody>
+            <tr data-issue="0"><td class="tp-name">下载流程<small>触点 4.3 · 获取工具包</small></td><td><span class="score bad">21</span></td><td><span class="score good">87</span></td><td><span class="gap dn">−66</span></td><td class="tp-note">账号、协议、版本包选择叠加，形成首次试用前的最大硬阻断。</td></tr>
+            <tr data-issue="0"><td class="tp-name">账号登录<small>触点 4.2 · 登录</small></td><td><span class="score mid">64</span></td><td><span class="score good">80</span></td><td><span class="gap dn">−16</span></td><td class="tp-note">开发者还没验证能力，就先进入账号流程。</td></tr>
+            <tr data-issue="1"><td class="tp-name">搜索命中<small>触点 1.3 / 6.4 · 搜索与案例</small></td><td><span class="score good">75</span></td><td><span class="score good">92</span></td><td><span class="gap dn">−17</span></td><td class="tp-note">内容不弱，但外部搜索可发现性影响第一屏命中。</td></tr>
+            <tr data-issue="1"><td class="tp-name">正确起点<small>触点 1.1 / 1.2 · 入口与导航</small></td><td><span class="score good">78</span></td><td><span class="score good">77</span></td><td><span class="gap up">+1</span></td><td class="tp-note">入口能力不弱，下一步要按任务和角色指向正确起点。</td></tr>
+            <tr data-issue="2"><td class="tp-name">在线实验<small>触点 3.2 · 快速上手</small></td><td><span class="score good">82</span></td><td><span class="score mid">72</span></td><td><span class="gap up">+10</span></td><td class="tp-note">在线实验形成长板，但还没有成为默认起步路径。</td></tr>
+            <tr data-issue="2"><td class="tp-name">示例引导<small>触点 5.2 · 示例与模型</small></td><td><span class="score good">81</span></td><td><span class="score good">79</span></td><td><span class="gap up">+2</span></td><td class="tp-note">三步引导可复用到更多开发任务入口。</td></tr>
+            <tr data-issue="3"><td class="tp-name">海外可达<small>触点 1.4 · 语言与国际化</small></td><td><span class="score good">75</span></td><td><span class="score good">75</span></td><td><span class="gap">0</span></td><td class="tp-note">语言本身不是唯一问题，账号、论坛可读、案例索引会共同影响任务完成。</td></tr>
+            <tr data-issue="3"><td class="tp-name">社区求助<small>触点 6.1 · 论坛</small></td><td><span class="score good">73</span></td><td><span class="score good">88</span></td><td><span class="gap dn">−15</span></td><td class="tp-note">游客可读、搜索索引不足，会削弱长尾问题可达性。</td></tr>
+            <tr data-issue="4"><td class="tp-name">FAQ 自助<small>触点 6.3 · FAQ</small></td><td><span class="score good">85</span></td><td><span class="score mid">63</span></td><td><span class="gap up">+22</span></td><td class="tp-note">集中 FAQ 是亮点，应继续下沉到报错、文档和论坛链路。</td></tr>
+            <tr data-issue="4"><td class="tp-name">支持入口<small>触点 6.2 · 工单</small></td><td><span class="score good">75</span></td><td><span class="score good">76</span></td><td><span class="gap dn">−1</span></td><td class="tp-note">FAQ、论坛、工单和案例需要互相导流。</td></tr>
+          </tbody>
+        </table>
+        <div class="spot-callout off" id="spotCallout"></div>
+      </div>
+      <div class="spot-rings off" id="spotRings"></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide s-gray derive-slide" data-template="derivation-column-flow" data-component="四栏推导流" data-title="四栏推导流：问题信号到结论行动">
+  <div class="head">
+    <div class="head-l">
+      <div class="brand"><span class="ttl">五类证据信号推导出四条行动结论</span></div>
+      <div class="subttl">Template · derivation-column-flow · 问题 → 机制 → 做法 → 结论</div>
+    </div>
+    <div class="head-r">Template 16<br/>Derivation Flow</div>
+  </div>
+  <div class="body-area">
+    <div class="derive">
+      <svg class="drel" aria-hidden="true"></svg>
+      <div class="dgroup signal-g">
+        <div class="dh"><span>Step 01</span><b>证据信号</b></div>
+        <div class="dcol signal"><div class="dseq">
+          <div class="ditem" data-rel="a-signal"><svg viewBox="0 0 24 24"><path d="M12 3v10"/><path d="m8 9 4 4 4-4"/><path d="M5 17h14"/></svg><strong>下载与登录形成断点</strong><p>准入条件先于能力验证出现。</p><div class="metric">−66</div></div>
+          <div class="ditem" data-rel="b-signal"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m16 16 4 4"/></svg><strong>正确起点不稳定</strong><p>任务词不一定能回到官方路径。</p><div class="metric">−17</div></div>
+          <div class="ditem" data-rel="c-signal"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="m10 8 6 4-6 4Z"/></svg><strong>可运行长板未默认化</strong><p>在线实验有优势但露出不足。</p><div class="metric">+10</div></div>
+          <div class="ditem" data-rel="d-signal"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M4 12h16"/></svg><strong>海外门槛叠加</strong><p>账号、语言、社区共同影响。</p><div class="metric">−15</div></div>
+          <div class="ditem" data-rel="e-signal"><svg viewBox="0 0 24 24"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/></svg><strong>支持内容未闭环</strong><p>FAQ 亮点没有充分回流。</p><div class="metric">+22</div></div>
+        </div></div>
+      </div>
+      <div class="dgroup cause-g">
+        <div class="dh"><span>Step 02</span><b>机制归因</b></div>
+        <div class="dcol cause"><div class="dseq">
+          <div class="ditem" data-rel="a-cause"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><strong>资源获取被准入截断</strong><p>登录、协议和版本判断被放在拿包之前。</p></div>
+          <div class="ditem" data-rel="b-cause"><svg viewBox="0 0 24 24"><path d="M5 5h6v6H5z"/><path d="M13 13h6v6h-6z"/><path d="M11 8h4a4 4 0 0 1 4 4v1"/></svg><strong>路径导航依赖用户先懂产品名</strong><p>用户知道任务，不一定知道产品入口。</p></div>
+          <div class="ditem" data-rel="c-cause"><svg viewBox="0 0 24 24"><path d="M4 5h16v5H4z"/><path d="M4 14h7v5H4z"/><path d="M13 14h7v5h-7z"/></svg><strong>可运行能力分散在多个入口</strong><p>实验、示例、工程没有合成默认路径。</p></div>
+          <div class="ditem" data-rel="d-cause"><svg viewBox="0 0 24 24"><path d="M4 12h16"/><path d="M12 4a12 12 0 0 1 0 16"/><circle cx="12" cy="12" r="8"/></svg><strong>全球可达性缺统一标准</strong><p>要按海外旅程一起看。</p></div>
+          <div class="ditem" data-rel="e-cause"><svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg><strong>支持内容没有回流机制</strong><p>一次性问答没有稳定回到知识库。</p></div>
+        </div></div>
+      </div>
+      <div class="dgroup move-g">
+        <div class="dh"><span>Step 03</span><b>改造机会</b></div>
+        <div class="dcol move"><div class="dseq">
+          <div class="ditem" data-rel="a-move"><svg viewBox="0 0 24 24"><path d="M20 7 9 18l-5-5"/></svg><strong>先让用户拿到能运行的包</strong><p>准入后置，默认推荐版本与架构。</p></div>
+          <div class="ditem" data-rel="b-move"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg><strong>让官方答案更早出现</strong><p>入口、摘要、索引围绕高频任务词组织。</p></div>
+          <div class="ditem" data-rel="c-move"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="m10 8 6 4-6 4Z"/></svg><strong>把在线实验变成默认起步</strong><p>实验、工程、示例代码连成跑通路径。</p></div>
+          <div class="ditem" data-rel="d-move"><svg viewBox="0 0 24 24"><path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/></svg><strong>按海外旅程补齐门槛</strong><p>英文、登录、社区游客可读共同推进。</p></div>
+          <div class="ditem" data-rel="e-move"><svg viewBox="0 0 24 24"><path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="m3 6 1 1 2-2"/></svg><strong>把支持链路沉淀为知识</strong><p>FAQ、论坛、工单、案例互相导流。</p></div>
+        </div></div>
+      </div>
+      <div class="dgroup result-g">
+        <div class="dh"><span>Step 04</span><b>后续结论</b></div>
+        <div class="dcol result"><div class="dlinks">
+          <div class="dlink" data-rel="a-result"><span class="no">#1</span><div><b>降低准入阻断</b><span>对应下载和账号硬摩擦。</span></div></div>
+          <div class="dlink" data-rel="b-result"><span class="no">#2</span><div><b>优化搜索入口</b><span>对应正确起点和搜索命中。</span></div></div>
+          <div class="dlink" data-rel="c-result"><span class="no">#3</span><div><b>放大可运行长板</b><span>对应在线实验和示例工程。</span></div></div>
+          <div class="dlink" data-rel="d-result"><span class="no">#4</span><div><b>补齐海外可达性</b><span>对应多重门槛组合问题。</span></div></div>
+          <div class="dlink" data-rel="e-result"><span class="no">#5</span><div><b>建设支持闭环</b><span>对应 FAQ 亮点与回流不足。</span></div></div>
+        </div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+function installSpotlight(){
+  const table=document.getElementById('spotTable'), card=table?.closest('.spot-card'), wrap=table?.closest('.spot-wrap'), rings=document.getElementById('spotRings'), callout=document.getElementById('spotCallout'), stepBox=document.getElementById('spotSteps');
+  if(!table||!card||!wrap)return;
+  const focus=[
+    {title:'问题 1 · 下载与登录是最大断点',val:'21 / 87',desc:'不是小幅落后，而是首次试用前的硬阻断。用户还没开始验证能力，就先被账号、协议和版本选择消耗。',icon:'download',demo:'<div class="body"><div class="chips"><span class="chip bad">下载 −66</span><span class="chip bad">登录 −16</span><span class="chip">结论 1</span></div></div>'},
+    {title:'问题 2 · 正确起点不稳定',val:'−17',desc:'内容存在，但任务词、入口和搜索索引没有稳定把用户带回官方当前答案。',icon:'search',demo:'<div class="body"><div class="chips"><span class="chip bad">搜索 −17</span><span class="chip">入口 +1</span><span class="chip">结论 2</span></div></div>'},
+    {title:'问题 3 · 长板没有成为默认路径',val:'+10',desc:'在线实验和示例引导是优势，问题在于它们还没有成为新手自然会走的默认起步路径。',icon:'play',demo:'<div class="body"><div class="chips"><span class="chip">在线实验 +10</span><span class="chip">示例 +2</span><span class="chip">结论 3</span></div></div>'},
+    {title:'问题 4 · 海外门槛叠加',val:'−15',desc:'语言本身不是唯一问题，账号、社区游客可读、案例索引会一起决定海外任务能不能完成。',icon:'globe',demo:'<div class="body"><div class="chips"><span class="chip">语言 0</span><span class="chip bad">社区 −15</span><span class="chip">结论 4</span></div></div>'},
+    {title:'问题 5 · 支持内容未闭环',val:'+22',desc:'FAQ 是亮点，但真正卡住时还需要文档、论坛、工单和案例互相导流并回流为知识资产。',icon:'message',demo:'<div class="body"><div class="chips"><span class="chip">FAQ +22</span><span class="chip bad">论坛 −15</span><span class="chip">结论 5</span></div></div>'}
+  ];
+  function iconSvg(type){const p={download:'<path d="M12 3v10"/><path d="m8 9 4 4 4-4"/><path d="M5 17h14"/>',search:'<circle cx="11" cy="11" r="7"/><path d="m16 16 4 4"/>',play:'<circle cx="12" cy="12" r="8"/><path d="m10 8 6 4-6 4Z"/>',globe:'<circle cx="12" cy="12" r="8"/><path d="M4 12h16"/><path d="M12 4a12 12 0 0 1 0 16"/><path d="M12 4a12 12 0 0 0 0 16"/>',message:'<path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/><path d="M8 9h8"/><path d="M8 13h5"/>'};return '<svg viewBox="0 0 24 24">'+(p[type]||p.search)+'</svg>';}
+  function html(f,i){return '<div class="top"><div class="ico">'+iconSvg(f.icon)+'</div><div><div class="k">'+f.title+'</div><div class="v">'+f.val+'</div></div><div class="no">/'+String(i+1).padStart(2,'0')+'</div></div><div class="d">'+f.desc+'</div><div class="demo">'+f.demo+'</div>'}
+  function boxOf(els){return els.reduce((b,el)=>{const r=el.getBoundingClientRect();return{l:Math.min(b.l,r.left),t:Math.min(b.t,r.top),r:Math.max(b.r,r.right),b:Math.max(b.b,r.bottom)}},{l:Infinity,t:Infinity,r:-Infinity,b:-Infinity});}
+  function draw(box){rings.innerHTML='';const wr=wrap.getBoundingClientRect(),pad=8,el=document.createElement('div');el.className='spot-ring';el.style.left=(box.l-wr.left-pad)+'px';el.style.top=(box.t-wr.top-pad)+'px';el.style.width=(box.r-box.l+pad*2)+'px';el.style.height=(box.b-box.t+pad*2)+'px';rings.appendChild(el);}
+  function place(box){const cr=card.getBoundingClientRect(),cw=callout.offsetWidth||360,ch=callout.offsetHeight||160,gap=14;let x=box.r-cr.left+gap;if(x+cw>cr.width-10)x=box.l-cr.left-cw-gap;if(x<10)x=Math.max(10,Math.min(cr.width-cw-10,box.r-cr.left-cw));let y=box.t-cr.top;if(y+ch>cr.height-10)y=Math.max(10,cr.height-ch-10);callout.style.left=x+'px';callout.style.top=y+'px';}
+  function pager(idx){stepBox.querySelectorAll('.spot-page').forEach((b,i)=>b.classList.toggle('on',i===idx+1));stepBox.querySelector('[data-dir="-1"]').disabled=idx<0;stepBox.querySelector('[data-dir="1"]').disabled=idx>=focus.length-1;}
+  function setStep(idx){table.querySelectorAll('.spot-on').forEach(el=>el.classList.remove('spot-on'));if(idx<0){table.classList.remove('is-spot');rings.classList.add('off');rings.innerHTML='';callout.classList.add('off');window.__spotStep=-1;pager(-1);return;}idx=idx%focus.length;table.classList.add('is-spot');rings.classList.remove('off');callout.classList.remove('off');const rows=[...table.querySelectorAll('tbody tr[data-issue="'+idx+'"]')],els=rows.flatMap(row=>[...row.children]);els.forEach(el=>el.classList.add('spot-on'));const b=boxOf(els);draw(b);callout.innerHTML=html(focus[idx],idx);place(b);window.__spotStep=idx;pager(idx);}
+  stepBox.innerHTML='<button class="spot-step arrow" type="button" data-dir="-1">‹</button><button class="spot-step spot-page overview" type="button" data-page="-1">总览</button>'+focus.map((_,i)=>'<button class="spot-step spot-page" type="button" data-page="'+i+'">'+(i+1)+'</button>').join('')+'<button class="spot-step arrow" type="button" data-dir="1">›</button>';
+  stepBox.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>setStep(Number(b.dataset.page))));stepBox.querySelectorAll('[data-dir]').forEach(b=>b.addEventListener('click',()=>setStep((typeof window.__spotStep==='number'?window.__spotStep:-1)+Number(b.dataset.dir))));
+  setStep(-1);addEventListener('resize',()=>setStep(typeof window.__spotStep==='number'?window.__spotStep:-1),{passive:true});
+}
+function balanceDeriveColumns(){
+  document.querySelectorAll('.derive-slide').forEach(slide=>{
+    if(document.body.classList.contains('overview'))return;
+    slide.querySelectorAll('.dcol').forEach(col=>{
+      const stack=col.querySelector('.dseq,.dlinks');if(!stack)return;
+      const items=[...stack.children];if(!items.length)return;
+      stack.style.paddingTop='0px';stack.style.paddingBottom='0px';stack.style.gap='0px';
+      const total=items.reduce((sum,el)=>sum+el.getBoundingClientRect().height,0);
+      const unit=Math.max(0,stack.clientHeight-total)/(items.length+1);
+      stack.style.paddingTop=unit+'px';stack.style.paddingBottom=unit+'px';stack.style.gap=unit+'px';
+    });
+  });
+}
+function renderDeriveRelations(){
+  document.querySelectorAll('.derive-slide').forEach(slide=>{
+    balanceDeriveColumns();
+    const box=slide.querySelector('.derive'),svg=slide.querySelector('.drel');if(!box||!svg)return;
+    const ids=['a','b','c','d','e'],pairs=[];ids.forEach((id,i)=>{pairs.push([id+'-signal',id+'-cause','']);pairs.push([id+'-cause',id+'-move','mid']);pairs.push([id+'-move',id+'-result','purple']);});
+    const br=box.getBoundingClientRect();svg.setAttribute('viewBox',`0 0 ${br.width} ${br.height}`);svg.innerHTML='';
+    function textRight(el){const bits=[];(function collect(node){node.childNodes.forEach(child=>{if(child.nodeType===3&&child.nodeValue.trim())bits.push(child);else if(child.nodeType===1&&!child.matches('svg,i'))collect(child);});})(el);return bits.reduce((m,node)=>{const range=document.createRange();range.selectNodeContents(node);const rects=[...range.getClientRects()];range.detach();return rects.reduce((rm,rr)=>Math.max(rm,rr.right),m);},el.getBoundingClientRect().left);}
+    function anchorMap(keys,side){const nodes=keys.map(k=>box.querySelector(`[data-rel="${k}"]`)).filter(Boolean),groups=new Map();nodes.forEach(el=>{const col=el.closest('.dgroup')||el.parentElement;if(!groups.has(col))groups.set(col,[]);groups.get(col).push(el);});const anchors=new Map();groups.forEach(group=>{const x=side==='right'?Math.max(...group.map(el=>textRight(el)))-br.left+6:Math.min(...group.map(el=>{const icon=el.querySelector('svg,.no');const r=(icon||el).getBoundingClientRect();return r.left;}))-br.left-8;group.forEach(el=>anchors.set(el.dataset.rel,x));});return anchors;}
+    const outX=anchorMap([...new Set(pairs.map(p=>p[0]))],'right'),inX=anchorMap([...new Set(pairs.map(p=>p[1]))],'left');
+    function point(key,side){const el=box.querySelector(`[data-rel="${key}"]`);if(!el)return null;const r=el.getBoundingClientRect();return side==='right'?{x:outX.get(key)??textRight(el)-br.left+6,y:r.top+r.height*.5-br.top}:{x:inX.get(key)??r.left-br.left-8,y:r.top+r.height*.5-br.top};}
+    pairs.forEach(([a,b,cls])=>{const p1=point(a,'right'),p2=point(b,'left');if(!p1||!p2)return;const gap=p2.x-p1.x,dx=Math.min(Math.max(12,gap*.34),28),path=document.createElementNS('http://www.w3.org/2000/svg','path');path.setAttribute('d',`M ${p1.x+3.2} ${p1.y} C ${p1.x+3.2+dx} ${p1.y}, ${p2.x-dx} ${p2.y}, ${p2.x} ${p2.y}`);if(cls)path.setAttribute('class',cls);svg.appendChild(path);const s=document.createElementNS('http://www.w3.org/2000/svg','circle');s.setAttribute('cx',p1.x);s.setAttribute('cy',p1.y);s.setAttribute('r','2.5');s.setAttribute('class',(cls?cls+' ':'')+'start');svg.appendChild(s);const e=document.createElementNS('http://www.w3.org/2000/svg','circle');e.setAttribute('cx',p2.x);e.setAttribute('cy',p2.y);e.setAttribute('r','2.5');if(cls)e.setAttribute('class',cls);svg.appendChild(e);});
+  });
+}
+installSpotlight();
+requestAnimationFrame(()=>{renderDeriveRelations();setTimeout(renderDeriveRelations,120);});
+addEventListener('resize',renderDeriveRelations,{passive:true});
+</script>
+</body>
+</html>
