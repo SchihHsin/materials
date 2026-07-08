@@ -20,6 +20,7 @@
 - **灰底页标题前不放 CANN logo**（2026-06 用户要求）：gray.html 各页 `.brand` 只留 `.ttl`；封面 logo 保留。
 - **概览**：每页 children 包进 `.slide-inner`（按基调重建内部 flex/padding，否则 `flex:1` 失父塌成一团）→ `#deck` 变 grid 3 列；缩略框**按当前视窗比例**缩放（**不强制 16:9**——窗口非 16:9 时强制 16:9 必然裁边或留缝；且 `aspect-ratio:16/9` 在带 `height:100vh` 的 `.slide` 上失效）。`body.overview #panel,#toggle{display:none!important}` 藏调色入口。
 - **全屏**：Fullscreen API，进入后图标切「退出全屏」；监听 `fullscreenchange`/`resize` → `scrollIntoView` 重新吸附当前页（修复改窗口后停两页之间）；`scrollRestoration='manual'`+进场 `scrollTo(0,0)`。
+- **组件迁移必须作用域化（2026-07 事故记录）**：从 synthesis 迁移 #17/#18 时，推导页后置样式裸写了 `.dh/.dh b/.dh span`，撞上 #12「数据突出卡」已经使用的 `.dh` 网格类，导致三张数据卡变形。修法是把推导页样式全部收进 `.derive .dh...`，不是给数据卡继续补丁。以后新增/迁移组件时，凡 `.dh`、`.card`、`.head`、`.tag`、`.item` 这类通用短类名，必须挂在页面根类或组件根类下；后置 `<style>` 写完要 `rg` 检查是否有裸选择器污染旧页。
 - `cover.html` 封面（分册源）：2.5D 芯片背景图 `reference/cover-bg.png` + logo/标题
 - `glow.html` 黑底光晕设计点（分册源，章节调色面板）
 - `gray.html` 灰底分析篇（分册源）；**2026-06 新增 3 个 pattern**（接在原 7 页后）：
