@@ -58,6 +58,7 @@ HEAD = """<!DOCTYPE html>
 <title>CANN DesignConcept 2026 · 完整汇报</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&family=Noto+Sans+SC:wght@200;300;400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/IKKI2000/harmonyos-fonts@master/css/harmonyos_sans_sc.css">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 <style>
 /* ===== 字号规范（type scale）：正文 / 标题 / 各小一级，全 deck 统一 ===== */
 :root{
@@ -378,7 +379,13 @@ function updateCurrent(i){
   const panel=document.getElementById('panel'),toggle=document.getElementById('toggle');
   if(s.dataset.chapter && s.classList.contains('chapter-cover')){ if(panel)s.appendChild(panel); if(toggle){s.appendChild(toggle);toggle.style.display='flex';} setPanelOpen(false); apply(); syncPanel(); }
   else if(toggle){ toggle.style.display='none'; setPanelOpen(false); }
-  try{history.replaceState(null,'','#'+(idx+1));}catch(e){try{location.hash=idx+1;}catch(_){}}   /* 地址同步成 #页码；file:// 下 replaceState 会报错，回退到 location.hash */
+  try{history.replaceState(null,'',deckHash(idx));}catch(e){try{location.hash=deckHash(idx).slice(1);}catch(_){}}
+  setTimeout(renderDeriveRelations,60);
+}
+function deckHash(i){
+  var h='#'+(i+1);
+  if(i===16&&typeof window.__hmStep==='number'&&window.__hmStep>=0)h+='-hm'+(window.__hmStep+1);
+  return h;
 }
 /* slide 模式：谁滚进视口 ≥55% 谁就是当前页（原生滚动 / 跳转都覆盖）。受控模式无滚动，不用 IO */
 if(!CTRL){
@@ -403,8 +410,9 @@ prevBtn.onclick=prev; nextBtn.onclick=next;
 
 document.addEventListener('keydown',e=>{
   if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA')return;
-  if(['ArrowDown','ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();next();}
-  else if(['ArrowUp','ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();prev();}
+  const fwd=['ArrowDown','ArrowRight','PageDown',' '], back=['ArrowUp','ArrowLeft','PageUp'];
+  if(fwd.includes(e.key)){e.preventDefault(); if(!stepHmFocus(e.shiftKey?-1:1))next();}
+  else if(back.includes(e.key)){e.preventDefault(); if(!stepHmFocus(-1))prev();}
   else if(e.key==='Home'){e.preventDefault();go(0);}
   else if(e.key==='End'){e.preventDefault();go(slides.length-1);}
   else if(e.key==='o'||e.key==='O'){toggleOverview();}
@@ -430,7 +438,7 @@ function exitOverview(){slides.forEach(s=>{const w=s.querySelector(':scope>.slid
 function toggleOverview(){ if(document.body.classList.contains('overview')){exitOverview();} else enterOverview(); }
 ovBtn.onclick=toggleOverview;
 document.body.addEventListener('click',e=>{if(!document.body.classList.contains('overview'))return;const sl=e.target.closest('.slide');if(sl){const i=slides.indexOf(sl);if(i>=0){idx=i;exitOverview();}}});
-addEventListener('resize',()=>{if(document.body.classList.contains('overview'))applyOverviewScale();else reanchor();});
+addEventListener('resize',()=>{if(document.body.classList.contains('overview'))applyOverviewScale();else{reanchor();renderDeriveRelations();}});
 
 /* 默认隐藏控制栏+右侧点；只有鼠标移到屏幕底部区域才出现，离开 2.5s 后淡出 */
 /* 底部控制栏 / 右侧导航点各自独立显隐：移到底部出底部栏，移到右侧出右侧点，离开该区即淡出 */
@@ -443,7 +451,7 @@ document.addEventListener('mouseleave',()=>{ controls.classList.remove('show'); 
 slides.forEach(paintSlide);
 /* 进场：地址带 #页码 就定位到那页，否则第一页 */
 (function(){
-  var n=parseInt(location.hash.slice(1),10);
+  var n=(location.hash||'').match(/^#(\d+)/); n=n?parseInt(n[1],10):NaN;
   var i=(!isNaN(n)&&n>=1&&n<=slides.length)?n-1:0;
   updateCurrent(i);
   if(CTRL){ setActive(i); }
@@ -451,7 +459,7 @@ slides.forEach(paintSlide);
   else{window.scrollTo(0,0);}
 })();
 /* 手动改地址 #页码 → 跳到对应页 */
-addEventListener('hashchange',function(){var n=parseInt(location.hash.slice(1),10);if(!isNaN(n)&&n>=1&&n<=slides.length&&(n-1)!==idx)go(n-1);});
+addEventListener('hashchange',function(){var m=(location.hash||'').match(/^#(\d+)/);var n=m?parseInt(m[1],10):NaN;if(!isNaN(n)&&n>=1&&n<=slides.length&&(n-1)!==idx)go(n-1);});
 
 /* ===== 居中型页竖向平衡：直接量"页眉下沿→内容"和"内容→页脚上沿"两个可见空白，让它们相等 =====
    ⚠️ 别拿页眉高度当 padding-bottom（试过，会系统性补过头）：页眉的留白已经是它自己的 margin-bottom，
@@ -475,6 +483,172 @@ function balanceHeads(){
 }
 addEventListener('resize',balanceHeads);
 requestAnimationFrame(balanceHeads);
+if(window.lucide)lucide.createIcons();
+setTimeout(renderDeriveRelations,80);
+
+function balanceDeriveColumns(){
+  if(document.body.classList.contains('overview'))return;
+  document.querySelectorAll('.derive-slide').forEach(slide=>{
+    slide.querySelectorAll('.dcol').forEach(col=>{
+      const stack=col.querySelector('.dseq,.dlinks');
+      if(!stack)return;
+      const items=[...stack.children];
+      if(!items.length)return;
+      stack.style.paddingTop='0px';
+      stack.style.paddingBottom='0px';
+      stack.style.gap='0px';
+      const total=items.reduce((sum,el)=>sum+el.getBoundingClientRect().height,0);
+      const free=Math.max(0,stack.clientHeight-total);
+      const unit=free/(items.length+1);
+      stack.style.paddingTop=unit+'px';
+      stack.style.paddingBottom=unit+'px';
+      stack.style.gap=unit+'px';
+    });
+  });
+}
+
+function renderDeriveRelations(){
+  if(document.body.classList.contains('overview'))return;
+  balanceDeriveColumns();
+  const aiPairs=[
+    ['version-signal','version-cause',''],
+    ['readable-signal','readable-cause',''],
+    ['recover-signal','task-cause',''],
+    ['cost-signal','readable-cause',''],
+    ['task-signal','task-cause',''],
+    ['thirdparty-signal','ecosystem-cause',''],
+    ['ecosystem-signal','ecosystem-cause',''],
+    ['version-cause','version-move','mid'],
+    ['readable-cause','readable-move','mid'],
+    ['task-cause','task-move','mid'],
+    ['ecosystem-cause','ecosystem-move','mid'],
+    ['version-move','version-result','purple'],
+    ['readable-move','readable-result','purple'],
+    ['readable-move','structure-result','purple'],
+    ['task-move','task-result','purple'],
+    ['ecosystem-move','ecosystem-result','purple']
+  ];
+  const devPairs=[
+    ['access-signal','access-cause',''],
+    ['search-signal','search-cause',''],
+    ['onboard-signal','onboard-cause',''],
+    ['global-signal','global-cause',''],
+    ['support-signal','support-cause',''],
+    ['access-cause','access-move','mid'],
+    ['search-cause','search-move','mid'],
+    ['onboard-cause','onboard-move','mid'],
+    ['global-cause','global-move','mid'],
+    ['support-cause','support-move','mid'],
+    ['access-move','access-result','purple'],
+    ['search-move','search-result','purple'],
+    ['onboard-move','onboard-result','purple'],
+    ['global-move','global-result','purple'],
+    ['support-move','support-result','purple']
+  ];
+  document.querySelectorAll('.derive-slide').forEach(slide=>{
+    const box=slide.querySelector('.derive');
+    const svg=slide.querySelector('.drel');
+    if(!box||!svg)return;
+    if(box.dataset.flow==='dev'){
+      svg.innerHTML='';
+      svg.style.display='none';
+      return;
+    }
+    const pairs=box.dataset.flow==='dev'?devPairs:aiPairs;
+    svg.style.display='block';
+    const br=box.getBoundingClientRect();
+    svg.setAttribute('viewBox',`0 0 ${br.width} ${br.height}`);
+    svg.innerHTML='';
+    function textRight(el){
+      const bits=[];
+      (function collect(node){
+        node.childNodes.forEach(child=>{
+          if(child.nodeType===3 && child.nodeValue.trim())bits.push(child);
+          else if(child.nodeType===1 && !child.matches('svg,i'))collect(child);
+        });
+      })(el);
+      return bits.reduce((m,node)=>{
+        const range=document.createRange();
+        range.selectNodeContents(node);
+        const rects=[...range.getClientRects()];
+        range.detach();
+        return rects.reduce((rm,rr)=>Math.max(rm,rr.right),m);
+      },el.getBoundingClientRect().left);
+    }
+    function anchorMap(keys,side){
+      const nodes=keys.map(key=>box.querySelector(`[data-rel="${key}"]`)).filter(Boolean);
+      if(!nodes.length)return new Map();
+      const groups=new Map();
+      nodes.forEach(el=>{
+        const col=el.closest('.dgroup')||el.parentElement;
+        if(!groups.has(col))groups.set(col,[]);
+        groups.get(col).push(el);
+      });
+      const anchors=new Map();
+      groups.forEach(group=>{
+        const x=side==='right'
+          ? Math.max(...group.map(el=>textRight(el)))-br.left+6
+          : Math.min(...group.map(el=>{
+              const icon=el.querySelector('svg.lucide,i[data-lucide],.no');
+              const anchor=icon?icon.getBoundingClientRect():el.getBoundingClientRect();
+              return anchor.left;
+            }))-br.left-8;
+        group.forEach(el=>anchors.set(el.dataset.rel,x));
+      });
+      return anchors;
+    }
+    const fromKeys=[...new Set(pairs.map(([a])=>a))];
+    const toKeys=[...new Set(pairs.map(([,b])=>b))];
+    const outX=anchorMap(fromKeys,'right');
+    const inX=anchorMap(toKeys,'left');
+    function point(key,side){
+      const el=box.querySelector(`[data-rel="${key}"]`);
+      if(!el)return null;
+      const r=el.getBoundingClientRect();
+      if(side==='right'){
+        return {x:outX.get(key) ?? textRight(el)-br.left+6,y:r.top+r.height*.5-br.top};
+      }
+      return {x:inX.get(key) ?? r.left-br.left-8,y:r.top+r.height*.5-br.top};
+    }
+    pairs.forEach(([a,b,cls])=>{
+      const p1=point(a,'right'),p2=point(b,'left');
+      if(!p1||!p2)return;
+      const gap=p2.x-p1.x;
+      const dx=Math.min(Math.max(12,gap*.34),28);
+      const path=document.createElementNS('http://www.w3.org/2000/svg','path');
+      const ex=p2.x, ey=p2.y;
+      const sx=p1.x+3.2;
+      path.setAttribute('d',`M ${sx} ${p1.y} C ${sx+dx} ${p1.y}, ${p2.x-dx} ${p2.y}, ${ex} ${ey}`);
+      if(cls)path.setAttribute('class',cls);
+      svg.appendChild(path);
+      const startDot=document.createElementNS('http://www.w3.org/2000/svg','circle');
+      startDot.setAttribute('cx',p1.x); startDot.setAttribute('cy',p1.y); startDot.setAttribute('r','2.5');
+      startDot.setAttribute('class',(cls?cls+' ':'')+'start');
+      svg.appendChild(startDot);
+      const dot=document.createElementNS('http://www.w3.org/2000/svg','circle');
+      dot.setAttribute('cx',ex); dot.setAttribute('cy',ey); dot.setAttribute('r','2.5');
+      if(cls)dot.setAttribute('class',cls);
+      svg.appendChild(dot);
+    });
+  });
+}
+
+
+
+function stepHmFocus(dir){
+  if(idx!==16)return false;
+  var box=slides[idx]&&slides[idx].querySelector('#hmSteps');
+  if(!box)return false;
+  var cur=typeof window.__hmStep==='number'?window.__hmStep:-1;
+  var pages=[...box.querySelectorAll('[data-page]')].map(b=>Number(b.getAttribute('data-page'))).filter(n=>n>=0);
+  var max=pages.length?Math.max(...pages):-1;
+  var next=cur+dir;
+  if(next>=-1&&next<=max){
+    var btn=box.querySelector('[data-page="'+next+'"]');
+    if(btn){btn.click();return true;}
+  }
+  return false;
+}
 
 /* ===== gray 简笔头像 ===== */
 const AV_SKIN={light:'#F3D2B0',tan:'#E1B188',brown:'#B97F58',pale:'#F7DEC4'};
@@ -569,6 +743,7 @@ document.querySelectorAll('[data-av]').forEach(el=>{if(el.closest('.sb-role'))re
   });
   grid.innerHTML=h;
 })();
+
 </script>
 </body>
 </html>
