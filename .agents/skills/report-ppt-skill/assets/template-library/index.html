@@ -68,7 +68,7 @@ body{overflow:hidden auto;scroll-snap-type:y mandatory;scroll-behavior:smooth}
 </head>
 <body>
 
-<section class="slide s-gray spot-slide" data-template="evidence-spotlight-matrix" data-component="证据聚光灯" data-title="证据聚光灯：圈选局部证据并浮出解释卡片">
+<section class="slide s-gray spot-slide" data-template="evidence-spotlight-matrix" data-component="证据聚光灯" data-title="证据聚光灯：圈选局部证据并浮出解释卡片" data-state-key="spot">
   <div class="head">
     <div class="head-l">
       <div class="brand"><span class="ttl">证据聚光灯：从评分表里定位五类系统性问题</span></div>
@@ -162,6 +162,7 @@ body{overflow:hidden auto;scroll-snap-type:y mandatory;scroll-behavior:smooth}
 function installSpotlight(){
   const table=document.getElementById('spotTable'), card=table?.closest('.spot-card'), wrap=table?.closest('.spot-wrap'), rings=document.getElementById('spotRings'), callout=document.getElementById('spotCallout'), stepBox=document.getElementById('spotSteps');
   if(!table||!card||!wrap)return;
+  const slide=wrap.closest('.slide'), slides=[...document.querySelectorAll('.slide')], pageNo=Math.max(1,slides.indexOf(slide)+1), stateKey=slide?.dataset.stateKey||'spot';
   const focus=[
     {title:'问题 1 · 下载与登录是最大断点',val:'21 / 87',desc:'不是小幅落后，而是首次试用前的硬阻断。用户还没开始验证能力，就先被账号、协议和版本选择消耗。',icon:'download',demo:'<div class="body"><div class="chips"><span class="chip bad">下载 −66</span><span class="chip bad">登录 −16</span><span class="chip">结论 1</span></div></div>'},
     {title:'问题 2 · 正确起点不稳定',val:'−17',desc:'内容存在，但任务词、入口和搜索索引没有稳定把用户带回官方当前答案。',icon:'search',demo:'<div class="body"><div class="chips"><span class="chip bad">搜索 −17</span><span class="chip">入口 +1</span><span class="chip">结论 2</span></div></div>'},
@@ -175,10 +176,18 @@ function installSpotlight(){
   function draw(box){rings.innerHTML='';const wr=wrap.getBoundingClientRect(),pad=8,el=document.createElement('div');el.className='spot-ring';el.style.left=(box.l-wr.left-pad)+'px';el.style.top=(box.t-wr.top-pad)+'px';el.style.width=(box.r-box.l+pad*2)+'px';el.style.height=(box.b-box.t+pad*2)+'px';rings.appendChild(el);}
   function place(box){const cr=card.getBoundingClientRect(),cw=callout.offsetWidth||360,ch=callout.offsetHeight||160,gap=14;let x=box.r-cr.left+gap;if(x+cw>cr.width-10)x=box.l-cr.left-cw-gap;if(x<10)x=Math.max(10,Math.min(cr.width-cw-10,box.r-cr.left-cw));let y=box.t-cr.top;if(y+ch>cr.height-10)y=Math.max(10,cr.height-ch-10);callout.style.left=x+'px';callout.style.top=y+'px';}
   function pager(idx){stepBox.querySelectorAll('.spot-page').forEach((b,i)=>b.classList.toggle('on',i===idx+1));stepBox.querySelector('[data-dir="-1"]').disabled=idx<0;stepBox.querySelector('[data-dir="1"]').disabled=idx>=focus.length-1;}
+  function spotHash(idx){return '#'+pageNo+(idx>=0?'-'+stateKey+(idx+1):'');}
+  function syncHash(){const step=typeof window.__spotStep==='number'?window.__spotStep:-1;try{history.replaceState(null,'',spotHash(step));}catch(e){}}
+  function stepFromHash(){const m=(location.hash||'').match(new RegExp('^#'+pageNo+'-'+stateKey+'(\\\\d+)$'));return m?Math.max(0,Math.min(focus.length-1,Number(m[1])-1)):-1;}
   function setStep(idx){table.querySelectorAll('.spot-on').forEach(el=>el.classList.remove('spot-on'));if(idx<0){table.classList.remove('is-spot');rings.classList.add('off');rings.innerHTML='';callout.classList.add('off');window.__spotStep=-1;pager(-1);return;}idx=idx%focus.length;table.classList.add('is-spot');rings.classList.remove('off');callout.classList.remove('off');const rows=[...table.querySelectorAll('tbody tr[data-issue="'+idx+'"]')],els=rows.flatMap(row=>[...row.children]);els.forEach(el=>el.classList.add('spot-on'));const b=boxOf(els);draw(b);callout.innerHTML=html(focus[idx],idx);place(b);window.__spotStep=idx;pager(idx);}
+  function isCurrentSpotSlide(){return slide?.classList.contains('active')||location.hash===''&&pageNo===1||(location.hash||'').startsWith('#'+pageNo);}
+  function stepByKeyboard(dir){const cur=typeof window.__spotStep==='number'?window.__spotStep:-1,next=cur+dir;if(next>=-1&&next<focus.length){setStep(next);syncHash();return true;}return false;}
+  function onSpotKey(e){if(e.defaultPrevented||e.altKey||e.ctrlKey||e.metaKey||!isCurrentSpotSlide())return;if(e.target&&['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName))return;const fwd=['ArrowDown','ArrowRight','PageDown',' '],back=['ArrowUp','ArrowLeft','PageUp'];let handled=false;if(fwd.includes(e.key))handled=stepByKeyboard(e.shiftKey?-1:1);else if(back.includes(e.key))handled=stepByKeyboard(-1);if(handled){e.preventDefault();e.stopImmediatePropagation();}}
   stepBox.innerHTML='<button class="spot-step arrow" type="button" data-dir="-1">‹</button><button class="spot-step spot-page overview" type="button" data-page="-1">总览</button>'+focus.map((_,i)=>'<button class="spot-step spot-page" type="button" data-page="'+i+'">'+(i+1)+'</button>').join('')+'<button class="spot-step arrow" type="button" data-dir="1">›</button>';
-  stepBox.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>setStep(Number(b.dataset.page))));stepBox.querySelectorAll('[data-dir]').forEach(b=>b.addEventListener('click',()=>setStep((typeof window.__spotStep==='number'?window.__spotStep:-1)+Number(b.dataset.dir))));
-  setStep(-1);addEventListener('resize',()=>setStep(typeof window.__spotStep==='number'?window.__spotStep:-1),{passive:true});
+  stepBox.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>{setStep(Number(b.dataset.page));syncHash();}));stepBox.querySelectorAll('[data-dir]').forEach(b=>b.addEventListener('click',()=>{setStep((typeof window.__spotStep==='number'?window.__spotStep:-1)+Number(b.dataset.dir));syncHash();}));
+  setStep(stepFromHash());addEventListener('resize',()=>setStep(typeof window.__spotStep==='number'?window.__spotStep:-1),{passive:true});
+  addEventListener('hashchange',()=>{const s=stepFromHash();if(s>=0||location.hash==='#'+pageNo)setStep(s);},{passive:true});
+  document.addEventListener('keydown',onSpotKey,true);
 }
 function balanceDeriveColumns(){
   document.querySelectorAll('.derive-slide').forEach(slide=>{

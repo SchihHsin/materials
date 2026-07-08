@@ -1160,6 +1160,82 @@ function placeCallout(box){
    - 如果承载物里有 iframe / 图片 / SVG，等其尺寸稳定后再 `requestAnimationFrame(updateSpotlight)`。
    - 手动翻页时只更新当前 step，不自动轮播；总览态要清空 ring，并隐藏 callout。
 
+### URL 状态机制（总览 / 聚光灯状态可直达）
+
+沿用 #17 已验证的方式：**页码 hash + 聚光灯后缀**。例如第 17 页总览是 `#17`，第 1 个聚光灯状态是 `#17-hm1`，第 7 个状态是 `#17-hm7`。泛化到新模板时，后缀可以换成 `spot`，但结构保持 `#页码-状态名序号`，例如 `#12-spot3`。
+
+1. **deck 层统一生成 hash**
+   - 不要让每个按钮各自拼一套地址。deck 里保留一个 `deckHash(idx)`，当前页如果是聚光灯页，就把 `window.__spotStep` 拼进去。
+
+```js
+function deckHash(i){
+  var h = '#'+(i+1);
+  if(i === SPOT_PAGE_INDEX && typeof window.__spotStep === 'number' && window.__spotStep >= 0){
+    h += '-spot' + (window.__spotStep + 1); // #17-hm1 也可以，把 spot 换成 hm
+  }
+  return h;
+}
+```
+
+2. **聚光灯按钮更新 hash**
+   - 页内按钮只做两件事：`setStep()` 更新状态，`syncHash()` 用 `history.replaceState()` 把地址改成当前状态。
+   - 总览按钮 `setStep(-1)` 后地址回到 `#页码`；不要继续保留旧的 `-spotN`。
+
+```js
+function syncHash(){
+  var step = typeof window.__spotStep === 'number' ? window.__spotStep : -1;
+  var h = '#'+SPOT_PAGE_NO + (step >= 0 ? '-spot' + (step + 1) : '');
+  try{ history.replaceState(null, '', h); }catch(e){}
+}
+```
+
+3. **加载时恢复状态**
+   - 页面初始化时先解析 `location.hash` 里的页码，让 deck 跳到对应页。
+   - 聚光灯页脚本再解析后缀，命中 `#17-hm3` / `#12-spot3` 就 `setStep(2)`；没有后缀则 `setStep(-1)` 保持总览。
+
+```js
+var m = (location.hash || '').match(/^#17-hm([1-7])$/);
+setStep(m ? Number(m[1]) - 1 : -1);
+```
+
+4. **hashchange 处理**
+   - 手动改地址或从外部链接进入时，deck 先跳页；如果 hash 后缀对应当前聚光灯页，再恢复对应 step。
+   - 如果现有 deck 已有 `hashchange` 监听，只扩展解析规则，不要新增一套互相抢 hash 的监听。
+
+### 键盘翻页机制
+
+聚光灯页要支持“键盘翻页先切换聚光灯状态，再进入下一页”。沿用 #17 的体验：
+
+- 当前页是聚光灯页时，`ArrowRight / ArrowDown / PageDown / Space` 先执行：总览 `-1` → 聚焦 1 → 聚焦 2 → … → 最后一个聚焦。
+- 当前页是聚光灯页时，`ArrowLeft / ArrowUp / PageUp` 先执行：当前聚焦 → 上一个聚焦 → 总览。
+- 到达最后一个聚焦后再按下一页，才交还给 deck 的全局翻页；到达总览后再按上一页，才交还给 deck 的全局翻页。
+- 监听建议用 capture 阶段：`document.addEventListener('keydown', onSpotKey, true)`。只有成功切换聚光灯状态时才 `preventDefault()` + `stopImmediatePropagation()`，边界状态不拦截，让 deck 正常翻页。
+- 输入框、`textarea`、`select` 聚焦时不拦截；`Alt/Ctrl/Meta` 组合键不拦截。
+
+```js
+function stepByKeyboard(dir){
+  const cur = typeof window.__spotStep === 'number' ? window.__spotStep : -1;
+  const next = cur + dir;
+  if(next >= -1 && next < focus.length){
+    setStep(next);
+    syncHash();
+    return true;
+  }
+  return false;
+}
+function onSpotKey(e){
+  if(e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey || !isCurrentSpotSlide()) return;
+  if(e.target && ['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName)) return;
+  const fwd = ['ArrowDown','ArrowRight','PageDown',' '];
+  const back = ['ArrowUp','ArrowLeft','PageUp'];
+  let handled = false;
+  if(fwd.includes(e.key)) handled = stepByKeyboard(e.shiftKey ? -1 : 1);
+  else if(back.includes(e.key)) handled = stepByKeyboard(-1);
+  if(handled){ e.preventDefault(); e.stopImmediatePropagation(); }
+}
+document.addEventListener('keydown', onSpotKey, true);
+```
+
 ### 使用注意事项
 
 - **不要额外放 `uxspot` / `uxfocus-top` 这类解释区**。聚光灯页的解释必须进入 `.spot-callout`，而不是证据承载物旁边的静态说明。
