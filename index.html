@@ -55,17 +55,16 @@
     h2 { margin: 8px 0 0; font-size: clamp(27px, 3.3vw, 44px); line-height: 1.1; letter-spacing: -.055em; }
     .section-head p { max-width: 370px; margin: 0; color: var(--muted); font-size: 14px; line-height: 1.7; }
 
-    .template-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+    .template-grid { display: grid; grid-template-columns: minmax(0, 1fr); max-width: 980px; }
     .template { min-width: 0; overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius); background: var(--card); box-shadow: 0 14px 35px rgba(45, 50, 66, .06); transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease; }
     .template:hover { transform: translateY(-5px); border-color: rgba(91,91,214,.5); box-shadow: 0 22px 48px rgba(45, 50, 66, .13); }
     .template a { display: block; text-decoration: none; }
-    .preview { position: relative; height: 290px; overflow: hidden; background: #17191f; pointer-events: none; }
-    .preview iframe { position: absolute; top: 0; left: 0; width: 1440px; height: 900px; border: 0; transform: scale(.38); transform-origin: top left; }
-    .preview::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 58%, rgba(8, 10, 16, .20)); }
-    .preview-label { position: absolute; z-index: 1; right: 16px; bottom: 15px; padding: 7px 10px; border: 1px solid rgba(255,255,255,.25); border-radius: 999px; color: #fff; background: rgba(15,17,23,.58); font: 500 10px/1 "DM Mono", monospace; letter-spacing: .09em; }
+    .deck-preview { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; padding: 10px; background: #1a1c23; }
+    .deck-preview img { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 8px; opacity: .94; transition: opacity .2s ease, transform .2s ease; }
+    .template:hover .deck-preview img { opacity: 1; transform: scale(1.015); }
     .template-info { padding: 22px 24px 24px; }
-    .template-info h3 { margin: 8px 0 7px; font-size: 20px; letter-spacing: -.04em; }
-    .template-info p { min-height: 46px; margin: 0; color: var(--muted); font-size: 13px; line-height: 1.65; }
+    .template-info h3 { margin: 8px 0 7px; font-size: 21px; letter-spacing: -.04em; }
+    .template-info p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.65; }
     .open { display: inline-flex; gap: 7px; align-items: center; margin-top: 17px; color: var(--accent); font: 500 12px/1 "DM Mono", monospace; letter-spacing: .04em; }
     .open::after { content: "↗"; font-size: 15px; }
 
@@ -97,8 +96,7 @@
       .section-head, .guide-layout { display: block; }
       .section-head p { margin-top: 16px; }
       .template-grid { grid-template-columns: 1fr; }
-      .preview { height: 220px; }
-      .preview iframe { transform: scale(.29); }
+      .deck-preview { grid-template-columns: repeat(2, 1fr); }
       .guide-copy { position: static; margin-bottom: 28px; }
     }
   </style>
@@ -129,29 +127,22 @@
           <div class="eyebrow">Template gallery</div>
           <h2>模板预览</h2>
         </div>
-        <p>点击任一缩略图，进入可交互浏览的完整网页 PPT 示例。</p>
+        <p>卡片内预览了多种页面类型；点击整张卡片，在新标签页浏览完整网页 PPT。</p>
       </div>
       <div class="template-grid">
         <article class="template">
-          <a href="./cann-design-concept/index.html" aria-label="打开 CANN DesignConcept 2026 模板">
-            <div class="preview"><iframe src="./cann-design-concept/index.html" title="CANN DesignConcept 2026 模板缩略预览" loading="lazy" tabindex="-1"></iframe><span class="preview-label">OPEN DECK</span></div>
-            <div class="template-info">
-              <div class="card-kicker">Product / Design</div>
-              <h3>CANN DesignConcept 2026</h3>
-              <p>冷灰分析篇、玻璃白卡与黑底设计点的完整汇报示例。</p>
-              <span class="open">查看模板</span>
+          <a href="./cann-design-concept/index.html" target="_blank" rel="noreferrer" aria-label="在新标签页打开完整 CANN DesignConcept 2026 模板">
+            <div class="deck-preview">
+              <img src="./assets/design-concept-thumbnails/page-1.jpg" alt="Design Concept 封面缩略图">
+              <img src="./assets/design-concept-thumbnails/page-2.jpg" alt="Design Concept 架构页缩略图">
+              <img src="./assets/design-concept-thumbnails/page-4.jpg" alt="Design Concept 洞察页缩略图">
+              <img src="./assets/design-concept-thumbnails/page-5.jpg" alt="Design Concept 竞品页缩略图">
+              <img src="./assets/design-concept-thumbnails/page-8.jpg" alt="Design Concept 用户旅程页缩略图">
+              <img src="./assets/design-concept-thumbnails/page-10.jpg" alt="Design Concept 用户画像页缩略图">
+              <img src="./assets/design-concept-thumbnails/page-15.jpg" alt="Design Concept roadmap 页缩略图">
+              <img src="./assets/design-concept-thumbnails/page-21.jpg" alt="Design Concept 设计点页缩略图">
             </div>
-          </a>
-        </article>
-        <article class="template">
-          <a href="./cann-research-ppt/index.html" aria-label="打开 CANN 用户研究报告模板">
-            <div class="preview"><iframe src="./cann-research-ppt/index.html" title="CANN 用户研究报告模板缩略预览" loading="lazy" tabindex="-1"></iframe><span class="preview-label">OPEN DECK</span></div>
-            <div class="template-info">
-              <div class="card-kicker">User research</div>
-              <h3>CANN 用户研究报告</h3>
-              <p>以洞察、旅程与设计策略串联研究结论的网页 PPT 示例。</p>
-              <span class="open">查看模板</span>
-            </div>
+            <div class="template-info"><div class="card-kicker">Product / Design · 28 pages</div><h3>CANN DesignConcept 2026</h3><p>封面、分析、竞品、旅程、画像、路线图与黑底设计点等多页模板预览。点击整张卡片，在新标签页浏览完整网页 PPT。</p><span class="open">打开完整模板</span></div>
           </a>
         </article>
       </div>
@@ -173,7 +164,9 @@ https://github.com/SchihHsin/report-ppt-skill
 
 将仓库克隆到 ~/.claude/skills/report-ppt-skill；若该目录已是这个仓库，则执行 git pull 更新。请保留本地未跟踪文件，不要修改当前项目文件。
 
-安装后确认 ~/.claude/skills/report-ppt-skill/SKILL.md 存在，并读取它以确认安装可用。</pre>
+安装后，创建 ~/.claude/commands/report-ppt-skill.md，使它读取并使用 ~/.claude/skills/report-ppt-skill/SKILL.md，且将用户输入的参数作为本次汇报需求。这样我可以通过 /report-ppt-skill 来调用它。
+
+确认 Skill 文件和命令文件都存在，并读取它们以确认安装可用。</pre>
             </article>
             <article class="step">
               <div class="step-head"><div class="step-title"><span class="tool-dot"></span>OpenCode</div><button class="copy" data-copy="opencode">复制提示词</button></div>
@@ -182,7 +175,9 @@ https://github.com/SchihHsin/report-ppt-skill
 
 将仓库克隆到 ~/.config/opencode/skills/report-ppt-skill；若该目录已是这个仓库，则执行 git pull 更新。请保留本地未跟踪文件，不要修改当前项目文件。
 
-安装后确认 ~/.config/opencode/skills/report-ppt-skill/SKILL.md 存在，并读取它以确认安装可用。</pre>
+安装后，创建 ~/.config/opencode/command/report-ppt-skill.md，使它读取并使用 ~/.config/opencode/skills/report-ppt-skill/SKILL.md，且将用户输入的参数作为本次汇报需求。这样我可以通过 /report-ppt-skill 来调用它。
+
+确认 Skill 文件和命令文件都存在，并读取它们以确认安装可用。</pre>
             </article>
             <article class="step">
               <div class="step-head"><div class="step-title"><span class="tool-dot"></span>Codex</div><button class="copy" data-copy="codex">复制提示词</button></div>
@@ -191,14 +186,16 @@ https://github.com/SchihHsin/report-ppt-skill
 
 将仓库克隆到 ~/.codex/skills/report-ppt-skill；若该目录已是这个仓库，则执行 git pull 更新。请保留本地未跟踪文件，不要修改当前项目文件。
 
-安装后确认 ~/.codex/skills/report-ppt-skill/SKILL.md 存在，并读取它以确认安装可用。</pre>
+安装后，创建 ~/.codex/commands/report-ppt-skill.md，使它读取并使用 ~/.codex/skills/report-ppt-skill/SKILL.md，且将用户输入的参数作为本次汇报需求。这样我可以通过 /report-ppt-skill 来调用它。
+
+确认 Skill 文件和命令文件都存在，并读取它们以确认安装可用。</pre>
             </article>
           </div>
           <div class="post-install">
             <div class="card-kicker">After installation</div>
-            <h3>重开一次对话，然后直接描述你要的汇报。</h3>
-            <p>Skill 会在“产品汇报、设计方案、用户研究、竞品分析、数据分析 PPT”等请求中自动命中。也可以明确点名它。</p>
-            <span class="example">使用 report-ppt-skill，基于这份调研资料制作一份面向管理层的 10 页产品策略汇报。需要包含核心洞察、用户旅程、竞品比较、方案与 roadmap。</span>
+            <h3>重开一次对话，再输入 slash 命令。</h3>
+            <p>在 Claude Code、OpenCode 或 Codex 的输入框键入 <code>/report-ppt-skill</code>，再补充主题、受众、素材与页数要求。</p>
+            <span class="example">/report-ppt-skill 基于这份调研资料制作一份面向管理层的 10 页产品策略汇报。需要包含核心洞察、用户旅程、竞品比较、方案与 roadmap。</span>
           </div>
         </div>
       </div>
