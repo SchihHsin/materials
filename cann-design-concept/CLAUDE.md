@@ -95,14 +95,14 @@
 ## report-ppt-skill（通用汇报 PPT skill，由本项目提炼）
 内容 = README.md + SKILL.md + references/{type-and-color,components,deck-architecture,chart-selection,pitfalls}.md + assets/{deck-template.html, cover-bg.png, cann-dark-logo.svg, CANNlogo.png, persona.svg, cmp-*.jpg}。不绑死 CANN，写别的汇报材料可直接用。对外分享走 ③ 独立仓库。
 
-⚠️ **同一份 skill 只保留一个权威源，外加两个用户级入口**：
-1. `/Users/hsin/Documents/Coding/report-ppt-skill/` — **唯一权威源 / 独立仓库 `SchihHsin/report-ppt-skill`**（`main` 分支），所有内容只在这里编辑、提交、推送
-2. `~/.claude/skills/report-ppt-skill/` — 指向权威源的 Claude 用户级软链接
-3. `~/.codex/skills/report-ppt-skill/` — 指向权威源的 Codex 用户级软链接
+⚠️ **创作入口在 materials，发布包在独立仓**：
+1. 在 `materials` 的案例、deck 和参考页中试验并确认新的组件、文案或规范；这里是 report-ppt-skill 的开发与验收入口。
+2. 验证通过后，将通用且可复用的改动同步到 `/Users/hsin/Documents/Coding/report-ppt-skill/`，作为对外下载的发布包；在该仓提交并 push。
+3. `~/.claude/skills/report-ppt-skill/` 与 `~/.codex/skills/report-ppt-skill/` 都是指向发布仓的用户级软链接，发布仓更新后自动生效。
 
-`materials` 不再保留 `.claude/skills/report-ppt-skill` 或 `.agents/skills/report-ppt-skill` 项目级副本，避免重复提交和漂移。
+`materials` 不再保留 `.claude/skills/report-ppt-skill` 或 `.agents/skills/report-ppt-skill` 项目级完整副本，避免同一 skill 多处漂移。
 
-**固定动作**：只改① → `git -C ① add/commit/push`。②、③自动读取同一份文件，无需复制或单独提交。若未来必须恢复项目级副本，应由①生成，不能手改副本。
+**固定动作**：materials 先改 / 验证 → 同步发布仓 → `git -C /Users/hsin/Documents/Coding/report-ppt-skill add/commit/push`。不要在用户级链接目录单独修改；它们只用于加载发布包。
 
 ## 待办
 - [x] 整合成完整 deck（封面 + 灰底 gray + 黑底 glow，统一翻页/索引）→ `index.html`（build_index.py 拼装）
