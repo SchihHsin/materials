@@ -713,7 +713,8 @@
 ### 内容与视觉约束
 
 - 每卡顺序固定为：**两位章节号 → 中文章节名 → 英文辅助名 → 1--2 个内容锚点 → 一句章节职责**。
-- 章节号用细长展示字体和同卡局部色；中文名可读、英文名辅助；锚点只能是短语，不能写成长段落。
+- 左上页眉只写「目录」；不要再加英文副标题、阅读路径或解释性文案。
+- 章节号固定使用 **Barlow Condensed Bold（700）**，以 `Inter` 为回退；保持两位数、同卡局部色与紧凑字距，不要换成中文正文字体。中文名可读、英文名辅助；锚点只能是短语，不能写成长段落。
 - 章节职责置底，用细分隔线与主体隔开；只说明本章要完成的阅读任务，**不提前写研究发现或方案结论**。
 - 使用冷灰底、透白玻璃卡与低饱和语义色；不要做满铺彩色卡、无意义 icon 或渐变彩虹墙。
 - 目录中的中文章节名必须和各章节页 `.subttl`、页脚、总结、附录一致；改名后全局检索旧词。
@@ -741,7 +742,7 @@
 ```html
 <section class="slide s-gray contents-slide" data-template="contents-directory" data-component="目录页" data-title="六个章节建立从研究问题到研究资产的阅读路径">
   <div class="head">
-    <div class="head-l"><div class="brand"><span class="ttl">目录</span></div><div class="subttl">CONTENTS · 本次汇报的阅读路径</div></div>
+    <div class="head-l"><div class="brand"><span class="ttl">目录</span></div></div>
     <div class="head-r">01 / CONTENTS</div>
   </div>
   <div class="body-area"><div class="contents-directory contents-6">
