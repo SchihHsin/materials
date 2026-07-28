@@ -1,0 +1,10 @@
+# Materials Workspace Rules
+
+## Report PPT Skill
+
+- Develop and validate report-ppt-skill changes in `materials` case decks, reference pages, and experiments first.
+- After validation, transfer reusable rules, templates, and assets to `/Users/hsin/Documents/Coding/report-ppt-skill/`.
+- Commit and push the release repository after each approved skill change.
+- Do not create or edit project-level copies under `.claude/skills/report-ppt-skill` or `.agents/skills/report-ppt-skill`.
+- The Claude and Codex user-level skill paths are links to the release repository; do not edit the links directly.
+- Keep case-specific materials in this repository. Only move generalized, reusable content into the release skill.
