@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>目录编号字重对照</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@200;300;400&family=HarmonyOS+Sans+SC:wght@400;700;800&display=swap" rel="stylesheet" />
+<style>
+:root{--paper:#E9EBEE;--ink:#16191E;--muted:#707887;--indigo:#5B5BD6;--blue:#2F6FED;--teal:#0F9F9B}
+*{box-sizing:border-box}html,body{min-height:100%;margin:0;background:var(--paper);color:var(--ink);font-family:'HarmonyOS Sans SC','Inter',sans-serif}body{padding:5vh 7vw;background-image:linear-gradient(125deg,rgba(120,128,145,.05),transparent 50%)}
+.eyebrow{font-size:13px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase}.title{margin:10px 0 42px;font-size:30px;font-weight:800}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;max-width:1320px;margin:auto}.card{--color:var(--indigo);min-height:400px;padding:28px 30px 24px;display:flex;flex-direction:column;overflow:hidden;border:1px solid rgba(255,255,255,.9);border-radius:18px;background:rgba(255,255,255,.56);box-shadow:0 18px 42px -25px rgba(20,25,35,.22),inset 0 1px 0 rgba(255,255,255,.94)}.card:nth-child(2){--color:var(--blue)}.card:nth-child(3){--color:var(--teal)}
+.weight{font-size:13px;font-weight:800;letter-spacing:.1em;color:var(--color);text-transform:uppercase}.number{margin-top:20px;font-family:'Barlow Condensed','Inter',sans-serif;font-size:108px;line-height:.78;letter-spacing:-.04em;color:var(--color);text-shadow:0 0 28px color-mix(in srgb,var(--color) 24%,transparent)}.w200{font-weight:200}.w300{font-weight:300}.w400{font-weight:400}.name{margin:23px 0 4px;font-size:23px;font-weight:800}.en{font-size:15px;font-weight:700;color:var(--color)}.items{margin-top:42px;display:grid;gap:10px;font-size:16px;color:var(--muted)}.items span:before{content:'•';margin-right:10px;color:var(--color)}.note{margin-top:auto;padding-top:17px;border-top:1px solid rgba(47,61,99,.14);font-size:14px;font-weight:800;color:var(--color)}
+@media(max-width:900px){body{padding:36px 24px}.grid{grid-template-columns:1fr}.card{min-height:300px}}
+</style>
+</head>
+<body>
+  <div class="eyebrow">Directory Number Weight Test</div>
+  <h1 class="title">目录编号字重对照</h1>
+  <main class="grid">
+    <article class="card"><div class="weight">Barlow Condensed · 200</div><div class="number w200">01</div><h2 class="name">研究概览</h2><div class="en">Research Overview</div><div class="items"><span>研究问题</span><span>范围与对象</span></div><div class="note">明确本次汇报要回答的问题</div></article>
+    <article class="card"><div class="weight">Barlow Condensed · 300</div><div class="number w300">02</div><h2 class="name">测量方法</h2><div class="en">Measurement</div><div class="items"><span>指标定义</span><span>评分计算</span></div><div class="note">以统一量尺记录证据</div></article>
+    <article class="card"><div class="weight">Barlow Condensed · 400</div><div class="number w400">03</div><h2 class="name">任务定义</h2><div class="en">Task Definition</div><div class="items"><span>共同任务</span><span>对照条件</span></div><div class="note">确保比较对象具备可比性</div></article>
+  </main>
+</body>
+</html>
