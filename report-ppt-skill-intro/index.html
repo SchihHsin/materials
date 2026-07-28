@@ -402,12 +402,20 @@ body.overview #panel,body.overview #toggle{display:none!important}
 <script src="https://unpkg.com/lucide@latest"></script>
 <script>
 if(window.lucide)lucide.createIcons();
-/* D3 为树形布局分配分类与叶节点位置；连线端点在实际节点渲染后测量，避免缩放或字体变化时错位。 */
-/* 两种开源图形库原型：ECharts 固定坐标保证关系图稳定，Mermaid 用声明式语法验证内容路由。 */
-function renderTemplateMermaid(){
+/* Mermaid 保留左右双列的位置约束；左侧两条连线仅反转箭头端点，让中心的 Skill 指向四类模板。 */
+async function renderTemplateMermaid(){
   const node=document.getElementById('templateMermaid'); if(!node||!window.mermaid)return;
   mermaid.initialize({startOnLoad:false,theme:'base',securityLevel:'loose',themeVariables:{fontFamily:'HarmonyOS Sans SC, Noto Sans SC, sans-serif',primaryColor:'#fff',primaryTextColor:'#20242D',primaryBorderColor:'#9BA5B4',lineColor:'#9BA5B4'},flowchart:{curve:'basis',useMaxWidth:true,htmlLabels:true}});
-  mermaid.run({nodes:[node]});
+  await mermaid.run({nodes:[node]});
+  const svg=node.querySelector('svg'); if(!svg)return;
+  const links=[...svg.querySelectorAll('path.flowchart-link,.edgePath path')];
+  const leftLinks=links.filter(link=>/RESEARCH.*ROOT|ANALYSIS.*ROOT/.test(link.id));
+  (leftLinks.length?leftLinks:links.slice(0,2)).forEach(link=>{
+    const marker=link.getAttribute('marker-end'); if(!marker)return;
+    link.removeAttribute('marker-end'); link.setAttribute('marker-start',marker);
+    const id=marker.match(/#([^)]*)/)?.[1], markerNode=id&&svg.querySelector('#'+id);
+    if(markerNode)markerNode.setAttribute('orient','auto-start-reverse');
+  });
 }
 renderTemplateMermaid();
 const root=document.documentElement;
