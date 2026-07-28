@@ -578,10 +578,12 @@ document.addEventListener('mousemove',e=>{
 });
 document.addEventListener('mouseleave',()=>{ controls.classList.remove('show'); navDots.classList.remove('show'); });
 
-window.scrollTo(0,0);
+/* 刷新时尊重 URL #页码；无合法页码才从封面开始。 */
+const initialPage=Math.min(slides.length-1,Math.max(0,(Number.parseInt(location.hash.slice(1),10)||1)-1));
 slides.forEach(paintSlide);
-updateCurrent(0);
-if(CTRL) setActive(0);
+updateCurrent(initialPage);
+if(CTRL) setActive(initialPage);
+else requestAnimationFrame(()=>slides[initialPage].scrollIntoView({block:'start',behavior:'auto'}));
 </script>
 </body>
 </html>
