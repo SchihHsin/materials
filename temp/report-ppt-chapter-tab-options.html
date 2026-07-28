@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Report PPT · 章节 Tab 样式对照</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--paper:#e9ebee;--ink:#182033;--ink-2:#687388;--ink-3:#9aa2b0;--line:rgba(47,61,99,.14);--accent:#5b5bd6;--accent-light:#eef0ff;--fs-h1:clamp(28px,2.35vw,38px);--fs-sm:clamp(12px,.9vw,14px);--fs-xs:clamp(10px,.7vw,11px)}
+  *{box-sizing:border-box} body{margin:0;background:#dfe2e7;color:var(--ink);font-family:"Noto Sans SC",system-ui,sans-serif}
+  .intro{width:min(1120px,calc(100% - 64px));margin:44px auto 26px}.intro h1{font-size:26px;margin:0 0 8px;letter-spacing:-.03em}.intro p{margin:0;color:var(--ink-2);font-size:14px;line-height:1.7}
+  .slide{width:min(1440px,100%);min-height:540px;margin:0 auto 28px;padding:48px 56px 62px;position:relative;overflow:hidden;background:var(--paper);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 480' preserveAspectRatio='none'%3E%3Cpath d='M0 320 C 380 250 760 330 1080 195 C 1280 140 1380 185 1440 130 L1440 480 L0 480 Z' fill='%237e8696' fill-opacity='.07'/%3E%3Cpath d='M0 372 C 430 305 820 405 1180 245 C 1340 198 1402 240 1440 190 L1440 480 L0 480 Z' fill='%23949bab' fill-opacity='.08'/%3E%3C/svg%3E"),linear-gradient(125deg,rgba(120,128,145,.05),transparent 50%);background-position:bottom center,0 0;background-size:100% 50%,100% 100%;background-repeat:no-repeat}
+  .head{display:flex;justify-content:space-between;align-items:flex-start}.head-l{display:flex;flex-direction:column-reverse;gap:8px}.ttl{font-weight:800;font-size:var(--fs-h1);letter-spacing:-.03em;line-height:1.22}.subttl{font-size:var(--fs-sm);font-weight:300;color:var(--ink-2)}
+  .demo-name{position:absolute;left:56px;bottom:26px;font-family:"JetBrains Mono",monospace;font-size:var(--fs-xs);letter-spacing:.12em;color:var(--ink-3);text-transform:uppercase}.demo-note{position:absolute;right:56px;bottom:26px;color:var(--ink-3);font-size:var(--fs-xs)}
+  .sample-content{width:min(760px,62%);height:220px;margin:84px auto 0;border-radius:20px;background:rgba(255,255,255,.48);border:1px solid rgba(255,255,255,.72);box-shadow:0 16px 32px -24px rgba(30,40,70,.28)}
+
+  /* 竞品分析报告同款：整份汇报的章节 Tab，深色胶囊标出当前章节。 */
+  .section-tabs{display:flex;align-items:center;gap:5px;flex:0 0 auto;margin-left:auto;padding:.45vh .48vw;border:1px solid rgba(127,137,157,.18);border-radius:999px;background:rgba(255,255,255,.46)}
+  .section-tabs span{padding:.42vh .6vw;border-radius:999px;font:600 var(--fs-sm)/1.2 "Noto Sans SC",sans-serif;color:var(--ink-3);white-space:nowrap}.section-tabs span.active{background:linear-gradient(140deg,#22262f,#14171c);color:#fff;box-shadow:0 3px 10px -6px rgba(20,25,35,.5)}
+  @media(max-width:700px){.intro{width:calc(100% - 32px)}.slide{padding:32px 24px 58px;min-height:460px}.ttl{max-width:60vw}.demo-name{left:24px}.demo-note{right:24px}.sample-content{width:100%;margin-top:76px}.tab-a .chapter{padding:0 9px}.tab-a .position{padding:0 9px}.tab-a{min-width:auto}.tab-c .track{grid-template-columns:repeat(5,18px)}}
+</style>
+</head>
+<body>
+  <div class="intro"><h1>右上角章节 Tab</h1><p>采用《提升泛 ICT 领域竞品分析效率》中的横向章节组样式；深色胶囊标识当前章节。</p></div>
+
+  <section class="slide"><header class="head"><div class="head-l"><div class="ttl">文档、调试与环境配置构成三类核心障碍</div><div class="subttl">用户研究</div></div><div class="section-tabs" aria-label="当前章节"><span>01 研究概览</span><span class="active">02 用户研究</span><span>03 竞品对照</span><span>04 方案设计</span></div></header><div class="sample-content"></div><span class="demo-name">章节组 Tab / section tabs</span><span class="demo-note">当前章节：用户研究</span></section>
+</body>
+</html>
