@@ -3,6 +3,7 @@
 ## Report PPT Skill
 
 - Develop and validate report-ppt-skill changes in `materials` case decks, reference pages, and experiments first.
+- Commit and push approved `materials` case, reference, and workspace-rule changes in this repository.
 - After validation, transfer reusable rules, templates, and assets to `/Users/hsin/Documents/Coding/report-ppt-skill/`.
 - Commit and push the release repository after each approved skill change.
 - Do not create or edit project-level copies under `.claude/skills/report-ppt-skill` or `.agents/skills/report-ppt-skill`.
