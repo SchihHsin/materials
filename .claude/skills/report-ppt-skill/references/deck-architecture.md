@@ -1,5 +1,14 @@
 # Deck 架构与多分册合并
 
+## 🔴 Deck Runtime：必须整套继承
+
+`assets/deck-template.html` 末尾的导航 CSS、`#navDots`、`#controls` 和 runtime JS 是一个不可拆的运行时，不是按需添加的几个按钮。新 deck 必须先复制完整模板，再只替换 / 新增 `#deck` 内的 `.slide` 内容。
+
+- **不得重写**成常显的大号文字控制条；标准控制栏是底部居中、小而透、26px 图标按钮，鼠标进入底部区域才显示。
+- **不得拆开补功能**：右侧导航点、上一页 / 页码 / 下一页、概览、全屏、键盘、URL `#页码` 必须首版同时可用；概览不是弹层文字菜单，而是按当前视窗比例缩放的三列缩略图网格，点缩略图后退出并跳至该页。
+- **不得只复制 DOM**：控制栏 HTML、对应 CSS、`updateCurrent()`、`toggleOverview()`、`toggleFullscreen()`、`mousemove` 显隐与 resize / fullscreen 重锚逻辑必须一起保留。多分册合并时，删重复，只留一份完整 runtime。
+- 只有用户明确要求换交互模型时才调整 runtime；仍须先从模板现有实现改，不从空白手写。
+
 ## 单文件 deck 机制（纵向 scroll-snap）
 
 ```

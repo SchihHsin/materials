@@ -6,12 +6,15 @@
 <title>Report PPT Template Library</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600;700;800&family=Barlow+Condensed:wght@200;300;400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/IKKI2000/harmonyos-fonts@master/css/harmonyos_sans_sc.css">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 <style>
 :root{
   --fs-h1:clamp(20px,1.7vw,30px);--fs-h2:clamp(16px,1.25vw,22px);--fs-h3:clamp(15.5px,1.2vw,19px);
   --fs-body:clamp(15px,1.12vw,18px);--fs-sm:clamp(12px,.82vw,14.5px);--fs-xs:clamp(9px,.62vw,11px);
   --paper:#E9EBEE;--ink:#16191e;--ink-2:#5e646e;--ink-3:#929aa6;--line:#d4d8df;--accent:#5B5BD6;--red:#C7000B;
-  --g-ink:linear-gradient(140deg,#22262F,#14171C);--g-accent:linear-gradient(135deg,#5B5BD6,#7C3AED);
+  --c-red:#F05A68;--c-orange:#F47A4B;--c-amber:#F4B450;--c-yellow:#D9B52C;--c-lime:#91BD48;--c-green:#39B982;--c-mint:#36BFA2;--c-teal:#28A8D8;--c-blue:#4B8DFF;--c-indigo:#5B5BD6;--c-purple:#8D63D8;--c-pink:#D95F9D;--c-rose:#E76C88;--c-neutral:#9BA5B4;--c-ink:#22262F;
+  --g-red:linear-gradient(120deg,#FF5A6E,#FF6F55);--g-orange:linear-gradient(120deg,#FF9A55,#F47A4B);--g-amber:linear-gradient(120deg,#FBBF60,#F59E0B);--g-yellow:linear-gradient(120deg,#F4D35E,#D9B52C);--g-lime:linear-gradient(120deg,#B8DC62,#91BD48);--g-green:linear-gradient(120deg,#23CFA0,#45D65A);--g-mint:linear-gradient(120deg,#42D4B8,#36BFA2);--g-teal:linear-gradient(120deg,#38C9D7,#4FACFE);--g-blue:linear-gradient(120deg,#2F6FED,#4B8DFF);--g-indigo:linear-gradient(120deg,#6674E6,#5B5BD6);--g-purple:linear-gradient(120deg,#A78BFA,#7C3AED);--g-pink:linear-gradient(120deg,#FF4FA3,#FF7AC8);--g-rose:linear-gradient(120deg,#F37A9A,#E76C88);--g-neutral:linear-gradient(120deg,#E4E8EF,#CBD3DF);
+  --g-ink:linear-gradient(140deg,#22262F,#14171C);--g-accent:linear-gradient(135deg,var(--c-indigo),#7C3AED);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{width:100%;height:100%;background:#0c0a0b;color:var(--ink);font-family:'HarmonyOS Sans SC','Inter','Noto Sans SC',sans-serif;-webkit-font-smoothing:antialiased}
@@ -64,6 +67,12 @@ body{overflow:hidden auto;scroll-snap-type:y mandatory;scroll-behavior:smooth}
 .dcol.cause .ditem strong,.dcol.move .ditem strong{color:#fff}.dcol.cause .ditem p,.dcol.move .ditem p{color:rgba(255,255,255,.72)}.dcol.cause .ditem svg,.dcol.move .ditem svg{stroke:#fff;opacity:.9}
 .dlinks{display:flex;flex-direction:column;justify-content:flex-start;gap:.84vh;flex:1;min-height:0}.dlink{display:grid;grid-template-columns:auto 1fr;gap:.58vw;align-items:start;padding:.18vh .12vw;text-decoration:none;color:inherit}.dlink .no{font-family:'JetBrains Mono';font-size:12px;font-weight:900;color:#6B4DE6;padding-top:1px}.dlink b{display:block;font-size:var(--fs-body);line-height:1.24;color:var(--ink);font-weight:900}.dlink span{display:block;margin-top:.12vh;font-size:var(--fs-sm);line-height:1.28;color:var(--ink-3)}
 .drel{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:40;overflow:visible}.drel path{fill:none;stroke:#B8BEC8;stroke-width:1.15;stroke-linecap:round;stroke-linejoin:round}.drel circle{fill:#B8BEC8;stroke:#B8BEC8;stroke-width:1.1}.drel circle.start{fill:transparent}.drel path.mid{stroke:#D9D0FF}.drel circle.mid{fill:#D9D0FF;stroke:#D9D0FF}.drel circle.mid.start{fill:transparent}.drel path.purple{stroke:#fff}.drel circle.purple{fill:#fff;stroke:#fff}.drel circle.purple.start{fill:transparent}
+
+/* Template: peer-cards-three / peer-cards-many */
+.peer-wrap{flex:1;min-height:0;display:flex;align-items:center}.peer-grid{width:min(1120px,100%);margin:0 auto;display:grid;gap:1.5vw}.peer-three{grid-template-columns:repeat(3,minmax(0,1fr))}.peer-many{grid-template-columns:repeat(4,minmax(0,1fr));max-width:1220px;gap:1.2vw}.peer-card{--pc:var(--c-indigo);position:relative;isolation:isolate;overflow:hidden;min-width:0;aspect-ratio:4/5;border-radius:16px;padding:2.15vh 1.35vw;display:flex;flex-direction:column;background:linear-gradient(145deg,rgba(255,255,255,.48),rgba(255,255,255,.13));border:1px solid rgba(255,255,255,.62);box-shadow:0 16px 34px -24px color-mix(in srgb,var(--pc) 28%,transparent),inset 0 1px 0 rgba(255,255,255,.72);backdrop-filter:blur(15px) saturate(1.5);-webkit-backdrop-filter:blur(15px) saturate(1.5)}.peer-card::before{content:"";position:absolute;z-index:-1;left:-14%;right:-14%;top:-12%;height:25%;background:linear-gradient(105deg,color-mix(in srgb,var(--pc) 20%,transparent),color-mix(in srgb,var(--pc) 8%,transparent) 52%,transparent 88%);filter:blur(32px)}.peer-card>svg{position:absolute;z-index:-1;right:-1.6vw;bottom:-2.5vh;width:13vw;height:13vw;min-width:132px;min-height:132px;color:var(--pc);opacity:.12;stroke-width:1.35}.peer-tag{display:inline-flex;align-self:flex-start;width:fit-content;max-width:100%;box-sizing:border-box;align-items:center;overflow-wrap:anywhere;color:var(--pc);background:color-mix(in srgb,var(--pc) 10%,white);border:1px solid color-mix(in srgb,var(--pc) 22%,transparent);border-radius:999px;padding:.45vh .75vw;font-family:'JetBrains Mono';font-size:var(--fs-xs);font-weight:800;letter-spacing:.12em;text-transform:uppercase}.peer-copy{position:relative;z-index:1;display:grid;flex:1;min-height:0;grid-template-rows:2.1em 2.5em 4.65em;align-content:center;align-items:start;row-gap:.5vh;padding-bottom:2.1vh}.peer-copy h3{height:2.5em;display:flex;align-items:flex-start;font-size:var(--fs-h1);font-weight:850;line-height:1.25;color:var(--ink)}.peer-copy p{height:4.65em;overflow:hidden;margin-top:0;font-size:var(--fs-h3);line-height:1.55;color:var(--ink-2);display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3}.peer-three .peer-card{aspect-ratio:1/1;padding:2.5vh 1.65vw}.peer-three .peer-card::before{display:none}.peer-three .peer-card>svg{right:-1.35vw;bottom:-2.1vh;width:11vw;height:11vw;min-width:118px;min-height:118px}.peer-card.accent{--pc:var(--c-indigo);background:var(--g-accent);border-color:rgba(255,255,255,.3);box-shadow:0 18px 38px -22px rgba(91,91,214,.68),inset 0 1px 0 rgba(255,255,255,.32)}.peer-card.ink{--pc:#fff;background:var(--g-ink);border-color:rgba(255,255,255,.16);box-shadow:0 18px 38px -22px rgba(20,25,35,.72),inset 0 1px 0 rgba(255,255,255,.2)}.peer-card.accent .peer-tag,.peer-card.ink .peer-tag{color:#fff;background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.22)}.peer-card.accent .peer-copy h3,.peer-card.ink .peer-copy h3{color:#fff}.peer-card.accent .peer-copy p,.peer-card.ink .peer-copy p{color:rgba(255,255,255,.8)}.peer-card.accent>svg,.peer-card.ink>svg{color:#fff;opacity:.13}.tone-indigo{--pc:var(--c-indigo)}.tone-blue{--pc:var(--c-blue)}.tone-teal{--pc:var(--c-teal)}.tone-purple{--pc:var(--c-purple)}.tone-pink{--pc:var(--c-pink)}.tone-green{--pc:var(--c-green)}
+
+/* Template: contents-directory. Use a fixed contents-N class; never auto-fit into an orphan card. */
+.contents-slide .body-area{justify-content:center}.contents-directory{width:min(1120px,100%);margin:0 auto;display:grid;gap:1vw;align-items:stretch}.contents-directory.contents-3{grid-template-columns:repeat(3,minmax(0,1fr))}.contents-directory.contents-4{grid-template-columns:repeat(4,minmax(0,1fr))}.contents-directory.contents-5{grid-template-columns:repeat(5,minmax(0,1fr))}.contents-directory.contents-6{grid-template-columns:repeat(3,minmax(0,1fr))}.directory-card{--dir:var(--c-indigo);position:relative;min-width:0;min-height:22vh;overflow:hidden;padding:1.8vh 1.25vw 1.35vh;display:flex;flex-direction:column;background:rgba(255,255,255,.58);border:1px solid rgba(255,255,255,.88);border-radius:14px;box-shadow:0 18px 42px -25px rgba(20,25,35,.22),inset 0 1px 0 rgba(255,255,255,.94)}.contents-3 .directory-card{min-height:34vh}.contents-4 .directory-card{min-height:31vh}.contents-5 .directory-card{min-height:28vh}.directory-card:after{content:"";position:absolute;right:-25%;bottom:-24%;width:90%;height:46%;background:radial-gradient(ellipse at center,color-mix(in srgb,var(--dir) 16%,transparent),transparent 70%);pointer-events:none}.directory-card.overview{--dir:var(--c-indigo)}.directory-card.measure{--dir:var(--c-blue)}.directory-card.task{--dir:var(--c-teal)}.directory-card.result{--dir:var(--c-pink)}.directory-card.general{--dir:var(--c-orange)}.directory-card.sum{--dir:#637187}.directory-no,.directory-name,.directory-en,.directory-items,.directory-note{position:relative;z-index:1}.directory-no{font-family:'Barlow Condensed','Inter',sans-serif;font-size:clamp(54px,5.4vw,86px);line-height:.82;letter-spacing:-.035em;font-weight:700;color:var(--dir);text-shadow:0 0 28px color-mix(in srgb,var(--dir) 24%,transparent)}.directory-name{margin-top:1.35vh;font-size:var(--fs-h2);line-height:1.2;font-weight:950;color:var(--ink);overflow-wrap:anywhere}.directory-en{margin-top:.42vh;font-family:'Inter',sans-serif;font-size:var(--fs-sm);font-weight:700;color:color-mix(in srgb,var(--dir) 76%,#596575);overflow-wrap:anywhere}.directory-items{display:grid;gap:.52vh;margin-top:2.65vh}.directory-items span{font-size:var(--fs-body);line-height:1.36;color:var(--ink-2);overflow-wrap:anywhere}.directory-items span:before{content:"";display:inline-block;width:5px;height:5px;border-radius:50%;vertical-align:middle;margin:-2px .48em 0 0;background:var(--dir);box-shadow:0 0 12px color-mix(in srgb,var(--dir) 42%,transparent)}.directory-note{margin-top:auto;padding-top:1.25vh;border-top:1px solid rgba(47,61,99,.14);font-size:var(--fs-sm);font-weight:900;line-height:1.35;color:color-mix(in srgb,var(--dir) 72%,#465364);overflow-wrap:anywhere}
 </style>
 </head>
 <body>
@@ -101,6 +110,37 @@ body{overflow:hidden auto;scroll-snap-type:y mandatory;scroll-behavior:smooth}
       <div class="spot-rings off" id="spotRings"></div>
     </div>
   </div>
+</section>
+
+<section id="peer-cards-three" class="slide s-gray" data-template="peer-cards-three" data-component="同层级信息卡" data-title="三张同级卡以主次色彩建立阅读顺序">
+  <div class="head"><div class="head-l"><div class="brand"><span class="ttl">三张同级信息，用白、蓝紫与墨色建立阅读顺序</span></div><div class="subttl">Template · peer-cards-three · neutral / accent / conclusion</div></div><div class="head-r">Template 17A<br/>Peer Cards / Three</div></div>
+  <div class="body-area"><div class="peer-wrap"><div class="peer-grid peer-three">
+    <article class="peer-card neutral"><i data-lucide="layers-3"></i><div class="peer-copy"><span class="peer-tag">Context</span><h3>先交代背景</h3><p>白玻璃卡承载中性事实、前提或已有证据。</p></div></article>
+    <article class="peer-card accent"><i data-lucide="focus"></i><div class="peer-copy"><span class="peer-tag">Focus</span><h3>再突出重点</h3><p>蓝紫渐变卡承载这一页最值得记住的变化。</p></div></article>
+    <article class="peer-card ink"><i data-lucide="badge-check"></i><div class="peer-copy"><span class="peer-tag">Conclusion</span><h3>最后落到结论</h3><p>墨色卡只给最终判断、目标或必须执行的动作。</p></div></article>
+  </div></div></div>
+</section>
+
+<section id="peer-cards-many" class="slide s-gray" data-template="peer-cards-many" data-component="同层级信息卡" data-title="四张以上以透白大图标卡维持信息节奏">
+  <div class="head"><div class="head-l"><div class="brand"><span class="ttl">四张以上不再实色满铺，以透白卡保留阅读节奏</span></div><div class="subttl">Template · peer-cards-many · translucent white / semantic color</div></div><div class="head-r">Template 17B<br/>Peer Cards / Four Plus</div></div>
+  <div class="body-area"><div class="peer-wrap"><div class="peer-grid peer-many">
+    <article class="peer-card tone-indigo"><i data-lucide="layers-3"></i><div class="peer-copy"><span class="peer-tag">Context</span><h3>背景</h3><p>中性事实与现状。</p></div></article>
+    <article class="peer-card tone-blue"><i data-lucide="focus"></i><div class="peer-copy"><span class="peer-tag">Focus</span><h3>重点</h3><p>需要被优先关注。</p></div></article>
+    <article class="peer-card tone-teal"><i data-lucide="badge-check"></i><div class="peer-copy"><span class="peer-tag">Conclusion</span><h3>结论</h3><p>最终判断与动作。</p></div></article>
+    <article class="peer-card tone-green"><i data-lucide="circle-help"></i><div class="peer-copy"><span class="peer-tag">Support</span><h3>补充</h3><p>解释边界、条件或后续。</p></div></article>
+  </div></div></div>
+</section>
+
+<section id="contents-directory" class="slide s-gray contents-slide" data-template="contents-directory" data-component="目录页" data-title="六个章节建立从研究问题到研究资产的阅读路径">
+  <div class="head"><div class="head-l"><div class="brand"><span class="ttl">目录</span></div><div class="subttl">CONTENTS · 从研究问题到可复用研究资产</div></div><div class="head-r">Template 18<br/>Contents / Six</div></div>
+  <div class="body-area"><div class="contents-directory contents-6">
+    <article class="directory-card overview"><div class="directory-no">01</div><h2 class="directory-name">研究概览</h2><div class="directory-en">Research Overview</div><div class="directory-items"><span>研究问题</span><span>范围与对象</span></div><div class="directory-note">明确本次汇报要回答的问题</div></article>
+    <article class="directory-card measure"><div class="directory-no">02</div><h2 class="directory-name">测量方法</h2><div class="directory-en">Measurement</div><div class="directory-items"><span>指标定义</span><span>评分计算</span></div><div class="directory-note">以统一量尺记录证据</div></article>
+    <article class="directory-card task"><div class="directory-no">03</div><h2 class="directory-name">任务定义</h2><div class="directory-en">Task Definition</div><div class="directory-items"><span>共同任务</span><span>对照条件</span></div><div class="directory-note">确保比较对象具备可比性</div></article>
+    <article class="directory-card result"><div class="directory-no">04</div><h2 class="directory-name">实测结果</h2><div class="directory-en">Field Results</div><div class="directory-items"><span>任务矩阵</span><span>问题定位</span></div><div class="directory-note">识别证据中出现的关键差异</div></article>
+    <article class="directory-card general"><div class="directory-no">05</div><h2 class="directory-name">通用性</h2><div class="directory-en">Generality</div><div class="directory-items"><span>变量实验</span><span>方法边界</span></div><div class="directory-note">验证结论能否迁移到更多场景</div></article>
+    <article class="directory-card sum"><div class="directory-no">06</div><h2 class="directory-name">研究产出与附录</h2><div class="directory-en">Outputs &amp; Appendix</div><div class="directory-items"><span>报告资产</span><span>方法依据</span></div><div class="directory-note">沉淀可复用方法与工具</div></article>
+  </div></div>
 </section>
 
 <section class="slide s-gray derive-slide" data-template="derivation-column-flow" data-component="四栏推导流" data-title="四栏推导流：问题信号到结论行动">
@@ -216,6 +256,7 @@ function renderDeriveRelations(){
   });
 }
 installSpotlight();
+if(window.lucide)lucide.createIcons();
 requestAnimationFrame(()=>{renderDeriveRelations();setTimeout(renderDeriveRelations,120);});
 addEventListener('resize',renderDeriveRelations,{passive:true});
 </script>

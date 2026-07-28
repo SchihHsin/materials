@@ -43,7 +43,7 @@
 - `derivation-column-flow` 的竖栏标题用 `--fs-body`，条目标题用 `--fs-h3`，条目解释用 `--fs-sm`；不要为了塞更多内容把整页正文降到 xs。
 - 这两个模板的数字序号（如 `/01`）属于展示性页码，可用 Condensed 字体和 bespoke 大字号，不进入正文 ramp。
 
-## 渐变色彩系统
+## 色彩系统：纯色谱 + 渐变谱
 
 ```css
 :root{
@@ -52,27 +52,55 @@
   --ink:#16191e; --ink-2:#5e646e; --ink-3:#929aa6; --line:#d4d8df;
   --accent:#5B5BD6; --accent-soft:#ECECFB; --red:#E60012;
 
-  /* 分类 / 状态渐变（120deg）*/
-  --g-red:    linear-gradient(120deg,#FF5A6E,#FF6F55);  /* 状态红：同明度微色相位移 */
-  --g-green:  linear-gradient(120deg,#23CFA0,#45D65A);  /* 状态绿：同明度微色相位移 */
-  --g-blue:   linear-gradient(120deg,#667EEA,#764BA2);
-  --g-amber:  linear-gradient(120deg,#FBBF60,#F59E0B);
-  --g-purple: linear-gradient(120deg,#A78BFA,#7C3AED);
-  --g-teal:   linear-gradient(120deg,#38C9D7,#4FACFE);
-  --g-pink:   linear-gradient(120deg,#FF6B9D,#FF8B53);
-  --g-neutral:#C4CAD4;                                  /* 中性：纯色，不渐变 */
+  /* 纯色：小面积、清晰语义。用于标签/图标/线条/图表点/卡片局部光带。 */
+  --c-red:#F05A68; --c-orange:#F47A4B; --c-amber:#F4B450; --c-yellow:#D9B52C;
+  --c-lime:#91BD48; --c-green:#39B982; --c-mint:#36BFA2; --c-teal:#28A8D8;
+  --c-blue:#4B8DFF; --c-indigo:#5B5BD6; --c-purple:#8D63D8; --c-pink:#D95F9D; --c-rose:#E76C88;
+  --c-neutral:#9BA5B4; --c-ink:#22262F;
 
-  --dark:     #16191E;                                  /* 统一深色（实色）*/
+  /* 渐变：大面积强调面、光带、图表填充；与同名纯色保持同一色相。 */
+  --g-red:linear-gradient(120deg,#FF5A6E,#FF6F55); --g-orange:linear-gradient(120deg,#FF9A55,#F47A4B);
+  --g-amber:linear-gradient(120deg,#FBBF60,#F59E0B); --g-yellow:linear-gradient(120deg,#F4D35E,#D9B52C);
+  --g-lime:linear-gradient(120deg,#B8DC62,#91BD48); --g-green:linear-gradient(120deg,#23CFA0,#45D65A);
+  --g-mint:linear-gradient(120deg,#42D4B8,#36BFA2); --g-teal:linear-gradient(120deg,#38C9D7,#4FACFE);
+  --g-blue:linear-gradient(120deg,#2F6FED,#4B8DFF); --g-indigo:linear-gradient(120deg,#6674E6,#5B5BD6);
+  --g-purple:linear-gradient(120deg,#A78BFA,#7C3AED); --g-pink:linear-gradient(120deg,#FF4FA3,#FF7AC8);
+  --g-rose:linear-gradient(120deg,#F37A9A,#E76C88); --g-neutral:linear-gradient(120deg,#E4E8EF,#CBD3DF);
+
+  --dark:var(--c-ink);                                  /* 统一深色（实色）*/
   --g-ink:    linear-gradient(140deg,#22262F,#14171C);  /* 统一深色（渐变）：所有深色大色块用它 */
-  --g-accent: linear-gradient(135deg,#5B5BD6,#7C3AED);  /* 蓝紫主渐变 */
+  --g-accent: linear-gradient(135deg,var(--c-indigo),#7C3AED); /* 蓝紫主渐变 */
 }
 ```
 
-**规则**：
-- 状态色（红/绿）= **同明度 + 微微色相位移** 的渐变，**不要**做深→浅明暗变化。
-- 中性色用**纯色**，不渐变。
-- 所有深色大色块（指标带 / 结论条 / 阶段头 / 高亮卡）统一引用 `var(--g-ink)`，不要各自定义深色。
-- 重点文字高亮：`background:linear-gradient(transparent 60%,rgba(91,91,214,.16) 0)`（紫色下划高亮底）。
+### 先选纯色还是渐变
+
+- 用 `--c-*`：小面积且需要清晰边界的元素，例如标签文字/边框、Lucide 图标、图表线和数据点、状态圆点、卡片内大图标水印、透白卡顶部光带的基色。**同一张卡的标签、图标、光带必须用同一个 `--c-*`。**
+- 用 `--g-*`：大面积强调面，例如数据突出卡、进度胶囊、章节光晕、宽色带、图表面积填充、黑底设计点的渐变标题。渐变不能用作小号正文文字或细图标的 `color`。
+- 用 `--g-neutral`：中性状态、默认 chip、辅助模块、非重点节点；用 `--c-neutral`：中性图标、分组标签、辅助线。
+- 用 `--g-ink`：结论条、最终判断、深色阶段头、三卡页的最终卡等大块重点；用 `--c-ink`：深色图标、深色小标签、深色文字点缀。
+- 同一页默认选 1 个主色 + 至多 2 个辅助色；完整色谱是可选范围，不是要求每页用全。
+
+### 色相语义
+
+| 色相 | 纯色 token | 常用场景 |
+|---|---|---|
+| 红 / 玫红 | `--c-red` / `--c-rose` | 风险、错误、告警、强烈负向情绪；不要用作普通分类色 |
+| 橙 / 琥珀 / 黄 | `--c-orange` / `--c-amber` / `--c-yellow` | 注意、待确认、阶段性提醒、进行中；黄色不承载大段文字 |
+| 黄绿 / 绿 / 薄荷 | `--c-lime` / `--c-green` / `--c-mint` | 完成、机会点、正向结果、增长与改善；“机会”默认优先绿或薄荷 |
+| 青 / 蓝 | `--c-teal` / `--c-blue` | 信息、工具、路径、数据、探索；蓝用于主数据强调，青用于连接与辅助信息 |
+| 靛 / 紫 | `--c-indigo` / `--c-purple` | 产品主调、核心主题、策略与创新；靛优先作为主 accent，紫仅在语义明确时单独使用 |
+| 粉 | `--c-pink` | 用户感受、人物、社区、柔性主题；避免与红色同时承担同一类负向语义 |
+| 中性 / 墨色 | `--c-neutral` / `--c-ink` | 次要分类、辅助元素、总结与最终判断 |
+
+### 卡片颜色规则
+
+- **3 张同类卡**：白卡 / `--g-accent` / `--g-ink`，建立事实、重点、结论三层。
+- **4 张及以上同类卡**：保持透白玻璃底；默认按 `--c-indigo`、`--c-blue`、`--c-teal`、`--c-green`（第五张可用 `--c-pink`）选择有语义的纯色，驱动标签、Lucide 大图标和顶部淡光带。不要用实色满铺。
+- 黄橙红只在其语义成立时加入卡片序列；它们不是“凑齐彩虹”的装饰色。
+- **相近色默认不并用**：同一张卡片墙中，靛蓝 / 紫、红 / 玫红、绿 / 薄荷默认二选一；橙 / 琥珀 / 黄最多选两种。需要更多区分时，优先跨到蓝、青、绿或粉，不靠相邻色凑数。
+- 状态渐变（红/绿）保持同明度、轻微色相位移，不做深到浅的明暗条。
+- 重点文字高亮：`background:linear-gradient(transparent 60%,color-mix(in srgb,var(--c-indigo) 16%,transparent) 0)`。
 
 ## 玻璃折射白卡（灰底篇标志件）
 

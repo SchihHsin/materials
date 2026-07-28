@@ -21,8 +21,7 @@
 
 ## 头像 / 图片
 
-- **DiceBear 开源头像**（notionists，CC0）替代手画简笔头像：`https://api.dicebear.com/9.x/notionists/svg?seed=X&beardProbability=0&backgroundColor=YYY`，`curl` 下载到本地。**必须带 `beardProbability=0`**，否则会出现"女生长胡子"。
-- 头像 `backgroundColor` 要**跟随所在页底色**（橙页用暖底如 `FBEEE9`，别用绿底）。
+- 头像的生成、落盘和容器规则统一见 `components.md §3a`；这里仅检查：最终 deck 不热链头像服务，未授权的真实人物不使用照片。
 - **不能生成 AI 图**：背景大图让用户给，或 `curl` 网图。
 - 竞品/产品截图：`width:100%;height:auto` 不裁切 + 圆角 + 小 padding；三卡等高用 `align-items:stretch`，图 `order:2;margin-top:auto` 沉到卡底对齐。
 

@@ -15,11 +15,12 @@
 ## 设计规范速览
 
 - **字体**：HarmonyOS Sans SC（鸿蒙黑体，CDN @font-face），等宽标签用 JetBrains Mono。
-- **字号**：6 档 ramp token `--fs-h1/h2/h3/body/sm/xs`，正文/标题分级统一，超大展示数字除外。
-- **颜色**：渐变 token；状态色（红/绿）用同明度·微色相位移；深色大块统一 `--g-ink`。
+- **字号**：6 档 ramp token `--fs-h1/h2/h3/body/sm/xs`，普通页默认对齐 `cann-design-concept/index.html#16` 的 sm2 图文页正文尺度；正文/标题分级统一，超大展示数字除外。
+- **颜色**：完整纯色 `--c-*` 用于标签、图标、线点与卡片局部光带；同色相渐变 `--g-*` 用于突出卡、色带、光晕和面积填充。红/橙/黄用于风险与提醒，绿/薄荷用于机会与完成，靛/蓝/青用于产品、数据与路径，`--g-ink` 用于深色重点块。
 - **玻璃折射白卡**：半透明 + `backdrop-filter` + 亮边 + inset 高光。
 - **标题=结论导向**：每页标题直接说出主要发现，不写空泛栏目名。
 - **logo 分深/浅两版按底色选**：深色底用白/反白版，浅色底用深色/彩色版。
+- **头像**：VOC / 用户画像无授权真人照片时，用本地 DiceBear SVG；生成参数、落盘和组件容器统一见 `references/components.md §3a`。
 
 详见 `references/`：`type-and-color.md` · `components.md` · `deck-architecture.md` · `chart-selection.md` · `pitfalls.md` · **`checklist.md`（交付前每页必跑的质检清单）**。
 
@@ -55,9 +56,13 @@ git clone git@github.com:SchihHsin/report-ppt-skill.git <项目>/.claude/skills/
 
 ## 用法
 
-1. 复制 `assets/deck-template.html` 作为起点（已含字体、token、base、导航 + 精调样例页覆盖三基调）。
-2. 删改样例页，从 `references/components.md` 顶部「选件路由」选择组件；高级 pattern 可从 `assets/template-library/index.html` 复制对应 `data-template` 页面。
-3. 浏览器打开自检（试不同翻页过渡加 `?t=fade|cut|slide-h|magic`）。
+1. 复制 `assets/deck-template.html` 作为起点，**保留完整 deck runtime**：底部图标控制栏、右侧导航、概览、全屏、键盘、URL 页码与配套 CSS / JS 一律不删不重写。
+2. 只删改 `#deck` 内的样例页，从 `references/components.md` 顶部「选件路由」选择组件；高级 pattern 可从 `assets/template-library/index.html` 复制对应 `data-template` 页面。
+3. 浏览器打开自检：实际点一次概览与全屏，并试不同翻页过渡 `?t=fade|cut|slide-h|magic`。
+
+### 用户旅程图
+
+用户说“全流程 / 端到端 / 触点 / 情绪曲线 / 各阶段痛点 / journey map”时，使用独立的 `user-journey-skill`。它提供单一的旅程图维护源和可复制样板，固定阶段、触点、行为、情绪、痛点、机会点六行逐列对应；情绪曲线允许逐格和格间留白，但每一条独立线的相邻格公共边界必须同高。对比中的两条线各自连续，彼此无需同高。嵌入本 deck 时仍须保留本 skill 的完整翻页、概览和全屏 runtime。
 
 样例页：① 封面 ② 关键指标(多彩渐变胶囊) ③ 竞品对照 ④ 用户画像·形式一 ⑤ 甘特 roadmap ⑥ 黑底章节封面(调色面板·localStorage 持久记忆) ⑦ 黑底设计点·版式①左文右图 ⑧ 黑底设计点·版式②上下堆叠 hero。
 
@@ -82,6 +87,44 @@ assets/
 
 ## 更新日志
 
+### 2026-07 — 补齐纯色色谱与使用边界
+
+- 新增 `--c-red / orange / amber / yellow / lime / green / mint / teal / blue / indigo / purple / pink / rose / neutral / ink` 纯色 token，并为每个色相补齐对应 `--g-*` 渐变 token。
+- 明确规则：小面积且要边界清晰的语义元素使用 `--c-*`；大面积强调面、光带、面积填充使用同色相 `--g-*`；同卡的标签、图标与光带必须共用同一纯色。
+- 同类卡页沉淀：三卡用白 / 蓝紫渐变 / 墨色渐变；四卡以上保留透白玻璃底，从纯色 token 驱动标签、Lucide 大图标与顶部淡光带，不用实色满铺。
+
+### 2026-07 — 同层级卡片按数量路由
+
+- 新增 `components.md §17` 与模板库 `peer-cards-three / peer-cards-many`：只处理没有专属组件的并列同级信息。
+- 恰好三张固定为白玻璃 / 蓝紫渐变 / 墨色渐变，分别承载事实、重点与结论；四张及以上固定为透白竖比例卡，以同一 `--c-*` 驱动标签、Lucide 水印图标和顶部横向淡光带。
+- 禁止多卡实色满铺、顶部彩色描边、圆形光晕和重复同色；无论三张或更多，标签、标题和说明都作为一个居中阅读组，并固定标签 / 两行标题 / 三行说明轨道，既收紧间距也保证跨卡对齐。
+
+### 2026-07 — 相近色避让与四卡阅读组
+
+- 同一张卡片墙默认不并用靛蓝 / 紫、红 / 玫红、绿 / 薄荷；橙 / 琥珀 / 黄最多两种。四到五张卡默认用靛蓝、蓝、青、绿、粉，紫只在策略或创新语义明确时替换。
+- 所有同层级卡的标签、标题、说明不再分散贴顶与落底，而是作为一个整体在卡内居中；右下 Lucide 水印与顶部扁宽淡光带继续保留，但不干扰阅读。
+
+### 2026-07 — 用户旅程图抽为独立 Skill
+
+- 新增 `user-journey-skill`：将用户旅程从通用组件库中抽出，提供独立触发词、内容结构、改列规则、验收规则与可直接打开的单页 HTML 样板。
+- `report-ppt-skill` 的路由表改为优先命中独立 skill；`components.md §4` 保留为既有 deck 的兼容参考，不再作为新页面复制源。
+
+### 2026-07 — Deck runtime 改为不可拆硬规则
+
+- 控制栏、右侧导航点、概览、全屏、键盘、URL 页码定位与翻页脚本定义为一组完整 runtime：新 deck 必须从 `assets/deck-template.html` 整套继承，不能手写简化控制条或在用户提出后才补功能。
+- 交付清单新增实际操作验收：验证底部 hover 显隐、概览缩略图网格、全屏进出与重锚、键盘 / 右侧导航 / URL 页码同步。
+
+### 2026-07 — 颜色 token、图标与低密度页策略
+
+- 更新全局色彩 token：`--g-blue` 改为更清晰、更亮的蓝色 `#2F6FED → #4B8DFF`，避免与 `--g-purple` 混淆；`--g-pink` 改为玫粉 `#FF4FA3 → #FF7AC8`，避免与 `--g-red` 混淆；`--g-neutral` 从纯色升级为浅灰渐变 `#E4E8EF → #CBD3DF`。`assets/deck-template.html` 与 `assets/template-library/index.html` 均补齐 `red / green / blue / amber / purple / teal / pink / neutral / ink` token。
+- 明确语义：`--g-neutral` 用于中性状态、默认 chip、辅助模块、非重点节点；`--g-ink` 用于目标、总结、结论条、深色重点块。
+- 图标规则沉淀：需要图标时优先使用 Lucide 线性图标；不使用 emoji；页面标题前默认不放装饰图标。
+- 低密度页策略沉淀：内容少时核心结论放在主体上方，用大字呈现；下方 2–3 张卡片只承载证据 / 原因 / 目标。可用大 Lucide 图标占位提升视觉体量，避免少内容页仍然小字、空而散。
+
+### 2026-07 — 头像规范归入组件库
+
+- 将 DiceBear `notionists` 头像规则从踩坑清单整理到 `components.md §3a`：固定人物 seed、`beardProbability=0`、背景色随页面、下载到 `assets/av/` 后本地引用，以及真实人物照片的授权边界。VOC 和三种用户画像可直接按对应容器使用。
+
 ### 2026-07 — 沉淀矩阵聚光灯与四栏推导流
 
 - 新增 `assets/template-library/index.html`：完整可复制模板库，页面统一带 `data-template / data-component / data-title`。
@@ -89,8 +132,8 @@ assets/
 - 新增 `components.md §16 四栏推导流`，`data-template="derivation-column-flow"`：用于把“证据信号 → 机制归因 → 改造机会 → 后续结论”串成一页推导叙事，含竖栏样式、自动 Space Between 间距和连线机制。
 - `components.md` 顶部路由表扩展为「用户可能怎么说 → 命中组件 → data-template → 判断标准」，继续作为唯一选件路由入口。
 
-### 2026-06 — 默认正文再调大到 15–18px
-- `--fs-body` `clamp(13.5,1vw,16)` → **`clamp(15,1.12vw,18)`**（1440≈16 / 1920 封顶 18），h3/h2/sm 同步上挪保证层级（h3≥body）；用户画像 `.pf/.pp/.up` 局部小字档不变。
+### 2026-06 — 普通页正文基准对齐 sm2 图文页
+- 普通分析页默认沿用 `cann-design-concept/index.html#16` 的 sm2 图文页尺度：`--fs-body: clamp(13.5px,1vw,16px)`，1440 宽约 14.4px。高密度时优先从模板库选择合适结构，不把普通页正文继续缩小。
 
 ### 2026-06 — 加交付前质检清单，治"生成出来要大量手调"
 - 新增 `references/checklist.md`：**每页必跑的质检清单**（字号误用 sm/xs、内容溢出 slide、flex/grid 子项漏 `min-height:0`、双层 padding 对不齐、图片裸 `aspect-ratio` 撑破、`min(vw,vh)` 视口比例陷阱、测量代替猜），配 `rg` + 无头截图自查。工作流加"交付前逐页跑 checklist"为关键步。
@@ -124,7 +167,7 @@ deck 从「横向 `translateX` 受控翻页」改为 **纵向原生 `scroll-snap
 
 - **纵向 scroll-snap 翻页**：`body` 作滚动容器（`overflow:hidden auto` + `scroll-snap-type:y mandatory`），`.slide` 满屏 + `scroll-snap-align:start;scroll-snap-stop:always`——划动过程短暂见两页、松手自动吸附到整页（不再拦截滚轮做瞬切/淡入）。当前页改由 **`IntersectionObserver`（≥55%）** 判定，`go()`/键盘/导航点统一走 `scrollIntoView`。
 - **键盘**：`↑↓←→` / 空格 / PageUp-Down / Home / End 全支持翻页；`O` 概览、`F` 全屏、`Esc` 退概览。
-- **右侧竖排 `.nav-dots`** + **底部居中控制栏 `#controls`**：控制栏**小而透**、**默认隐藏**，鼠标移到屏幕底部才出现、2.5s 淡出；亮/暗随当前页 `body.on-dark` 自适应。**移除顶部进度条**。
+- **右侧竖排 `.nav-dots`** + **底部居中控制栏 `#controls`**：控制栏**小而透**、**默认隐藏**，鼠标进入底部区域才出现、离开即淡出；亮/暗随当前页 `body.on-dark` 自适应。**移除顶部进度条**。
 - **概览 Overview**：缩略图网格按 **当前视窗比例** 缩放（不强制 16:9——窗口非 16:9 时强制 16:9 必然裁边或留缝），每页完整缩小、不裁不留缝；点缩略图跳页。
 - **全屏**：Fullscreen API（`F`），**进入后按钮图标切换为「退出全屏」**；监听 `fullscreenchange`/`resize` 重新吸附当前页（修复改窗口后停在两页之间）。
 - 黑底设计点章节封面的**调色面板**保留，默认 `display:none`、仅在章节封面页出现，`localStorage` 持久记忆；概览中隐藏。

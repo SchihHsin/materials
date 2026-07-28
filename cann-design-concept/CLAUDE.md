@@ -95,14 +95,16 @@
 ## report-ppt-skill（通用汇报 PPT skill，由本项目提炼）
 内容 = README.md + SKILL.md + references/{type-and-color,components,deck-architecture,chart-selection,pitfalls}.md + assets/{deck-template.html, cover-bg.png, cann-dark-logo.svg, CANNlogo.png, persona.svg, cmp-*.jpg}。不绑死 CANN，写别的汇报材料可直接用。对外分享走 ③ 独立仓库。
 
-⚠️ **同一份 skill 现存 3 处，其中 2 处是各自独立的 git 仓库，改完必须同步全部三处**：
-1. `~/.claude/skills/report-ppt-skill/` — 用户级（跨项目通用，**不在 git**，纯本地）
-2. `/Users/hsin/Documents/Coding/materials/.claude/skills/report-ppt-skill/` — 项目级，**随 `SchihHsin/materials` 仓库**（项目内可直接用）
-3. `/Users/hsin/Documents/Coding/report-ppt-skill/` — **独立仓库 `SchihHsin/report-ppt-skill`（git@github.com:SchihHsin/report-ppt-skill.git，main 分支）**，可单独分发/安装
+⚠️ **同一份 skill 现存 5 处，改完必须同步全部五处**：
+1. `/Users/hsin/Documents/Coding/report-ppt-skill/` — **权威源 / 独立仓库 `SchihHsin/report-ppt-skill`**（`main` 分支），可单独分发/安装
+2. `~/.claude/skills/report-ppt-skill/` — 用户级 Claude 本地副本（不单独 push）
+3. `~/.codex/skills/report-ppt-skill/` — 用户级 Codex 本地副本（不单独 push）
+4. `/Users/hsin/Documents/Coding/materials/.claude/skills/report-ppt-skill/` — materials 项目级 Claude 副本，随 `SchihHsin/materials` 提交
+5. `/Users/hsin/Documents/Coding/materials/.agents/skills/report-ppt-skill/` — materials 项目级 Codex/agent 副本，随 `SchihHsin/materials` 提交
 
-**同步规则（两个 git 仓库各自独立提交）**：任一处改动后，`cp -R` 同步到另两处；②要在 materials 仓库 commit&push，③要在它自己的仓库 commit&push（`git -C /Users/hsin/Documents/Coding/report-ppt-skill add/commit/push`），①只是本地拷贝。**别只推一个仓库就以为完事**（曾出现 ③ 落后、缺竞品/画像/dark-logo）。权威源建议以 ③ 独立仓库为准（skill 的天然主仓）。
+**同步规则**：以 ① 为权威源；完成改动并推送 ① 后，用 `rsync -a --exclude '.git/'` 同步到 ②--⑤。④、⑤随 materials 外层仓库一起 commit&push；②、③只更新本地内容，不单独 push。同步后以 `diff -qr --exclude=.git ① <副本>` 逐份确认。**别只推一个仓库就以为完事**。
 
-**改 skill 的固定动作清单**（每次都走完）：① 改任一份 → ② `cp -R` 同步 A/B/C 三处 → ③ `git -C …/report-ppt-skill add&commit&push`（③ 仓库）→ ④ materials 仓库 `add&commit&push`（含 ② 内嵌份）→ ⑤ 若涉及规范/位置变化，更新本 CLAUDE.md 并随 materials 一起 push。
+**改 skill 的固定动作清单**（每次都走完）：① 改权威源 ① → ② `git -C ① add/commit/push` → ③ `rsync` 同步到 ②--⑤ → ④ `diff -qr` 逐份确认 → ⑤ materials 外层仓库只提交 ④、⑤与必要的本文件 → ⑥ 若涉及规范/位置变化，更新本 CLAUDE.md 并随 materials 一起 push。
 
 ## 待办
 - [x] 整合成完整 deck（封面 + 灰底 gray + 黑底 glow，统一翻页/索引）→ `index.html`（build_index.py 拼装）
