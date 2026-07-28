@@ -95,16 +95,14 @@
 ## report-ppt-skill（通用汇报 PPT skill，由本项目提炼）
 内容 = README.md + SKILL.md + references/{type-and-color,components,deck-architecture,chart-selection,pitfalls}.md + assets/{deck-template.html, cover-bg.png, cann-dark-logo.svg, CANNlogo.png, persona.svg, cmp-*.jpg}。不绑死 CANN，写别的汇报材料可直接用。对外分享走 ③ 独立仓库。
 
-⚠️ **同一份 skill 现存 5 处，改完必须同步全部五处**：
-1. `/Users/hsin/Documents/Coding/report-ppt-skill/` — **权威源 / 独立仓库 `SchihHsin/report-ppt-skill`**（`main` 分支），可单独分发/安装
-2. `~/.claude/skills/report-ppt-skill/` — 用户级 Claude 本地副本（不单独 push）
-3. `~/.codex/skills/report-ppt-skill/` — 用户级 Codex 本地副本（不单独 push）
-4. `/Users/hsin/Documents/Coding/materials/.claude/skills/report-ppt-skill/` — materials 项目级 Claude 副本，随 `SchihHsin/materials` 提交
-5. `/Users/hsin/Documents/Coding/materials/.agents/skills/report-ppt-skill/` — materials 项目级 Codex/agent 副本，随 `SchihHsin/materials` 提交
+⚠️ **同一份 skill 只保留一个权威源，外加两个用户级入口**：
+1. `/Users/hsin/Documents/Coding/report-ppt-skill/` — **唯一权威源 / 独立仓库 `SchihHsin/report-ppt-skill`**（`main` 分支），所有内容只在这里编辑、提交、推送
+2. `~/.claude/skills/report-ppt-skill/` — 指向权威源的 Claude 用户级软链接
+3. `~/.codex/skills/report-ppt-skill/` — 指向权威源的 Codex 用户级软链接
 
-**同步规则**：以 ① 为权威源；完成改动并推送 ① 后，用 `rsync -a --exclude '.git/'` 同步到 ②--⑤。④、⑤随 materials 外层仓库一起 commit&push；②、③只更新本地内容，不单独 push。同步后以 `diff -qr --exclude=.git ① <副本>` 逐份确认。**别只推一个仓库就以为完事**。
+`materials` 不再保留 `.claude/skills/report-ppt-skill` 或 `.agents/skills/report-ppt-skill` 项目级副本，避免重复提交和漂移。
 
-**改 skill 的固定动作清单**（每次都走完）：① 改权威源 ① → ② `git -C ① add/commit/push` → ③ `rsync` 同步到 ②--⑤ → ④ `diff -qr` 逐份确认 → ⑤ materials 外层仓库只提交 ④、⑤与必要的本文件 → ⑥ 若涉及规范/位置变化，更新本 CLAUDE.md 并随 materials 一起 push。
+**固定动作**：只改① → `git -C ① add/commit/push`。②、③自动读取同一份文件，无需复制或单独提交。若未来必须恢复项目级副本，应由①生成，不能手改副本。
 
 ## 待办
 - [x] 整合成完整 deck（封面 + 灰底 gray + 黑底 glow，统一翻页/索引）→ `index.html`（build_index.py 拼装）
