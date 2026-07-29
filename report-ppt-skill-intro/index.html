@@ -468,6 +468,18 @@ async function renderTemplateMermaid(){
   mermaid.initialize({startOnLoad:false,theme:'base',securityLevel:'loose',themeVariables:{fontFamily:'HarmonyOS Sans SC, Noto Sans SC, sans-serif',primaryColor:'#fff',primaryTextColor:'#20242D',primaryBorderColor:'#9BA5B4',lineColor:'#9BA5B4'},flowchart:{curve:'basis',useMaxWidth:true,htmlLabels:true,nodeSpacing:12,rankSpacing:12}});
   await mermaid.run({nodes:[node]});
   const svg=node.querySelector('svg'); if(!svg)return;
+  /* Mermaid measures the label before the card CSS and image grid settle. Resize its
+     foreignObjects to the rendered cards so their final column and rounded edge remain visible. */
+  const cardImages=[...svg.querySelectorAll('.mmd-card img')];
+  await Promise.all(cardImages.map(img=>img.complete?Promise.resolve():new Promise(resolve=>{img.addEventListener('load',resolve,{once:true});img.addEventListener('error',resolve,{once:true})})));
+  const svgScale=svg.getScreenCTM();
+  [...svg.querySelectorAll('foreignObject')].forEach(label=>{
+    const card=label.querySelector('.mmd-card'); if(!card)return;
+    const box=card.getBoundingClientRect();
+    const width=Math.ceil(box.width/Math.abs(svgScale?.a||1))+1;
+    const height=Math.ceil(box.height/Math.abs(svgScale?.d||1))+1;
+    label.setAttribute('width',width); label.setAttribute('height',height);
+  });
   const links=[...svg.querySelectorAll('path.flowchart-link,.edgePath path')];
   const leftLinks=links.filter(link=>/RESEARCH.*ROOT|ANALYSIS.*ROOT/.test(link.id));
   (leftLinks.length?leftLinks:links.slice(0,2)).forEach(link=>{
