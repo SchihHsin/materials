@@ -605,7 +605,7 @@ function updateCurrent(i){
 }
 /* slide 模式：谁滚进视口 ≥55% 谁就是当前页。受控模式无滚动，不用 IO */
 if(!CTRL){
-  const io=new IntersectionObserver(es=>{if(document.body.classList.contains('overview'))return;es.forEach(e=>{if(e.isIntersecting&&e.intersectionRatio>=0.55){const i=slides.indexOf(e.target);if(i>=0&&i!==idx)updateCurrent(i);}});},{threshold:[0.55]});
+  const io=new IntersectionObserver(es=>{if(layoutLock||document.body.classList.contains('overview'))return;es.forEach(e=>{if(e.isIntersecting&&e.intersectionRatio>=0.55){const i=slides.indexOf(e.target);if(i>=0&&i!==idx)updateCurrent(i);}});},{threshold:[0.55]});
   slides.forEach(s=>io.observe(s));
 }
 
@@ -639,10 +639,11 @@ document.addEventListener('keydown',e=>{
 const ICON_MAX='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M16 21h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>';
 const ICON_MIN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v3a2 2 0 0 1-2 2H3M21 8h-3a2 2 0 0 1-2-2V3M16 21v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"/></svg>';
 function syncFsIcon(){const fs=!!document.fullscreenElement;fsBtn.innerHTML=fs?ICON_MIN:ICON_MAX;fsBtn.title=fs?'退出全屏 F':'全屏 F';}
-function toggleFullscreen(){ if(!document.fullscreenElement){document.documentElement.requestFullscreen().catch(()=>{});}else{document.exitFullscreen();} }
+let layoutLock=false, fullscreenReturnIdx=0;
+function toggleFullscreen(){ fullscreenReturnIdx=idx;layoutLock=true;if(!document.fullscreenElement){document.documentElement.requestFullscreen().catch(()=>{layoutLock=false;});}else{document.exitFullscreen().catch(()=>{layoutLock=false;});} }
 fsBtn.onclick=toggleFullscreen;
-function reanchor(){ if(CTRL||document.body.classList.contains('overview'))return; slides[idx].scrollIntoView({block:'start',behavior:'auto'}); }
-document.addEventListener('fullscreenchange',()=>{syncFsIcon();setTimeout(reanchor,90);});
+function reanchor(i=idx){ if(CTRL||document.body.classList.contains('overview'))return; slides[i].scrollIntoView({block:'start',behavior:'auto'}); }
+document.addEventListener('fullscreenchange',()=>{const target=layoutLock?fullscreenReturnIdx:idx;idx=target;syncFsIcon();setTimeout(()=>{updateCurrent(target);reanchor(target);layoutLock=false;},120);});
 syncFsIcon();
 
 /* 总览 Overview：每页包进 .slide-inner 缩放成缩略图，排网格（按当前视窗比例）*/
