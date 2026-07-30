@@ -841,6 +841,10 @@ function go(n){ if(document.body.classList.contains('overview'))return; const i=
     setWhitepaperShow(true);
     return;
   }
+  if(idx===WHITEPAPER_SLIDE_INDEX&&i===WHITEPAPER_SLIDE_INDEX-1&&isWhitepaperShowHash()){
+    setWhitepaperShow(false);
+    return;
+  }
   if(CTRL){ const dir=i>idx?'fwd':'back'; showSlide(i,dir); updateCurrent(i); }
   else slides[i].scrollIntoView({behavior:'smooth',block:'start'});
 }
