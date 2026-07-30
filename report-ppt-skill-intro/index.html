@@ -828,6 +828,8 @@ function updateCurrent(i){
   else if(toggle){ toggle.style.display='none'; setPanelOpen(false); }
   try{history.replaceState(null,'',idx===WHITEPAPER_SLIDE_INDEX&&isWhitepaperShowHash()?'#18-show':'#'+(idx+1));}catch(e){location.hash=idx===WHITEPAPER_SLIDE_INDEX&&isWhitepaperShowHash()?'18-show':idx+1;}
 }
+/* 初始化定位完成前不让 IO 把浏览器恢复的旧滚动位置写回 URL。 */
+let layoutLock=true, fullscreenReturnIdx=0;
 /* slide 模式：谁滚进视口 ≥55% 谁就是当前页。受控模式无滚动，不用 IO */
 if(!CTRL){
   const io=new IntersectionObserver(es=>{if(layoutLock||document.body.classList.contains('overview'))return;es.forEach(e=>{if(e.isIntersecting&&e.intersectionRatio>=0.55){const i=slides.indexOf(e.target);if(i>=0&&i!==idx)updateCurrent(i);}});},{threshold:[0.55]});
@@ -868,10 +870,14 @@ document.addEventListener('keydown',e=>{
 const ICON_MAX='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M16 21h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>';
 const ICON_MIN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v3a2 2 0 0 1-2 2H3M21 8h-3a2 2 0 0 1-2-2V3M16 21v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"/></svg>';
 function syncFsIcon(){const fs=!!document.fullscreenElement;fsBtn.innerHTML=fs?ICON_MIN:ICON_MAX;fsBtn.title=fs?'退出全屏 F':'全屏 F';}
-let layoutLock=false, fullscreenReturnIdx=0;
 function toggleFullscreen(){ fullscreenReturnIdx=idx;layoutLock=true;if(!document.fullscreenElement){document.documentElement.requestFullscreen().catch(()=>{layoutLock=false;});}else{document.exitFullscreen().catch(()=>{layoutLock=false;});} }
 fsBtn.onclick=toggleFullscreen;
-function reanchor(i=idx){ if(CTRL||document.body.classList.contains('overview'))return; slides[i].scrollIntoView({block:'start',behavior:'auto'}); }
+function jumpToSlide(i){
+  const top=slides[i]?.offsetTop||0;
+  document.body.scrollTop=top;
+  if(document.scrollingElement&&document.scrollingElement!==document.body)document.scrollingElement.scrollTop=top;
+}
+function reanchor(i=idx){ if(CTRL||document.body.classList.contains('overview'))return; jumpToSlide(i); }
 document.addEventListener('fullscreenchange',()=>{const target=layoutLock?fullscreenReturnIdx:idx;idx=target;syncFsIcon();setTimeout(()=>{updateCurrent(target);reanchor(target);scheduleTemplateMermaidFit();layoutLock=false;},120);});
 syncFsIcon();
 
@@ -914,13 +920,22 @@ document.addEventListener('mousemove',e=>{
 });
 document.addEventListener('mouseleave',()=>{ controls.classList.remove('show'); navDots.classList.remove('show'); });
 
-/* 刷新时尊重 URL #页码；无合法页码才从封面开始。 */
+/* 刷新时尊重 URL #页码；无合法页码才从封面开始。等 pageshow 后再解锁，
+   避免浏览器恢复旧 scrollTop 时抢先触发 IO，把旧页码写回 URL。 */
 const initialHashPage=(location.hash.match(/^#(\d+)(?:-show)?$/)||[])[1];
 const initialPage=Math.min(slides.length-1,Math.max(0,(Number.parseInt(initialHashPage,10)||1)-1));
 slides.forEach(paintSlide);
 updateCurrent(initialPage);
-if(CTRL) setActive(initialPage);
-else requestAnimationFrame(()=>slides[initialPage].scrollIntoView({block:'start',behavior:'auto'}));
+function initializeDeckPosition(){
+  if(CTRL){setActive(initialPage);layoutLock=false;return;}
+  jumpToSlide(initialPage);
+  requestAnimationFrame(()=>{
+    jumpToSlide(initialPage);
+    requestAnimationFrame(()=>{layoutLock=false;});
+  });
+}
+if(document.readyState==='complete')initializeDeckPosition();
+else addEventListener('pageshow',initializeDeckPosition,{once:true});
 </script>
 </body>
 </html>
