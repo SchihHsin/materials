@@ -489,8 +489,8 @@ body.overview #panel,body.overview #toggle{display:none!important}
 .image-lightbox{position:fixed;z-index:200;inset:0;display:none;place-items:center;padding:5vh 5vw;background:rgba(8,11,18,.82);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px)}
 .image-lightbox.open{display:grid}
 .image-lightbox img{display:block;max-width:100%;max-height:100%;object-fit:contain;border-radius:14px;box-shadow:0 30px 72px -28px rgba(0,0,0,.95)}
-.image-lightbox-close{position:absolute;z-index:1;top:2.4vh;right:2.2vw;display:grid;place-items:center;width:42px;height:42px;padding:0;border:1px solid rgba(255,255,255,.42);border-radius:50%;background:rgba(21,26,37,.72);color:#fff;cursor:pointer}
-.image-lightbox-close:hover{background:#333a50}.image-lightbox-close svg{width:21px;height:21px;stroke-width:2}
+.image-lightbox-close,.image-lightbox-nav{position:absolute;z-index:1;display:grid;place-items:center;width:42px;height:42px;padding:0;border:1px solid rgba(255,255,255,.42);border-radius:50%;background:rgba(21,26,37,.72);color:#fff;cursor:pointer}
+.image-lightbox-close{top:2.4vh;right:2.2vw}.image-lightbox-nav{top:50%;transform:translateY(-50%);width:48px;height:56px;border-radius:14px}.image-lightbox-prev{left:2.2vw}.image-lightbox-next{right:2.2vw}.image-lightbox-close:hover,.image-lightbox-nav:hover{background:#333a50}.image-lightbox-close svg,.image-lightbox-nav svg{width:21px;height:21px;stroke-width:2}
 </style>
 </head>
 <body>
@@ -609,6 +609,8 @@ body.overview #panel,body.overview #toggle{display:none!important}
 </div>
 
 <div class="image-lightbox" id="imageLightbox" role="dialog" aria-modal="true" aria-label="图片放大预览" aria-hidden="true">
+  <button class="image-lightbox-nav image-lightbox-prev" type="button" aria-label="查看上一张图片"><i data-lucide="chevron-left"></i></button>
+  <button class="image-lightbox-nav image-lightbox-next" type="button" aria-label="查看下一张图片"><i data-lucide="chevron-right"></i></button>
   <button class="image-lightbox-close" type="button" aria-label="关闭图片预览"><i data-lucide="x"></i></button>
   <img alt="">
 </div>
@@ -618,27 +620,39 @@ body.overview #panel,body.overview #toggle{display:none!important}
 <script src="lib/d3.min.js"></script>
 <script>
 if(window.lucide)lucide.createIcons();
-/* A single viewer handles every deck image; click the backdrop, close control, or Esc to return. */
+/* A single viewer handles every deck image; use arrows or keyboard to compare neighboring images. */
 const imageLightbox=document.getElementById('imageLightbox');
 const lightboxImage=imageLightbox.querySelector('img');
+const lightboxImages=[...document.querySelectorAll('#deck img')];
+let lightboxIndex=0;
+const showLightboxImage=index=>{
+  lightboxIndex=(index+lightboxImages.length)%lightboxImages.length;
+  const image=lightboxImages[lightboxIndex];
+  lightboxImage.src=image.currentSrc||image.src;
+  lightboxImage.alt=image.alt||'图片放大预览';
+};
 const closeImageLightbox=()=>{
   imageLightbox.classList.remove('open');
   imageLightbox.setAttribute('aria-hidden','true');
   lightboxImage.removeAttribute('src');
 };
-document.querySelectorAll('#deck img').forEach(image=>{
+lightboxImages.forEach((image,index)=>{
   image.addEventListener('click',()=>{
-    lightboxImage.src=image.currentSrc||image.src;
-    lightboxImage.alt=image.alt||'图片放大预览';
+    showLightboxImage(index);
     imageLightbox.classList.add('open');
     imageLightbox.setAttribute('aria-hidden','false');
   });
 });
 imageLightbox.addEventListener('click',event=>{
   if(event.target===imageLightbox||event.target.closest('.image-lightbox-close')) closeImageLightbox();
+  else if(event.target.closest('.image-lightbox-prev')) showLightboxImage(lightboxIndex-1);
+  else if(event.target.closest('.image-lightbox-next')) showLightboxImage(lightboxIndex+1);
 });
 document.addEventListener('keydown',event=>{
-  if(event.key==='Escape'&&imageLightbox.classList.contains('open')) closeImageLightbox();
+  if(!imageLightbox.classList.contains('open'))return;
+  if(event.key==='Escape') closeImageLightbox();
+  else if(event.key==='ArrowLeft'){event.preventDefault();showLightboxImage(lightboxIndex-1);}
+  else if(event.key==='ArrowRight'){event.preventDefault();showLightboxImage(lightboxIndex+1);}
 });
 /* Mermaid keeps the original left/right map composition and arrow treatment. */
 async function renderTemplateMermaid(){
