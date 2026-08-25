@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "cann-deck",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["-y", "http-server", "cann-design-concept", "-p", "8765", "-c-1", "--silent"],
+      "port": 8765
+    }
+  ]
+}

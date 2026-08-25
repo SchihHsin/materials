@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CANN DesignConcept · 灰底前瞻设计</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --paper:#E9EBEE;       /* 浅冷灰底 */
@@ -34,12 +34,16 @@
   /* 状态渐变：同明度，仅微微色相位移（非深浅变化）*/
   --g-red:    linear-gradient(120deg,#FF5A6E,#FF6F55);   /* 玫红 → 珊瑚橙红 */
   --g-green:  linear-gradient(120deg,#23CFA0,#45D65A);   /* 青绿 → 草绿 */
-  --g-neutral:#C4CAD4;                                   /* 中性：纯色 */
-  --g-blue:   linear-gradient(120deg,#667EEA,#764BA2);
+  --g-neutral:linear-gradient(120deg,#E4E8EF,#CBD3DF);      /* 中性浅灰渐变 */
+  --g-blue:   linear-gradient(120deg,#2F6FED,#4B8DFF);
   --g-amber:  linear-gradient(120deg,#FBBF60,#F59E0B);
   --g-purple: linear-gradient(120deg,#A78BFA,#7C3AED);
   --g-teal:   linear-gradient(120deg,#38C9D7,#4FACFE);
-  --g-pink:   linear-gradient(120deg,#FF6B9D,#FF8B53);
+  --g-pink:   linear-gradient(120deg,#FF4FA3,#FF7AC8);
+  /* Pure semantic colors power the reusable multi-card patterns. */
+  --c-red:#F05A68; --c-orange:#F47A4B; --c-amber:#F4B450; --c-yellow:#D9B52C;
+  --c-lime:#91BD48; --c-green:#39B982; --c-mint:#36BFA2; --c-teal:#28A8D8;
+  --c-blue:#4B8DFF; --c-indigo:#5B5BD6; --c-purple:#8D63D8; --c-pink:#D95F9D; --c-rose:#E76C88;
   --dark:     #16191E;                                   /* 全局统一深色（实色）*/
   --g-ink:    linear-gradient(140deg,#22262F,#14171C);   /* 全局统一深色（渐变，深色大色块统一用它）*/
   --g-accent: linear-gradient(135deg,#5B5BD6,#7C3AED);
@@ -64,7 +68,18 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 .brand .logo{height:clamp(19px,1.7vw,25px);width:auto;display:block;flex-shrink:0}
 .brand .ttl{font-family:'Inter','Noto Sans SC';font-weight:600;font-size:23px;letter-spacing:-.01em}
 .subttl{font-family:'Inter','Noto Sans SC';font-weight:300;font-size:15px;color:var(--ink-2);letter-spacing:.01em}
-.head-r{font-family:'JetBrains Mono';font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);text-align:right;line-height:1.8}
+/* 右上章节 Tab：整份汇报固定四章，仅当前章节以深色胶囊高亮。 */
+.section-tabs{display:flex;align-items:center;gap:5px;flex:0 0 auto;margin-left:auto;padding:.45vh .48vw;border:1px solid rgba(127,137,157,.18);border-radius:999px;background:rgba(255,255,255,.46)}
+.section-tabs span{padding:.42vh .6vw;border-radius:999px;font:600 var(--fs-sm)/1.2 'HarmonyOS Sans SC','Noto Sans SC',sans-serif;color:var(--ink-3);white-space:nowrap}
+.section-tabs span.active{background:var(--g-ink);color:#fff;box-shadow:0 3px 10px -6px rgba(20,25,35,.5)}
+/* 目录：实际 deck 的四章单行；3 / 5 / 6 章的数量路由在发布 skill 中维护。 */
+.contents-slide .body-area{justify-content:center}.contents-directory{width:min(1120px,100%);margin:0 auto;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1vw;align-items:stretch}
+.directory-card{--dir:var(--accent);position:relative;min-width:0;min-height:31vh;overflow:hidden;padding:1.8vh 1.25vw 1.35vh;display:flex;flex-direction:column;background:rgba(255,255,255,.58);border:1px solid rgba(255,255,255,.88);border-radius:14px;box-shadow:0 18px 42px -25px rgba(20,25,35,.22),inset 0 1px 0 rgba(255,255,255,.94)}
+.directory-card::after{content:"";position:absolute;right:-25%;bottom:-24%;width:90%;height:46%;background:radial-gradient(ellipse at center,color-mix(in srgb,var(--dir) 16%,transparent),transparent 70%);pointer-events:none}.directory-card.research{--dir:#5B5BD6}.directory-card.competitor{--dir:#4B8DFF}.directory-card.roadmap{--dir:#28A8D8}.directory-card.strategy{--dir:#D95F9D}
+.directory-no,.directory-name,.directory-en,.directory-items,.directory-note{position:relative;z-index:1}.directory-no{font-family:'Barlow Condensed','Inter',sans-serif;font-size:clamp(54px,5.4vw,86px);line-height:.82;letter-spacing:-.035em;font-weight:300;color:var(--dir);text-shadow:0 0 28px color-mix(in srgb,var(--dir) 24%,transparent)}
+.directory-name{margin-top:1.35vh;font-size:var(--fs-h2);line-height:1.2;font-weight:950;color:var(--ink);overflow-wrap:anywhere}.directory-en{margin-top:.42vh;font-family:'Inter',sans-serif;font-size:var(--fs-sm);font-weight:700;color:color-mix(in srgb,var(--dir) 76%,#596575);overflow-wrap:anywhere}
+.directory-items{display:grid;gap:.52vh;margin-top:2.65vh}.directory-items span{font-size:var(--fs-body);line-height:1.36;color:var(--ink-2);overflow-wrap:anywhere}.directory-items span::before{content:"";display:inline-block;width:5px;height:5px;border-radius:50%;vertical-align:middle;margin:-2px .48em 0 0;background:var(--dir);box-shadow:0 0 12px color-mix(in srgb,var(--dir) 42%,transparent)}
+.directory-note{margin-top:auto;padding-top:1.25vh;border-top:1px solid rgba(47,61,99,.14);font-size:var(--fs-sm);font-weight:900;line-height:1.35;color:color-mix(in srgb,var(--dir) 72%,#465364);overflow-wrap:anywhere}
 .tag-on{display:inline-block;font-family:'Inter','Noto Sans SC';font-size:12px;font-weight:500;color:#fff;background:#3FB37F;border-radius:5px;padding:2px 8px;margin-left:8px;vertical-align:middle}
 
 .body-area{flex:1;min-height:0;display:flex;flex-direction:column}
@@ -826,6 +841,46 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 .dh-card.dark .dh-t,.dh-card.accent .dh-t{color:#fff}
 .dh-card.dark .dh-d,.dh-card.accent .dh-d{color:rgba(255,255,255,.78)}
 
+/* ===== 同类信息卡：数量决定色彩层级，不要一排同样白卡 ===== */
+.lc-wrap{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;gap:3.6vh}
+.lc-hero{max-width:1120px;margin:0 auto;text-align:center;display:flex;flex-direction:column;align-items:center;gap:1.4vh}
+.lc-title{font-size:clamp(17px,1.3vw,22px);color:var(--ink-2);line-height:1.7;text-align:center;max-width:1000px;width:100%;margin:0 auto;font-weight:400;letter-spacing:0}
+.lc-title b{color:var(--ink);font-weight:600;background:linear-gradient(transparent 58%,color-mix(in srgb,var(--c-indigo) 16%,transparent) 0)}
+.lc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.7vw;max-width:1120px;width:100%;margin:0 auto}
+.lc-grid.four{grid-template-columns:repeat(4,1fr);max-width:1220px;gap:1.35vw}
+.lc-grid.many{grid-template-columns:repeat(5,minmax(0,1fr));max-width:1240px;gap:1.1vw}
+.lc-card{position:relative;aspect-ratio:1/1;min-height:0;overflow:hidden;border-radius:16px;padding:2.5vh 1.65vw;display:flex;flex-direction:column;background:rgba(255,255,255,.4);border:1px solid rgba(255,255,255,.72);box-shadow:0 16px 36px -24px rgba(30,40,70,.32),inset 0 1px 0 rgba(255,255,255,.9);backdrop-filter:blur(15px) saturate(1.5);-webkit-backdrop-filter:blur(15px) saturate(1.5)}
+.lc-card.theme{background:radial-gradient(ellipse 130% 130% at 50% 48%,#3F2DBE 0%,#9D86EC 100%);border-color:rgba(255,255,255,.3);box-shadow:0 18px 38px -22px rgba(91,91,214,.68),inset 0 1px 0 rgba(255,255,255,.32)}
+.lc-card.ink{background:radial-gradient(ellipse 130% 130% at 50% 48%,#0E1116 0%,#3A424F 100%);border-color:rgba(255,255,255,.16);box-shadow:0 18px 38px -22px rgba(20,25,35,.72),inset 0 1px 0 rgba(255,255,255,.2)}
+.lc-top{display:flex;align-items:center;justify-content:flex-start}
+.lc-tag{font-family:'JetBrains Mono';font-size:var(--fs-xs);font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--lc-accent,#5B5BD6);background:color-mix(in srgb,var(--lc-accent,#5B5BD6) 10%,white);border:1px solid color-mix(in srgb,var(--lc-accent,#5B5BD6) 18%,transparent);border-radius:999px;padding:.45vh .75vw}
+.lc-h{height:2.5em;display:flex;align-items:flex-start;font-size:var(--fs-h1);font-weight:850;line-height:1.25;color:var(--ink);letter-spacing:-.01em}
+.lc-d{height:4.65em;overflow:hidden;font-size:var(--fs-h3);line-height:1.55;color:var(--ink-2);max-width:25ch;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3}
+.lc-card.theme .lc-tag,.lc-card.ink .lc-tag{color:#fff;background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.22)}
+.lc-card.theme .lc-h,.lc-card.ink .lc-h{color:#fff}.lc-card.theme .lc-d,.lc-card.ink .lc-d{color:rgba(255,255,255,.8)}
+.lc-grid:not(.four):not(.many) .lc-bgicon{right:-1.35vw;bottom:-2.1vh;width:11vw;height:11vw;min-width:118px;min-height:118px;opacity:.12}
+.lc-grid:not(.four):not(.many) .lc-card.theme .lc-bgicon,.lc-grid:not(.four):not(.many) .lc-card.ink .lc-bgicon{color:#fff;opacity:.13}
+.lc-grid.four .lc-card,.lc-grid.many .lc-card{aspect-ratio:4/5;padding:2.15vh 1.3vw;background:linear-gradient(145deg,rgba(255,255,255,.46),rgba(255,255,255,.12));border-color:rgba(255,255,255,.58);box-shadow:0 16px 34px -24px color-mix(in srgb,var(--lc-accent,#5B5BD6) 28%,transparent),inset 0 1px 0 rgba(255,255,255,.62)}
+.lc-grid.four .lc-card::before,.lc-grid.many .lc-card::before{content:"";position:absolute;left:-14%;right:-14%;top:-12%;height:25%;background:linear-gradient(105deg,color-mix(in srgb,var(--lc-accent,#5B5BD6) 20%,transparent),color-mix(in srgb,var(--lc-accent,#5B5BD6) 8%,transparent) 52%,transparent 88%);filter:blur(32px);pointer-events:none;z-index:1}
+.lc-card .lc-bgicon{position:absolute;right:-1.6vw;bottom:-2.5vh;width:13vw;height:13vw;min-width:132px;min-height:132px;color:var(--lc-accent,#5B5BD6);opacity:.12;pointer-events:none;z-index:1;stroke-width:1.35}
+.lc-grid.many .lc-bgicon{right:-2.2vw;bottom:-1.8vh;width:12vw;height:12vw;min-width:122px;min-height:122px;opacity:.15}
+.lc-copy{position:relative;z-index:2;display:grid;flex:1;min-height:0;grid-template-rows:2.1em 2.5em 4.65em;align-content:center;align-items:start;row-gap:.5vh;padding-bottom:2.1vh}
+.lc-card.a{--lc-accent:var(--c-indigo)}
+.lc-card.b{--lc-accent:var(--c-blue)}
+.lc-card.c{--lc-accent:var(--c-teal)}
+.lc-card.d{--lc-accent:var(--c-green)}
+.lc-card.e{--lc-accent:var(--c-pink)}
+.lc-card b{color:inherit;font-weight:700}
+
+/* ===== 色彩可用性校验：相近颜色不能在同一张卡片墙里默认并排 ===== */
+.cc-wrap{flex:1;min-height:0;display:grid;grid-template-columns:.78fr 1.22fr;gap:2.5vw;align-items:center;max-width:1240px;width:100%;margin:0 auto}
+.cc-palette{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.8vw}
+.cc-swatch{min-width:0;min-height:8.8vh;border-radius:13px;padding:1.25vh .9vw;display:flex;flex-direction:column;justify-content:flex-end;color:#fff;background:var(--cc);box-shadow:0 12px 25px -19px color-mix(in srgb,var(--cc) 72%,transparent)}
+.cc-swatch span{font-family:'JetBrains Mono';font-size:var(--fs-xs);font-weight:800;letter-spacing:.04em}.cc-swatch b{margin-top:.25vh;font-size:var(--fs-sm);line-height:1.2}.cc-swatch.light{color:var(--ink)}
+.cc-rules{display:grid;gap:1vh}.cc-rule{position:relative;min-height:13.8vh;overflow:hidden;border:1px solid rgba(255,255,255,.7);border-radius:14px;padding:1.5vh 1.4vw;display:grid;grid-template-columns:13vw 1fr;gap:1.25vw;align-items:center;background:rgba(255,255,255,.35);box-shadow:inset 0 1px 0 rgba(255,255,255,.72)}
+.cc-pair{display:flex;gap:.45vw;align-items:center}.cc-dot{width:4.2vw;height:4.2vw;min-width:42px;min-height:42px;border-radius:50%;background:var(--cc);box-shadow:0 8px 18px -12px color-mix(in srgb,var(--cc) 86%,transparent)}
+.cc-rule h3{font-size:var(--fs-h3);line-height:1.3;color:var(--ink)}.cc-rule p{margin-top:.45vh;font-size:var(--fs-sm);line-height:1.45;color:var(--ink-2)}.cc-rule b{font-weight:800}
+
 /* ===== 新增 pattern：生态干系人地图（同心圆 stakeholder map，复刻 reference 医院生态图）===== */
 .smap{position:relative;flex:1;min-height:0;display:flex}
 .smap svg{width:100%;height:100%;display:block;font-family:'Inter','Noto Sans SC',sans-serif}
@@ -995,6 +1050,17 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
 
 <div id="deck">
 
+  <!-- ===== 目录：四章横排，不放章节 Tab ===== -->
+  <section class="slide contents-slide" id="contents-directory" data-template="contents-directory">
+    <div class="head"><div class="head-l"><div class="brand"><span class="ttl">目录</span></div></div></div>
+    <div class="body-area"><div class="contents-directory">
+      <article class="directory-card research"><div class="directory-no">01</div><h2 class="directory-name">用户研究</h2><div class="directory-en">User Research</div><div class="directory-items"><span>用户旅程</span><span>核心障碍</span></div><div class="directory-note">确认问题与优先改善方向</div></article>
+      <article class="directory-card competitor"><div class="directory-no">02</div><h2 class="directory-name">竞品与能力</h2><div class="directory-en">Competitive &amp; Capability</div><div class="directory-items"><span>标杆能力</span><span>体验差距</span></div><div class="directory-note">找到可借鉴的体验范式</div></article>
+      <article class="directory-card roadmap"><div class="directory-no">03</div><h2 class="directory-name">实施规划</h2><div class="directory-en">Implementation Planning</div><div class="directory-items"><span>阶段计划</span><span>协作依赖</span></div><div class="directory-note">让方案按节奏进入落地</div></article>
+      <article class="directory-card strategy"><div class="directory-no">04</div><h2 class="directory-name">设计策略</h2><div class="directory-en">Design Strategy</div><div class="directory-items"><span>体验架构</span><span>机会方向</span></div><div class="directory-note">收束为可执行的设计方向</div></article>
+    </div></div>
+  </section>
+
   <!-- ===== 页4：用户旅程（CANN 开发者全链路）===== -->
   <section class="slide">
     <div class="head">
@@ -1002,7 +1068,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
         <div class="brand"><span class="ttl">情绪低谷集中在算子开发与调试阶段</span></div>
         <div class="subttl">User Research · 环境搭建 → 算子开发 → 调试优化 → 集成发布</div>
       </div>
-      <div class="head-r">01 / 用户旅程<br/>2026</div>
+      <div class="section-tabs" aria-label="当前章节"><span class="active">01 用户研究</span><span>02 竞品与能力</span><span>03 实施规划</span><span>04 设计策略</span></div>
     </div>
     <div class="body-area">
       <div class="jrn-wrap">
@@ -1175,7 +1241,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
         <div class="brand"><span class="ttl">新设计获好评，调试与环境仍待解</span></div>
         <div class="subttl">User Research · 原声情感聚类与主题洞察</div>
       </div>
-      <div class="head-r">02 / VOC 分析<br/>2026</div>
+      <div class="section-tabs" aria-label="当前章节"><span class="active">01 用户研究</span><span>02 竞品与能力</span><span>03 实施规划</span><span>04 设计策略</span></div>
     </div>
     <div class="body-area">
       <!-- 顶部：情感概览 + 关键指标（深色指标带）-->
@@ -1277,7 +1343,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
         <div class="brand"><span class="ttl">文档、调试、环境是三大核心障碍</span></div>
         <div class="subttl">User Research · 2026 Q1 · 关键指标概览</div>
       </div>
-      <div class="head-r">03 / 用户研究<br/>2026</div>
+      <div class="section-tabs" aria-label="当前章节"><span class="active">01 用户研究</span><span>02 竞品与能力</span><span>03 实施规划</span><span>04 设计策略</span></div>
     </div>
     <div class="body-area vc">
       <div class="stat-grid">
@@ -1291,8 +1357,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
               <span>100%</span>
             </div>
             <div class="stat-pills">
-              <div class="stat-pill" style="flex:72;background:linear-gradient(90deg,#FF6B9D,#FF9340)"></div>
-              <div class="stat-pill" style="flex:28;background:linear-gradient(90deg,#FF9340,#FFE040)"></div>
+              <div class="stat-pill" style="flex:72;background:linear-gradient(90deg,#FF4FA3,#FF7AC8)"></div>
+              <div class="stat-pill" style="flex:28;background:linear-gradient(90deg,#FF7AC8,#FFE040)"></div>
             </div>
           </div>
           <div class="stat-num">72<span class="u">%</span></div>
@@ -1325,8 +1391,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
               <span>100%</span>
             </div>
             <div class="stat-pills">
-              <div class="stat-pill" style="flex:47;background:linear-gradient(90deg,#667EEA,#B260D8)"></div>
-              <div class="stat-pill" style="flex:53;background:linear-gradient(90deg,#B260D8,#F5576C)"></div>
+              <div class="stat-pill" style="flex:47;background:linear-gradient(90deg,#2F6FED,#8A6AED)"></div>
+              <div class="stat-pill" style="flex:53;background:linear-gradient(90deg,#8A6AED,#FF5A6E)"></div>
             </div>
           </div>
           <div class="stat-num">47<span class="u">%</span></div>
@@ -1346,7 +1412,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
         <div class="brand"><span class="ttl">资深用户：追求极致性能的内源算子专家</span></div>
         <div class="subttl">User Research · 内源团队主力</div>
       </div>
-      <div class="head-r">04 / 用户画像 · 形式一<br/>2026</div>
+      <div class="section-tabs" aria-label="当前章节"><span class="active">01 用户研究</span><span>02 竞品与能力</span><span>03 实施规划</span><span>04 设计策略</span></div>
     </div>
     <div class="body-area">
       <div class="pf">
@@ -1417,7 +1483,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
         <div class="brand"><span class="ttl">生态用户：从竞赛起步、偏理论的高校算子新人</span></div>
         <div class="subttl">User Research · 生态侧以高校学生与个人开发者为主</div>
       </div>
-      <div class="head-r">05 / 用户画像 · 形式二<br/>2026</div>
+      <div class="section-tabs" aria-label="当前章节"><span class="active">01 用户研究</span><span>02 竞品与能力</span><span>03 实施规划</span><span>04 设计策略</span></div>
     </div>
     <div class="body-area">
       <div class="pp">
@@ -1484,7 +1550,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
         <div class="brand"><span class="ttl">用户画像：资深 ASC 算子工程师</span></div>
         <div class="subttl">User Research · 在编译/调试/调优之间循环的底层开发者</div>
       </div>
-      <div class="head-r">06 / 用户画像 · 形式三<br/>2026</div>
+      <div class="section-tabs" aria-label="当前章节"><span class="active">01 用户研究</span><span>02 竞品与能力</span><span>03 实施规划</span><span>04 设计策略</span></div>
     </div>
     <div class="body-area">
       <div class="up">
@@ -1613,7 +1679,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
         <div class="brand"><span class="ttl">竞品已普及统一时间线，CANN 仍缺位</span></div>
         <div class="subttl">Competitive & Capability Analysis · Nsight / VTune / rocprof 横向对比</div>
       </div>
-      <div class="head-r">07 / 竞品对照<br/>2026</div>
+      <div class="section-tabs" aria-label="当前章节"><span>01 用户研究</span><span class="active">02 竞品与能力</span><span>03 实施规划</span><span>04 设计策略</span></div>
     </div>
     <div class="body-area vc">
       <div class="compare">
@@ -1655,7 +1721,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
         <div class="brand"><span class="ttl">设计与开发并行推进，开发是关键路径</span></div>
         <div class="subttl">Implementation Planning · 2026 H1 设计落地时间线</div>
       </div>
-      <div class="head-r">08 / 实施路线<br/>2026</div>
+      <div class="section-tabs" aria-label="当前章节"><span>01 用户研究</span><span>02 竞品与能力</span><span class="active">03 实施规划</span><span>04 设计策略</span></div>
     </div>
     <div class="body-area vc">
       <div class="rm">
@@ -1698,7 +1764,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
         <div class="brand"><span class="ttl">调试、可观测、实验管理是三块能力洼地</span></div>
         <div class="subttl">Competitive & Capability Analysis · CANN 工具链 6 能力域 × 5 维度自评（1 差 – 5 优）</div>
       </div>
-      <div class="head-r">09 / 能力矩阵<br/>2026</div>
+      <div class="section-tabs" aria-label="当前章节"><span>01 用户研究</span><span class="active">02 竞品与能力</span><span>03 实施规划</span><span>04 设计策略</span></div>
     </div>
     <div class="body-area vc">
       <div class="hm-wrap">
@@ -1723,7 +1789,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
         <div class="brand"><span class="ttl">CANN 智慧开发体验架构：从理念到场景五层贯通</span></div>
         <div class="subttl">Design Strategy · 目标 → 场景 → 资产 → 范式 → 理念</div>
       </div>
-      <div class="head-r">10 / 体验架构<br/>2026</div>
+      <div class="section-tabs" aria-label="当前章节"><span>01 用户研究</span><span>02 竞品与能力</span><span>03 实施规划</span><span class="active">04 设计策略</span></div>
     </div>
     <div class="body-area vc">
       <div class="arc">
@@ -1746,7 +1812,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
               <div class="arc-h">推理部署<small>Serving</small></div>
               <div class="arc-chips">
                 <div class="arc-chip"><div class="arc-ic" style="background:var(--g-green)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></div>在线推理</div>
-                <div class="arc-chip"><div class="arc-ic" style="background:var(--g-green)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg></div>服务化</div>
+                <div class="arc-chip"><div class="arc-ic" style="background:var(--g-teal)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg></div>服务化</div>
                 <div class="arc-chip"><div class="arc-ic" style="background:var(--g-blue)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20z"/></svg></div>边缘部署</div>
               </div>
             </div>
@@ -1754,7 +1820,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
               <div class="arc-h">性能与质量<small>Perf &amp; QA</small></div>
               <div class="arc-chips">
                 <div class="arc-chip"><div class="arc-ic" style="background:var(--g-amber)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>性能调优</div>
-                <div class="arc-chip"><div class="arc-ic" style="background:var(--g-amber)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>精度对齐</div>
+                <div class="arc-chip"><div class="arc-ic" style="background:var(--g-pink)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>精度对齐</div>
                 <div class="arc-chip"><div class="arc-ic" style="background:var(--g-red)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>故障定位</div>
               </div>
             </div>
@@ -1817,7 +1883,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
         <div class="brand"><span class="ttl">设计目标：编译提速 5000×、调试省 70%、环境零配置</span></div>
         <div class="subttl">Design Strategy · 三项可量化的开发体验提升</div>
       </div>
-      <div class="head-r">11 / 设计目标<br/>2026</div>
+      <div class="section-tabs" aria-label="当前章节"><span>01 用户研究</span><span>02 竞品与能力</span><span>03 实施规划</span><span class="active">04 设计策略</span></div>
     </div>
     <div class="body-area vc">
       <div class="dh-wrap">
@@ -1852,7 +1918,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
         <div class="brand"><span class="ttl">调试与调优：情绪最低谷，也是最大时间投入</span></div>
         <div class="subttl">User Research · 资深 ASC 算子工程师的算子开发旅程</div>
       </div>
-      <div class="head-r">12 / 用户旅程地图<br/>2026</div>
+      <div class="section-tabs" aria-label="当前章节"><span class="active">01 用户研究</span><span>02 竞品与能力</span><span>03 实施规划</span><span>04 设计策略</span></div>
     </div>
     <div class="body-area">
       <div class="cj">
@@ -2009,7 +2075,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
         <div class="brand"><span class="ttl">设计机会优先级矩阵：价值 × 成本（样式四）</span></div>
         <div class="subttl">Design Strategy · 四象限便利贴</div>
       </div>
-      <div class="head-r">13 / 机会矩阵 D<br/>2026</div>
+      <div class="section-tabs" aria-label="当前章节"><span>01 用户研究</span><span>02 竞品与能力</span><span>03 实施规划</span><span class="active">04 设计策略</span></div>
     </div>
     <div class="body-area">
       <div class="m4">
@@ -2062,7 +2128,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
         <div class="brand"><span class="ttl">以开发者为中心的 CANN 工具生态干系人地图</span></div>
         <div class="subttl">Design Strategy · 左文案 + 右生态图</div>
       </div>
-      <div class="head-r">14 / 干系人地图<br/>2026</div>
+      <div class="section-tabs" aria-label="当前章节"><span>01 用户研究</span><span>02 竞品与能力</span><span>03 实施规划</span><span class="active">04 设计策略</span></div>
     </div>
     <div class="body-area vc">
       <div class="sm2">
@@ -2158,7 +2224,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
         <div class="brand"><span class="ttl">算子开发各阶段时间投入分布</span></div>
         <div class="subttl">User Research · 30 名一线算子工程师 7 日打卡统计</div>
       </div>
-      <div class="head-r">15 / 时间分布<br/>2026</div>
+      <div class="section-tabs" aria-label="当前章节"><span class="active">01 用户研究</span><span>02 竞品与能力</span><span>03 实施规划</span><span>04 设计策略</span></div>
     </div>
     <div class="body-area vc">
       <div class="sm2">
@@ -2303,7 +2369,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
         <div class="brand"><span class="ttl">全量矩阵：26 个任务 × 11 项指标，差距最大项集中在算子开发与排障任务</span></div>
         <div class="subttl">AI 侧 · 内容可用性 · 「opknow 全量矩阵」</div>
       </div>
-      <div class="head-r">17/ AI · 全量矩阵</div>
+      <div class="section-tabs" aria-label="当前章节"><span>01 用户研究</span><span class="active">02 竞品与能力</span><span>03 实施规划</span><span>04 设计策略</span></div>
     </div>
     <div class="body-area">
       <div class="hmfull-wrap">
@@ -2548,7 +2614,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
     .p7.sum .st{font-weight:700;font-size:var(--fs-body);line-height:1.5}
     .p7.sum .st b{color:#FFB4B4}
     .issue-map{flex:0 0 auto;margin-bottom:1vh;display:flex;align-items:center;gap:.72vw;border-radius:10px;padding:.82vh 1vw;background:linear-gradient(135deg,rgba(255,255,255,.72),rgba(245,248,255,.62));border:1px solid rgba(47,111,237,.18);box-shadow:0 10px 24px -22px rgba(47,111,237,.35),inset 0 1px 0 rgba(255,255,255,.88);font-size:var(--fs-body);line-height:1.42;color:#334155}
-    .issue-map .im-tag{flex:none;font-size:var(--fs-xs);font-weight:900;letter-spacing:.06em;color:#1D4ED8;background:rgba(47,111,237,.1);border:1px solid rgba(47,111,237,.16);border-radius:7px;padding:.28vh .55vw}
+    .issue-map .im-tag{flex:none;font-size:var(--fs-xs);font-weight:900;letter-spacing:.06em;color:#2F6FED;background:rgba(47,111,237,.1);border:1px solid rgba(47,111,237,.16);border-radius:7px;padding:.28vh .55vw}
     .issue-map b{color:#172554;font-weight:900;background:linear-gradient(transparent 60%,rgba(47,111,237,.18) 0)}
     .derive{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1.25vw;flex:1;min-height:0;position:relative}
     .derive-slide .brand .ttl{font-size:var(--fs-h2);letter-spacing:0}
@@ -2595,7 +2661,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
         <div class="brand"><span class="ttl">七个矩阵信号收敛为四类内容改造路径</span></div>
         <div class="subttl">AI 侧 · 内容可用性 · 「矩阵信号 → 机制归因 → 改造机会 → 后续结论」</div>
       </div>
-      <div class="head-r">18/ AI · 推导页</div>
+      <div class="section-tabs" aria-label="当前章节"><span>01 用户研究</span><span class="active">02 竞品与能力</span><span>03 实施规划</span><span>04 设计策略</span></div>
     </div>
     <div class="body-area">
       <div class="derive">
@@ -2650,6 +2716,83 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--paper);color:v
         </div>
       </div>
     </div>
+  </section>
+
+  <!-- ===== 新增 pattern：低内容量结论页（大结论 + icon 占位卡）===== -->
+  <section class="slide">
+    <div class="head">
+      <div class="head-l">
+        <div class="brand"><span class="ttl">内容少时先放大结论，再用图形卡片撑住版面</span></div>
+        <div class="subttl">Pattern · Low-density conclusion with icon support cards</div>
+      </div>
+      <div class="section-tabs" aria-label="当前章节"><span>01 用户研究</span><span>02 竞品与能力</span><span>03 实施规划</span><span class="active">04 设计策略</span></div>
+    </div>
+    <div class="body-area vc">
+      <div class="lc-wrap">
+        <div class="lc-hero">
+          <h2 class="lc-title">低内容量页面先放大核心结论，再用图形卡片补足<b>证据、原因与目标</b>。</h2>
+        </div>
+        <div class="lc-grid">
+          <div class="lc-card a">
+            <i class="lc-bgicon" data-lucide="search-check"></i>
+            <div class="lc-copy"><div class="lc-top"><span class="lc-tag">Evidence</span></div><div class="lc-h">先解释依据</div><p class="lc-d">用一张卡说明判断来自用户反馈、数据指标、访谈原声或竞品观察。</p></div>
+          </div>
+          <div class="lc-card b">
+            <i class="lc-bgicon" data-lucide="file-text"></i>
+            <div class="lc-copy"><div class="lc-top"><span class="lc-tag">Reason</span></div><div class="lc-h">再说明为什么重要</div><p class="lc-d">把影响讲清楚：它如何影响信任、效率、留存，或让后续方案有明确方向。</p></div>
+          </div>
+          <div class="lc-card c">
+            <i class="lc-bgicon" data-lucide="badge-check"></i>
+            <div class="lc-copy"><div class="lc-top"><span class="lc-tag">Target</span></div><div class="lc-h">最后给设计目标</div><p class="lc-d">卡片不抢主结论，只把目标落到<b>降低等待、提升掌控感、建立可预期反馈</b>。</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ucd">▢ UCD CENTER</div>
+    <div class="foot">Page 19 · Low Density Conclusion</div>
+  </section>
+
+  <!-- ===== 同类信息卡：3 / 4 / 5+ 张的数量路由示例 ===== -->
+  <section class="slide">
+    <div class="head"><div class="head-l"><div class="brand"><span class="ttl">三张同类信息卡，用白、蓝紫主题与黑色建立主次</span></div><div class="subttl">Card System · 3 cards: neutral / theme / conclusion</div></div><div class="section-tabs" aria-label="当前章节"><span>01 用户研究</span><span>02 竞品与能力</span><span>03 实施规划</span><span class="active">04 设计策略</span></div></div>
+    <div class="body-area vc"><div class="lc-wrap"><div class="lc-hero"><h2 class="lc-title">卡片数量少时，用<b>底色层级</b>替代多余装饰，让阅读顺序自然落到主题和结论。</h2></div><div class="lc-grid">
+      <div class="lc-card a"><i class="lc-bgicon" data-lucide="layers-3"></i><div class="lc-copy"><div class="lc-top"><span class="lc-tag">Context</span></div><div class="lc-h">先交代背景</div><p class="lc-d">白卡承载中性事实、前提或已有证据。</p></div></div>
+      <div class="lc-card theme b"><i class="lc-bgicon" data-lucide="focus"></i><div class="lc-copy"><div class="lc-top"><span class="lc-tag">Focus</span></div><div class="lc-h">再突出重点</div><p class="lc-d">蓝紫主题卡承载这一页最值得被记住的变化。</p></div></div>
+      <div class="lc-card ink c"><i class="lc-bgicon" data-lucide="badge-check"></i><div class="lc-copy"><div class="lc-top"><span class="lc-tag">Conclusion</span></div><div class="lc-h">最后落到结论</div><p class="lc-d">深色卡只给最终判断、目标或必须执行的动作。</p></div></div>
+    </div></div></div><div class="ucd">▢ UCD CENTER</div><div class="foot">Card System / Three</div>
+  </section>
+
+  <section class="slide">
+    <div class="head"><div class="head-l"><div class="brand"><span class="ttl">超过三张时，统一用透白大图标卡保持信息节奏</span></div><div class="subttl">Card System · 4 cards: translucent white with icon support</div></div><div class="section-tabs" aria-label="当前章节"><span>01 用户研究</span><span>02 竞品与能力</span><span>03 实施规划</span><span class="active">04 设计策略</span></div></div>
+    <div class="body-area vc"><div class="lc-wrap"><div class="lc-hero"><h2 class="lc-title">四张开始不再使用实色满铺，而以<b>透白卡、淡渐变与大图标</b>区分信息。</h2></div><div class="lc-grid four">
+      <div class="lc-card a"><i class="lc-bgicon" data-lucide="layers-3"></i><div class="lc-copy"><div class="lc-top"><span class="lc-tag">Context</span></div><div class="lc-h">背景</div><p class="lc-d">中性事实与现状。</p></div></div>
+      <div class="lc-card b"><i class="lc-bgicon" data-lucide="focus"></i><div class="lc-copy"><div class="lc-top"><span class="lc-tag">Focus</span></div><div class="lc-h">重点</div><p class="lc-d">需要被优先关注。</p></div></div>
+      <div class="lc-card c"><i class="lc-bgicon" data-lucide="badge-check"></i><div class="lc-copy"><div class="lc-top"><span class="lc-tag">Conclusion</span></div><div class="lc-h">结论</div><p class="lc-d">最终判断与动作。</p></div></div>
+      <div class="lc-card d"><i class="lc-bgicon" data-lucide="circle-help"></i><div class="lc-copy"><div class="lc-top"><span class="lc-tag">Support</span></div><div class="lc-h">补充</div><p class="lc-d">解释边界、条件或后续。</p></div></div>
+    </div></div></div><div class="ucd">▢ UCD CENTER</div><div class="foot">Card System / Four</div>
+  </section>
+
+  <section class="slide">
+    <div class="head"><div class="head-l"><div class="brand"><span class="ttl">超过四张时回到白卡，用主题渐变与大图标区分信息</span></div><div class="subttl">Card System · 5+ cards: white cards with gradient and icon support</div></div><div class="section-tabs" aria-label="当前章节"><span>01 用户研究</span><span>02 竞品与能力</span><span>03 实施规划</span><span class="active">04 设计策略</span></div></div>
+    <div class="body-area vc"><div class="lc-wrap"><div class="lc-hero"><h2 class="lc-title">信息一多就不再铺满深色，而是以白卡维持可读性，用<b>主题渐变 + 淡色大图标</b>保持节奏。</h2></div><div class="lc-grid many">
+      <div class="lc-card a"><i class="lc-bgicon" data-lucide="scan-search"></i><div class="lc-copy"><div class="lc-top"><span class="lc-tag">Research</span></div><div class="lc-h">发现问题</div><p class="lc-d">从数据和原声中找到信号。</p></div></div>
+      <div class="lc-card b"><i class="lc-bgicon" data-lucide="list-filter"></i><div class="lc-copy"><div class="lc-top"><span class="lc-tag">Priority</span></div><div class="lc-h">归纳优先级</div><p class="lc-d">收束成可比较的机会。</p></div></div>
+      <div class="lc-card c"><i class="lc-bgicon" data-lucide="route"></i><div class="lc-copy"><div class="lc-top"><span class="lc-tag">Journey</span></div><div class="lc-h">梳理路径</div><p class="lc-d">看清断点发生在哪里。</p></div></div>
+      <div class="lc-card d"><i class="lc-bgicon" data-lucide="lightbulb"></i><div class="lc-copy"><div class="lc-top"><span class="lc-tag">Concept</span></div><div class="lc-h">形成方向</div><p class="lc-d">把发现转成设计原则。</p></div></div>
+      <div class="lc-card e"><i class="lc-bgicon" data-lucide="flag"></i><div class="lc-copy"><div class="lc-top"><span class="lc-tag">Action</span></div><div class="lc-h">进入行动</div><p class="lc-d">落实为近期可执行任务。</p></div></div>
+    </div></div></div><div class="ucd">▢ UCD CENTER</div><div class="foot">Card System / Five Plus</div>
+  </section>
+
+  <section class="slide">
+    <div class="head"><div class="head-l"><div class="brand"><span class="ttl">相近色不默认同墙出现，颜色也要帮人读出层级</span></div><div class="subttl">Color System · similarity checks for card walls</div></div><div class="section-tabs" aria-label="当前章节"><span>01 用户研究</span><span>02 竞品与能力</span><span>03 实施规划</span><span class="active">04 设计策略</span></div></div>
+    <div class="body-area vc"><div class="cc-wrap"><div class="cc-palette" aria-label="纯色色谱">
+      <div class="cc-swatch" style="--cc:var(--c-red)"><span>RED</span><b>#F05A68</b></div><div class="cc-swatch" style="--cc:var(--c-orange)"><span>ORANGE</span><b>#F47A4B</b></div><div class="cc-swatch light" style="--cc:var(--c-amber)"><span>AMBER</span><b>#F4B450</b></div><div class="cc-swatch light" style="--cc:var(--c-yellow)"><span>YELLOW</span><b>#D9B52C</b></div><div class="cc-swatch light" style="--cc:var(--c-lime)"><span>LIME</span><b>#91BD48</b></div><div class="cc-swatch" style="--cc:var(--c-green)"><span>GREEN</span><b>#39B982</b></div><div class="cc-swatch" style="--cc:var(--c-mint)"><span>MINT</span><b>#36BFA2</b></div><div class="cc-swatch" style="--cc:var(--c-teal)"><span>TEAL</span><b>#28A8D8</b></div><div class="cc-swatch" style="--cc:var(--c-blue)"><span>BLUE</span><b>#4B8DFF</b></div><div class="cc-swatch" style="--cc:var(--c-indigo)"><span>INDIGO</span><b>#5B5BD6</b></div><div class="cc-swatch" style="--cc:var(--c-purple)"><span>PURPLE</span><b>#8D63D8</b></div><div class="cc-swatch" style="--cc:var(--c-pink)"><span>PINK</span><b>#D95F9D</b></div><div class="cc-swatch" style="--cc:var(--c-rose)"><span>ROSE</span><b>#E76C88</b></div><div class="cc-swatch light" style="--cc:var(--c-neutral)"><span>NEUTRAL</span><b>#9BA5B4</b></div><div class="cc-swatch" style="--cc:var(--c-ink)"><span>INK</span><b>#22262F</b></div>
+    </div><div class="cc-rules">
+      <div class="cc-rule"><div class="cc-pair"><span class="cc-dot" style="--cc:var(--c-indigo)"></span><span class="cc-dot" style="--cc:var(--c-purple)"></span></div><div><h3><b>靛蓝 × 紫</b>：最相近，默认不同时出现在同一张卡片墙</h3><p>靛蓝用于产品主调和主 accent；紫留给策略与创新主题。仅颜色不足且语义确实不同时并用。</p></div></div>
+      <div class="cc-rule"><div class="cc-pair"><span class="cc-dot" style="--cc:var(--c-red)"></span><span class="cc-dot" style="--cc:var(--c-rose)"></span></div><div><h3><b>红 × 玫红</b>：负向信号与人物/情感色不要混在一组</h3><p>红代表风险、阻断和异常；玫红用于用户感受或人物主题。需要一眼区分时，优先换成橙或粉。</p></div></div>
+      <div class="cc-rule"><div class="cc-pair"><span class="cc-dot" style="--cc:var(--c-orange)"></span><span class="cc-dot" style="--cc:var(--c-amber)"></span><span class="cc-dot" style="--cc:var(--c-yellow)"></span></div><div><h3><b>橙 × 琥珀 × 黄</b>：暖色语义接近，同墙最多选其中两种</h3><p>橙用于提醒，琥珀用于进行中，黄只做轻量标记；大段文字或整面卡不使用黄色。</p></div></div>
+      <div class="cc-rule"><div class="cc-pair"><span class="cc-dot" style="--cc:var(--c-green)"></span><span class="cc-dot" style="--cc:var(--c-mint)"></span></div><div><h3><b>绿 × 薄荷</b>：都表达正向，默认只留一个</h3><p>绿给完成与收益，薄荷给机会与改善。需要第二个冷色时，优先加入青或蓝而不是再加近似绿。</p></div></div>
+    </div></div></div><div class="ucd">▢ UCD CENTER</div><div class="foot">Color System / Similarity Checks</div>
   </section>
 
   </div>

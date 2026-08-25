@@ -1,0 +1,4 @@
+interface:
+  display_name: "用户旅程图与触点地图"
+  short_description: "把研究材料整理成可行动的用户旅程图"
+  default_prompt: "Use $user-journey-skill to turn this research into a journey map with aligned stages, touchpoints, actions, emotions, pains, and opportunities."

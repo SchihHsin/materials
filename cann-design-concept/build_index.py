@@ -18,7 +18,8 @@ wtext = read('glow.html')
 gray_style = style_of(gtext)
 glow_style = style_of(wtext)
 
-# gray deck inner: between <div id="deck"> and its closing </div> (before #nav)
+# gray deck inner: between <div id="deck"> and its closing </div> (before #nav).
+# All reusable pages live in gray.html, so rebuilding never drops case pages from index.html.
 _g = gtext.split('<div id="deck">', 1)[1].split('<div id="nav">', 1)[0]
 gray_slides = _g[:_g.rfind('</div>')]
 
@@ -38,8 +39,14 @@ gray_style = gray_style.replace('.slide{position:relative', '.slide.s-gray{posit
 # glow: every .slide selector -> .slide.s-glow (base rule + descendants)
 glow_style = glow_style.replace('.slide', '.slide.s-glow')
 
-# tag the sections
-gray_slides = gray_slides.replace('<section class="slide">', '<section class="slide s-gray">')
+# tag gray sections while preserving their page-specific classes (for example .contents-slide).
+def gray_section(match):
+    classes = match.group(1)
+    tokens = classes.split()
+    if 's-gray' not in tokens:
+        classes = ' s-gray' + classes
+    return '<section class="slide' + classes + '"'
+gray_slides = re.sub(r'<section class="slide([^\"]*)"', gray_section, gray_slides)
 glow_slides = (glow_slides
     .replace('<section class="slide chapter-cover"', '<section class="slide s-glow chapter-cover"')
     .replace('<section class="slide" data-chapter', '<section class="slide s-glow" data-chapter'))
@@ -56,7 +63,7 @@ HEAD = """<!DOCTYPE html>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CANN DesignConcept 2026 · 完整汇报</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&family=Noto+Sans+SC:wght@200;300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400&family=Inter:wght@200;300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&family=Noto+Sans+SC:wght@200;300;400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/IKKI2000/harmonyos-fonts@master/css/harmonyos_sans_sc.css">
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 <style>
