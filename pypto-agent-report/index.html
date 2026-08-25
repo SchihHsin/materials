@@ -356,6 +356,13 @@ body.overview #panel,body.overview #toggle{display:none!important}
     </div></div>
   </section>
 
+  <!-- ③ 黑底：第一章章节封面 -->
+  <section class="slide s-glow chapter-cover" data-chapter="1">
+    <div class="glow-white"></div><div class="glow"></div>
+    <div class="chrome"><div>第一章 · MACRO SHIFT</div><div>PyPTO Toolkit · 2026</div></div>
+    <div class="inner"><div class="cover-block"><div class="ch-no">01</div><h1 class="ch-cover-title">行业与机会</h1><p class="ch-cover-sub">AI 基础设施正在从手工调优转向可自省、可验证的硬件适配闭环。</p></div></div>
+  </section>
+
   <!-- ③ 灰底：行业宏观（D2 · 数据突出） -->
   <section class="slide s-gray pypto-page">
     <div class="head">
@@ -371,6 +378,13 @@ body.overview #panel,body.overview #toggle{display:none!important}
       <article class="macro-hero"><span class="evidence">MATERIAL-QUOTED CASE</span><div class="macro-number">450<span>×</span></div><h2>内核迁移周期被压缩到周末级</h2><p>原文援引 Anthropic 与 AMD ROCm 合作案例：Agent 以底层语义重构替代逐行翻译，自动映射 bank conflict 等微架构约束。</p></article>
       <div class="macro-side"><article class="micro-metric"><div class="micro-n">3.3×</div><div><h3>闭环优化的性能潜力</h3><p>原文援引 ROCm.ai 平均推理加速表现；应作为后续验证目标，不作为 PyPTO 的既得结果。</p></div></article><div class="trait-grid"><article class="trait target"><i data-lucide="cpu" aria-hidden="true"></i><b>执行目标化</b><p>硬件平台成为可探索的算子优化空间。</p></article><article class="trait interface"><i data-lucide="braces" aria-hidden="true"></i><b>语义接口化</b><p>从 GUI 操作转向可被 Agent 调用的结构化能力。</p></article><article class="trait loop"><i data-lucide="rotate-cw" aria-hidden="true"></i><b>闭环状态化</b><p>分析、决策、实现、验证形成可追溯链路。</p></article></div></div>
     </div></div><div class="foot">Evidence → implication · 外部数字待来源核验</div>
+  </section>
+
+  <!-- ⑤ 黑底：第二章章节封面 -->
+  <section class="slide s-glow chapter-cover" data-chapter="2">
+    <div class="glow-white"></div><div class="glow"></div>
+    <div class="chrome"><div>第二章 · CAPABILITY AUDIT</div><div>PyPTO Toolkit · 2026</div></div>
+    <div class="inner"><div class="cover-block"><div class="ch-no">02</div><h1 class="ch-cover-title">现状审计</h1><p class="ch-cover-sub">已有可视化资产提供观察基础；下一步是将其转化为 Agent 可执行的语义资产。</p></div></div>
   </section>
 
   <!-- ④ 灰底：现有资产审计（4+ 同层级卡） -->
@@ -406,6 +420,13 @@ body.overview #panel,body.overview #toggle{display:none!important}
     <div class="body-area"><div class="gap-layout"><article class="gap-summary"><span class="evidence">DESIGN IMPLICATION</span><h2>Agent 需要的是可验证的“问题对象”，而不是高分辨率像素。</h2><p>可视化仍应保留给人类建立直觉；但进入模型上下文的载荷必须经过分层、聚合和显式约束编码。</p><div class="closing">下一步：把流程控制从 Prompt 记忆迁移到运行时逻辑。</div></article><div class="gap-cases"><article class="gap-case"><div class="gap-state current"><span class="state-title">RAW TRACE</span><h3>信息密度与 Token 消耗冲突</h3><p>单个 trace.rpd 可能包含数百万事件；直接注入上下文无法支持稳定推理。</p></div><div class="gap-state agent"><span class="state-title">SEMANTIC ASSET</span><h3>Trace2Tree 分层事件树</h3><p>将原始事件重构为阶段、依赖、异常和证据摘要，让 Agent 能按需下钻。</p></div></article><article class="gap-case"><div class="gap-state current"><span class="state-title">HIDDEN CONSTRAINT</span><h3>物理约束难以由画面表达</h3><p>MTE DMA 的 512-byte 对齐、地址 overlap 与流水冲突需要机器可读的规则。</p></div><div class="gap-state agent"><span class="state-title">ACTIONABLE DIAGNOSIS</span><h3>具名约束与修复候选</h3><p>将地址区间、对齐状态和冲突原因暴露为结构化工具输入与安全修复建议。</p></div></article></div></div></div><div class="foot">Before / After · semantics make action possible</div>
   </section>
 
+  <!-- ⑧ 黑底：第三章章节封面 -->
+  <section class="slide s-glow chapter-cover" data-chapter="3">
+    <div class="glow-white"></div><div class="glow"></div>
+    <div class="chrome"><div>第三章 · HARNESS PATTERN</div><div>PyPTO Toolkit · 2026</div></div>
+    <div class="inner"><div class="cover-block"><div class="ch-no">03</div><h1 class="ch-cover-title">架构启示</h1><p class="ch-cover-sub">通过类型化门控与运行时状态机，让优化过程不再依赖 Prompt 记忆。</p></div></div>
+  </section>
+
   <!-- ⑥ 灰底：Harness 架构启示（D2） -->
   <section class="slide s-gray pypto-page">
     <div class="head"><div class="head-l"><div class="brand"><span class="ttl">类型化状态机把“不能跳过验证”写进运行时</span></div><div class="subttl">03 Harness Pattern · Aharness / OpenAI Agents SDK / Hyperloom 的共同启示</div></div><div class="section-tabs"><span>01 行业与机会</span><span>02 现状审计</span><span class="active">03 架构启示</span><span>04 核心方案</span><span>05 技术栈</span><span>06 演进路线</span></div></div>
@@ -413,7 +434,7 @@ body.overview #panel,body.overview #toggle{display:none!important}
   </section>
 
   <!-- ⑦ 黑底：核心方案章节封面 -->
-  <section class="slide s-glow chapter-cover" data-chapter="1">
+  <section class="slide s-glow chapter-cover" data-chapter="4">
     <div class="glow-white"></div><div class="glow"></div>
     <div class="chrome"><div>第四章 · SEMANTIC AGENT</div><div>PyPTO Toolkit · 2026</div></div>
     <div class="inner">
@@ -426,7 +447,7 @@ body.overview #panel,body.overview #toggle{display:none!important}
   </section>
 
   <!-- ⑧ 黑底：空间调试与 Roofline 决策 -->
-  <section class="slide s-glow" data-chapter="1">
+  <section class="slide s-glow" data-chapter="4">
     <div class="glow-white"></div><div class="glow"></div>
     <div class="chrome"><div>DESIGN POINT 4.1 · SPATIAL DEBUGGING</div><div>第四章 · 核心方案</div></div>
     <div class="inner solution-map">
@@ -445,11 +466,18 @@ body.overview #panel,body.overview #toggle{display:none!important}
   </section>
 
   <!-- ⑨ 黑底：Stage 1–8 状态机 -->
-  <section class="slide s-glow" data-chapter="1">
+  <section class="slide s-glow" data-chapter="4">
     <div class="glow-white"></div><div class="glow"></div>
     <div class="chrome"><div>DESIGN POINT 4.2 · EIGHT STAGES</div><div>第四章 · 核心方案</div></div>
     <div class="inner stage-board"><div class="stage-copy"><div class="kicker">DETERMINISTIC EXECUTION</div><h1 class="h-title">8 个阶段<br/><span class="light">收紧优化闭环</span></h1><p class="body">每一阶段留下可回溯输入与输出。A2 / A3 / A5 的差异由 Target 与约束配置承载，而不是由 Agent 自行猜测。</p><div class="points"><div class="point"><div class="dot"></div><div><div class="pt-title">规范化完成条件</div><div class="pt-desc">Golden tensors、模拟告警、PMU 与 43 项 lint 共同构成可提交证据。</div></div></div></div></div><div class="stages"><article class="stage"><span class="n">01</span><h3>需求提取</h3><p>硬件配置与动态形状。</p></article><article class="stage"><span class="n">02</span><h3>数学建模</h3><p>循环与 Tile 等价性。</p></article><article class="stage"><span class="n">03</span><h3>架构设计</h3><p>缓冲布局与 512B 对齐。</p></article><article class="stage"><span class="n">04</span><h3>算子生成</h3><p>PTO ISA 并行 Tile 原语。</p></article><article class="stage"><span class="n">05</span><h3>精度验证</h3><p>Golden Reference Tensors。</p></article><article class="stage"><span class="n">06</span><h3>硬件模拟</h3><p>捕捉冲突与同步告警。</p></article><article class="stage"><span class="n">07</span><h3>PMU 调优</h3><p>TraceLens 识别 Bubble。</p></article><article class="stage"><span class="n">08</span><h3>Lint 规范</h3><p>pypto-op-lint 43 项检查。</p></article></div>
     </div>
+  </section>
+
+  <!-- ⑪ 黑底：第五章章节封面 -->
+  <section class="slide s-glow chapter-cover" data-chapter="5">
+    <div class="glow-white"></div><div class="glow"></div>
+    <div class="chrome"><div>第五章 · AGENT-NATIVE STACK</div><div>PyPTO Toolkit · 2026</div></div>
+    <div class="inner"><div class="cover-block"><div class="ch-no">05</div><h1 class="ch-cover-title">技术栈</h1><p class="ch-cover-sub">以 MCP 为语义中枢，结合 CLI、Hooks 与子 Agent 建立可控的工程边界。</p></div></div>
   </section>
 
   <!-- ⑩ 灰底：技术选型对照（D4） -->
@@ -464,6 +492,13 @@ body.overview #panel,body.overview #toggle{display:none!important}
     <div class="body-area"><div class="governance"><div class="agents"><article class="agent-card" style="--tone:var(--c-indigo)"><svg class="agent-icon" viewBox="0 0 48 48" aria-hidden="true"><path d="M8 12h32v23H8z"/><path d="M15 19h18M15 25h12M15 31h8"/><path d="m34 30 3 3 6-7"/></svg><b>PLANNER</b><h2>规划者</h2><p>拆解目标、选择工具、建立阶段依赖与风险边界。</p></article><article class="agent-card" style="--tone:var(--c-teal)"><svg class="agent-icon" viewBox="0 0 48 48" aria-hidden="true"><path d="M11 35 24 10l13 25z"/><path d="M17 26h14M20 21h8"/><circle cx="24" cy="31" r="2"/></svg><b>MATHEMATICIAN</b><h2>数学家</h2><p>专注 TaskRing / HeapRing 水位、Tile 等价性与边界条件。</p></article><article class="agent-card" style="--tone:var(--c-green)"><svg class="agent-icon" viewBox="0 0 48 48" aria-hidden="true"><path d="M10 8h21l7 7v25H10z"/><path d="M31 8v8h7M17 27l5 5 10-11"/></svg><b>VERIFIER</b><h2>验证者</h2><p>复核数值、模拟、性能和 lint，输出可提交的证据包。</p></article></div><aside class="gate-list"><h2>运行时安全门控</h2><div class="gate"><i></i><div><b>沙盒执行</b>实验性算子在隔离环境运行，避免影响正式流水线。</div></div><div class="gate"><i></i><div><b>PreToolUse Hook</b>调用 pypto-op-lint；512-byte 对齐等规则在编译前检查。</div></div><div class="gate"><i></i><div><b>证据汇合</b>所有子 Agent 的结论回到同一 FSM，禁止“口头完成”。</div></div></aside></div></div><div class="foot">SubAgents specialize · runtime governs</div>
   </section>
 
+  <!-- ⑭ 黑底：第六章章节封面 -->
+  <section class="slide s-glow chapter-cover" data-chapter="6">
+    <div class="glow-white"></div><div class="glow"></div>
+    <div class="chrome"><div>第六章 · 24-WEEK ROADMAP</div><div>PyPTO Toolkit · 2026</div></div>
+    <div class="inner"><div class="cover-block"><div class="ch-no">06</div><h1 class="ch-cover-title">演进路线</h1><p class="ch-cover-sub">以可验证资产为依赖，分三阶段从工具能力逐步进入协作式空间调试。</p></div></div>
+  </section>
+
   <!-- ⑫ 灰底：三阶段路线图（甘特） -->
   <section class="slide s-gray pypto-page pypto-rm">
     <div class="head"><div class="head-l"><div class="brand"><span class="ttl">24 周路线按能力闭环递进：接口对齐 → 结构化诊断 → 协作式空间调试</span></div><div class="subttl">06 24-week Roadmap · 每一阶段以前一阶段的可验证资产为依赖</div></div><div class="section-tabs"><span>01 行业与机会</span><span>02 现状审计</span><span>03 架构启示</span><span>04 核心方案</span><span>05 技术栈</span><span class="active">06 演进路线</span></div></div>
@@ -471,7 +506,7 @@ body.overview #panel,body.overview #toggle{display:none!important}
   </section>
 
   <!-- ⑬ 黑底：总结 -->
-  <section class="slide s-glow chapter-cover closing-slide" data-chapter="1">
+  <section class="slide s-glow chapter-cover closing-slide" data-chapter="6">
     <div class="glow-white"></div><div class="glow"></div><div class="chrome"><div>EXECUTIVE SUMMARY</div><div>PyPTO Toolkit · 2026</div></div><div class="inner"><div class="cover-block"><div class="ch-no">→</div><h1 class="ch-cover-title">让硬件约束<br/>成为 Agent 的语言</h1><p class="ch-cover-sub">PyPTO 的关键跃迁不是增加一个聊天入口，而是把微架构约束、验证证据与流程门控编码为可调用、可检查、可追溯的语义资产。</p><div class="closing-points"><div class="closing-point"><small>01 · POSITION</small>从被动观察转向主动干预</div><div class="closing-point"><small>02 · METHOD</small>从 Prompt 记忆转向运行时状态机</div><div class="closing-point"><small>03 · OUTCOME</small>让开发者从手动纠错转向 Agent 编排</div></div></div></div>
   </section>
 
@@ -553,7 +588,14 @@ function magicMove(cur,nxt){
 }
 
 /* ===== 黑底光晕：每章一组色值，可调 + localStorage 持久记忆 ===== */
-const chapters={'1':{h:234,gap:57,sat:95,light:40,spread:35,cint:68,wint:58}};
+const chapters={
+  '1':{h:205,gap:42,sat:88,light:40,spread:35,cint:68,wint:58},
+  '2':{h:16,gap:34,sat:88,light:40,spread:35,cint:68,wint:58},
+  '3':{h:166,gap:44,sat:82,light:40,spread:35,cint:68,wint:58},
+  '4':{h:234,gap:57,sat:95,light:40,spread:35,cint:68,wint:58},
+  '5':{h:112,gap:38,sat:82,light:40,spread:35,cint:68,wint:58},
+  '6':{h:334,gap:40,sat:86,light:40,spread:35,cint:68,wint:58}
+};
 const GLOW_KEY='deck-glow-chapters';
 try{const sv=localStorage.getItem(GLOW_KEY);if(sv){const o=JSON.parse(sv);Object.keys(o).forEach(k=>{if(chapters[k])Object.assign(chapters[k],o[k]);});}}catch(e){}
 function saveChapters(){try{localStorage.setItem(GLOW_KEY,JSON.stringify(chapters));}catch(e){}}
