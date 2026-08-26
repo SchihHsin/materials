@@ -739,11 +739,12 @@ document.addEventListener('mouseleave',()=>{ controls.classList.remove('show'); 
 
 const deepLink=parseInt(location.hash.slice(1),10);
 function mountGapStateIcons(){
-  document.querySelectorAll('.gap-state').forEach(state=>{
+  const iconNames=['files','git-fork','ruler','wrench'];
+  document.querySelectorAll('.gap-state').forEach((state,index)=>{
     if(state.querySelector('.state-icon'))return;
     const icon=document.createElement('i');
     icon.className='state-icon';
-    icon.dataset.lucide=state.classList.contains('current')?'triangle-alert':'circle-check';
+    icon.dataset.lucide=iconNames[index];
     icon.setAttribute('aria-hidden','true');
     state.insertBefore(icon,state.firstChild);
   });
