@@ -298,11 +298,9 @@ body.on-dark .nav-dot.active{background:#fff}
 body.overview #panel,body.overview #toggle{display:none!important}
 
 /* ===== PyPTO Toolkit · 专属页面组件 ===== */
-.pypto-cover .cv-bg{background:
-  radial-gradient(circle at 75% 36%,rgba(94,92,255,.42),transparent 24%),
-  radial-gradient(circle at 85% 72%,rgba(40,190,220,.22),transparent 27%),
-  linear-gradient(115deg,#080b13 12%,#11192c 52%,#090b12 100%)}
-.pypto-cover .cv-bg:before{content:"";position:absolute;inset:0;opacity:.55;background-image:linear-gradient(rgba(119,131,255,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(119,131,255,.12) 1px,transparent 1px);background-size:46px 46px;mask-image:linear-gradient(90deg,transparent 0,black 48%,transparent 100%)}
+.pypto-cover .cv-bg{background:radial-gradient(circle at 74% 47%,rgba(91,83,235,.18),transparent 29%),radial-gradient(circle at 91% 67%,rgba(36,180,222,.12),transparent 28%),linear-gradient(115deg,#080b13 12%,#11192c 56%,#090b12 100%)}
+.pypto-cover .cv-bg:before{display:none}
+.pypto-cover .cover-halo{position:absolute;z-index:0;right:3vw;top:50%;width:min(44vw,710px);aspect-ratio:1;transform:translateY(-50%);pointer-events:none}.pypto-cover .cover-calibration{position:absolute;inset:8% 18%;border-left:1px solid rgba(218,213,255,.12);border-right:1px solid rgba(218,213,255,.12);mask-image:linear-gradient(transparent,#000 19%,#000 81%,transparent)}.pypto-cover .cover-calibration:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 4.3vh,rgba(204,194,255,.13) 4.3vh 4.4vh)}.pypto-cover .cover-halo-core{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at center,rgba(222,211,255,.82) 0 1.25%,rgba(157,110,255,.6) 1.55%,transparent 5%),radial-gradient(circle at center,transparent 0 23%,rgba(196,169,255,.52) 23.25% 23.55%,transparent 23.9% 39%,rgba(74,161,255,.46) 39.25% 39.55%,transparent 39.9% 58%,rgba(164,114,255,.18) 58.25% 58.65%,transparent 59%);filter:drop-shadow(0 0 30px rgba(155,112,255,.28))}.pypto-cover .cover-orbit{position:absolute;width:104%;height:104%;left:-2%;top:-2%;border:1px solid rgba(205,190,255,.27);border-radius:50%;transform:rotateX(68deg) rotateZ(-22deg)}.pypto-cover .cover-orbit.two{border-color:rgba(102,206,255,.24);transform:rotateX(68deg) rotateZ(48deg)}.pypto-cover .cover-orbit:after{content:"";position:absolute;left:23%;top:-1%;width:9px;height:9px;border-radius:50%;background:#d4c2ff;box-shadow:0 0 15px #d4c2ff}.pypto-cover .cover-orbit.two:after{left:68%;top:0;background:#9beaff;box-shadow:0 0 15px #9beaff}
 .pypto-cover .cv-logo{font-family:'Inter',sans-serif;font-size:clamp(42px,6vw,94px);letter-spacing:-.075em;font-weight:700}.pypto-cover .cv-logo span{font-weight:200}.pypto-cover .cv-kicker{color:#aeb8ff}.pypto-cover .cv-sub{font-size:clamp(22px,2.5vw,39px);font-weight:300}.pypto-cover .cv-lead{max-width:40ch}.pypto-cover .cv-meta{color:rgba(255,255,255,.5)}
 .contents-directory.contents-6{grid-template-columns:repeat(3,minmax(0,1fr))}.contents-6 .directory-card{min-height:24vh}.directory-card.audit{--dir:var(--c-blue)}.directory-card.research{--dir:var(--c-orange)}.directory-card.arch{--dir:var(--c-teal)}.directory-card.solution{--dir:var(--c-indigo)}.directory-card.stack{--dir:var(--c-green)}.directory-card.road{--dir:var(--c-pink)}.directory-card.close{--dir:var(--c-neutral)}
 .pypto-page .head{margin-bottom:2.7vh}.pypto-page .foot{position:absolute;left:4vw;bottom:2.4vh;font:500 var(--fs-xs)/1.2 'JetBrains Mono';letter-spacing:.12em;color:var(--ink-3);text-transform:uppercase}.pypto-page .head-l{min-width:0}.pypto-page .ttl{max-width:69vw}.pypto-page .body-area{min-width:0}
@@ -328,6 +326,7 @@ body.overview #panel,body.overview #toggle{display:none!important}
   <!-- ① 封面 -->
   <section class="slide s-cover pypto-cover">
     <div class="cv-bg"></div>
+    <div class="cover-halo" aria-hidden="true"><span class="cover-calibration"></span><span class="cover-halo-core"></span><span class="cover-orbit"></span><span class="cover-orbit two"></span></div>
     <div class="cv-content">
       <div class="cv-top">
         <div class="cv-meta">PyPTO Toolkit · Technical Strategy</div>
